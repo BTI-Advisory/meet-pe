@@ -248,11 +248,6 @@ class Pages extends StatelessWidget {
                   width: 183,
                   height: 44,
                   child: TextButton(
-                    /*style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      backgroundColor: Color(0xFFFF4C00),
-                    ),*/
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             EdgeInsets.symmetric(horizontal: 34, vertical: 14)),
