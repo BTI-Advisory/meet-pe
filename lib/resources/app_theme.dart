@@ -6,37 +6,47 @@ import 'resources.dart';
 /// It's NOT a simple variable to allow hot reload to work properly.
 /// Should not affect performance much.
 ThemeData buildAppTheme({bool darkMode = false}) {
-  final backgroundColor = darkMode ? AppResources.colorBlack : AppResources.colorWhite;
-  final foregroundColor = darkMode ? AppResources.colorWhite : AppResources.colorBlack;
-  final primaryColor = darkMode ? AppResources.colorRed : AppResources.colorRed;
+  final backgroundColor = darkMode ? AppResources.colorDark : AppResources.colorWhite;
+  final foregroundColor = darkMode ? AppResources.colorWhite : AppResources.colorDark;
+  final primaryColor = darkMode ? AppResources.colorVitamine : AppResources.colorVitamine;
 
   final textTheme = const TextTheme(
-    titleLarge: TextStyle(
-      fontSize: 24,
+    displayMedium: TextStyle(
+      fontSize: 52,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Rammetto One',
     ),
-    titleMedium: TextStyle(
+    headlineLarge: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Rammetto One',
     ),
-    titleSmall: TextStyle(
+    headlineMedium: TextStyle(
+      color: AppResources.colorDark,
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+    ),
+    headlineSmall: TextStyle(
       fontSize: 16,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w700,
     ),
     bodyLarge: TextStyle(
-      fontSize: 20,
+      color: AppResources.colorGray45,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
     ),
-    bodyMedium: TextStyle(    // Default Text widget style
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
+    bodyMedium: TextStyle(
+      color: AppResources.colorGray60,
+      fontSize: 14,
+      fontWeight: FontWeight.w300,
     ),
     bodySmall: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
+      color: AppResources.colorGray30,
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
     ),
   ).apply(
-    fontFamily: 'Rammetto One',
+    fontFamily: 'Outfit',
     bodyColor: foregroundColor,
     displayColor: foregroundColor,
   );
@@ -89,7 +99,7 @@ ThemeData buildAppTheme({bool darkMode = false}) {
       foregroundColor: AppResources.colorWhite,
     ),
     cardTheme: CardTheme(
-      color: darkMode ? AppResources.colorBlack : AppResources.colorBlack,
+      color: darkMode ? AppResources.colorDark : AppResources.colorDark,
       margin: EdgeInsets.zero,
       elevation: 0,
       clipBehavior: Clip.antiAlias,

@@ -60,7 +60,7 @@ class _LaunchScreenState extends State<LaunchScreen>
                 value: controller.value,
                 semanticsLabel: 'Linear progress indicator',
                 backgroundColor: AppResources.colorImputStroke,
-                color: AppResources.colorRed,
+                color: AppResources.colorVitamine,
                 borderRadius: BorderRadius.circular(3.5),
               ),
             ],

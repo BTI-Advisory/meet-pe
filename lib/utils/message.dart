@@ -25,7 +25,7 @@ Future<void> showMessage(BuildContext context, String message,
 
   // Display new message
   backgroundColor ??=
-  (isError ? AppResources.colorRed : AppResources.colorRed);
+  (isError ? AppResources.colorVitamine : AppResources.colorVitamine);
 
   await showFlash(
     context: context,
