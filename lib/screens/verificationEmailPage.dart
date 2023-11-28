@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/singupPage.dart';
 
+import '../resources/resources.dart';
 import '../utils/utils.dart';
 
 class VerificationEmailPage extends StatefulWidget {
@@ -35,22 +36,10 @@ class _VerificationEmailPageState extends State<VerificationEmailPage> {
           children: [
             TextFormField(
               controller: _textController,
-              style: const TextStyle(
-                color: Color(0xFF1D1D1D),
-                fontSize: 14,
-                fontFamily: 'Outfit',
-                fontWeight: FontWeight.w500,
-                height: 0.10,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
               decoration: InputDecoration(
                 hintText: 'Email',
-                hintStyle: const TextStyle(
-                  color: Color(0xFF737271),
-                  fontSize: 14,
-                  fontFamily: 'Outfit',
-                  fontWeight: FontWeight.w300,
-                  height: 0.10,
-                ),
+                hintStyle: Theme.of(context).textTheme.bodyMedium,
                 contentPadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
                 // Adjust padding
                 suffix: const SizedBox(height: 10),

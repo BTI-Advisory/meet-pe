@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../resources/resources.dart';
 import '../utils/utils.dart';
 import 'loginPage.dart';
 
@@ -14,7 +15,7 @@ final Widget ellipseFullContainer = Container(
   width: 30,
   height: 8,
   decoration: ShapeDecoration(
-    color: Color(0xFFFF4C00),
+    color: AppResources.colorVitamine,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
@@ -26,7 +27,7 @@ final Widget ellipseEmptyContainer = Container(
   height: 8,
   decoration: ShapeDecoration(
     shape: OvalBorder(
-      side: BorderSide(width: 1, color: Color(0xFFFF4C00)),
+      side: BorderSide(width: 1, color: AppResources.colorVitamine),
     ),
   ),
 );
@@ -100,7 +101,7 @@ class _IntroMovePageState extends State<IntroMovePage> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xffedd8be), Colors.white],
+                  colors: [Color(0xFFEDD8BE), Colors.white],
                 )),
             child: PageView(
               allowImplicitScrolling: true,
@@ -121,18 +122,11 @@ class _IntroMovePageState extends State<IntroMovePage> {
             top: 38,
             child: TextButton(
               onPressed: () {
-                //debugPrint('movieTitle: BAha');
                 navigateTo(context, (_) => const LoginPage());
               },
               child: Text(
                 'PASSER',
-                style: TextStyle(
-                  color: Color(0xFF969595),
-                  fontSize: 14,
-                  fontFamily: 'Outfit',
-                  fontWeight: FontWeight.w500,
-                  height: 0.10,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           ),
@@ -185,12 +179,7 @@ class Pages extends StatelessWidget {
               SizedBox(height: 16),
               Text(description,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF737271),
-                    fontSize: 14,
-                    fontFamily: 'Outfit',
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                   softWrap: true),
               SizedBox(height: 44),
               Row(
@@ -228,13 +217,7 @@ class Pages extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'C’EST PARTI !!!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                       ),
                     ),
                     onPressed: () {

@@ -1,17 +1,26 @@
-import 'package:meet_pe/utils/_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/extensions.dart';
 
 class AppResources {
   // Color
-  static const colorRed = Color(0xFFFF4C00);
-  static const colorOrange = Color(0xFFFEA855);
-  static const colorOrangeLight = Color(0xFFF1E7DA);
+  static const colorVitamine = Color(0xFFFF4C00);
+  static const colorOrangeLight = Color(0xFFFEA855);
+  static const colorBeige = Color(0xFFF1E7DA);
+  static const colorBeigeLight = Color(0xFFF8F3EC);
   static const colorWhite = Color(0xFFFFFFFF);
-  static const colorBlack = Color(0xFF1D1D1D);
+  static const colorDark = Color(0xFF1D1D1D);
   static const colorDeactivate = Color(0xFFBBBBBB);
   static const colorImputStroke = Color(0xFFE2E2E2);
+
+  static const colorGray100 = Color(0xFF161413);
+  static const colorGray90 = Color(0xFF2D2C2B);
+  static const colorGray75 = Color(0xFF504F4E);
+  static const colorGray60 = Color(0xFF737271);
+  static const colorGray45 = Color(0xFF969595);
+  static const colorGray30 = Color(0xFFB9B9B8);
+  static const colorGray15 = Color(0xFFDCDCDC);
+  static const colorGray5 = Color(0xFFF3F3F3);
 
 
   // Padding
