@@ -133,6 +133,30 @@ class ApiClient {
     _accessToken = tokens.accessToken;
   }
 
+  /// Mark a Check email exist
+  Future<void> askEmailExist(String email) async {
+    // Build request content
+    final data = {
+      'email': email,  // Basic encoding to avoid clear texts in server's logs
+    };
+
+    // Send request
+    /*final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'mobile/emailExist', bodyJson: data);
+      } catch(e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException('Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    } ();*/
+
+    // Process tokens
+    //_processAuthTokens(response!);
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
@@ -166,11 +190,11 @@ class ApiClient {
       'construteur': deviceBrand,
       'modele_smartphone': deviceModel,
       'os_smartphone': deviceOsVersion,
-      if (appVersion != null) 'version_expertpass': appVersion,
+      if (appVersion != null) 'version_meet_pe': appVersion,
     };
 
     // Send request
-    await _send<Null>(_httpMethodPut, 'mobile/userExpertpass', bodyJson: data);
+    await _send<Null>(_httpMethodPut, 'mobile/userMeetPe', bodyJson: data);
   }
 
   /// Get user card data

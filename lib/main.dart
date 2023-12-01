@@ -108,7 +108,7 @@ class App extends StatelessWidget {
         reportError: AppService.instance.handleError,
       ),
       child: MaterialApp(
-        title: 'ExpertPass',
+        title: 'Meet-Pe',
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
         supportedLocales: const [defaultLocale],
         theme: buildAppTheme(),
