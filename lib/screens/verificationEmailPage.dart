@@ -5,7 +5,6 @@ import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
-import '../utils/message.dart';
 import '../utils/utils.dart';
 
 class VerificationEmailPage extends StatefulWidget {
@@ -20,16 +19,9 @@ class VerificationEmailPage extends StatefulWidget {
 class _VerificationEmailPageState extends State<VerificationEmailPage>
     with BlocProvider<VerificationEmailPage, VerificationEmailPageBloc> {
   String? validationMessage;
-  TextEditingController _textController = TextEditingController();
 
   @override
   initBloc() => VerificationEmailPageBloc();
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +29,14 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
       body: AsyncForm(
         onValidated: bloc.checkEmail,
         onSuccess: () async {
-          navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
+          bool isVerified = await bloc.checkEmail();
+          print('FJJFJFJFFJ $isVerified');
+          if (isVerified) {
+            return navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
+          } else {
+            return navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
+          }
+          //navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
         },
         builder: (BuildContext context, void Function() validate) {
           return Padding(
@@ -152,7 +151,9 @@ class VerificationEmailPageBloc with Disposable {
   String? email;
 
   //Future<void> checkEmail() => AppService.api.askEmailExist(email!);
-  Future<void> checkEmail() async {
-    print('dfdf : $email');
+  Future<bool> checkEmail() async {
+    print('verified email : $email');
+    bool isVerified = await AppService.api.askEmailExist(email!);
+    return isVerified;
   }
 }

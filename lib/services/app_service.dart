@@ -113,7 +113,7 @@ class AppService {
     // Login
     //await api.login(username, password);
     print('Login function called with: $username, $password');
-    if (username == 'baha@' && password == 'azerty') {
+    if (username == 'baha@baha.com' && password == 'azerty') {
       print('Login successful');
       return true;
     } else {
