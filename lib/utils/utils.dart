@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:fetcher/src/exceptions/unreported_exception.dart';
-import 'package:meet_pe/utils/extensions.dart';
 import 'exceptions/displayable_exception.dart';
 import 'exceptions/ep_http_response_exception.dart';
 import 'exceptions/operation_canceled_exception.dart';
 import 'exceptions/permission_exception.dart';
 import 'exceptions/unauthorized_exception.dart';
-import 'message.dart';
+import '_utils.dart';
 
 typedef JsonObject = Map<String, dynamic>;
 typedef JsonList = Iterable<dynamic>;
