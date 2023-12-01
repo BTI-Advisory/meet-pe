@@ -1,8 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/launch_screen.dart';
+import 'package:meet_pe/services/app_service.dart';
+import 'package:meet_pe/services/storage_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-void main() {
+void main() async {
+  // Init Flutter
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Override default debugPrint
+  debugPrint = (message, {wrapWidth}) {
+    // Disable logging in release mode
+    if (!kReleaseMode) debugPrintThrottled(message, wrapWidth: wrapWidth);
+
+    // Send to Crashlytics journal
+    //TODO: when implementing FirebaseCrashlytics
+    //if (message != null) FirebaseCrashlytics.instance.log(message);
+  };
+
+  // init Firebase
+  //TODO: when implementing FirebaseCrashlytics
+  /*await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (!kReleaseMode)
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+
+  // Pass all Flutter's uncaught errors to Crashlytics.
+  FlutterError.onError = (flutterErrorDetails) {
+    if (shouldReportException(flutterErrorDetails.exception)) {
+      FirebaseCrashlytics.instance.recordFlutterError(flutterErrorDetails);
+    }
+  };*/
+
+  // Set default intl package locale
+  Intl.defaultLocale = App.defaultLocale.toString();
+
+  // Set default TimeAgo package locale
+  timeago.setLocaleMessages(
+      'en', timeago.FrShortMessages()); // Set default timeAgo local to fr
+
+  // Init local storage
+  await StorageService.init();
+
+  // Init app service
+  await AppService.instance.init();
+
+  // Init Analytics
+  //await AnalyticsService.init();
+
+  // Start App
   runApp(const MyApp());
 }
 
@@ -21,90 +69,77 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  // Default locale
+  static const defaultLocale = Locale('fr');
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  /// Global key for the App's main navigator
+  static final GlobalKey<NavigatorState> _navigatorKey =
+  GlobalKey<NavigatorState>();
 
-  final String title;
+  /// The [BuildContext] of the main navigator.
+  /// We may use this on showMessage, showError, openDialog, etc.
+  static BuildContext get navigatorContext => _navigatorKey.currentContext!;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Widget build(context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
+
+// Todo: Implementing when Auth feature is done
+/// Build the default launch page widget
+/*static Widget buildLaunchPage() =>
+      AppService.instance.hasLocalUser ? const MainPage() : const LoginPage();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    // Set orientations. Must be in the build method.
+    SystemChrome.setPreferredOrientations(const [
+      DeviceOrientation.portraitUp,
+    ]);
+
+    // Build App
+    return DefaultFetcherConfig(
+      config: FetcherConfig(
+        showError: showError,
+        reportError: AppService.instance.handleError,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      child: MaterialApp(
+        title: 'ExpertPass',
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        supportedLocales: const [defaultLocale],
+        theme: buildAppTheme(),
+        darkTheme: buildAppTheme(darkMode: true),
+        navigatorKey: _navigatorKey,
+        home: AnalyticsService.isEnabled == null
+            ? const AnalyticsConsentPage()
+            : buildLaunchPage(),
+        builder: (context, child) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              // Content
+              child!,
+
+              // Api Environment Banner
+              ValueStreamBuilder<bool>(
+                stream: AppService.instance.developerModeStream,
+                builder: (context, snapshot) {
+                  if (snapshot.data != true) return const SizedBox();
+
+                  return const Banner(
+                    message: 'DEV',
+                    location: BannerLocation.topStart,
+                  );
+                },
+              ),
+            ],
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
+  }*/
 }
