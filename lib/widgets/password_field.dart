@@ -44,6 +44,7 @@ class _PasswordFieldState extends State<PasswordField> {
           hintStyle: Theme.of(context)
               .textTheme
               .bodyMedium,
+          fillColor: Colors.transparent,
           contentPadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
           suffix: const SizedBox(height: 10),
           enabledBorder: UnderlineInputBorder(

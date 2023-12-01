@@ -26,11 +26,15 @@ class ApiClient {
   /// API url
   static const _authorityProd = 'meet-pe.org:8044';
   static const _authorityDev = 'meet-pe.org:8042';
-  static String get _authority => AppService.instance.developerMode ? _authorityDev : _authorityProd;
+
+  static String get _authority =>
+      AppService.instance.developerMode ? _authorityDev : _authorityProd;
 
   static const _apiKeyProd = 'exp_07f7c0-1c99-11e8-ba7c-00155d063c17';
   static const _apiKeyDev = 'bti-4dd3-d817-11ec-bc4e-00155d063d11';
-  static String get _apiKey => AppService.instance.developerMode ? _apiKeyDev : _apiKeyProd;
+
+  static String get _apiKey =>
+      AppService.instance.developerMode ? _apiKeyDev : _apiKeyProd;
 
   /// Request timeout duration
   static const _timeOutDuration = Duration(seconds: 40);
@@ -45,12 +49,15 @@ class ApiClient {
   ApiClient();
 
   final _client = http.Client();
+
   //#endregion
 
   //#region Auth
   /// Long term token needed to get an accessToken.
   String? _refreshToken;
+
   set refreshToken(String? value) => _refreshToken = value;
+
   bool get hasRefreshToken => !isStringNullOrEmpty(_refreshToken);
   ValueChanged<String>? onRefreshTokenChanged;
 
@@ -62,21 +69,24 @@ class ApiClient {
     // Build request content
     final data = {
       'uid': username,
-      'password': base64.encode(utf8.encode(password)),   // Basic encoding to avoid clear texts in server's logs
+      'password': base64.encode(utf8.encode(password)),
+      // Basic encoding to avoid clear texts in server's logs
     };
 
     // Send request
     final response = await () async {
       try {
-        return await _send<JsonObject>(_httpMethodPost, 'mobile/authenticate', bodyJson: data);
-      } catch(e) {
+        return await _send<JsonObject>(_httpMethodPost, 'mobile/authenticate',
+            bodyJson: data);
+      } catch (e) {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException('Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
         }
         rethrow;
       }
-    } ();
+    }();
 
     // Process tokens
     _processAuthTokens(response!);
@@ -103,7 +113,9 @@ class ApiClient {
       };
 
       // Send request
-      final response = await _send<JsonObject>(_httpMethodPost, 'mobile/refreshToken', bodyJson: data, enableAutoRetryOnUnauthorized: false);
+      final response = await _send<JsonObject>(
+          _httpMethodPost, 'mobile/refreshToken',
+          bodyJson: data, enableAutoRetryOnUnauthorized: false);
 
       // Process tokens
       _processAuthTokens(response!);
@@ -134,27 +146,31 @@ class ApiClient {
   }
 
   /// Mark a Check email exist
-  Future<void> askEmailExist(String email) async {
-    // Build request content
-    final data = {
-      'email': email,  // Basic encoding to avoid clear texts in server's logs
-    };
+  Future<bool> askEmailExist(String email) async {
+    final url = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
 
-    // Send request
-    /*final response = await () async {
-      try {
-        return await _send<JsonObject>(_httpMethodPost, 'mobile/emailExist', bodyJson: data);
-      } catch(e) {
-        // Catch wrong user quality error
-        if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException('Votre profil ne vous permet pas d’utiliser l’application MeetPe');
-        }
-        rethrow;
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: {'email': email},
+      );
+
+      if (response.statusCode == 200) {
+        // Parse the response here and check if the email exists
+        // For example, if the response contains a JSON with a 'verified' field
+        final jsonResponse = json.decode(response.body);
+        bool isVerified = jsonResponse['verified'];
+
+        return isVerified;
+      } else {
+        // Handle other status codes if needed
+        return false;
       }
-    } ();*/
-
-    // Process tokens
-    //_processAuthTokens(response!);
+    } catch (e) {
+      // Handle exceptions or errors during the request
+      print('Error: $e');
+      return false;
+    }
   }
 
   /// Mark a message as read
@@ -172,6 +188,7 @@ class ApiClient {
     refreshToken = null;
     _accessToken = null;
   }
+
   //#endregion
 
   //#region Requests
@@ -200,7 +217,8 @@ class ApiClient {
   /// Get user card data
   Future<ContactData> getUserCardData() async {
     // Send request
-    final response = await _send<JsonObject>(_httpMethodGet, 'mobile/authDevice');
+    final response =
+        await _send<JsonObject>(_httpMethodGet, 'mobile/authDevice');
 
     // Return data
     return ContactData.fromJson(response!['ficheEC']!);
@@ -215,7 +233,9 @@ class ApiClient {
     };
 
     // Send request
-    final response = await _send<Uint8List>(_httpMethodPost, 'mobile/getPhotoByQrcode', bodyJson: data);
+    final response = await _send<Uint8List>(
+        _httpMethodPost, 'mobile/getPhotoByQrcode',
+        bodyJson: data);
 
     // Return data
     return response;
@@ -229,8 +249,10 @@ class ApiClient {
     };
 
     // Send request
-    await _send<Null>(_httpMethodPost, 'authentification/authByQrcode', bodyJson: data);
+    await _send<Null>(_httpMethodPost, 'authentification/authByQrcode',
+        bodyJson: data);
   }
+
   //#endregion
 
   //#region Contact
@@ -244,7 +266,9 @@ class ApiClient {
     };
 
     // Send request
-    final response = await _send<JsonObject>(_httpMethodPost, 'mobile/controleCarte', bodyJson: data);
+    final response = await _send<JsonObject>(
+        _httpMethodPost, 'mobile/controleCarte',
+        bodyJson: data);
 
     // Return data
     return ContactData.fromJson(response!['ficheEC']!);
@@ -365,18 +389,19 @@ class ApiClient {
   */
 
   //#region Generics
-  Uri _buildUri(String path, [JsonObject? queryParameters]) => Uri.https(_authority, path, queryParameters);
+  Uri _buildUri(String path, [JsonObject? queryParameters]) =>
+      Uri.https(_authority, path, queryParameters);
 
   /// Send a classic request
   Future<T?> _send<T>(
-      String method,
-      String path, {
-        Map<String, String>? headers,
-        JsonObject? bodyJson,
-        String? stringBody,
-        JsonObject? queryParameters,
-        bool enableAutoRetryOnUnauthorized = true,
-      }) async {
+    String method,
+    String path, {
+    Map<String, String>? headers,
+    JsonObject? bodyJson,
+    String? stringBody,
+    JsonObject? queryParameters,
+    bool enableAutoRetryOnUnauthorized = true,
+  }) async {
     // Create request
     final request = http.Request(method, _buildUri(path, queryParameters));
 
@@ -388,17 +413,16 @@ class ApiClient {
       //TODO: when implementing analytics
       //'analyticsConsent': AnalyticsService.isEnabled.toString(),
     });
-    if (headers != null)
-      request.headers.addAll(headers);
+    if (headers != null) request.headers.addAll(headers);
 
     // Set body
     if (bodyJson != null)
       request.body = json.encode(bodyJson);
-    else if (stringBody != null)
-      request.body = stringBody;
+    else if (stringBody != null) request.body = stringBody;
 
     // Send request
-    return await _sendHandledRequest<T>(request, enableAutoRetryOnUnauthorized: enableAutoRetryOnUnauthorized);
+    return await _sendHandledRequest<T>(request,
+        enableAutoRetryOnUnauthorized: enableAutoRetryOnUnauthorized);
   }
 
   /// Run verifications, then send a generic request (with basic error handling)
@@ -411,10 +435,13 @@ class ApiClient {
   /// It's the case for [http.MultipartRequest], that use [http.MultipartFile] that cannot be reuse once finalized.
   /// For classic [http.Request], it may be copied to a new object with same values with [http.BaseRequest.copyAsNew], so the retry is simpler.
   /// [onUnauthorizedRetryCallback] must call [_sendHandledRequest] with [enableAutoRetryOnUnauthorized] at false.
-  Future<T?> _sendHandledRequest<T>(http.BaseRequest request, { bool enableAutoRetryOnUnauthorized = true, AsyncValueGetter<T>? onUnauthorizedRetryCallback }) async {
+  Future<T?> _sendHandledRequest<T>(http.BaseRequest request,
+      {bool enableAutoRetryOnUnauthorized = true,
+      AsyncValueGetter<T>? onUnauthorizedRetryCallback}) async {
     // Set auth header (need to be here so that token is up-to-date when re-trying request)
     request.headers.addAll({
-      'access_token': _accessToken ?? 'none',     // TEMP server fix, remove 'none' when not needed (currently if access_token is missing it returns a 421) ?
+      'access_token': _accessToken ?? 'none',
+      // TEMP server fix, remove 'none' when not needed (currently if access_token is missing it returns a 421) ?
     });
 
     // Send request
@@ -481,7 +508,8 @@ class ApiClient {
 
       //Wait for the full response
       return await http.Response.fromStream(streamedResponse);
-    }()).timeout(_timeOutDuration);
+    }())
+        .timeout(_timeOutDuration);
 
     // Process response
     return _processResponse<T>(response);
@@ -536,7 +564,8 @@ class ApiClient {
 
   /// Log a request or a response
   /// Only provide either one, not both
-  static void _log({http.BaseRequest? request, _ResponseHandler? responseHandler}) {
+  static void _log(
+      {http.BaseRequest? request, _ResponseHandler? responseHandler}) {
     if (kReleaseMode || request == null && responseHandler == null) return;
     const includeBody = true;
 
@@ -580,7 +609,9 @@ class ApiClient {
         body = request is http.Request ? request.body : '';
 
         // Crop string if it's a GraphQL request body
-        body = body.replaceAllMapped(RegExp(r'("query .+?\()(.+")(,.+?variables":)', dotAll: true), (match) => '${match.group(1)}...)${match.group(3)}');
+        body = body.replaceAllMapped(
+            RegExp(r'("query .+?\()(.+")(,.+?variables":)', dotAll: true),
+            (match) => '${match.group(1)}...)${match.group(3)}');
       }
       if (_logHeaders) {
         headers = request.headers.toString();
@@ -606,14 +637,18 @@ class ApiClient {
     return connectivityResult != ConnectivityResult.none;
   }
 
-  static bool isHttpSuccessCode(int httpStatusCode) => httpStatusCode >= 200 && httpStatusCode < 300;
+  static bool isHttpSuccessCode(int httpStatusCode) =>
+      httpStatusCode >= 200 && httpStatusCode < 300;
 //#endregion
 }
 
 class _ResponseHandler {
-  _ResponseHandler(this.response) :
-        isSuccess = ApiClient.isHttpSuccessCode(response.statusCode),
-        isBodyJson = ContentType.parse(response.headers[HttpHeaders.contentTypeHeader] ?? '').mimeType == ApiClient.contentTypeJsonMimeType;
+  _ResponseHandler(this.response)
+      : isSuccess = ApiClient.isHttpSuccessCode(response.statusCode),
+        isBodyJson = ContentType.parse(
+                    response.headers[HttpHeaders.contentTypeHeader] ?? '')
+                .mimeType ==
+            ApiClient.contentTypeJsonMimeType;
 
   final http.Response response;
 
@@ -621,6 +656,7 @@ class _ResponseHandler {
   final bool isBodyJson;
 
   String? _bodyString;
+
   String get bodyString => _bodyString ??= response.body;
 
   /// Decode body as JSON and cast as [T].
@@ -638,7 +674,8 @@ class _ResponseHandler {
     try {
       return bodyJson<T?>();
     } catch (e) {
-      debugPrint('ResponseHandler.Error : Could not decode json : $e : $bodyString');
+      debugPrint(
+          'ResponseHandler.Error : Could not decode json : $e : $bodyString');
     }
     return null;
   }

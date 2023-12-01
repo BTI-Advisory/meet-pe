@@ -25,9 +25,10 @@ class _SignUpPageState extends State<SignUpPage>
   @override
   initBloc() => SignUpPageBloc(email: widget.email);
 
-  bool _isError = false;
   bool isChecked = false;
   bool isCheckedNewsletter = false;
+  String? validationMessage;
+  bool _showErrorMessage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,115 +54,159 @@ class _SignUpPageState extends State<SignUpPage>
                     ],
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      'images/logo_color.png',
-                      width: 110,
-                      height: 101,
-                    ),
-                    SizedBox(height: 50),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 48.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Crée ton compte',
-                                style:
-                                Theme.of(context).textTheme.headlineMedium,
-                              ),
-                              const SizedBox(
-                                height: 42,
-                              ),
-                              Text(
-                                widget.email,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(color: AppResources.colorDark),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                height: 1,
-                                width: MediaQuery.of(context).size.width - 96,
-                                color: AppResources.colorGray15,
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 96,
-                                child: PasswordField(
-                                  onFieldSubmitted: (value) => validate(),
-                                  controller: bloc.passwordController,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 70),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Image.asset(
+                        'images/logo_color.png',
+                        width: 110,
+                        height: 101,
+                      ),
+                      SizedBox(height: 50),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 48.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Crée ton compte',
+                                  style:
+                                  Theme.of(context).textTheme.headlineMedium,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 17,
-                              ),
-                              if (_isError)
-                                const Text(
-                                  'CHAMPS INVALIDE',
-                                  style: TextStyle(
-                                    color: Color(0xFFFF0000),
-                                    fontSize: 10,
-                                    fontFamily: 'Outfit',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0.14,
-                                  ),
+                                const SizedBox(
+                                  height: 42,
                                 ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      // Toggle the checkbox state on tap
+                                Text(
+                                  widget.email,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Container(
+                                  height: 1,
+                                  width: MediaQuery.of(context).size.width - 96,
+                                  color: AppResources.colorGray15,
+                                ),
+                                const SizedBox(
+                                  height: 26,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width - 96,
+                                  child: PasswordField(
+                                    onFieldSubmitted: (value) => validate(),
+                                    controller: bloc.passwordController,
+                                    onChanged: (value) {
                                       setState(() {
-                                        isChecked = !isChecked;
+                                        validationMessage = AppResources.validatorPassword(value);
                                       });
                                     },
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: isChecked
-                                              ? Colors.black
-                                              : Colors.red,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.circular(4.0),
-                                        color: isChecked ? Colors.white : null,
-                                      ),
-                                      child: isChecked
-                                          ? Icon(
-                                        Icons.check,
-                                        size: 10.0,
-                                        color: Colors.black,
-                                      )
-                                          : null,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 7,
+                                ),
+                                if (validationMessage != null)
+                                  const Text(
+                                    'CHAMPS INVALIDE',
+                                    style: TextStyle(
+                                      color: Color(0xFFFF0000),
+                                      fontSize: 10,
+                                      fontFamily: 'Outfit',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0.14,
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
-                                  const Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
+                                const SizedBox(height: 54,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        // Toggle the checkbox state on tap
+                                        setState(() {
+                                          isChecked = !isChecked;
+                                          _showErrorMessage = !_showErrorMessage;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: _showErrorMessage
+                                                ? Colors.red
+                                                : Colors.black,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(4.0),
+                                          color: isChecked ? Colors.white : null,
+                                        ),
+                                        child: isChecked
+                                            ? Icon(
+                                          Icons.check,
+                                          size: 10.0,
+                                          color: Colors.black,
+                                        )
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'J’accepte les ',
+                                                style: TextStyle(
+                                                  color: Color(0xFF979797),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Outfit',
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: 'les Conditions Générales',
+                                                style: TextStyle(
+                                                  color: Color(0xFFFF4C00),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Outfit',
+                                                  fontWeight: FontWeight.w500,
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: ' et ',
+                                                style: TextStyle(
+                                                  color: Color(0xFF979797),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Outfit',
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text.rich(
+                                          TextSpan(children: [
                                             TextSpan(
-                                              text: 'J’accepte les ',
+                                              text: ' la ',
                                               style: TextStyle(
                                                 color: Color(0xFF979797),
                                                 fontSize: 14,
@@ -171,7 +216,8 @@ class _SignUpPageState extends State<SignUpPage>
                                               ),
                                             ),
                                             TextSpan(
-                                              text: 'les Conditions Générales',
+                                              text:
+                                              'Politique de Confidentialité',
                                               style: TextStyle(
                                                 color: Color(0xFFFF4C00),
                                                 fontSize: 14,
@@ -183,7 +229,19 @@ class _SignUpPageState extends State<SignUpPage>
                                               ),
                                             ),
                                             TextSpan(
-                                              text: ' et ',
+                                              text: ' ',
+                                              style: TextStyle(
+                                                color: Color(0xFF979797),
+                                                fontSize: 14,
+                                                fontFamily: 'Outfit',
+                                                fontWeight: FontWeight.w500,
+                                                decoration:
+                                                TextDecoration.underline,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: 'Meetpe',
                                               style: TextStyle(
                                                 color: Color(0xFF979797),
                                                 fontSize: 14,
@@ -192,161 +250,124 @@ class _SignUpPageState extends State<SignUpPage>
                                                 height: 0,
                                               ),
                                             ),
-                                          ],
+                                          ]),
+                                          textAlign: TextAlign.start,
                                         ),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      Text.rich(
-                                        TextSpan(children: [
-                                          TextSpan(
-                                            text: ' la ',
-                                            style: TextStyle(
-                                              color: Color(0xFF979797),
-                                              fontSize: 14,
-                                              fontFamily: 'Outfit',
-                                              fontWeight: FontWeight.w400,
-                                              height: 0,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                            'Politique de Confidentialité',
-                                            style: TextStyle(
-                                              color: Color(0xFFFF4C00),
-                                              fontSize: 14,
-                                              fontFamily: 'Outfit',
-                                              fontWeight: FontWeight.w500,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              height: 0,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: ' ',
-                                            style: TextStyle(
-                                              color: Color(0xFF979797),
-                                              fontSize: 14,
-                                              fontFamily: 'Outfit',
-                                              fontWeight: FontWeight.w500,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              height: 0,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: 'Meetpe',
-                                            style: TextStyle(
-                                              color: Color(0xFF979797),
-                                              fontSize: 14,
-                                              fontFamily: 'Outfit',
-                                              fontWeight: FontWeight.w400,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        ]),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 17,),
-                              if (_isError)
-                                const Text(
-                                  'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
-                                  style: TextStyle(
-                                    color: Color(0xFFFF0000),
-                                    fontSize: 10,
-                                    fontFamily: 'Outfit',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0.14,
-                                  ),
-                                ),
-
-                              const SizedBox(height: 19,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      // Toggle the checkbox state on tap
-                                      setState(() {
-                                        isCheckedNewsletter = !isCheckedNewsletter;
-                                      });
-                                    },
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.circular(4.0),
-                                        color: isCheckedNewsletter ? Colors.white : null,
-                                      ),
-                                      child: isCheckedNewsletter
-                                          ? Icon(
-                                        Icons.check,
-                                        size: 10.0,
-                                        color: Colors.black,
-                                      )
-                                          : null,
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(width: 12),
+                                  ],
+                                ),
+                                const SizedBox(height: 17,),
+                                if (_showErrorMessage)
                                   const Text(
-                                    'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
+                                    'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
                                     style: TextStyle(
-                                      color: Color(0xFF979797),
-                                      fontSize: 14,
+                                      color: Color(0xFFFF0000),
+                                      fontSize: 10,
                                       fontFamily: 'Outfit',
                                       fontWeight: FontWeight.w400,
-                                      height: 0,
+                                      height: 0.14,
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
+                                  ),
+
+                                const SizedBox(height: 19,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        // Toggle the checkbox state on tap
+                                        setState(() {
+                                          isCheckedNewsletter = !isCheckedNewsletter;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(4.0),
+                                          color: isCheckedNewsletter ? Colors.white : null,
+                                        ),
+                                        child: isCheckedNewsletter
+                                            ? Icon(
+                                          Icons.check,
+                                          size: 10.0,
+                                          color: Colors.black,
+                                        )
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Text(
+                                      'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
+                                      style: TextStyle(
+                                        color: Color(0xFF979797),
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 40),
-                        child: Container(
-                          margin: const EdgeInsets.all(67),
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 10)),
-                              backgroundColor:
-                              MaterialStateProperty.all(Color(0xFFFF4C00)),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
+                        ],
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 44),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 67, right: 67),
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<EdgeInsets>(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 10)),
+                                  backgroundColor:
+                                  MaterialStateProperty.all(AppResources.colorVitamine),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                //onPressed: isChecked ? validate : null,
+                                onPressed: () {
+                                  // Toggle the visibility of the error message based on isChecked
+                                  if (!isChecked) {
+                                    setState(() {
+                                      _showErrorMessage = true;
+                                    });
+                                  } else {
+                                    // Perform the necessary action when the button is pressed
+                                    validate();
+                                  }
+                                },
+                                child: Text(
+                                  'CREER UN COMPTE',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorWhite),
                                 ),
                               ),
-                            ),
-                            onPressed: validate,
-                            child: Text(
-                              'CREER UN COMPTE',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: AppResources.colorWhite),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }));
