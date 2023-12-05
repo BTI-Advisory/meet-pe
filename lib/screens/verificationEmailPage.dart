@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/signinPage.dart';
 import 'package:meet_pe/screens/signupPage.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
@@ -32,11 +33,10 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
           bool isVerified = await bloc.checkEmail();
           print('FJJFJFJFFJ $isVerified');
           if (isVerified) {
-            return navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
+            return navigateTo(context, (_) => SignInPage(email: bloc.email!,));
           } else {
             return navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
           }
-          //navigateTo(context, (_) => SignUpPage(email: bloc.email!,));
         },
         builder: (BuildContext context, void Function() validate) {
           return Padding(
