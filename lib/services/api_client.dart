@@ -30,8 +30,8 @@ class ApiClient {
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
 
-  static const _apiKeyProd = 'exp_07f7c0-1c99-11e8-ba7c-00155d063c17';
-  static const _apiKeyDev = 'bti-4dd3-d817-11ec-bc4e-00155d063d11';
+  static const _apiKeyProd = 'Nh8mupflpAu1ORQyjdBXzQHGcmqmBWJNktVi3JAecONXlYHVuWrOBuCRD22UjyRO';
+  static const _apiKeyDev = 'Nh8mupflpAu1ORQyjdBXzQHGcmqmBWJNktVi3JAecONXlYHVuWrOBuCRD22UjyRO';
 
   static String get _apiKey =>
       AppService.instance.developerMode ? _apiKeyDev : _apiKeyProd;
@@ -65,10 +65,11 @@ class ApiClient {
   String? _accessToken;
 
   /// Log user in, and return user id
-  Future<void> login(String username, String password) async {
+  Future<void> login(String name, String email, String password) async {
     // Build request content
     final data = {
-      'uid': username,
+      'name': name,
+      'email': email,
       'password': base64.encode(utf8.encode(password)),
       // Basic encoding to avoid clear texts in server's logs
     };
@@ -76,7 +77,7 @@ class ApiClient {
     // Send request
     final response = await () async {
       try {
-        return await _send<JsonObject>(_httpMethodPost, 'mobile/authenticate',
+        return await _send<JsonObject>(_httpMethodPost, 'api/register',
             bodyJson: data);
       } catch (e) {
         // Catch wrong user quality error
@@ -147,7 +148,8 @@ class ApiClient {
 
   /// Mark a Check email exist
   Future<bool> askEmailExist(String email) async {
-    final url = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
+    final url = 'YOUR_API_ENDPOINT/api/verify-email'; // Replace with your actual API endpoint
+    bool isVerified = false;
 
     try {
       final response = await http.post(
@@ -159,7 +161,11 @@ class ApiClient {
         // Parse the response here and check if the email exists
         // For example, if the response contains a JSON with a 'verified' field
         final jsonResponse = json.decode(response.body);
-        bool isVerified = jsonResponse['verified'];
+        if (jsonResponse['msg'] == 'exists') {
+          isVerified = true;
+        } else {
+          isVerified = false;
+        }
 
         return isVerified;
       } else {
