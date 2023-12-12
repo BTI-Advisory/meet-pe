@@ -109,11 +109,11 @@ class AppService {
   //#endregion
 
   //#region Login
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String email, String password) async {
     // Login
-    //await api.login(username, password);
-    print('Login function called with: $username, $password');
-    if (username == 'baha@baha.com' && password == 'azerty') {
+    //await api.login(email, password);
+    print('Login function called with: $email, $password');
+    if (email == 'baha@baha.com' && password == 'azerty') {
       print('Login successful');
       return true;
     } else {

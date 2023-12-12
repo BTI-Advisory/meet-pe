@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:meet_pe/screens/welcomePage.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/_utils.dart';
 import '../widgets/async_form.dart';
-import 'loginPage.dart';
 
 class VerificationCodePage extends StatefulWidget {
   const VerificationCodePage({super.key,});
@@ -32,7 +32,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
         body: AsyncForm(
             onValidated: bloc.verifyCode,
             onSuccess: () {
-              return navigateTo(context, (_) => const LoginPage(),
+              return navigateTo(context, (_) => const WelcomePage(),
                   clearHistory: true);
             },
             builder: (context, validate) {
