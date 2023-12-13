@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/onBoardingPages/step1Page.dart';
 
 import '../resources/resources.dart';
+import '../utils/utils.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -75,7 +77,9 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                               ),
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              navigateTo(context, (_) => const Step1Page());
+                            },
                             child: Text(
                               'C’EST PARTI !!',
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
