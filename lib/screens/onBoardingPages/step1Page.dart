@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/step2Page.dart';
-
 import '../../utils/utils.dart';
 
 class Step1Page extends StatefulWidget {
@@ -23,6 +22,8 @@ class _Step1PageState extends State<Step1Page> {
   ];
 
   Set<int> selectedIdsStep1 = Set<int>();
+  Map<String, Set<int>> myMap = Map<String, Set<int>>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +67,27 @@ class _Step1PageState extends State<Step1Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: selectedIdsStep1.contains(item.id),
+                      /*isSelected: selectedIdsStep1.contains(item.id),
                       onTap: () {
                         setState(() {
                           if (selectedIdsStep1.contains(item.id)) {
                             selectedIdsStep1.remove(item.id);
                           } else {
                             selectedIdsStep1.add(item.id);
+                          }
+                        });
+                      },*/
+                      isSelected: myMap['step1'] != null ? myMap['step1']!.contains(item.id) : false,
+                      onTap: () {
+                        setState(() {
+                          if (myMap['step1'] == null) {
+                            myMap['step1'] = Set<int>(); // Initialize if null
+                          }
+
+                          if (myMap['step1']!.contains(item.id)) {
+                            myMap['step1']!.remove(item.id);
+                          } else {
+                            myMap['step1']!.add(item.id);
                           }
                         });
                       },
@@ -105,7 +120,7 @@ class _Step1PageState extends State<Step1Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => const Step2Page());
+                          navigateTo(context, (_) => Step2Page(myMap: myMap,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
