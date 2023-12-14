@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step7Page.dart';
-import '../../utils/utils.dart';
 
-class Step6Page extends StatefulWidget {
-  Step6Page({super.key, required this.myMap});
+class Step7Page extends StatefulWidget {
+  Step7Page({super.key, required this.myMap});
   Map<String, Set<int>> myMap = Map<String, Set<int>>();
 
   @override
-  State<Step6Page> createState() => _Step6PageState();
+  State<Step7Page> createState() => _Step7PageState();
 }
 
-class _Step6PageState extends State<Step6Page> {
+class _Step7PageState extends State<Step7Page> {
   late List<Voyage> myList = [
-    Voyage(id: 1, title: "Français"),
-    Voyage(id: 2, title: "Anglais"),
-    Voyage(id: 3, title: "Chinois (mandarin)"),
-    Voyage(id: 4, title: "Japonais"),
-    Voyage(id: 5, title: "Espagnol"),
-    Voyage(id: 6, title: "Portugais"),
-    Voyage(id: 7, title: "Italien"),
-    Voyage(id: 8, title: "Grec"),
-    Voyage(id: 9, title: "Russe"),
-    Voyage(id: 10, title: "Allemand")
+    Voyage(id: 1, title: "Des Guides Professionnels"),
+    Voyage(id: 2, title: "Des Locaux Passionnés")
   ];
 
   @override
@@ -45,13 +35,13 @@ class _Step6PageState extends State<Step6Page> {
             children: [
               SizedBox(height: 120,),
               Text(
-                'Étape 6 sur 9',
+                'Étape 7 sur 9',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 8,),
               Text(
-                'Tu parles...',
+                'Tu veux rencontrer...',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
               ),
@@ -66,17 +56,17 @@ class _Step6PageState extends State<Step6Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: widget.myMap['step6'] != null ? widget.myMap['step6']!.contains(item.id) : false,
+                      isSelected: widget.myMap['step7'] != null ? widget.myMap['step7']!.contains(item.id) : false,
                       onTap: () {
                         setState(() {
-                          if (widget.myMap['step6'] == null) {
-                            widget.myMap['step6'] = Set<int>(); // Initialize if null
+                          if (widget.myMap['step7'] == null) {
+                            widget.myMap['step7'] = Set<int>(); // Initialize if null
                           }
 
-                          if (widget.myMap['step6']!.contains(item.id)) {
-                            widget.myMap['step6']!.remove(item.id);
+                          if (widget.myMap['step7']!.contains(item.id)) {
+                            widget.myMap['step7']!.remove(item.id);
                           } else {
-                            widget.myMap['step6']!.add(item.id);
+                            widget.myMap['step7']!.add(item.id);
                           }
                         });
                       },
@@ -109,7 +99,7 @@ class _Step6PageState extends State<Step6Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => Step7Page(myMap: widget.myMap,));
+                          //navigateTo(context, (_) => Step8Page(myMap: widget.myMap,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
