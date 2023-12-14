@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step4Page.dart';
-import '../../utils/utils.dart';
 
-class Step3Page extends StatefulWidget {
-  Step3Page({super.key, required this.myMap});
+class Step4Page extends StatefulWidget {
+  Step4Page({super.key, required this.myMap});
   Map<String, Set<int>> myMap = Map<String, Set<int>>();
 
   @override
-  State<Step3Page> createState() => _Step3PageState();
+  State<Step4Page> createState() => _Step4PageState();
 }
 
-class _Step3PageState extends State<Step3Page> {
+class _Step4PageState extends State<Step4Page> {
   late List<Voyage> myList = [
-    Voyage(id: 1, title: "A la montagne"),
-    Voyage(id: 2, title: "En bord de mer"),
-    Voyage(id: 3, title: "Dans un petit village"),
-    Voyage(id: 4, title: "En ville"),
-    Voyage(id: 5, title: "A la campagne"),
-    Voyage(id: 6, title: "Dans un hotel All Inclusive"),
-    Voyage(id: 7, title: "à l’aise partout")
+    Voyage(id: 1, title: "Extraverti"),
+    Voyage(id: 2, title: "Curieux"),
+    Voyage(id: 3, title: "Créatif"),
+    Voyage(id: 4, title: "Rêveur"),
+    Voyage(id: 5, title: "Sportif"),
+    Voyage(id: 6, title: "Connecté"),
+    Voyage(id: 7, title: "Epicurien"),
+    Voyage(id: 8, title: "Posé")
   ];
 
   @override
@@ -42,13 +41,13 @@ class _Step3PageState extends State<Step3Page> {
             children: [
               SizedBox(height: 120,),
               Text(
-                'Étape 3 sur 9',
+                'Étape 4 sur 9',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 8,),
               Text(
-                'Tu prefères être...',
+                'On dit de toi que tu es...',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
               ),
@@ -63,17 +62,17 @@ class _Step3PageState extends State<Step3Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: widget.myMap['step3'] != null ? widget.myMap['step3']!.contains(item.id) : false,
+                      isSelected: widget.myMap['step4'] != null ? widget.myMap['step4']!.contains(item.id) : false,
                       onTap: () {
                         setState(() {
-                          if (widget.myMap['step3'] == null) {
-                            widget.myMap['step3'] = Set<int>(); // Initialize if null
+                          if (widget.myMap['step4'] == null) {
+                            widget.myMap['step4'] = Set<int>(); // Initialize if null
                           }
 
-                          if (widget.myMap['step3']!.contains(item.id)) {
-                            widget.myMap['step3']!.remove(item.id);
+                          if (widget.myMap['step4']!.contains(item.id)) {
+                            widget.myMap['step4']!.remove(item.id);
                           } else {
-                            widget.myMap['step3']!.add(item.id);
+                            widget.myMap['step4']!.add(item.id);
                           }
                         });
                       },
@@ -106,7 +105,7 @@ class _Step3PageState extends State<Step3Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => Step4Page(myMap: widget.myMap,));
+                          //navigateTo(context, (_) => Step5Page(myMap: widget.myMap,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),

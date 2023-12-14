@@ -52,7 +52,6 @@ class _Step2PageState extends State<Step2Page> {
               const SizedBox(height: 56,),
               Container(
                 width: 319,
-                height: 144,
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   spacing: 8, // Horizontal spacing between items
