@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step5Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/step6Page.dart';
 import '../../utils/utils.dart';
 
-class Step4Page extends StatefulWidget {
-  Step4Page({super.key, required this.myMap});
+class Step5Page extends StatefulWidget {
+  Step5Page({super.key, required this.myMap});
   Map<String, Set<int>> myMap = Map<String, Set<int>>();
 
   @override
-  State<Step4Page> createState() => _Step4PageState();
+  State<Step5Page> createState() => _Step5PageState();
 }
 
-class _Step4PageState extends State<Step4Page> {
+class _Step5PageState extends State<Step5Page> {
   late List<Voyage> myList = [
-    Voyage(id: 1, title: "Extraverti"),
-    Voyage(id: 2, title: "Curieux"),
-    Voyage(id: 3, title: "Créatif"),
-    Voyage(id: 4, title: "Rêveur"),
-    Voyage(id: 5, title: "Sportif"),
-    Voyage(id: 6, title: "Connecté"),
-    Voyage(id: 7, title: "Epicurien"),
-    Voyage(id: 8, title: "Posé")
+    Voyage(id: 1, title: "Culture Locale"),
+    Voyage(id: 2, title: "Tradition et Savoir-Faire"),
+    Voyage(id: 3, title: "Food"),
+    Voyage(id: 4, title: "Art"),
+    Voyage(id: 5, title: "Patrimoine"),
+    Voyage(id: 6, title: "Sport"),
+    Voyage(id: 7, title: "Activités Extrêmes"),
+    Voyage(id: 8, title: "Musique et Concert"),
+    Voyage(id: 9, title: "Outdoor"),
+    Voyage(id: 10, title: "Insolites"),
+    Voyage(id: 11, title: "Exclusives"),
+    Voyage(id: 12, title: "Shopping"),
+    Voyage(id: 13, title: "Avec les animaux"),
+    Voyage(id: 14, title: "Exploration Urbaine"),
+    Voyage(id: 15, title: "Vin & Spiritueux"),
+    Voyage(id: 16, title: "Pas d’idée, fais moi découvrir")
   ];
 
   @override
@@ -43,13 +51,13 @@ class _Step4PageState extends State<Step4Page> {
             children: [
               SizedBox(height: 120,),
               Text(
-                'Étape 4 sur 9',
+                'Étape 5 sur 9',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 8,),
               Text(
-                'On dit de toi que tu es...',
+                'Tu cherches des expériences...',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
               ),
@@ -64,17 +72,17 @@ class _Step4PageState extends State<Step4Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: widget.myMap['step4'] != null ? widget.myMap['step4']!.contains(item.id) : false,
+                      isSelected: widget.myMap['step5'] != null ? widget.myMap['step5']!.contains(item.id) : false,
                       onTap: () {
                         setState(() {
-                          if (widget.myMap['step4'] == null) {
-                            widget.myMap['step4'] = Set<int>(); // Initialize if null
+                          if (widget.myMap['step5'] == null) {
+                            widget.myMap['step5'] = Set<int>(); // Initialize if null
                           }
 
-                          if (widget.myMap['step4']!.contains(item.id)) {
-                            widget.myMap['step4']!.remove(item.id);
+                          if (widget.myMap['step5']!.contains(item.id)) {
+                            widget.myMap['step5']!.remove(item.id);
                           } else {
-                            widget.myMap['step4']!.add(item.id);
+                            widget.myMap['step5']!.add(item.id);
                           }
                         });
                       },
@@ -107,7 +115,7 @@ class _Step4PageState extends State<Step4Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => Step5Page(myMap: widget.myMap,));
+                          navigateTo(context, (_) => Step6Page(myMap: widget.myMap,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
