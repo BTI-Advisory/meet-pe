@@ -113,7 +113,12 @@ class _Step8PageState extends State<Step8Page> {
                 children: [
                   TextButton.icon(
                     icon: Icon(Icons.near_me_sharp, color: Colors.black),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        //widget.controller.text = 'Autour de moi';
+                        _textEditingController.text = 'Autour de moi';
+                      });
+                    },
                     label: Text(
                       'Autour de moi',
                       style: Theme.of(context)
