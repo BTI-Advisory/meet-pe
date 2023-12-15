@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/screens/onBoardingPages/step8Page.dart';
+import '../../utils/utils.dart';
 
 class Step7Page extends StatefulWidget {
   Step7Page({super.key, required this.myMap});
@@ -99,7 +101,7 @@ class _Step7PageState extends State<Step7Page> {
                           ),
                         ),
                         onPressed: () {
-                          //navigateTo(context, (_) => Step8Page(myMap: widget.myMap,));
+                          navigateTo(context, (_) => Step8Page(myMap: widget.myMap,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
