@@ -155,13 +155,15 @@ class _Step8PageState extends State<Step8Page> {
                       onPressed: () {
                         //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
                       },
-                      child: Text(
-                        'PAS D’IDEE',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: AppResources.colorWhite),
-                      ),
+                      child: _textEditingController.text.isEmpty
+                          ? Text(
+                              'PAS D’IDEE',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: AppResources.colorWhite),
+                            )
+                          : Image.asset('images/arrowLongRight.png'),
                     ),
                   ),
                 ),
