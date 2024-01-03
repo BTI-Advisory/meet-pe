@@ -6,6 +6,7 @@ import 'package:meet_pe/screens/launch_screen.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   // Init Flutter
@@ -51,7 +52,8 @@ void main() async {
   //await AnalyticsService.init();
 
   // Start App
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
