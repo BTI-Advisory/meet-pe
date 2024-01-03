@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:http/http.dart' as http;
+import 'package:meet_pe/screens/onBoardingPages/step9Page.dart';
 import 'dart:convert';
 import '../../utils/utils.dart';
 
@@ -154,6 +155,21 @@ class _Step8PageState extends State<Step8Page> {
                       ),
                       onPressed: () {
                         //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
+                        setState(() {
+                          if (widget.myMap['Step8'] == null) {
+                            widget.myMap['Step8'] = Set<int>(); // Initialize if null
+                          }
+
+                          // Insert _textEditingController.text into myMap with key 'Step8'
+                          if (_textEditingController.text.isNotEmpty) {
+                            // Assuming the value to be inserted is a String
+                            widget.myMap['Step8']!.add(int.tryParse(_textEditingController.text) ?? 0);
+                          }
+
+                          // Proceed to the next step
+                          navigateTo(context, (_) => Step9Page(myMap: widget.myMap));
+                          print('JFJFJFJF ${widget.myMap}');
+                        });
                       },
                       child: _textEditingController.text.isEmpty
                           ? Text(
