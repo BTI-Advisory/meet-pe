@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import '../../resources/resources.dart';
+import '../../utils/utils.dart';
+import '../homePage.dart';
+
+class LoadingPage extends StatefulWidget {
+  const LoadingPage({super.key});
+
+  @override
+  State<LoadingPage> createState() => _LoadingPageState();
+}
+
+class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      /// [AnimationController]s can be created with `vsync: this` because of
+      /// [TickerProviderStateMixin].
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..addListener(() {
+      setState(() {});
+    });
+    //controller.repeat(reverse: true);
+    controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xffedd8be), AppResources.colorWhite],
+          )
+      ),
+      child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'On cherche\nles expériences faites pour toi ...',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: AppResources.colorGray100),
+              ),
+              SizedBox(height: 73), // Spacer
+              Container(
+                width: 108,
+                child: LinearProgressIndicator(
+                  minHeight: 7,
+                  value: controller.value,
+                  semanticsLabel: 'Linear progress indicator',
+                  backgroundColor: AppResources.colorImputStroke,
+                  color: AppResources.colorVitamine,
+                  borderRadius: BorderRadius.circular(3.5),
+                ),
+              ),
+            ],
+          ),
+      ),
+    );
+  }
+}

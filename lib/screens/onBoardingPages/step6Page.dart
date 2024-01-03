@@ -5,7 +5,7 @@ import '../../utils/utils.dart';
 
 class Step6Page extends StatefulWidget {
   Step6Page({super.key, required this.myMap});
-  Map<String, Set<int>> myMap = Map<String, Set<int>>();
+  Map<String, Set<String>> myMap = {};
 
   @override
   State<Step6Page> createState() => _Step6PageState();
@@ -66,17 +66,17 @@ class _Step6PageState extends State<Step6Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: widget.myMap['step6'] != null ? widget.myMap['step6']!.contains(item.id) : false,
+                      isSelected: widget.myMap['step6'] != null ? widget.myMap['step6']!.contains(item.title) : false,
                       onTap: () {
                         setState(() {
                           if (widget.myMap['step6'] == null) {
-                            widget.myMap['step6'] = Set<int>(); // Initialize if null
+                            widget.myMap['step6'] = Set<String>(); // Initialize if null
                           }
 
-                          if (widget.myMap['step6']!.contains(item.id)) {
-                            widget.myMap['step6']!.remove(item.id);
+                          if (widget.myMap['step6']!.contains(item.title)) {
+                            widget.myMap['step6']!.remove(item.title);
                           } else {
-                            widget.myMap['step6']!.add(item.id);
+                            widget.myMap['step6']!.add(item.title);
                           }
                         });
                       },

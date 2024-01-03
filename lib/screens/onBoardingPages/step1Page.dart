@@ -22,7 +22,7 @@ class _Step1PageState extends State<Step1Page> {
   ];
 
   Set<int> selectedIdsStep1 = Set<int>();
-  Map<String, Set<int>> myMap = Map<String, Set<int>>();
+  Map<String, Set<String>> myMap = {};
 
 
   @override
@@ -66,27 +66,17 @@ class _Step1PageState extends State<Step1Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      /*isSelected: selectedIdsStep1.contains(item.id),
-                      onTap: () {
-                        setState(() {
-                          if (selectedIdsStep1.contains(item.id)) {
-                            selectedIdsStep1.remove(item.id);
-                          } else {
-                            selectedIdsStep1.add(item.id);
-                          }
-                        });
-                      },*/
-                      isSelected: myMap['step1'] != null ? myMap['step1']!.contains(item.id) : false,
+                      isSelected: myMap['step1'] != null ? myMap['step1']!.contains(item.title) : false,
                       onTap: () {
                         setState(() {
                           if (myMap['step1'] == null) {
-                            myMap['step1'] = Set<int>(); // Initialize if null
+                            myMap['step1'] = Set<String>(); // Initialize if null
                           }
 
-                          if (myMap['step1']!.contains(item.id)) {
-                            myMap['step1']!.remove(item.id);
+                          if (myMap['step1']!.contains(item.title)) {
+                            myMap['step1']!.remove(item.title);
                           } else {
-                            myMap['step1']!.add(item.id);
+                            myMap['step1']!.add(item.title);
                           }
                         });
                       },

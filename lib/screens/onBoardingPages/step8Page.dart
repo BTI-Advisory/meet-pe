@@ -9,7 +9,7 @@ import '../../utils/utils.dart';
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
 
-  Map<String, Set<int>> myMap = Map<String, Set<int>>();
+  Map<String, Set<String>> myMap = {};
 
   @override
   State<Step8Page> createState() => _Step8PageState();
@@ -157,18 +157,17 @@ class _Step8PageState extends State<Step8Page> {
                         //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
                         setState(() {
                           if (widget.myMap['Step8'] == null) {
-                            widget.myMap['Step8'] = Set<int>(); // Initialize if null
+                            widget.myMap['Step8'] = Set<String>(); // Initialize if null
                           }
 
                           // Insert _textEditingController.text into myMap with key 'Step8'
                           if (_textEditingController.text.isNotEmpty) {
                             // Assuming the value to be inserted is a String
-                            widget.myMap['Step8']!.add(int.tryParse(_textEditingController.text) ?? 0);
+                            widget.myMap['Step8']!.add(_textEditingController.text);
                           }
 
                           // Proceed to the next step
                           navigateTo(context, (_) => Step9Page(myMap: widget.myMap));
-                          print('JFJFJFJF ${widget.myMap}');
                         });
                       },
                       child: _textEditingController.text.isEmpty

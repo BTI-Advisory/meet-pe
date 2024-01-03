@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step8Page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../utils/utils.dart';
+import 'loadingPage.dart';
 
 class Step9Page extends StatefulWidget {
   Step9Page({super.key, required this.myMap});
 
-  Map<String, Set<int>> myMap = Map<String, Set<int>>();
+  Map<String, Set<String>> myMap = {};
 
   @override
   State<Step9Page> createState() => _Step9PageState();
@@ -30,7 +30,6 @@ class _Step9PageState extends State<Step9Page> {
 
   @override
   Widget build(BuildContext context) {
-    print("DJDJDJD : ${widget.myMap}");
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -163,7 +162,23 @@ class _Step9PageState extends State<Step9Page> {
                           ),
                         ),
                         onPressed: () {
-                          //navigateTo(context, (_) => Step8Page(myMap: widget.myMap,));
+                          if (_selectedDay != null) {
+                            // Adding selected date to myMap
+                            String key = 'selectedDate'; // You can use a meaningful key
+                            Set<String> selectedDatesSet = { _selectedDay.toString() };
+
+                            setState(() {
+                              // Add the selected date to myMap
+                              widget.myMap[key] = selectedDatesSet;
+                            });
+
+                            // Verify that the date is added to myMap
+                            print('Updated myMap: ${widget.myMap}');
+                            navigateTo(context, (_) => LoadingPage());
+                          } else {
+                            // Handle case when no date is selected
+                            // You might want to show a message or take another action here
+                          }
                         },
                         child: Text(
                           'VOIR LES EXPERIENCES',
