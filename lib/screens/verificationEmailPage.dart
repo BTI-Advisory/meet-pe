@@ -31,7 +31,6 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
         onValidated: bloc.checkEmail,
         onSuccess: () async {
           bool isVerified = await bloc.checkEmail();
-          print('FJJFJFJFFJ $isVerified');
           if (isVerified) {
             return navigateTo(context, (_) => SignInPage(email: bloc.email!,));
           } else {
@@ -150,9 +149,7 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
 class VerificationEmailPageBloc with Disposable {
   String? email;
 
-  //Future<void> checkEmail() => AppService.api.askEmailExist(email!);
   Future<bool> checkEmail() async {
-    print('verified email : $email');
     bool isVerified = await AppService.api.askEmailExist(email!);
     return isVerified;
   }

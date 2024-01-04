@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/auth_tokens.dart';
 import 'package:meet_pe/models/contact_data.dart';
+import 'package:meet_pe/models/email_exist.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/utils/exceptions/displayable_exception.dart';
@@ -24,14 +25,14 @@ const _httpMethodDelete = 'DELETE';
 class ApiClient {
   //#region Vars
   /// API url
-  static const _authorityProd = 'meet-pe.org:8044';
-  static const _authorityDev = 'meet-pe.org:8042';
+  static const _authorityProd = '164.92.244.14';
+  static const _authorityDev = '164.92.244.14';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
 
-  static const _apiKeyProd = 'Nh8mupflpAu1ORQyjdBXzQHGcmqmBWJNktVi3JAecONXlYHVuWrOBuCRD22UjyRO';
-  static const _apiKeyDev = 'Nh8mupflpAu1ORQyjdBXzQHGcmqmBWJNktVi3JAecONXlYHVuWrOBuCRD22UjyRO';
+  static const _apiKeyProd = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
+  static const _apiKeyDev = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
 
   static String get _apiKey =>
       AppService.instance.developerMode ? _apiKeyDev : _apiKeyProd;
@@ -148,35 +149,34 @@ class ApiClient {
 
   /// Mark a Check email exist
   Future<bool> askEmailExist(String email) async {
-    final url = 'YOUR_API_ENDPOINT/api/verify-email'; // Replace with your actual API endpoint
     bool isVerified = false;
+    // Build request content
+    final data = {
+      'email': email,
+    };
 
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: {'email': email},
-      );
-
-      if (response.statusCode == 200) {
-        // Parse the response here and check if the email exists
-        // For example, if the response contains a JSON with a 'verified' field
-        final jsonResponse = json.decode(response.body);
-        if (jsonResponse['msg'] == 'exists') {
-          isVerified = true;
-        } else {
-          isVerified = false;
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/verify-email',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
         }
-
-        return isVerified;
-      } else {
-        // Handle other status codes if needed
-        return false;
+        rethrow;
       }
-    } catch (e) {
-      // Handle exceptions or errors during the request
-      print('Error: $e');
-      return false;
+    }();
+
+    if (EmailExist.fromJson(response!).exist == 'exists') {
+      isVerified = true;
+    } else {
+      isVerified = false;
     }
+
+    return isVerified;
   }
 
   /// Mark a message as read
@@ -396,7 +396,7 @@ class ApiClient {
 
   //#region Generics
   Uri _buildUri(String path, [JsonObject? queryParameters]) =>
-      Uri.https(_authority, path, queryParameters);
+      Uri.http(_authority, path, queryParameters);
 
   /// Send a classic request
   Future<T?> _send<T>(
@@ -415,7 +415,8 @@ class ApiClient {
     request.headers.addAll({
       HttpHeaders.acceptHeader: contentTypeJson,
       if (bodyJson != null) HttpHeaders.contentTypeHeader: contentTypeJson,
-      'auth_token': _apiKey,
+      //'auth_token': _apiKey,
+      'api-key': _apiKey,
       //TODO: when implementing analytics
       //'analyticsConsent': AnalyticsService.isEnabled.toString(),
     });
