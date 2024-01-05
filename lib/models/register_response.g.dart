@@ -14,7 +14,7 @@ RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
     <String, dynamic>{
-      'access_token': instance.accessToken,
+      'accessToken': instance.accessToken,
       'user': instance.user,
     };
 

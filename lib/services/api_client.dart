@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/register_response.dart';
+import '../models/verify_code.dart';
 
 const _httpMethodGet = 'GET';
 const _httpMethodPost = 'POST';
@@ -232,6 +233,38 @@ class ApiClient {
     // Save token in memory
     _accessToken = tokens.accessToken;
 
+  }
+
+  /// Mark a Check code
+  Future<bool> verifyCode(String otpCode) async {
+    bool isVerified = false;
+    // Build request content
+    final data = {
+      'otp_code': otpCode,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/verify-code',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'Verified') {
+      isVerified = true;
+    } else {
+      isVerified = false;
+    }
+
+    return isVerified;
   }
 
   /// Mark a message as read
@@ -502,7 +535,7 @@ class ApiClient {
       AsyncValueGetter<T>? onUnauthorizedRetryCallback}) async {
     // Set auth header (need to be here so that token is up-to-date when re-trying request)
     request.headers.addAll({
-      'access_token': _accessToken ?? 'none',
+      'Authorization': 'Bearer $_accessToken' ?? 'none',
       // TEMP server fix, remove 'none' when not needed (currently if access_token is missing it returns a 421) ?
     });
 
