@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage>
   Widget build(BuildContext context) {
     return Scaffold(
         body: AsyncForm(
-            onValidated: bloc.login,
+            onValidated: bloc.register,
             onSuccess: () {
               bloc.saveCredentials();
               return navigateTo(context, (_) => const VerificationCodePage(),
@@ -483,10 +483,11 @@ class SignUpPageBloc with Disposable {
 
   //Future<void> login() => AppService.instance
   //.login(usernameController.text, passwordController.text);
-  Future<void> login() async {
+  Future<void> register() async {
     print('Login function called'); // Check if this is printed
-    await AppService.instance
-        .login(usernameController.text, passwordController.text);
+    //await AppService.instance
+        //.login(usernameController.text, passwordController.text);
+    await AppService.api.register(usernameController.text, passwordController.text);
   }
 
   @override
