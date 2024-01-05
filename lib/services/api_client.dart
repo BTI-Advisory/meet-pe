@@ -16,6 +16,8 @@ import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/register_response.dart';
+
 const _httpMethodGet = 'GET';
 const _httpMethodPost = 'POST';
 const _httpMethodPatch = 'PATCH';
@@ -181,6 +183,55 @@ class ApiClient {
     }
 
     return isVerified;
+  }
+
+  /// Register user in, and return user token
+  Future<void> register(String email, String password) async {
+    // Build request content
+    final data = {
+      'email': email,
+      //TODO: the password must be decrypt to the backend
+      //'password': base64.encode(utf8.encode(password)),
+      'password': password,
+      // Basic encoding to avoid clear texts in server's logs
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/register',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Process tokens
+    _processRegisterTokens(response!);
+  }
+
+  void _processRegisterTokens(JsonObject tokensJson) {
+    // Decode response
+    //final tokens = AuthTokens.fromJson(tokensJson);
+    final tokens = RegisterResponse.fromJson(tokensJson);
+
+    //Todo: Remove the comment when the refresh token is ready
+    // -- Refresh token --
+    // Save token in memory
+    /*_refreshToken = tokens.refreshToken;
+
+    // Notify
+    onRefreshTokenChanged?.call(_refreshToken!);*/
+
+    // -- Access token --
+    // Save token in memory
+    _accessToken = tokens.accessToken;
+
   }
 
   /// Mark a message as read
