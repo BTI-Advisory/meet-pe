@@ -4,9 +4,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:meet_pe/models/auth_tokens.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/utils/exceptions/displayable_exception.dart';
@@ -66,19 +66,20 @@ class ApiClient {
   String? _accessToken;
 
   /// Log user in, and return user id
-  Future<void> login(String name, String email, String password) async {
+  Future<void> login(String email, String password) async {
     // Build request content
     final data = {
-      'name': name,
       'email': email,
-      'password': base64.encode(utf8.encode(password)),
+      //TODO: the password must be decrypt to the backend
+      //'password': base64.encode(utf8.encode(password)),
+      'password': password,
       // Basic encoding to avoid clear texts in server's logs
     };
 
     // Send request
     final response = await () async {
       try {
-        return await _send<JsonObject>(_httpMethodPost, 'api/register',
+        return await _send<JsonObject>(_httpMethodPost, 'api/login',
             bodyJson: data);
       } catch (e) {
         // Catch wrong user quality error
@@ -133,18 +134,21 @@ class ApiClient {
 
   void _processAuthTokens(JsonObject tokensJson) {
     // Decode response
-    final tokens = AuthTokens.fromJson(tokensJson);
+    //final tokens = AuthTokens.fromJson(tokensJson);
+    final tokens = UserTokenResponse.fromJson(tokensJson);
 
+    //Todo: Remove the comment when the refresh token is ready
     // -- Refresh token --
     // Save token in memory
-    _refreshToken = tokens.refreshToken;
+    /*_refreshToken = tokens.refreshToken;
 
     // Notify
-    onRefreshTokenChanged?.call(_refreshToken!);
+    onRefreshTokenChanged?.call(_refreshToken!);*/
 
     // -- Access token --
     // Save token in memory
     _accessToken = tokens.accessToken;
+
   }
 
   /// Mark a Check email exist

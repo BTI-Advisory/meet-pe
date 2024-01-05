@@ -7,5 +7,5 @@ part of 'email_exist.dart';
 // **************************************************************************
 
 EmailExist _$EmailExistFromJson(Map<String, dynamic> json) => EmailExist(
-  exist: json['msg'] as String,
-);
+      exist: json['msg'] as String,
+    );

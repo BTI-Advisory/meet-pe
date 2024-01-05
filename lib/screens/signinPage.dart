@@ -9,7 +9,7 @@ import '../services/storage_service.dart';
 import '../utils/_utils.dart';
 import '../widgets/async_form.dart';
 import '../widgets/password_field.dart';
-import 'loginPage.dart';
+import 'homePage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key, required this.email});
@@ -34,8 +34,7 @@ class _SignInPageState extends State<SignInPage>
             onValidated: bloc.login,
             onSuccess: () {
               bloc.saveCredentials();
-              return navigateTo(context, (_) => const LoginPage(),
-                  clearHistory: true);
+              return navigateTo(context, (_) => const HomePage(), clearHistory: true);
             },
             builder: (context, validate) {
               bloc.setValidateForm(validate);
@@ -237,13 +236,9 @@ class SignInPageBloc with Disposable {
 
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
-  //Future<void> login() => AppService.instance
-  //.login(usernameController.text, passwordController.text);
-  Future<void> login() async {
-    print('Login function called'); // Check if this is printed
-    await AppService.instance
-        .login(usernameController.text, passwordController.text);
-  }
+  Future<void> login() => AppService.instance
+  .login(usernameController.text, passwordController.text);
+
 
   @override
   void dispose() {

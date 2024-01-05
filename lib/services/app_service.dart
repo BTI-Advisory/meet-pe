@@ -109,17 +109,9 @@ class AppService {
   //#endregion
 
   //#region Login
-  Future<bool> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     // Login
-    //await api.login(email, password);
-    print('Login function called with: $email, $password');
-    if (email == 'baha@baha.com' && password == 'azerty') {
-      print('Login successful');
-      return true;
-    } else {
-      print('Login failed');
-      return false;
-    }
+    await api.login(email, password);
 
 
     // TODO: Remove the comment when implementing Crashlytics and add API
