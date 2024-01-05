@@ -21,7 +21,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
     with BlocProvider<VerificationCodePage, VerificationCodePageBloc> {
 
   @override
-  initBloc() => VerificationCodePageBloc(code: '1234');
+  initBloc() => VerificationCodePageBloc();
 
   bool _onEditing = true;
   String? _code;
@@ -31,12 +31,16 @@ class _VerificationCodePageState extends State<VerificationCodePage>
     return Scaffold(
         body: AsyncForm(
             onValidated: bloc.verifyCode,
-            onSuccess: () {
-              return navigateTo(context, (_) => const WelcomePage(),
-                  clearHistory: true);
+            onSuccess: () async {
+              bool isVerified = await bloc.verifyCode();
+              if (isVerified) {
+                return navigateTo(context, (_) => WelcomePage());
+              } else {
+                //Todo: add alert
+                showMessage(context, 'Erreur code');
+              }
             },
             builder: (context, validate) {
-              bloc.setValidateForm(validate);
               return Container(
                 constraints: BoxConstraints.expand(),
                 child: Padding(
@@ -47,7 +51,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 48.0),
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -74,12 +78,13 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                       .copyWith(color: AppResources.colorDark, fontSize: 32),
                                   keyboardType: TextInputType.number,
                                   underlineColor: AppResources.colorGray15,
-                                  length: 4,
+                                  length: 6,
                                   cursorColor: AppResources.colorDark,
-                                  margin: const EdgeInsets.all(12),
+                                  margin: const EdgeInsets.all(4),
                                   onCompleted: (String value) {
                                     setState(() {
                                       _code = value;
+                                      bloc.code = value;
                                     });
                                   },
                                   onEditing: (bool value) {
@@ -143,34 +148,38 @@ class _VerificationCodePageState extends State<VerificationCodePage>
   }
 }
 
-class VerificationCodePageBloc with Disposable {
-  late TextEditingController usernameController, passwordController;
+/*class VerificationCodePageBloc with Disposable {
+  late TextEditingController codeController;
   late Function() validateForm;
   final String code;
 
   VerificationCodePageBloc({required this.code}) {
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
-    usernameController.text = code;
+    codeController = TextEditingController();
+    codeController.text = code;
   }
 
   void setValidateForm(Function() value) => validateForm = value;
 
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
-  //Future<void> login() => AppService.instance
-  //.login(usernameController.text, passwordController.text);
-  Future<void> verifyCode() async {
-    print('Login function called'); // Check if this is printed
-    await AppService.instance
-        .login(usernameController.text, passwordController.text);
+  Future<bool> verifyCode() async {
+    bool isVerified = await AppService.api.verifyCode(code!);
+    return isVerified;
   }
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
+    codeController.dispose();
     super.dispose();
+  }
+}*/
+
+class VerificationCodePageBloc with Disposable {
+  String? code;
+
+  Future<bool> verifyCode() async {
+    bool isVerified = await AppService.api.verifyCode(code!);
+    return isVerified;
   }
 }
 
