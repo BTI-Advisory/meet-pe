@@ -267,6 +267,38 @@ class ApiClient {
     return isVerified;
   }
 
+  /// Mark a Set role
+  Future<bool> setRole(String role) async {
+    bool isSet = false;
+    // Build request content
+    final data = {
+      'as': role,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/set-role',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'roles has been setted successfully') {
+      isSet = true;
+    } else {
+      isSet = false;
+    }
+
+    return isSet;
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
