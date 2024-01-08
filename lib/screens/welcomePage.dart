@@ -1,7 +1,9 @@
+import 'package:fetcher/fetcher.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/step1Page.dart';
 
 import '../resources/resources.dart';
+import '../services/app_service.dart';
 import '../utils/utils.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -78,7 +80,13 @@ class _WelcomePageState extends State<WelcomePage> {
                               ),
                             ),
                             onPressed: (){
-                              navigateTo(context, (_) => const Step1Page());
+                              AppService.api.setRole('voyageur').then((response) {
+                                // If the API call is successful, navigate to a new screen
+                                navigateTo(context, (_) => const Step1Page());
+                              }).catchError((error) {
+                                // Handle errors if the API call fails
+                                print('Error: $error');
+                              });
                             },
                             child: Text(
                               'C’EST PARTI !!',
@@ -105,7 +113,16 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                               ),
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              AppService.api.setRole('guide').then((response) {
+                                // If the API call is successful, navigate to a new screen
+                                // Todo: Call welcome page for guide
+                                //navigateTo(context, (_) => const Step1Page());
+                              }).catchError((error) {
+                                // Handle errors if the API call fails
+                                print('Error: $error');
+                              });
+                            },
                             child: Text(
                               'DEVENIR GUIDE MEETPE',
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
