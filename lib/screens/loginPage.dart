@@ -31,9 +31,17 @@ class _LoginPageState extends State<LoginPage> {
             Image.asset('images/logo_color.png', width: 110, height: 101,),
             SizedBox(height: 62,),
             Container(
-              margin: EdgeInsets.only(left: 42, right: 27),
+              margin: EdgeInsets.only(left: 34, right: 35),
               child: Column(
                 children: [
+                  TextButton(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Image.asset('images/googleButton.png'),
+                    ),
+                    onPressed: (){},
+                  ),
+                  SizedBox(height: 22,),
                   TextButton(
                     child: Align(
                       alignment: Alignment.center,
@@ -46,14 +54,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Image.asset('images/facebookButton.png'),
-                    ),
-                    onPressed: (){},
-                  ),
-                  SizedBox(height: 22,),
-                  TextButton(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Image.asset('images/googleButton.png'),
                     ),
                     onPressed: (){},
                   ),
@@ -181,41 +181,45 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            SizedBox(height: 31,),
+            SizedBox(height: 53,),
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 51,),
-                  child: SizedBox(
-                    width: 260,
-                    height: 39,
-                    child: Text(
-                      'Connectez-vous ou créer un compte\navec votre adresse email.',
-                      style: TextStyle(
-                        color: Color(0xFF979797),
-                        fontSize: 14,
-                        fontFamily: 'Outfit',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
-                      ),
-                    ),
+                  margin: EdgeInsets.only(left: 52, right: 44),
+                  child: GestureDetector(
+                    onTap: () {
+                      //navigateTo(context, (_) => const VerificationEmailPage());
+                    },
+                    child: Image.asset('images/emailButton.png', height: 32,),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 39,),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 52,),
-                  child: GestureDetector(
-                    onTap: () {
-                      navigateTo(context, (_) => const VerificationEmailPage());
-                    },
-                    child: Image.asset('images/emailButton.png', width: 279, height: 28,),
-                  ),
+            SizedBox(height: 57),
+            Container(
+              margin: EdgeInsets.only(left: 67, right: 67),
+              child: TextButton(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 24, vertical: 10)),
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0xFFFF4C00)),
+                    shape:
+                    MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ))),
+                child: Text(
+                  'CONTINUER AVEC CET EMAIL',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: AppResources.colorWhite),
                 ),
-              ],
+                onPressed: () {
+                  navigateTo(context, (_) => const VerificationEmailPage());
+                },
+              ),
             ),
           ],
         ),
