@@ -4,7 +4,14 @@ import 'package:meet_pe/screens/onBoardingPages/step2Page.dart';
 import '../../utils/utils.dart';
 
 class Step1Page extends StatefulWidget {
-  const Step1Page({Key? key}) : super(key: key);
+  final int totalSteps;
+  final int currentStep;
+
+  const Step1Page({
+    Key? key,
+    required this.totalSteps,
+    required this.currentStep,
+  }) : super(key: key);
 
   @override
   State<Step1Page> createState() => _Step1PageState();
@@ -24,9 +31,14 @@ class _Step1PageState extends State<Step1Page> {
   Set<int> selectedIdsStep1 = Set<int>();
   Map<String, Set<String>> myMap = {};
 
+  double calculateProgress() {
+    return widget.currentStep / widget.totalSteps;
+  }
 
   @override
   Widget build(BuildContext context) {
+    double progress = calculateProgress();
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -44,10 +56,15 @@ class _Step1PageState extends State<Step1Page> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 120,),
-              Text(
-                'Étape 1 sur 9',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+              SizedBox(
+                width: 108,
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 8,
+                  backgroundColor: AppResources.colorImputStroke,
+                  color: AppResources.colorVitamine,
+                  borderRadius: BorderRadius.circular(3.5),
+                ),
               ),
               const SizedBox(height: 8,),
               Text(
@@ -109,7 +126,7 @@ class _Step1PageState extends State<Step1Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => Step2Page(myMap: myMap,));
+                          navigateTo(context, (_) => Step2Page(myMap: myMap, totalSteps: 7, currentStep: 2,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),

@@ -135,7 +135,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             onPressed: (){
                               AppService.api.setRole('voyageur').then((response) {
                                 // If the API call is successful, navigate to a new screen
-                                navigateTo(context, (_) => const Step1Page());
+                                navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));
                               }).catchError((error) {
                                 // Handle errors if the API call fails
                                 print('Error: $error');
