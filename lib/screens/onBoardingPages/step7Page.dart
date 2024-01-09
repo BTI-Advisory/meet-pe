@@ -4,8 +4,16 @@ import 'package:meet_pe/screens/onBoardingPages/step8Page.dart';
 import '../../utils/utils.dart';
 
 class Step7Page extends StatefulWidget {
-  Step7Page({super.key, required this.myMap});
+  final int totalSteps;
+  final int currentStep;
   Map<String, Set<String>> myMap = {};
+
+  Step7Page({
+    Key? key,
+    required this.totalSteps,
+    required this.currentStep,
+    required this.myMap,
+  }) : super(key: key);
 
   @override
   State<Step7Page> createState() => _Step7PageState();
@@ -17,8 +25,14 @@ class _Step7PageState extends State<Step7Page> {
     Voyage(id: 2, title: "Des Locaux Passionnés")
   ];
 
+  double calculateProgress() {
+    return widget.currentStep / widget.totalSteps;
+  }
+
   @override
   Widget build(BuildContext context) {
+    double progress = calculateProgress();
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -36,10 +50,15 @@ class _Step7PageState extends State<Step7Page> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 120,),
-              Text(
-                'Étape 7 sur 9',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+              SizedBox(
+                width: 108,
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 8,
+                  backgroundColor: AppResources.colorImputStroke,
+                  color: AppResources.colorVitamine,
+                  borderRadius: BorderRadius.circular(3.5),
+                ),
               ),
               const SizedBox(height: 8,),
               Text(

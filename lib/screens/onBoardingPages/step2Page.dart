@@ -4,8 +4,16 @@ import 'package:meet_pe/screens/onBoardingPages/step3Page.dart';
 import '../../utils/utils.dart';
 
 class Step2Page extends StatefulWidget {
-  Step2Page({super.key, required this.myMap});
+  final int totalSteps;
+  final int currentStep;
   Map<String, Set<String>> myMap = {};
+
+  Step2Page({
+    Key? key,
+    required this.totalSteps,
+    required this.currentStep,
+    required this.myMap,
+  }) : super(key: key);
 
   @override
   State<Step2Page> createState() => _Step2PageState();
@@ -19,8 +27,14 @@ class _Step2PageState extends State<Step2Page> {
     Voyage(id: 4, title: "En couple")
   ];
 
+  double calculateProgress() {
+    return widget.currentStep / widget.totalSteps;
+  }
+
   @override
   Widget build(BuildContext context) {
+    double progress = calculateProgress();
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -38,10 +52,15 @@ class _Step2PageState extends State<Step2Page> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 120,),
-              Text(
-                'Étape 2 sur 9',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+              SizedBox(
+                width: 108,
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 8,
+                  backgroundColor: AppResources.colorImputStroke,
+                  color: AppResources.colorVitamine,
+                  borderRadius: BorderRadius.circular(3.5),
+                ),
               ),
               const SizedBox(height: 8,),
               Text(
@@ -103,7 +122,7 @@ class _Step2PageState extends State<Step2Page> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => Step3Page(myMap: widget.myMap,));
+                          navigateTo(context, (_) => Step3Page(myMap: widget.myMap, totalSteps: 7, currentStep: 3,));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
