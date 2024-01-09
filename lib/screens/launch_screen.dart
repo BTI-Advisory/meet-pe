@@ -53,8 +53,8 @@ class _LaunchScreenState extends State<LaunchScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('images/logo_color.png', width: 200, height: 183,),
-              SizedBox(height: 90),
+              Image.asset('images/logo_color.png', width: 239, height: 219,),
+              SizedBox(height: 219),
               LinearProgressIndicator(
                 minHeight: 7,
                 value: controller.value,

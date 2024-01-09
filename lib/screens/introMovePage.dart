@@ -164,7 +164,7 @@ class Pages extends StatelessWidget {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('images/$imageName.png'),
+              Image.asset('images/$imageName.png', width: 250, height: 262,),
               SizedBox(height: 80),
               Text(
                 text,

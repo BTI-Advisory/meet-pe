@@ -125,7 +125,7 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
                             ),
                             onPressed: validate,
                             child: Text(
-                              'S’IDENTIFIER',
+                              'CONTINUER AVEC CET EMAIL',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
