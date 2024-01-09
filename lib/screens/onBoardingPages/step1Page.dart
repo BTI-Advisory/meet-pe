@@ -45,17 +45,16 @@ class _Step1PageState extends State<Step1Page> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              AppResources.colorGray5,
-              AppResources.colorWhite
-            ],
+            colors: [AppResources.colorGray5, AppResources.colorWhite],
           ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 120,),
+              SizedBox(
+                height: 120,
+              ),
               SizedBox(
                 width: 108,
                 child: LinearProgressIndicator(
@@ -66,18 +65,27 @@ class _Step1PageState extends State<Step1Page> {
                   borderRadius: BorderRadius.circular(3.5),
                 ),
               ),
-              const SizedBox(height: 33,),
+              const SizedBox(
+                height: 33,
+              ),
               Text(
                 'Tu es un voyageur plutôt…',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: AppResources.colorGray100),
               ),
-              const SizedBox(height: 24,),
+              const SizedBox(
+                height: 24,
+              ),
               Text(
                 'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              const SizedBox(height: 48,),
+              const SizedBox(
+                height: 48,
+              ),
               Container(
                 width: 319,
                 child: Wrap(
@@ -88,11 +96,14 @@ class _Step1PageState extends State<Step1Page> {
                     return Item(
                       id: item.id,
                       text: item.title,
-                      isSelected: myMap['step1'] != null ? myMap['step1']!.contains(item.title) : false,
+                      isSelected: myMap['step1'] != null
+                          ? myMap['step1']!.contains(item.title)
+                          : false,
                       onTap: () {
                         setState(() {
                           if (myMap['step1'] == null) {
-                            myMap['step1'] = Set<String>(); // Initialize if null
+                            myMap['step1'] =
+                                Set<String>(); // Initialize if null
                           }
 
                           if (myMap['step1']!.contains(item.title)) {
@@ -112,27 +123,44 @@ class _Step1PageState extends State<Step1Page> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 44),
                     child: Container(
-                      margin:
-                      const EdgeInsets.only(left: 96, right: 96),
+                      margin: const EdgeInsets.only(left: 96, right: 96),
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          padding:
-                          MaterialStateProperty.all<EdgeInsets>(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
                               const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 10)),
-                          backgroundColor: MaterialStateProperty.all(
-                              AppResources.colorVitamine),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppResources
+                                    .colorGray15; // Change to your desired grey color
+                              }
+                              return AppResources
+                                  .colorVitamine; // Your enabled color
+                            },
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          navigateTo(context, (_) => Step2Page(myMap: myMap, totalSteps: 7, currentStep: 2,));
-                        },
+                        onPressed: myMap['step1'] != null &&
+                                myMap['step1']!.isNotEmpty
+                            ? () {
+                                navigateTo(
+                                  context,
+                                  (_) => Step2Page(
+                                    myMap: myMap,
+                                    totalSteps: 7,
+                                    currentStep: 2,
+                                  ),
+                                );
+                              }
+                            : null, // Disable the button if no item is selected
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),

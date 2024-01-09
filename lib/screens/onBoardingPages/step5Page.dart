@@ -125,22 +125,40 @@ class _Step5PageState extends State<Step5Page> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          padding:
-                          MaterialStateProperty.all<EdgeInsets>(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
                               const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 10)),
-                          backgroundColor: MaterialStateProperty.all(
-                              AppResources.colorVitamine),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
+                          backgroundColor:
+                          MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppResources
+                                    .colorGray15; // Change to your desired grey color
+                              }
+                              return AppResources
+                                  .colorVitamine; // Your enabled color
+                            },
+                          ),
+                          shape:
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          navigateTo(context, (_) => Step6Page(myMap: widget.myMap, totalSteps: 7, currentStep: 6,));
-                        },
+                        onPressed: widget.myMap['step5'] != null &&
+                            widget.myMap['step5']!.isNotEmpty
+                            ? () {
+                          navigateTo(
+                            context,
+                                (_) => Step6Page(
+                              myMap: widget.myMap,
+                              totalSteps: 7,
+                              currentStep: 6,
+                            ),
+                          );
+                        }
+                            : null, // Disable the button if no item is selected
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
