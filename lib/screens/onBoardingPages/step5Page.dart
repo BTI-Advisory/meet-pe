@@ -74,13 +74,18 @@ class _Step5PageState extends State<Step5Page> {
                   borderRadius: BorderRadius.circular(3.5),
                 ),
               ),
-              const SizedBox(height: 8,),
+              const SizedBox(height: 33,),
               Text(
                 'Tu cherches des expériences...',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
               ),
-              const SizedBox(height: 56,),
+              const SizedBox(height: 24,),
+              Text(
+                'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 48,),
               Container(
                 width: 319,
                 child: Wrap(

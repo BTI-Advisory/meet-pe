@@ -70,19 +70,8 @@ class _Step8PageState extends State<Step8Page> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 120,
-            ),
-            Text(
-              'Étape 8 sur 9',
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
-            ),
             const SizedBox(
-              height: 8,
+              height: 158,
             ),
             Text(
               'Tu pars où ?',
@@ -93,7 +82,7 @@ class _Step8PageState extends State<Step8Page> {
                   ?.copyWith(color: AppResources.colorGray100),
             ),
             const SizedBox(
-              height: 56,
+              height: 74,
             ),
             SingleChildScrollView(
               child: Padding(

@@ -43,19 +43,8 @@ class _Step9PageState extends State<Step9Page> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 120,
-              ),
-              Text(
-                'Étape 9 sur 9',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
-              ),
               const SizedBox(
-                height: 8,
+                height: 158,
               ),
               Text(
                 'Tu viens quand ?',
@@ -66,7 +55,7 @@ class _Step9PageState extends State<Step9Page> {
                     ?.copyWith(color: AppResources.colorGray100),
               ),
               const SizedBox(
-                height: 54,
+                height: 57,
               ),
               Expanded(
                 child: Container(
