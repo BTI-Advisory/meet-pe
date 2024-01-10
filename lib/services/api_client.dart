@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/step_list_response.dart';
 import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
@@ -297,6 +298,25 @@ class ApiClient {
     }
 
     return isSet;
+  }
+
+  /// Get list of item in every step
+  Future<List<StepListResponse>> fetchChoices(String url) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'api-key': '$_apiKey', // Include your authorization header
+      'Authorization': 'Bearer $_accessToken' ?? 'none',
+    };
+
+    //Todo: replace with _send function
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/getTableData/$url'), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((json) => StepListResponse.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load choices');
+    }
   }
 
   /// Mark a message as read
