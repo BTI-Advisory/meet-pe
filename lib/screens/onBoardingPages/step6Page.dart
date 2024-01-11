@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/step7Page.dart';
+import '../../models/step_list_response.dart';
+import '../../services/app_service.dart';
 import '../../utils/utils.dart';
 
 class Step6Page extends StatefulWidget {
@@ -20,18 +22,32 @@ class Step6Page extends StatefulWidget {
 }
 
 class _Step6PageState extends State<Step6Page> {
-  late List<Voyage> myList = [
-    Voyage(id: 1, title: "Français"),
-    Voyage(id: 2, title: "Anglais"),
-    Voyage(id: 3, title: "Chinois (mandarin)"),
-    Voyage(id: 4, title: "Japonais"),
-    Voyage(id: 5, title: "Espagnol"),
-    Voyage(id: 6, title: "Portugais"),
-    Voyage(id: 7, title: "Italien"),
-    Voyage(id: 8, title: "Grec"),
-    Voyage(id: 9, title: "Russe"),
-    Voyage(id: 10, title: "Allemand")
-  ];
+  late Future<List<StepListResponse>> _choicesFuture;
+  late List<Voyage> myList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _choicesFuture = AppService.api.fetchChoices('voyageur_languages_fr');
+    _loadChoices();
+  }
+
+  Future<void> _loadChoices() async {
+    try {
+      final choices = await _choicesFuture;
+      for (var choice in choices) {
+        var newVoyage = Voyage(title: choice.choiceTxt);
+        if (!myList.contains(newVoyage)) {
+          setState(() {
+            myList.add(newVoyage);
+          });
+        }
+      }
+    } catch (error) {
+      // Handle error if fetching data fails
+      print('Error: $error');
+    }
+  }
 
   double calculateProgress() {
     return widget.currentStep / widget.totalSteps;
@@ -42,139 +58,160 @@ class _Step6PageState extends State<Step6Page> {
     double progress = calculateProgress();
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppResources.colorGray5,
-              AppResources.colorWhite
-            ],
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 120,),
-              SizedBox(
-                width: 108,
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 8,
-                  backgroundColor: AppResources.colorImputStroke,
-                  color: AppResources.colorVitamine,
-                  borderRadius: BorderRadius.circular(3.5),
+      body: FutureBuilder<List<StepListResponse>>(
+        future: _choicesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AppResources.colorGray5, AppResources.colorWhite],
                 ),
               ),
-              const SizedBox(height: 33,),
-              Text(
-                'Tu parles...',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorGray100),
-              ),
-              const SizedBox(height: 24,),
-              Text(
-                'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 48,),
-              Container(
-                width: 319,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8, // Horizontal spacing between items
-                  runSpacing: 12, // Vertical spacing between lines
-                  children: myList.map((item) {
-                    return Item(
-                      id: item.id,
-                      text: item.title,
-                      isSelected: widget.myMap['step6'] != null ? widget.myMap['step6']!.contains(item.title) : false,
-                      onTap: () {
-                        setState(() {
-                          if (widget.myMap['step6'] == null) {
-                            widget.myMap['step6'] = Set<String>(); // Initialize if null
-                          }
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 120,
+                    ),
+                    SizedBox(
+                      width: 108,
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 8,
+                        backgroundColor: AppResources.colorImputStroke,
+                        color: AppResources.colorVitamine,
+                        borderRadius: BorderRadius.circular(3.5),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 33,
+                    ),
+                    Text(
+                      'Tu parles...',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(color: AppResources.colorGray100),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    Container(
+                      width: 319,
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 8, // Horizontal spacing between items
+                        runSpacing: 12, // Vertical spacing between lines
+                        children: myList.map((item) {
+                          return Item(
+                            text: item.title,
+                            isSelected: widget.myMap['step6'] != null
+                                ? widget.myMap['step6']!.contains(item.title)
+                                : false,
+                            onTap: () {
+                              setState(() {
+                                if (widget.myMap['step6'] == null) {
+                                  widget.myMap['step6'] =
+                                      Set<String>(); // Initialize if null
+                                }
 
-                          if (widget.myMap['step6']!.contains(item.title)) {
-                            widget.myMap['step6']!.remove(item.title);
-                          } else {
-                            widget.myMap['step6']!.add(item.title);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 44),
-                    child: Container(
-                      margin:
-                      const EdgeInsets.only(left: 96, right: 96),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 10)),
-                          backgroundColor:
-                          MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return AppResources
-                                    .colorGray15; // Change to your desired grey color
-                              }
-                              return AppResources
-                                  .colorVitamine; // Your enabled color
+                                if (widget.myMap['step6']!
+                                    .contains(item.title)) {
+                                  widget.myMap['step6']!.remove(item.title);
+                                } else {
+                                  widget.myMap['step6']!.add(item.title);
+                                }
+                              });
                             },
-                          ),
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 44),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 96, right: 96),
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    const EdgeInsets.symmetric(
+                                        horizontal: 24, vertical: 10)),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                    if (states
+                                        .contains(MaterialState.disabled)) {
+                                      return AppResources
+                                          .colorGray15; // Change to your desired grey color
+                                    }
+                                    return AppResources
+                                        .colorVitamine; // Your enabled color
+                                  },
+                                ),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                ),
+                              ),
+                              onPressed: widget.myMap['step6'] != null &&
+                                      widget.myMap['step6']!.isNotEmpty
+                                  ? () {
+                                      navigateTo(
+                                        context,
+                                        (_) => Step7Page(
+                                          myMap: widget.myMap,
+                                          totalSteps: 7,
+                                          currentStep: 7,
+                                        ),
+                                      );
+                                    }
+                                  : null,
+                              // Disable the button if no item is selected
+                              child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
                         ),
-                        onPressed: widget.myMap['step6'] != null &&
-                            widget.myMap['step6']!.isNotEmpty
-                            ? () {
-                          navigateTo(
-                            context,
-                                (_) => Step7Page(
-                              myMap: widget.myMap,
-                              totalSteps: 7,
-                              currentStep: 7,
-                            ),
-                          );
-                        }
-                            : null, // Disable the button if no item is selected
-                        child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }
 }
 
 class Item extends StatefulWidget {
-  final int id;
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
-    required this.id,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -203,12 +240,12 @@ class _ItemState extends State<Item> {
               widget.text,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: widget.isSelected
-                    ? Colors.white
-                    : AppResources.colorGray100,
-                fontWeight:
-                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-              ),
+                    color: widget.isSelected
+                        ? Colors.white
+                        : AppResources.colorGray100,
+                    fontWeight:
+                        widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+                  ),
             ),
           ),
         ),
@@ -218,11 +255,9 @@ class _ItemState extends State<Item> {
 }
 
 class Voyage {
-  final int id;
   final String title;
 
   Voyage({
-    required this.id,
     required this.title,
   });
 }
