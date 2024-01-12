@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/guide/step2GuidePage.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/utils.dart';
+import 'Step3GuidePage.dart';
 
-class Step1GuidePage extends StatefulWidget {
+class Step2GuidePage extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
+  Map<String, Set<Object>> myMap = {};
 
-  const Step1GuidePage({
+  Step2GuidePage({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
+    required this.myMap,
   }) : super(key: key);
 
   @override
-  State<Step1GuidePage> createState() => _Step1GuidePageState();
+  State<Step2GuidePage> createState() => _Step2GuidePageState();
 }
 
-class _Step1GuidePageState extends State<Step1GuidePage> {
+class _Step2GuidePageState extends State<Step2GuidePage> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
-  Map<String, Set<Object>> myMap = {};
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('guide_truc_de_toi_fr');
+    _choicesFuture = AppService.api.fetchChoices('personalite_fr');
     _loadChoices();
   }
 
@@ -65,8 +66,6 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            final choices = snapshot.data!;
-            // Display your choices here
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -96,7 +95,7 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                       height: 33,
                     ),
                     Text(
-                      'Ton truc à toi c’est…',
+                      'On dit de toi que tu es...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -123,20 +122,21 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: myMap['step1'] != null
-                                ? myMap['step1']!.contains(item.id)
+                            isSelected: widget.myMap['step2'] != null
+                                ? widget.myMap['step2']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (myMap['step1'] == null) {
-                                  myMap['step1'] =
+                                if (widget.myMap['step2'] == null) {
+                                  widget.myMap['step2'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (myMap['step1']!.contains(item.id)) {
-                                  myMap['step1']!.remove(item.id);
+                                if (widget.myMap['step2']!
+                                    .contains(item.id)) {
+                                  widget.myMap['step2']!.remove(item.id);
                                 } else {
-                                  myMap['step1']!.add(item.id);
+                                  widget.myMap['step2']!.add(item.id);
                                 }
                               });
                             },
@@ -160,7 +160,8 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                                 backgroundColor:
                                 MaterialStateProperty.resolveWith<Color>(
                                       (Set<MaterialState> states) {
-                                    if (states.contains(MaterialState.disabled)) {
+                                    if (states
+                                        .contains(MaterialState.disabled)) {
                                       return AppResources
                                           .colorGray15; // Change to your desired grey color
                                     }
@@ -168,26 +169,27 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                                         .colorVitamine; // Your enabled color
                                   },
                                 ),
-                                shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
-                              onPressed: myMap['step1'] != null &&
-                                  myMap['step1']!.isNotEmpty
+                              onPressed: widget.myMap['step2'] != null &&
+                                  widget.myMap['step2']!.isNotEmpty
                                   ? () {
                                 navigateTo(
                                   context,
-                                      (_) => Step2GuidePage(
-                                    myMap: myMap,
+                                      (_) => Step3GuidePage(
+                                    myMap: widget.myMap,
                                     totalSteps: 7,
-                                    currentStep: 2,
+                                    currentStep: 3,
                                   ),
                                 );
                               }
-                                  : null, // Disable the button if no item is selected
+                                  : null,
+                              // Disable the button if no item is selected
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
