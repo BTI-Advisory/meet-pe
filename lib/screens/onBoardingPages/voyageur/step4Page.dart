@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step6Page.dart';
-import '../../models/step_list_response.dart';
-import '../../services/app_service.dart';
-import '../../utils/utils.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step5Page.dart';
+import '../../../models/step_list_response.dart';
+import '../../../services/app_service.dart';
+import '../../../utils/utils.dart';
 
-class Step5Page extends StatefulWidget {
+class Step4Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
   Map<String, Set<String>> myMap = {};
 
-  Step5Page({
+  Step4Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
@@ -18,17 +18,17 @@ class Step5Page extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Step5Page> createState() => _Step5PageState();
+  State<Step4Page> createState() => _Step4PageState();
 }
 
-class _Step5PageState extends State<Step5Page> {
+class _Step4PageState extends State<Step4Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyageur_experiences');
+    _choicesFuture = AppService.api.fetchChoices('personalite_fr');
     _loadChoices();
   }
 
@@ -36,7 +36,7 @@ class _Step5PageState extends State<Step5Page> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -95,7 +95,7 @@ class _Step5PageState extends State<Step5Page> {
                       height: 33,
                     ),
                     Text(
-                      'Tu cherches des expériences...',
+                      'On dit de toi que tu es...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -120,22 +120,23 @@ class _Step5PageState extends State<Step5Page> {
                         runSpacing: 12, // Vertical spacing between lines
                         children: myList.map((item) {
                           return Item(
+                            id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step5'] != null
-                                ? widget.myMap['step5']!.contains(item.title)
+                            isSelected: widget.myMap['step4'] != null
+                                ? widget.myMap['step4']!.contains(item.title)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step5'] == null) {
-                                  widget.myMap['step5'] =
+                                if (widget.myMap['step4'] == null) {
+                                  widget.myMap['step4'] =
                                       Set<String>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step5']!
+                                if (widget.myMap['step4']!
                                     .contains(item.title)) {
-                                  widget.myMap['step5']!.remove(item.title);
+                                  widget.myMap['step4']!.remove(item.title);
                                 } else {
-                                  widget.myMap['step5']!.add(item.title);
+                                  widget.myMap['step4']!.add(item.title);
                                 }
                               });
                             },
@@ -175,15 +176,15 @@ class _Step5PageState extends State<Step5Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step5'] != null &&
-                                      widget.myMap['step5']!.isNotEmpty
+                              onPressed: widget.myMap['step4'] != null &&
+                                      widget.myMap['step4']!.isNotEmpty
                                   ? () {
                                       navigateTo(
                                         context,
-                                        (_) => Step6Page(
+                                        (_) => Step5Page(
                                           myMap: widget.myMap,
                                           totalSteps: 7,
-                                          currentStep: 6,
+                                          currentStep: 5,
                                         ),
                                       );
                                     }
@@ -207,11 +208,13 @@ class _Step5PageState extends State<Step5Page> {
 }
 
 class Item extends StatefulWidget {
+  final int id;
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
+    required this.id,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -255,9 +258,11 @@ class _ItemState extends State<Item> {
 }
 
 class Voyage {
+  final int id;
   final String title;
 
   Voyage({
+    required this.id,
     required this.title,
   });
 }

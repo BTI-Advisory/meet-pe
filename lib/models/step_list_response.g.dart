@@ -8,10 +8,12 @@ part of 'step_list_response.dart';
 
 StepListResponse _$StepListResponseFromJson(Map<String, dynamic> json) =>
     StepListResponse(
+      id: json['id'] as int,
       choiceTxt: json['choice_txt'] as String,
     );
 
 Map<String, dynamic> _$StepListResponseToJson(StepListResponse instance) =>
     <String, dynamic>{
-      'label': instance.choiceTxt,
+      'id': instance.id,
+      'choice_txt': instance.choiceTxt,
     };

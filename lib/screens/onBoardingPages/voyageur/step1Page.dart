@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step8Page.dart';
-import '../../models/step_list_response.dart';
-import '../../services/app_service.dart';
-import '../../utils/utils.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step2Page.dart';
+import '../../../models/step_list_response.dart';
+import '../../../services/app_service.dart';
+import '../../../utils/utils.dart';
 
-class Step7Page extends StatefulWidget {
+class Step1Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
-  Map<String, Set<String>> myMap = {};
 
-  Step7Page({
+  const Step1Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
-    required this.myMap,
   }) : super(key: key);
 
   @override
-  State<Step7Page> createState() => _Step7PageState();
+  State<Step1Page> createState() => _Step1PageState();
 }
 
-class _Step7PageState extends State<Step7Page> {
+class _Step1PageState extends State<Step1Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyageur_rencontre_fr');
+    _choicesFuture = AppService.api.fetchChoices('voyage_mode_fr');
     _loadChoices();
   }
 
@@ -36,7 +34,7 @@ class _Step7PageState extends State<Step7Page> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -48,6 +46,8 @@ class _Step7PageState extends State<Step7Page> {
       print('Error: $error');
     }
   }
+
+  Map<String, Set<String>> myMap = {};
 
   double calculateProgress() {
     return widget.currentStep / widget.totalSteps;
@@ -66,6 +66,8 @@ class _Step7PageState extends State<Step7Page> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+            final choices = snapshot.data!;
+            // Display your choices here
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -95,7 +97,7 @@ class _Step7PageState extends State<Step7Page> {
                       height: 33,
                     ),
                     Text(
-                      'Tu veux rencontrer...',
+                      'Tu es un voyageur plutôt…',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -120,22 +122,22 @@ class _Step7PageState extends State<Step7Page> {
                         runSpacing: 12, // Vertical spacing between lines
                         children: myList.map((item) {
                           return Item(
+                            id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step7'] != null
-                                ? widget.myMap['step7']!.contains(item.title)
+                            isSelected: myMap['step1'] != null
+                                ? myMap['step1']!.contains(item.title)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step7'] == null) {
-                                  widget.myMap['step7'] =
+                                if (myMap['step1'] == null) {
+                                  myMap['step1'] =
                                       Set<String>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step7']!
-                                    .contains(item.title)) {
-                                  widget.myMap['step7']!.remove(item.title);
+                                if (myMap['step1']!.contains(item.title)) {
+                                  myMap['step1']!.remove(item.title);
                                 } else {
-                                  widget.myMap['step7']!.add(item.title);
+                                  myMap['step1']!.add(item.title);
                                 }
                               });
                             },
@@ -156,22 +158,37 @@ class _Step7PageState extends State<Step7Page> {
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 10)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    AppResources.colorVitamine),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.disabled)) {
+                                      return AppResources
+                                          .colorGray15; // Change to your desired grey color
+                                    }
+                                    return AppResources
+                                        .colorVitamine; // Your enabled color
+                                  },
+                                ),
+                                shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
-                              onPressed: () {
+                              onPressed: myMap['step1'] != null &&
+                                  myMap['step1']!.isNotEmpty
+                                  ? () {
                                 navigateTo(
-                                    context,
-                                    (_) => Step8Page(
-                                          myMap: widget.myMap,
-                                        ));
-                              },
+                                  context,
+                                      (_) => Step2Page(
+                                    myMap: myMap,
+                                    totalSteps: 7,
+                                    currentStep: 2,
+                                  ),
+                                );
+                              }
+                                  : null, // Disable the button if no item is selected
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
@@ -190,11 +207,13 @@ class _Step7PageState extends State<Step7Page> {
 }
 
 class Item extends StatefulWidget {
+  final int id;
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
+    required this.id,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -238,9 +257,11 @@ class _ItemState extends State<Item> {
 }
 
 class Voyage {
+  final int id;
   final String title;
 
   Voyage({
+    required this.id,
     required this.title,
   });
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step3Page.dart';
-import '../../models/step_list_response.dart';
-import '../../services/app_service.dart';
-import '../../utils/utils.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step3Page.dart';
+import '../../../models/step_list_response.dart';
+import '../../../services/app_service.dart';
+import '../../../utils/utils.dart';
 
 class Step2Page extends StatefulWidget {
   final int totalSteps;
@@ -36,7 +36,7 @@ class _Step2PageState extends State<Step2Page> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -120,6 +120,7 @@ class _Step2PageState extends State<Step2Page> {
                         runSpacing: 12, // Vertical spacing between lines
                         children: myList.map((item) {
                           return Item(
+                            id: item.id,
                             text: item.title,
                             isSelected: widget.myMap['step2'] != null
                                 ? widget.myMap['step2']!.contains(item.title)
@@ -207,11 +208,13 @@ class _Step2PageState extends State<Step2Page> {
 }
 
 class Item extends StatefulWidget {
+  final int id;
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
+    required this.id,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -255,9 +258,11 @@ class _ItemState extends State<Item> {
 }
 
 class Voyage {
+  final int id;
   final String title;
 
   Voyage({
+    required this.id,
     required this.title,
   });
 }
