@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:http/http.dart' as http;
 import 'package:meet_pe/screens/onBoardingPages/step9Page.dart';
@@ -17,13 +19,15 @@ class Step8Page extends StatefulWidget {
 
 class _Step8PageState extends State<Step8Page> {
   late List<Voyage> myList = [
-    Voyage(id: 1, title: "Des Guides Professionnels"),
-    Voyage(id: 2, title: "Des Locaux Passionnés")
+    Voyage(title: "Des Guides Professionnels"),
+    Voyage(title: "Des Locaux Passionnés")
   ];
 
   late FocusNode _focusNode;
   late TextEditingController _textEditingController;
   bool _showButton = false;
+  Position? _currentPosition;
+  String _currentCity = '';
 
   @override
   void initState() {
@@ -54,6 +58,36 @@ class _Step8PageState extends State<Step8Page> {
     setState(() {
       _showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
     });
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        print("Location permission denied");
+        return;
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Get the city name from the position
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      setState(() {
+        _currentPosition = position;
+        _currentCity = placemarks.isNotEmpty
+            ? placemarks[0].locality ?? "Unknown City"
+            : "Unknown City";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -103,11 +137,13 @@ class _Step8PageState extends State<Step8Page> {
                 children: [
                   TextButton.icon(
                     icon: Icon(Icons.near_me_sharp, color: Colors.black),
-                    onPressed: () {
-                      setState(() {
-                        //widget.controller.text = 'Autour de moi';
-                        _textEditingController.text = 'Autour de moi';
-                      });
+                    onPressed: () async {
+                      await _getCurrentLocation();
+                      if (_currentCity.isNotEmpty) {
+                        setState(() {
+                          _textEditingController.text = 'Autour de moi';
+                        });
+                      }
                     },
                     label: Text(
                       'Autour de moi',
@@ -152,7 +188,11 @@ class _Step8PageState extends State<Step8Page> {
                           // Insert _textEditingController.text into myMap with key 'Step8'
                           if (_textEditingController.text.isNotEmpty) {
                             // Assuming the value to be inserted is a String
-                            widget.myMap['Step8']!.add(_textEditingController.text);
+                            if (_textEditingController.text == 'Autour de moi') {
+                              widget.myMap['Step8']!.add(_currentCity);
+                            } else {
+                              widget.myMap['Step8']!.add(_textEditingController.text);
+                            }
                           }
 
                           // Proceed to the next step
@@ -280,11 +320,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
 }
 
 class Voyage {
-  final int id;
   final String title;
 
   Voyage({
-    required this.id,
     required this.title,
   });
 }
