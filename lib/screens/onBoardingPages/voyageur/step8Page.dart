@@ -11,7 +11,7 @@ import '../../../utils/utils.dart';
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
 
-  Map<String, Set<String>> myMap = {};
+  Map<String, Set<Object>> myMap = {};
 
   @override
   State<Step8Page> createState() => _Step8PageState();

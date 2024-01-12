@@ -7,7 +7,7 @@ import 'loadingPage.dart';
 class Step9Page extends StatefulWidget {
   Step9Page({super.key, required this.myMap});
 
-  Map<String, Set<String>> myMap = {};
+  Map<String, Set<Object>> myMap = {};
 
   @override
   State<Step9Page> createState() => _Step9PageState();
