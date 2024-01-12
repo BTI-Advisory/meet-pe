@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/step7Page.dart';
-import '../../models/step_list_response.dart';
-import '../../services/app_service.dart';
-import '../../utils/utils.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step8Page.dart';
+import '../../../models/step_list_response.dart';
+import '../../../services/app_service.dart';
+import '../../../utils/utils.dart';
 
-class Step6Page extends StatefulWidget {
+class Step7Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
   Map<String, Set<String>> myMap = {};
 
-  Step6Page({
+  Step7Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
@@ -18,17 +18,17 @@ class Step6Page extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Step6Page> createState() => _Step6PageState();
+  State<Step7Page> createState() => _Step7PageState();
 }
 
-class _Step6PageState extends State<Step6Page> {
+class _Step7PageState extends State<Step7Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyageur_languages_fr');
+    _choicesFuture = AppService.api.fetchChoices('voyageur_rencontre_fr');
     _loadChoices();
   }
 
@@ -36,7 +36,7 @@ class _Step6PageState extends State<Step6Page> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -95,7 +95,7 @@ class _Step6PageState extends State<Step6Page> {
                       height: 33,
                     ),
                     Text(
-                      'Tu parles...',
+                      'Tu veux rencontrer...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -120,22 +120,23 @@ class _Step6PageState extends State<Step6Page> {
                         runSpacing: 12, // Vertical spacing between lines
                         children: myList.map((item) {
                           return Item(
+                            id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step6'] != null
-                                ? widget.myMap['step6']!.contains(item.title)
+                            isSelected: widget.myMap['step7'] != null
+                                ? widget.myMap['step7']!.contains(item.title)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step6'] == null) {
-                                  widget.myMap['step6'] =
+                                if (widget.myMap['step7'] == null) {
+                                  widget.myMap['step7'] =
                                       Set<String>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step6']!
+                                if (widget.myMap['step7']!
                                     .contains(item.title)) {
-                                  widget.myMap['step6']!.remove(item.title);
+                                  widget.myMap['step7']!.remove(item.title);
                                 } else {
-                                  widget.myMap['step6']!.add(item.title);
+                                  widget.myMap['step7']!.add(item.title);
                                 }
                               });
                             },
@@ -156,18 +157,8 @@ class _Step6PageState extends State<Step6Page> {
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 10)),
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.disabled)) {
-                                      return AppResources
-                                          .colorGray15; // Change to your desired grey color
-                                    }
-                                    return AppResources
-                                        .colorVitamine; // Your enabled color
-                                  },
-                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    AppResources.colorVitamine),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -175,20 +166,13 @@ class _Step6PageState extends State<Step6Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step6'] != null &&
-                                      widget.myMap['step6']!.isNotEmpty
-                                  ? () {
-                                      navigateTo(
-                                        context,
-                                        (_) => Step7Page(
+                              onPressed: () {
+                                navigateTo(
+                                    context,
+                                    (_) => Step8Page(
                                           myMap: widget.myMap,
-                                          totalSteps: 7,
-                                          currentStep: 7,
-                                        ),
-                                      );
-                                    }
-                                  : null,
-                              // Disable the button if no item is selected
+                                        ));
+                              },
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
@@ -207,11 +191,13 @@ class _Step6PageState extends State<Step6Page> {
 }
 
 class Item extends StatefulWidget {
+  final int id;
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
+    required this.id,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -255,9 +241,11 @@ class _ItemState extends State<Item> {
 }
 
 class Voyage {
+  final int id;
   final String title;
 
   Voyage({
+    required this.id,
     required this.title,
   });
 }

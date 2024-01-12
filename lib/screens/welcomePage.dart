@@ -1,7 +1,6 @@
-import 'package:fetcher/fetcher.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_pe/screens/onBoardingPages/step1Page.dart';
-
+import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/utils.dart';
@@ -92,8 +91,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             onPressed: (){
                               AppService.api.setRole('guide').then((response) {
                                 // If the API call is successful, navigate to a new screen
-                                // Todo: Call welcome page for guide
-                                //navigateTo(context, (_) => const Step1Page());
+                                navigateTo(context, (_) => const WelcomeGuidePage());
                               }).catchError((error) {
                                 // Handle errors if the API call fails
                                 print('Error: $error');

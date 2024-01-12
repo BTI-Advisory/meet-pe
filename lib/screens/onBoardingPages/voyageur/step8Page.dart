@@ -4,9 +4,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:http/http.dart' as http;
-import 'package:meet_pe/screens/onBoardingPages/step9Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/voyageur/step9Page.dart';
 import 'dart:convert';
-import '../../utils/utils.dart';
+import '../../../utils/utils.dart';
 
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
@@ -19,8 +19,7 @@ class Step8Page extends StatefulWidget {
 
 class _Step8PageState extends State<Step8Page> {
   late List<Voyage> myList = [
-    Voyage(title: "Des Guides Professionnels"),
-    Voyage(title: "Des Locaux Passionnés")
+    Voyage(id: 1, title: "Des Guides Professionnels"),
   ];
 
   late FocusNode _focusNode;
@@ -320,9 +319,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
 }
 
 class Voyage {
+  final int id;
   final String title;
 
   Voyage({
+    required this.id,
     required this.title,
   });
 }

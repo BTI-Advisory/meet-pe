@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../utils/utils.dart';
+import '../../../utils/utils.dart';
 import 'loadingPage.dart';
 
 class Step9Page extends StatefulWidget {
