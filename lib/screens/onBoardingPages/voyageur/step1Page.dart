@@ -22,6 +22,7 @@ class Step1Page extends StatefulWidget {
 class _Step1PageState extends State<Step1Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
+  Map<String, Set<Object>> myMap = {};
 
   @override
   void initState() {
@@ -46,8 +47,6 @@ class _Step1PageState extends State<Step1Page> {
       print('Error: $error');
     }
   }
-
-  Map<String, Set<String>> myMap = {};
 
   double calculateProgress() {
     return widget.currentStep / widget.totalSteps;
@@ -125,19 +124,19 @@ class _Step1PageState extends State<Step1Page> {
                             id: item.id,
                             text: item.title,
                             isSelected: myMap['step1'] != null
-                                ? myMap['step1']!.contains(item.title)
+                                ? myMap['step1']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
                                 if (myMap['step1'] == null) {
                                   myMap['step1'] =
-                                      Set<String>(); // Initialize if null
+                                      Set<int>(); // Initialize if null
                                 }
 
-                                if (myMap['step1']!.contains(item.title)) {
-                                  myMap['step1']!.remove(item.title);
+                                if (myMap['step1']!.contains(item.id)) {
+                                  myMap['step1']!.remove(item.id);
                                 } else {
-                                  myMap['step1']!.add(item.title);
+                                  myMap['step1']!.add(item.id);
                                 }
                               });
                             },

@@ -8,7 +8,7 @@ import '../../../utils/utils.dart';
 class Step3Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
-  Map<String, Set<String>> myMap = {};
+  Map<String, Set<Object>> myMap = {};
 
   Step3Page({
     Key? key,
@@ -123,20 +123,20 @@ class _Step3PageState extends State<Step3Page> {
                             id: item.id,
                             text: item.title,
                             isSelected: widget.myMap['step3'] != null
-                                ? widget.myMap['step3']!.contains(item.title)
+                                ? widget.myMap['step3']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
                                 if (widget.myMap['step3'] == null) {
                                   widget.myMap['step3'] =
-                                      Set<String>(); // Initialize if null
+                                      Set<int>(); // Initialize if null
                                 }
 
                                 if (widget.myMap['step3']!
-                                    .contains(item.title)) {
-                                  widget.myMap['step3']!.remove(item.title);
+                                    .contains(item.id)) {
+                                  widget.myMap['step3']!.remove(item.id);
                                 } else {
-                                  widget.myMap['step3']!.add(item.title);
+                                  widget.myMap['step3']!.add(item.id);
                                 }
                               });
                             },
