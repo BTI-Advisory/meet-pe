@@ -319,6 +319,34 @@ class ApiClient {
     }
   }
 
+  /// Mark a Send list of choice voyageur
+  Future<bool> sendListVoyageur(Map<String, List<Object>> listChoice) async {
+    bool isVerified = false;
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/make-profile-voyageur',
+            bodyJson: listChoice);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'choices has been set successfully') {
+      isVerified = true;
+    } else {
+      isVerified = false;
+    }
+
+    return isVerified;
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content

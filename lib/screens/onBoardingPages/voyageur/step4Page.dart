@@ -122,21 +122,21 @@ class _Step4PageState extends State<Step4Page> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step4'] != null
-                                ? widget.myMap['step4']!.contains(item.id)
+                            isSelected: widget.myMap['personalite_fr'] != null
+                                ? widget.myMap['personalite_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step4'] == null) {
-                                  widget.myMap['step4'] =
+                                if (widget.myMap['personalite_fr'] == null) {
+                                  widget.myMap['personalite_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step4']!
+                                if (widget.myMap['personalite_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['step4']!.remove(item.id);
+                                  widget.myMap['personalite_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['step4']!.add(item.id);
+                                  widget.myMap['personalite_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -176,8 +176,8 @@ class _Step4PageState extends State<Step4Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step4'] != null &&
-                                      widget.myMap['step4']!.isNotEmpty
+                              onPressed: widget.myMap['personalite_fr'] != null &&
+                                      widget.myMap['personalite_fr']!.isNotEmpty
                                   ? () {
                                       navigateTo(
                                         context,

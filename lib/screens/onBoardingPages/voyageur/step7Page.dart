@@ -122,21 +122,26 @@ class _Step7PageState extends State<Step7Page> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step7'] != null
-                                ? widget.myMap['step7']!.contains(item.id)
-                                : false,
+                            isSelected:
+                                widget.myMap['voyageur_rencontre_fr'] != null
+                                    ? widget.myMap['voyageur_rencontre_fr']!
+                                        .contains(item.id)
+                                    : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step7'] == null) {
-                                  widget.myMap['step7'] =
+                                if (widget.myMap['voyageur_rencontre_fr'] ==
+                                    null) {
+                                  widget.myMap['voyageur_rencontre_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step7']!
+                                if (widget.myMap['voyageur_rencontre_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['step7']!.remove(item.id);
+                                  widget.myMap['voyageur_rencontre_fr']!
+                                      .remove(item.id);
                                 } else {
-                                  widget.myMap['step7']!.add(item.id);
+                                  widget.myMap['voyageur_rencontre_fr']!
+                                      .add(item.id);
                                 }
                               });
                             },
@@ -157,8 +162,18 @@ class _Step7PageState extends State<Step7Page> {
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 10)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    AppResources.colorVitamine),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                    if (states
+                                        .contains(MaterialState.disabled)) {
+                                      return AppResources
+                                          .colorGray15; // Change to your desired grey color
+                                    }
+                                    return AppResources
+                                        .colorVitamine; // Your enabled color
+                                  },
+                                ),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -166,13 +181,39 @@ class _Step7PageState extends State<Step7Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: () {
-                                navigateTo(
-                                    context,
-                                    (_) => Step8Page(
-                                          myMap: widget.myMap,
-                                        ));
-                              },
+                              onPressed:
+                                  widget.myMap['voyageur_rencontre_fr'] !=
+                                              null &&
+                                          widget.myMap['voyageur_rencontre_fr']!
+                                              .isNotEmpty
+                                      ? () async {
+                                          try {
+                                            // Create a new map with lists instead of sets
+                                            Map<String, List<Object>>
+                                                modifiedMap = {};
+
+                                            // Convert sets to lists
+                                            widget.myMap.forEach((key, value) {
+                                              modifiedMap[key] = value.toList();
+                                            });
+                                            bool isSend = await AppService.api
+                                                .sendListVoyageur(modifiedMap);
+                                            if (isSend) {
+                                              navigateTo(
+                                                context,
+                                                    (_) => Step8Page(
+                                                  myMap: widget.myMap,
+                                                ),
+                                              );
+                                            }
+
+                                          } catch (error) {
+                                            // Handle the API request error, you might want to show a snackbar or display an error message.
+                                            print(
+                                                'Error sending API request: $error');
+                                          }
+                                        }
+                                      : null,
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),

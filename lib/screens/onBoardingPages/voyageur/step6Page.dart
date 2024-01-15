@@ -122,21 +122,21 @@ class _Step6PageState extends State<Step6Page> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step6'] != null
-                                ? widget.myMap['step6']!.contains(item.id)
+                            isSelected: widget.myMap['languages_fr'] != null
+                                ? widget.myMap['languages_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step6'] == null) {
-                                  widget.myMap['step6'] =
+                                if (widget.myMap['languages_fr'] == null) {
+                                  widget.myMap['languages_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step6']!
+                                if (widget.myMap['languages_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['step6']!.remove(item.id);
+                                  widget.myMap['languages_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['step6']!.add(item.id);
+                                  widget.myMap['languages_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -176,8 +176,8 @@ class _Step6PageState extends State<Step6Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step6'] != null &&
-                                      widget.myMap['step6']!.isNotEmpty
+                              onPressed: widget.myMap['languages_fr'] != null &&
+                                      widget.myMap['languages_fr']!.isNotEmpty
                                   ? () {
                                       navigateTo(
                                         context,

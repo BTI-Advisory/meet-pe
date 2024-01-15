@@ -123,20 +123,20 @@ class _Step1PageState extends State<Step1Page> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: myMap['step1'] != null
-                                ? myMap['step1']!.contains(item.id)
+                            isSelected: myMap['voyage_mode_fr'] != null
+                                ? myMap['voyage_mode_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (myMap['step1'] == null) {
-                                  myMap['step1'] =
+                                if (myMap['voyage_mode_fr'] == null) {
+                                  myMap['voyage_mode_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (myMap['step1']!.contains(item.id)) {
-                                  myMap['step1']!.remove(item.id);
+                                if (myMap['voyage_mode_fr']!.contains(item.id)) {
+                                  myMap['voyage_mode_fr']!.remove(item.id);
                                 } else {
-                                  myMap['step1']!.add(item.id);
+                                  myMap['voyage_mode_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -175,8 +175,8 @@ class _Step1PageState extends State<Step1Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: myMap['step1'] != null &&
-                                  myMap['step1']!.isNotEmpty
+                              onPressed: myMap['voyage_mode_fr'] != null &&
+                                  myMap['voyage_mode_fr']!.isNotEmpty
                                   ? () {
                                 navigateTo(
                                   context,
