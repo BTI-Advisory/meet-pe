@@ -36,7 +36,9 @@ class _Step4GuidePageState extends State<Step4GuidePage> {
   Future<void> pickImage() async {
     // Your logic to pick an image goes here.
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery); // Use source: ImageSource.camera for taking a new picture
+    final pickedFile = await picker.pickImage(
+        source: ImageSource
+            .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
       // Do something with the picked image (e.g., upload or process it)
@@ -105,8 +107,13 @@ class _Step4GuidePageState extends State<Step4GuidePage> {
                         child: WidgetMask(
                           blendMode: BlendMode.srcATop,
                           childSaveLayer: true,
-                          mask: Image.asset(selectedImagePath, fit: BoxFit.cover,),
-                          child: Image.asset('images/image_frame.png',),
+                          mask: Image.asset(
+                            selectedImagePath,
+                            fit: BoxFit.cover,
+                          ),
+                          child: Image.asset(
+                            'images/image_frame.png',
+                          ),
                         ),
                       ),
                       Positioned(
@@ -133,6 +140,68 @@ class _Step4GuidePageState extends State<Step4GuidePage> {
                     ],
                   )
                 ],
+              ),
+              const SizedBox(
+                height: 72,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 28),
+                child: Column(
+                  children: [
+                    TextField(
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        hintText: 'Ton prénom',
+                        //hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        fillColor: Colors.transparent,
+                        contentPadding:
+                        EdgeInsets.only(top: 20.0, bottom: 10.0),
+                        suffix: SizedBox(height: 10),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Ton numéro de téléphone',
+                        fillColor: Colors.transparent,
+                        contentPadding:
+                        EdgeInsets.only(top: 20.0, bottom: 10.0),
+                        suffix: SizedBox(height: 10),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: 'Ton email',
+                        //hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        fillColor: Colors.transparent,
+                        contentPadding:
+                        EdgeInsets.only(top: 20.0, bottom: 10.0),
+                        suffix: SizedBox(height: 10),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppResources.colorGray15),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child: Align(
