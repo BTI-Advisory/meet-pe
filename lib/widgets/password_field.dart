@@ -37,13 +37,10 @@ class _PasswordFieldState extends State<PasswordField> {
       style: Theme.of(context)
           .textTheme
           .bodyLarge
-          ?.copyWith(
-          color: AppResources.colorDark),
+          ?.copyWith(color: AppResources.colorDark),
       decoration: InputDecoration(
           hintText: widget.hint ?? 'Ton mot de passe',
-          hintStyle: Theme.of(context)
-              .textTheme
-              .bodyMedium,
+          hintStyle: Theme.of(context).textTheme.bodyMedium,
           fillColor: Colors.transparent,
           contentPadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
           suffix: const SizedBox(height: 10),
@@ -64,8 +61,7 @@ class _PasswordFieldState extends State<PasswordField> {
             child: Icon(
               _showPassword ? Icons.visibility : Icons.visibility_off,
             ),
-          )
-      ),
+          )),
       obscureText: !_showPassword,
       textInputAction: widget.textInputAction ?? TextInputAction.done,
       autocorrect: false,
@@ -81,7 +77,7 @@ class _PasswordFieldState extends State<PasswordField> {
         });
       },*/
       onSaved: widget.onSaved,
-      onChanged: widget.onChanged ,
+      onChanged: widget.onChanged,
       onFieldSubmitted: widget.onFieldSubmitted,
     );
   }
