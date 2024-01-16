@@ -5,7 +5,7 @@ import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/utils.dart';
-import 'Step1GuidePage.dart';
+import 'step1GuidePage.dart';
 
 class WelcomeGuidePage extends StatefulWidget {
   const WelcomeGuidePage({super.key});
@@ -81,7 +81,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                               ),
                             ),
                             onPressed: (){
-                              navigateTo(context, (_) => const Step1GuidePage(totalSteps: 6, currentStep: 1,));
+                              navigateTo(context, (_) => const Step1GuidePage(totalSteps: 5, currentStep: 1,));
                             },
                             child: Text(
                               'COMMENCE PAR TE PRÉSENTER',
