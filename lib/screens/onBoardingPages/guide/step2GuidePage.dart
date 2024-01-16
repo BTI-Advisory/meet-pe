@@ -3,7 +3,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/utils.dart';
-import 'Step3GuidePage.dart';
+import 'step3GuidePage.dart';
 
 class Step2GuidePage extends StatefulWidget {
   final int totalSteps;
@@ -122,21 +122,21 @@ class _Step2GuidePageState extends State<Step2GuidePage> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step2'] != null
-                                ? widget.myMap['step2']!.contains(item.id)
+                            isSelected: widget.myMap['personalite_fr'] != null
+                                ? widget.myMap['personalite_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step2'] == null) {
-                                  widget.myMap['step2'] =
+                                if (widget.myMap['personalite_fr'] == null) {
+                                  widget.myMap['personalite_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step2']!
+                                if (widget.myMap['personalite_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['step2']!.remove(item.id);
+                                  widget.myMap['personalite_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['step2']!.add(item.id);
+                                  widget.myMap['personalite_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -176,14 +176,14 @@ class _Step2GuidePageState extends State<Step2GuidePage> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step2'] != null &&
-                                  widget.myMap['step2']!.isNotEmpty
+                              onPressed: widget.myMap['personalite_fr'] != null &&
+                                  widget.myMap['personalite_fr']!.isNotEmpty
                                   ? () {
                                 navigateTo(
                                   context,
                                       (_) => Step3GuidePage(
                                     myMap: widget.myMap,
-                                    totalSteps: 7,
+                                    totalSteps: 5,
                                     currentStep: 3,
                                   ),
                                 );

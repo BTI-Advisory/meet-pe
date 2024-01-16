@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step4Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/guide/step4GuidePage.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/utils.dart';
@@ -122,21 +122,21 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                           return Item(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['step3'] != null
-                                ? widget.myMap['step3']!.contains(item.id)
+                            isSelected: widget.myMap['languages_fr'] != null
+                                ? widget.myMap['languages_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['step3'] == null) {
-                                  widget.myMap['step3'] =
+                                if (widget.myMap['languages_fr'] == null) {
+                                  widget.myMap['languages_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['step3']!
+                                if (widget.myMap['languages_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['step3']!.remove(item.id);
+                                  widget.myMap['languages_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['step3']!.add(item.id);
+                                  widget.myMap['languages_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -176,17 +176,17 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['step3'] != null &&
-                                  widget.myMap['step3']!.isNotEmpty
+                              onPressed: widget.myMap['languages_fr'] != null &&
+                                  widget.myMap['languages_fr']!.isNotEmpty
                                   ? () {
-                                /*navigateTo(
+                                navigateTo(
                                   context,
-                                      (_) => Step4Page(
+                                      (_) => Step4GuidePage(
                                     myMap: widget.myMap,
-                                    totalSteps: 7,
+                                    totalSteps: 5,
                                     currentStep: 4,
                                   ),
-                                );*/
+                                );
                               }
                                   : null,
                               // Disable the button if no item is selected
