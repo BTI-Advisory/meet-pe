@@ -26,7 +26,7 @@ class Step4GuidePage extends StatefulWidget {
 class _Step4GuidePageState extends State<Step4GuidePage>
     with BlocProvider<Step4GuidePage, Step4GuidePageBloc> {
   @override
-  initBloc() => Step4GuidePageBloc();
+  initBloc() => Step4GuidePageBloc(widget.myMap);
 
   @override
   void initState() {
@@ -35,7 +35,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 
   late List<Voyage> myList = [];
   String selectedImagePath = 'images/avatar_placeholder.png';
-  String? validationMessageImage;
 
   String? validationMessageName = '';
   String? validationMessagePhone = '';
@@ -314,7 +313,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                           ),
                           SizedBox(height: 86),
                           Visibility(
-                            visible: selectedImagePath == 'images/avatar_placeholder.png',
+                            visible: selectedImagePath ==
+                                'images/avatar_placeholder.png',
                             child: Text(
                               'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
                               style: Theme.of(context)
@@ -396,17 +396,42 @@ class Step4GuidePageBloc with Disposable {
   String? name;
   String? phone;
   String? email;
+  Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
-  Map<String, List<Object>> modifiedMap = {};
+  Map<String, dynamic> modifiedMap = {};
 
-  // Convert sets to lists
-  /*myMap.forEach((key, value) {
-    modifiedMap[key] = value.toList();
-  });*/
+  Step4GuidePageBloc(this.myMap);
 
   Future<bool> makeProfileGuide() async {
-    bool isVerified = await AppService.api.sendListVoyageur(modifiedMap);
-    return isVerified;
+    try {
+      // Insert name and phone into modifiedMap
+      if (name != null) {
+        modifiedMap['name'] = name!;
+      }
+      if (phone != null) {
+        modifiedMap['phone_number'] = phone!;
+      }
+
+      // Convert sets to lists
+      myMap.forEach((key, value) {
+        modifiedMap[key] = value.toList();
+      });
+
+      // Perform the API call
+      bool isVerified = await AppService.api.sendListGuide(modifiedMap);
+
+      return isVerified;
+    } catch (error) {
+      // Handle the error appropriately
+      print("Error in makeProfileGuide: $error");
+      return false;
+    }
+  }
+
+  @override
+  void dispose() {
+    // Dispose of any resources if needed
+    super.dispose();
   }
 }

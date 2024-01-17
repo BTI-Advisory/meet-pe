@@ -348,7 +348,7 @@ class ApiClient {
   }
 
   /// Mark a Send list of choice Guide
-  Future<bool> sendListGuide(Map<String, List<Object>> listChoice) async {
+  Future<bool> sendListGuide(Map<String, dynamic> listChoice) async {
     bool isVerified = false;
 
     // Send request
