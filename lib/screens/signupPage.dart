@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meet_pe/screens/verificationCodePage.dart';
+import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/resources.dart';
@@ -55,20 +56,20 @@ class _SignUpPageState extends State<SignUpPage>
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 70),
+                  padding: EdgeInsets.only(top: ResponsiveSize.calculateHeight(70, context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Image.asset(
                         'images/logo_color.png',
-                        width: 110,
-                        height: 101,
+                        width: ResponsiveSize.calculateWidth(110, context),
+                        height: ResponsiveSize.calculateHeight(101, context),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: ResponsiveSize.calculateHeight(50, context)),
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 48.0),
+                            padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(40, context)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -77,8 +78,8 @@ class _SignUpPageState extends State<SignUpPage>
                                   style:
                                   Theme.of(context).textTheme.headlineMedium,
                                 ),
-                                const SizedBox(
-                                  height: 42,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(42, context),
                                 ),
                                 Text(
                                   widget.email,
@@ -87,16 +88,16 @@ class _SignUpPageState extends State<SignUpPage>
                                       .bodyLarge
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
-                                const SizedBox(
-                                  height: 8,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(8, context),
                                 ),
                                 Container(
                                   height: 1,
                                   width: MediaQuery.of(context).size.width - 96,
                                   color: AppResources.colorGray15,
                                 ),
-                                const SizedBox(
-                                  height: 26,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(26, context),
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width - 96,
@@ -110,8 +111,8 @@ class _SignUpPageState extends State<SignUpPage>
                                     },
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 7,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(7, context),
                                 ),
                                 if (validationMessage != null)
                                   const Text(
@@ -124,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage>
                                       height: 0.14,
                                     ),
                                   ),
-                                const SizedBox(height: 54,),
+                                SizedBox(height: ResponsiveSize.calculateHeight(54, context),),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -159,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage>
                                             : null,
                                       ),
                                     ),
-                                    const SizedBox(width: 12),
+                                    SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                                     const Column(
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
@@ -171,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                 text: 'J’accepte les ',
                                                 style: TextStyle(
                                                   color: Color(0xFF979797),
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'Outfit',
                                                   fontWeight: FontWeight.w400,
                                                   height: 0,
@@ -181,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                 text: 'les Conditions Générales',
                                                 style: TextStyle(
                                                   color: Color(0xFFFF4C00),
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'Outfit',
                                                   fontWeight: FontWeight.w500,
                                                   decoration:
@@ -193,7 +194,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                 text: ' et ',
                                                 style: TextStyle(
                                                   color: Color(0xFF979797),
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'Outfit',
                                                   fontWeight: FontWeight.w400,
                                                   height: 0,
@@ -209,7 +210,7 @@ class _SignUpPageState extends State<SignUpPage>
                                               text: ' la ',
                                               style: TextStyle(
                                                 color: Color(0xFF979797),
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontFamily: 'Outfit',
                                                 fontWeight: FontWeight.w400,
                                                 height: 0,
@@ -220,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage>
                                               'Politique de Confidentialité',
                                               style: TextStyle(
                                                 color: Color(0xFFFF4C00),
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontFamily: 'Outfit',
                                                 fontWeight: FontWeight.w500,
                                                 decoration:
@@ -232,7 +233,7 @@ class _SignUpPageState extends State<SignUpPage>
                                               text: ' ',
                                               style: TextStyle(
                                                 color: Color(0xFF979797),
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontFamily: 'Outfit',
                                                 fontWeight: FontWeight.w500,
                                                 decoration:
@@ -244,7 +245,7 @@ class _SignUpPageState extends State<SignUpPage>
                                               text: 'Meetpe',
                                               style: TextStyle(
                                                 color: Color(0xFF979797),
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontFamily: 'Outfit',
                                                 fontWeight: FontWeight.w400,
                                                 height: 0,
@@ -257,7 +258,7 @@ class _SignUpPageState extends State<SignUpPage>
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 17,),
+                                SizedBox(height: ResponsiveSize.calculateHeight(17, context),),
                                 if (_showErrorMessage)
                                   const Text(
                                     'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
@@ -270,7 +271,7 @@ class _SignUpPageState extends State<SignUpPage>
                                     ),
                                   ),
 
-                                const SizedBox(height: 19,),
+                                SizedBox(height: ResponsiveSize.calculateHeight(19, context),),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -307,7 +308,7 @@ class _SignUpPageState extends State<SignUpPage>
                                       'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
                                       style: TextStyle(
                                         color: Color(0xFF979797),
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontFamily: 'Outfit',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
@@ -326,19 +327,18 @@ class _SignUpPageState extends State<SignUpPage>
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 44),
                             child: Container(
-                              margin: const EdgeInsets.only(left: 67, right: 67),
-                              width: double.infinity,
+                              width: ResponsiveSize.calculateWidth(241, context),
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all<EdgeInsets>(
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 10)),
+                                      EdgeInsets.symmetric(
+                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                   backgroundColor:
                                   MaterialStateProperty.all(AppResources.colorVitamine),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
+                                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                     ),
                                   ),
                                 ),
