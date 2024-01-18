@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../resources/resources.dart';
+import '../utils/responsive_size.dart';
 import '../utils/utils.dart';
 import 'loginPage.dart';
 
@@ -159,29 +160,29 @@ class Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 320,
+      width: ResponsiveSize.calculateWidth(320, context),
       child: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('images/$imageName.png', width: 250, height: 262,),
-              SizedBox(height: 80),
+              Image.asset('images/$imageName.png', width: ResponsiveSize.calculateWidth(250, context), height: ResponsiveSize.calculateHeight(262, context),),
+              SizedBox(height: ResponsiveSize.calculateHeight(80, context)),
               Text(
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF161413),
-                  fontSize: 32,
+                  fontSize: ResponsiveSize.calculateTextSize(32, context),
                   fontFamily: 'Outfit',
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
               Text(description,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium,
                   softWrap: true),
-              SizedBox(height: 44),
+              SizedBox(height: ResponsiveSize.calculateHeight(44, context)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -193,25 +194,20 @@ class Pages extends StatelessWidget {
                 ],
               ),
               if (buttonShow == true) ...[
-                SizedBox(height: 122),
+                SizedBox(height: ResponsiveSize.calculateHeight(122, context)),
                 SizedBox(
-                  width: 183,
+                  width: ResponsiveSize.calculateWidth(183, context),
                   height: 44,
                   child: TextButton(
-                    /*style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      backgroundColor: Color(0xFFFF4C00),
-                    ),*/
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: 34, vertical: 14)),
+                            EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(34, context), vertical: ResponsiveSize.calculateHeight(14, context))),
                         backgroundColor:
                         MaterialStateProperty.all(Color(0xFFFF4C00)),
                         shape:
                         MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(24, context)),
                             ))),
                     child: Align(
                       alignment: Alignment.center,
@@ -226,10 +222,10 @@ class Pages extends StatelessWidget {
                   ),
                 ),
               ] else ...[
-                SizedBox(height: 122),
+                SizedBox(height: ResponsiveSize.calculateHeight(122, context)),
                 SizedBox(
-                  width: 183,
-                  height: 44,
+                  width: ResponsiveSize.calculateWidth(183, context),
+                  height: ResponsiveSize.calculateHeight(44, context),
                   child: TextButton(
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all<EdgeInsets>(
@@ -239,7 +235,7 @@ class Pages extends StatelessWidget {
                         shape:
                         MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(24, context)),
                             ))),
                     child: Align(
                       alignment: Alignment.center,

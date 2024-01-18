@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../utils/utils.dart';
 import 'introMovePage.dart';
@@ -49,12 +50,12 @@ class _LaunchScreenState extends State<LaunchScreen>
       ),
       child: Center(
         child: Container(
-          width: 200,
+          width: ResponsiveSize.calculateWidth(200, context),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('images/logo_color.png', width: 239, height: 219,),
-              SizedBox(height: 219),
+              Image.asset('images/logo_color.png', width: ResponsiveSize.calculateWidth(239, context), height: ResponsiveSize.calculateHeight(219, context),),
+              SizedBox(height: ResponsiveSize.calculateHeight(219, context)),
               LinearProgressIndicator(
                 minHeight: 7,
                 value: controller.value,
