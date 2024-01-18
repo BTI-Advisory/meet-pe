@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:meet_pe/screens/welcomePage.dart';
+import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../resources/resources.dart';
@@ -44,14 +45,14 @@ class _VerificationCodePageState extends State<VerificationCodePage>
               return Container(
                 constraints: BoxConstraints.expand(),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 221),
+                  padding: EdgeInsets.only(top: ResponsiveSize.calculateHeight(221, context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -61,17 +62,18 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                       .textTheme
                                       .headlineMedium,
                                 ),
-                                const SizedBox(
-                                  height: 16,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(16, context),
                                 ),
                                 Text(
                                   'Entre le pour vérifier que c’est bien toi !',
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray30),
                                 ),
-                                const SizedBox(
-                                  height: 42,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(42, context),
                                 ),
                                 VerificationCode(
+                                  itemSize: 40,
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .headlineMedium!
@@ -94,8 +96,8 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                     if (!_onEditing) FocusScope.of(context).unfocus();
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 66,
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(66, context),
                                 ),
                                 TextButton(
                                   onPressed: () {},
@@ -115,26 +117,30 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 44),
                             child: Container(
-                              margin:
-                              const EdgeInsets.only(left: 96, right: 96),
-                              width: double.infinity,
+                              width: ResponsiveSize.calculateWidth(241, context),
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                   padding:
                                   MaterialStateProperty.all<EdgeInsets>(
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 10)),
+                                      EdgeInsets.symmetric(
+                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                   backgroundColor: MaterialStateProperty.all(
                                       AppResources.colorVitamine),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
+                                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context),),
                                     ),
                                   ),
                                 ),
                                 onPressed: validate,
-                                child: Image.asset('images/arrowLongRight.png'),
+                                child: Text(
+                                  'VALIDER',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorWhite),
+                                ),
                               ),
                             ),
                           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/signinPage.dart';
 import 'package:meet_pe/screens/signupPage.dart';
 import 'package:meet_pe/utils/_utils.dart';
+import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
@@ -106,20 +107,18 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
                         margin: const EdgeInsets.all(5),
                         width: double.infinity,
                         child: SizedBox(
-                          width: 183,
-                          height: 44,
+                          width: 241,
+                          height: 40,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              fixedSize:
-                                  MaterialStateProperty.all(Size(183, 44)),
                               padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(horizontal: 34, vertical: 14)),
+                                  const EdgeInsets.symmetric(horizontal: 24, vertical: 10)),
                               backgroundColor:
                                   MaterialStateProperty.all(Color(0xFFFF4C00)),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
                             ),
