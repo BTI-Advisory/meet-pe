@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
+import 'package:meet_pe/utils/responsive_size.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/utils.dart';
@@ -29,36 +30,36 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
         child: Stack(
           children: [
-            Image.asset('images/welcome_map.png', width: double.infinity, height: 229, fit: BoxFit.fill,),
+            Image.asset('images/welcome_map.png', width: double.infinity, height: ResponsiveSize.calculateHeight(229, context), fit: BoxFit.fill,),
             Positioned.fill(
-              top: 109,
+              top: ResponsiveSize.calculateHeight(109, context),
               child: Container(
-                margin: const EdgeInsets.only(left: 28, right: 28,),
+                margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
                 child: Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: double.infinity,
                       child: Text(
                         'MEETPE,\nL’APP QUI \nTE FAIT \nVOYAGER \nAUTREMENT',
                         style: TextStyle(
                           color: AppResources.colorBeigeLight,
-                          fontSize: 40,
+                          fontSize: ResponsiveSize.calculateTextSize(40, context),
                           fontFamily: 'Rammetto One',
                           fontWeight: FontWeight.w400,
-                          height: 1.4,
+                          height: ResponsiveSize.calculateHeight(1.4, context),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40,),
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                     SizedBox(
-                      width: double.infinity,
+                      width: ResponsiveSize.calculateWidth(double.infinity, context),
                       child: Text(
                         'Avec notre système de matching, rencontre \ndes locaux passionnés et vis des expériences \nfaites pour toi !\n',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: 1.5),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorBeige,),
                       ),
                     ),
-                    const SizedBox(height: 40,),
-                    const Spacer(),
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
+                    //const Spacer(),
                     Column(
                       children: [
                         SizedBox(
@@ -69,15 +70,16 @@ class _WelcomePageState extends State<WelcomePage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(height: 26,),
+                        SizedBox(height: ResponsiveSize.calculateHeight(26, context),),
                         SizedBox(
-                          width: double.infinity,
+                          width: ResponsiveSize.calculateWidth(319, context),
+                          height: ResponsiveSize.calculateHeight(44, context),
                           child: TextButton(
                             style: ButtonStyle(
                               padding:
                               MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12)),
+                                  EdgeInsets.symmetric(
+                                      horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
                               backgroundColor: MaterialStateProperty.all(
                                   Colors.transparent),
                               shape: MaterialStateProperty.all<
@@ -98,35 +100,37 @@ class _WelcomePageState extends State<WelcomePage> {
                               });
                             },
                             child: Text(
-                              'DEVENIR GUIDE MEETPE',
+                              'DEVIENS GUIDE MEETPE',
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 30,),
+                        SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                         SizedBox(
-                          width: double.infinity,
+                          width: ResponsiveSize.calculateWidth(327, context),
                           child: Text(
                             'Tu veux rencontrer des locaux passionnés ?',
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, height: 1.5),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, fontSize: ResponsiveSize.calculateTextSize(16, context)),
                             textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(height: 29,),
+                        SizedBox(height: ResponsiveSize.calculateHeight(26, context),),
                         SizedBox(
-                          width: double.infinity,
+                          width: ResponsiveSize.calculateWidth(319, context),
+                          height: ResponsiveSize.calculateHeight(44, context),
                           child: TextButton(
                             style: ButtonStyle(
                               padding:
                               MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12)),
+                                  EdgeInsets.symmetric(
+                                      horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
                               backgroundColor: MaterialStateProperty.all(
                                   AppResources.colorWhite),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
+                                  borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                 ),
                               ),
                             ),
@@ -140,15 +144,14 @@ class _WelcomePageState extends State<WelcomePage> {
                               });
                             },
                             child: Text(
-                              'C’EST PARTI !!',
+                              'VOYAGE AVEC MEETPE',
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40,),
+                        SizedBox(height: ResponsiveSize.calculateHeight(40, context),),
                       ],
                     ),
-
                   ],
                 ),
               ),
