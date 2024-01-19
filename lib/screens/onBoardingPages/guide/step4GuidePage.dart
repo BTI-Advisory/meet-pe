@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/services/api_client.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../../services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
+import '../../../utils/responsive_size.dart';
 import '../../../widgets/async_form.dart';
 
 class Step4GuidePage extends StatefulWidget {
@@ -102,11 +104,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
                     SizedBox(
-                      height: 120,
-                    ),
-                    SizedBox(
-                      width: 108,
+                      width: ResponsiveSize.calculateWidth(108, context),
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 8,
@@ -115,9 +115,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                         borderRadius: BorderRadius.circular(3.5),
                       ),
                     ),
-                    const SizedBox(
-                      height: 33,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
                       'Quelques informations...',
                       textAlign: TextAlign.center,
@@ -126,16 +124,14 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                           .headlineMedium
                           ?.copyWith(color: AppResources.colorGray100),
                     ),
-                    const SizedBox(
-                      height: 48,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
                     Column(
                       children: [
                         Stack(
                           children: [
                             Container(
-                              width: 168,
-                              height: 168,
+                              width: ResponsiveSize.calculateWidth(168, context),
+                              height: ResponsiveSize.calculateHeight(168, context),
                               child: WidgetMask(
                                 blendMode: BlendMode.srcATop,
                                 childSaveLayer: true,
@@ -152,12 +148,12 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               bottom: 0,
                               right: 0,
                               child: Container(
-                                width: 44,
-                                height: 44,
+                                width: ResponsiveSize.calculateWidth(44, context),
+                                height: ResponsiveSize.calculateHeight(44, context),
                                 //padding: const EdgeInsets.all(10),
                                 decoration: ShapeDecoration(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                                 child: FloatingActionButton(
@@ -173,15 +169,13 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 72,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(72, context)),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
                       child: Column(
                         children: [
                           Container(
-                            height: 28,
+                            height: ResponsiveSize.calculateHeight(28, context),
                             child: TextFormField(
                               keyboardType: TextInputType.name,
                               style: Theme.of(context)
@@ -193,10 +187,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 hintText: 'Ton prénom',
                                 hintStyle:
                                     Theme.of(context).textTheme.bodyMedium,
-                                contentPadding: const EdgeInsets.only(
-                                    top: 20.0, bottom: 10.0),
+                                contentPadding: EdgeInsets.only(
+                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
                                 // Adjust padding
-                                suffix: const SizedBox(height: 10),
+                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
                                 enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: AppResources.colorGray15),
@@ -223,9 +217,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               },
                             ),
                           ),
-                          SizedBox(height: 40),
+                          SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                           Container(
-                            height: 28,
+                            height: ResponsiveSize.calculateHeight(28, context),
                             child: TextFormField(
                               keyboardType: TextInputType.name,
                               style: Theme.of(context)
@@ -237,10 +231,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 hintText: 'Ton numéro de téléphone',
                                 hintStyle:
                                     Theme.of(context).textTheme.bodyMedium,
-                                contentPadding: const EdgeInsets.only(
-                                    top: 20.0, bottom: 10.0),
+                                contentPadding: EdgeInsets.only(
+                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
                                 // Adjust padding
-                                suffix: const SizedBox(height: 10),
+                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
                                 enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: AppResources.colorGray15),
@@ -267,9 +261,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               },
                             ),
                           ),
-                          SizedBox(height: 40),
+                          SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                           Container(
-                            height: 28,
+                            height: ResponsiveSize.calculateHeight(28, context),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               style: Theme.of(context)
@@ -281,10 +275,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 hintText: 'Ton email',
                                 hintStyle:
                                     Theme.of(context).textTheme.bodyMedium,
-                                contentPadding: const EdgeInsets.only(
-                                    top: 20.0, bottom: 10.0),
+                                contentPadding: EdgeInsets.only(
+                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
                                 // Adjust padding
-                                suffix: const SizedBox(height: 10),
+                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
                                 enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: AppResources.colorGray15),
@@ -311,7 +305,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               },
                             ),
                           ),
-                          SizedBox(height: 86),
+                          //SizedBox(height: ResponsiveSize.calculateHeight(86, context)),
+                          SizedBox(height: ResponsiveSize.calculateHeight(56, context)),
                           Visibility(
                             visible: selectedImagePath ==
                                 'images/avatar_placeholder.png',
@@ -333,15 +328,15 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 44),
+                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
                           child: Container(
-                            margin: const EdgeInsets.only(left: 96, right: 96),
-                            width: double.infinity,
+                            width: ResponsiveSize.calculateWidth(183, context),
+                            height: ResponsiveSize.calculateHeight(44, context),
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 24, vertical: 10)),
+                                    EdgeInsets.symmetric(
+                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
@@ -357,7 +352,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                               ),
