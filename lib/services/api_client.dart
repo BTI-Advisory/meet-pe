@@ -320,7 +320,7 @@ class ApiClient {
   }
 
   /// Mark a Send list of choice voyageur
-  Future<bool> sendListVoyageur(Map<String, List<Object>> listChoice) async {
+  Future<bool> sendListVoyageur(Map<String, dynamic> listChoice) async {
     bool isVerified = false;
 
     // Send request

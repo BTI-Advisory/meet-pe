@@ -175,17 +175,17 @@ class _Step8PageState extends State<Step8Page> {
                       onPressed: () {
                         //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
                         setState(() {
-                          if (widget.myMap['Step8'] == null) {
-                            widget.myMap['Step8'] = Set<String>(); // Initialize if null
+                          if (widget.myMap['location'] == null) {
+                            widget.myMap['location'] = Set<String>(); // Initialize if null
                           }
 
                           // Insert _textEditingController.text into myMap with key 'Step8'
                           if (_textEditingController.text.isNotEmpty) {
                             // Assuming the value to be inserted is a String
                             if (_textEditingController.text == 'Autour de moi') {
-                              widget.myMap['Step8']!.add(_currentCity);
+                              widget.myMap['location']!.add(_currentCity);
                             } else {
-                              widget.myMap['Step8']!.add(_textEditingController.text);
+                              widget.myMap['location']!.add(_textEditingController.text);
                             }
                           }
 
@@ -195,7 +195,7 @@ class _Step8PageState extends State<Step8Page> {
                       },
                       child: _textEditingController.text.isEmpty
                           ? Text(
-                              'PAS D’IDEE',
+                              'SURPRENDS MOI',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
