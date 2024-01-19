@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../resources/resources.dart';
+import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import '../../homePage.dart';
 
@@ -56,9 +57,9 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
                     .headlineMedium
                     ?.copyWith(color: AppResources.colorGray100),
               ),
-              SizedBox(height: 73), // Spacer
+              SizedBox(height: ResponsiveSize.calculateHeight(73, context)),
               Container(
-                width: 108,
+                width: ResponsiveSize.calculateWidth(108, context),
                 child: LinearProgressIndicator(
                   minHeight: 7,
                   value: controller.value,
