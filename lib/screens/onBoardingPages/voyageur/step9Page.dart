@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import 'loadingPage.dart';
 
@@ -43,9 +44,7 @@ class _Step9PageState extends State<Step9Page> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 158,
-              ),
+              SizedBox(height: ResponsiveSize.calculateHeight(158, context)),
               Text(
                 'Tu viens quand ?',
                 textAlign: TextAlign.center,
@@ -54,18 +53,14 @@ class _Step9PageState extends State<Step9Page> {
                     .headlineMedium
                     ?.copyWith(color: AppResources.colorGray100),
               ),
-              const SizedBox(
-                height: 57,
-              ),
+              SizedBox(height: ResponsiveSize.calculateHeight(57, context)),
               Expanded(
                 child: Container(
-                  width: 319,
-                  //height: 336,
-                  //padding: const EdgeInsets.all(16),
+                  width: ResponsiveSize.calculateHeight(319, context),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(12, context)),
                     ),
                   ),
                   child: TableCalendar(
@@ -79,7 +74,7 @@ class _Step9PageState extends State<Step9Page> {
                       formatButtonShowsNext: false,
                       formatButtonVisible: false,
                       titleCentered: true,
-                      headerPadding: EdgeInsets.only(bottom: 16),
+                      headerPadding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(16, context)),
                       headerMargin: EdgeInsets.zero,
                     ),
                     firstDay: kFirstDay,
@@ -132,21 +127,21 @@ class _Step9PageState extends State<Step9Page> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 44),
+                    padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
                     child: Container(
-                      margin: const EdgeInsets.only(left: 96, right: 96),
-                      width: double.infinity,
+                      width: ResponsiveSize.calculateWidth(183, context),
+                      height: ResponsiveSize.calculateHeight(44, context),
                       child: ElevatedButton(
                         style: ButtonStyle(
                           padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 10)),
+                              EdgeInsets.symmetric(
+                                  horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                           backgroundColor: MaterialStateProperty.all(
                               AppResources.colorVitamine),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
+                              borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                             ),
                           ),
                         ),

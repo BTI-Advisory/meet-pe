@@ -3,6 +3,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step6Page.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
+import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 
 class Step5Page extends StatefulWidget {
@@ -78,9 +79,7 @@ class _Step5PageState extends State<Step5Page> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 120,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
                     SizedBox(
                       width: 108,
                       child: LinearProgressIndicator(
@@ -91,9 +90,7 @@ class _Step5PageState extends State<Step5Page> {
                         borderRadius: BorderRadius.circular(3.5),
                       ),
                     ),
-                    const SizedBox(
-                      height: 33,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
                       'Tu cherches des expériences...',
                       textAlign: TextAlign.center,
@@ -102,22 +99,18 @@ class _Step5PageState extends State<Step5Page> {
                           .headlineMedium
                           ?.copyWith(color: AppResources.colorGray100),
                     ),
-                    const SizedBox(
-                      height: 24,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
                     Text(
                       'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    const SizedBox(
-                      height: 48,
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
                     Container(
-                      width: 319,
+                      width: ResponsiveSize.calculateWidth(319, context),
                       child: Wrap(
                         alignment: WrapAlignment.center,
-                        spacing: 8, // Horizontal spacing between items
-                        runSpacing: 12, // Vertical spacing between lines
+                        spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                        runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                         children: myList.map((item) {
                           return Item(
                             id: item.id,
@@ -148,15 +141,15 @@ class _Step5PageState extends State<Step5Page> {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 44),
+                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
                           child: Container(
-                            margin: const EdgeInsets.only(left: 96, right: 96),
-                            width: double.infinity,
+                            width: ResponsiveSize.calculateWidth(183, context),
+                            height: ResponsiveSize.calculateHeight(44, context),
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 24, vertical: 10)),
+                                    EdgeInsets.symmetric(
+                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
@@ -231,11 +224,11 @@ class _ItemState extends State<Item> {
       onTap: widget.onTap,
       child: IntrinsicWidth(
         child: Container(
-          height: 40,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          height: ResponsiveSize.calculateHeight(40, context),
+          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(16, context), vertical: ResponsiveSize.calculateHeight(10, context)-3),
           decoration: BoxDecoration(
             color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(24)),
+            borderRadius: BorderRadius.all(Radius.circular(ResponsiveSize.calculateCornerRadius(24, context))),
             border: Border.all(color: AppResources.colorGray100),
           ),
           child: Center(
@@ -243,12 +236,12 @@ class _ItemState extends State<Item> {
               widget.text,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: widget.isSelected
-                        ? Colors.white
-                        : AppResources.colorGray100,
-                    fontWeight:
-                        widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-                  ),
+                color: widget.isSelected
+                    ? Colors.white
+                    : AppResources.colorGray100,
+                fontWeight:
+                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+              ),
             ),
           ),
         ),

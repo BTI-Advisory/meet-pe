@@ -6,6 +6,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:http/http.dart' as http;
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step9Page.dart';
 import 'dart:convert';
+import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 
 class Step8Page extends StatefulWidget {
@@ -103,9 +104,7 @@ class _Step8PageState extends State<Step8Page> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 158,
-            ),
+            SizedBox(height: ResponsiveSize.calculateHeight(158, context)),
             Text(
               'Tu pars où ?',
               textAlign: TextAlign.center,
@@ -114,23 +113,19 @@ class _Step8PageState extends State<Step8Page> {
                   .headlineMedium
                   ?.copyWith(color: AppResources.colorGray100),
             ),
-            const SizedBox(
-              height: 74,
-            ),
+            SizedBox(height: ResponsiveSize.calculateHeight(74, context)),
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(23, context)),
                 child: SearchTextField(
                   focusNode: _focusNode,
                   controller: _textEditingController,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 45,
-            ),
+            SizedBox(height: ResponsiveSize.calculateHeight(45, context)),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23.0),
+              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(23, context)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -159,21 +154,21 @@ class _Step8PageState extends State<Step8Page> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 44),
+                  padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
                   child: Container(
-                    margin: const EdgeInsets.only(left: 96, right: 96),
-                    width: double.infinity,
+                    width: ResponsiveSize.calculateWidth(183, context),
+                    height: ResponsiveSize.calculateHeight(44, context),
                     child: ElevatedButton(
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 10)),
+                            EdgeInsets.symmetric(
+                                horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                         backgroundColor: MaterialStateProperty.all(
                             AppResources.colorVitamine),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
+                            borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                           ),
                         ),
                       ),
