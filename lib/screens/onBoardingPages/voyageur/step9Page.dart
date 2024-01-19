@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import 'loadingPage.dart';
@@ -9,6 +10,8 @@ class Step9Page extends StatefulWidget {
   Step9Page({super.key, required this.myMap});
 
   Map<String, Set<Object>> myMap = {};
+  // Create a new map with lists instead of sets
+  Map<String, dynamic> modifiedMap = {};
 
   @override
   State<Step9Page> createState() => _Step9PageState();
@@ -54,70 +57,70 @@ class _Step9PageState extends State<Step9Page> {
                     ?.copyWith(color: AppResources.colorGray100),
               ),
               SizedBox(height: ResponsiveSize.calculateHeight(57, context)),
-              Expanded(
-                child: Container(
-                  width: ResponsiveSize.calculateHeight(319, context),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(12, context)),
-                    ),
+              Container(
+                width: ResponsiveSize.calculateWidth(319, context),
+                //height: ResponsiveSize.calculateHeight(411, context),
+                height: 340,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(12, context)),
                   ),
-                  child: TableCalendar(
-                    headerStyle: HeaderStyle(
-                      titleTextStyle: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(
-                              color: AppResources.colorDark,
-                              fontWeight: FontWeight.w700),
-                      formatButtonShowsNext: false,
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                      headerPadding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(16, context)),
-                      headerMargin: EdgeInsets.zero,
-                    ),
-                    firstDay: kFirstDay,
-                    lastDay: kLastDay,
-                    focusedDay: _focusedDay,
-                    calendarFormat: _calendarFormat,
-                    selectedDayPredicate: (day) {
-                      // Use `selectedDayPredicate` to determine which day is currently selected.
-                      // If this returns true, then `day` will be marked as selected.
+                ),
+                child: TableCalendar(
+                  headerStyle: HeaderStyle(
+                    titleTextStyle: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(
+                            color: AppResources.colorDark,
+                            fontWeight: FontWeight.w700),
+                    formatButtonShowsNext: false,
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                    headerPadding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(16, context)),
+                    headerMargin: EdgeInsets.zero,
+                  ),
+                  firstDay: kFirstDay,
+                  lastDay: kLastDay,
+                  focusedDay: _focusedDay,
+                  calendarFormat: _calendarFormat,
+                  selectedDayPredicate: (day) {
+                    // Use `selectedDayPredicate` to determine which day is currently selected.
+                    // If this returns true, then `day` will be marked as selected.
 
-                      // Using `isSameDay` is recommended to disregard
-                      // the time-part of compared DateTime objects.
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      if (!isSameDay(_selectedDay, selectedDay)) {
-                        // Call `setState()` when updating the selected day
-                        setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay = focusedDay;
-                        });
-                      }
-                    },
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        // Call `setState()` when updating calendar format
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      // No need to call `setState()` here
-                      _focusedDay = focusedDay;
-                    },
-                    calendarStyle: CalendarStyle(
-                      selectedDecoration: BoxDecoration(
+                    // Using `isSameDay` is recommended to disregard
+                    // the time-part of compared DateTime objects.
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    if (!isSameDay(_selectedDay, selectedDay)) {
+                      // Call `setState()` when updating the selected day
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    }
+                  },
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      // Call `setState()` when updating calendar format
+                      setState(() {
+                        _calendarFormat = format;
+                      });
+                    }
+                  },
+                  onPageChanged: (focusedDay) {
+                    // No need to call `setState()` here
+                    _focusedDay = focusedDay;
+                  },
+                  calendarStyle: CalendarStyle(
+                    selectedDecoration: BoxDecoration(
+                      color: AppResources.colorVitamine,
+                      shape: BoxShape.circle,
+                      border: Border.all(
                         color: AppResources.colorVitamine,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppResources.colorVitamine,
-                          width: 1.0,
-                        ),
+                        width: 1.0,
                       ),
                     ),
                   ),
@@ -129,7 +132,7 @@ class _Step9PageState extends State<Step9Page> {
                   child: Padding(
                     padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
                     child: Container(
-                      width: ResponsiveSize.calculateWidth(183, context),
+                      width: ResponsiveSize.calculateWidth(235, context),
                       height: ResponsiveSize.calculateHeight(44, context),
                       child: ElevatedButton(
                         style: ButtonStyle(
@@ -145,10 +148,10 @@ class _Step9PageState extends State<Step9Page> {
                             ),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_selectedDay != null) {
                             // Adding selected date to myMap
-                            String key = 'selectedDate'; // You can use a meaningful key
+                            String key = 'date'; // You can use a meaningful key
                             Set<String> selectedDatesSet = { _selectedDay.toString() };
 
                             setState(() {
@@ -156,9 +159,18 @@ class _Step9PageState extends State<Step9Page> {
                               widget.myMap[key] = selectedDatesSet;
                             });
 
+                            // Convert sets to lists
+                            widget.myMap.forEach((key, value) {
+                              widget.modifiedMap[key] = value.toList();
+                            });
                             // Verify that the date is added to myMap
-                            print('Updated myMap: ${widget.myMap}');
-                            navigateTo(context, (_) => LoadingPage());
+                            print('Updated modifiedMap: ${widget.modifiedMap}');
+                            //navigateTo(context, (_) => LoadingPage());
+                            bool isSend = await AppService.api
+                                .sendListVoyageur(widget.modifiedMap);
+                            if (isSend) {
+                              navigateTo(context, (_) => LoadingPage());
+                            }
                           } else {
                             // Handle case when no date is selected
                             // You might want to show a message or take another action here

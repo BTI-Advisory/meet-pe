@@ -174,39 +174,15 @@ class _Step7PageState extends State<Step7Page> {
                                   ),
                                 ),
                               ),
-                              onPressed:
-                                  widget.myMap['voyageur_rencontre_fr'] !=
-                                              null &&
-                                          widget.myMap['voyageur_rencontre_fr']!
-                                              .isNotEmpty
-                                      ? () async {
-                                          try {
-                                            // Create a new map with lists instead of sets
-                                            Map<String, List<Object>>
-                                                modifiedMap = {};
-
-                                            // Convert sets to lists
-                                            widget.myMap.forEach((key, value) {
-                                              modifiedMap[key] = value.toList();
-                                            });
-                                            bool isSend = await AppService.api
-                                                .sendListVoyageur(modifiedMap);
-                                            if (isSend) {
-                                              navigateTo(
-                                                context,
-                                                    (_) => Step8Page(
-                                                  myMap: widget.myMap,
-                                                ),
-                                              );
-                                            }
-
-                                          } catch (error) {
-                                            // Handle the API request error, you might want to show a snackbar or display an error message.
-                                            print(
-                                                'Error sending API request: $error');
-                                          }
-                                        }
-                                      : null,
+                              onPressed: widget.myMap['voyageur_rencontre_fr'] != null &&
+                                  widget.myMap['voyageur_rencontre_fr']!.isNotEmpty
+                                  ? () {
+                                navigateTo(
+                                  context,
+                                      (_) => Step8Page(myMap: widget.myMap),
+                                );
+                              }
+                                  : null,
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
