@@ -166,7 +166,7 @@ class _Step1PageState extends State<Step1Page> {
                                 shape:
                                 MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                               ),
