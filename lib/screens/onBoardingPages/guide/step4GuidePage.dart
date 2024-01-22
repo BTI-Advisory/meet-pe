@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/services/api_client.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../../services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/async_form.dart';
+import 'loadingGuidePage.dart';
 
 class Step4GuidePage extends StatefulWidget {
   final int totalSteps;
@@ -86,7 +86,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
           onSuccess: () async {
             bool isVerified = await bloc.makeProfileGuide();
             if (isVerified) {
-              //return navigateTo(context, (_) => SignInPage(email: bloc.email!));
+              return navigateTo(context, (_) => LoadingGuidePage());
             } else {
               //return navigateTo(context, (_) => SignUpPage(email: bloc.email!));
             }
