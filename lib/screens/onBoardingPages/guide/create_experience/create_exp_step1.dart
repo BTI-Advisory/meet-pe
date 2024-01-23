@@ -1,0 +1,246 @@
+import 'dart:ffi';
+
+import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_exp_step2.dart';
+import '../../../../models/step_list_response.dart';
+import '../../../../resources/resources.dart';
+import '../../../../services/app_service.dart';
+import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+
+class CreateExpStep1 extends StatefulWidget {
+  const CreateExpStep1({super.key});
+
+  @override
+  State<CreateExpStep1> createState() => _CreateExpStep1State();
+}
+
+class _CreateExpStep1State extends State<CreateExpStep1> {
+  late Future<List<StepListResponse>> _choicesFuture;
+  late List<Voyage> myList = [];
+  Map<String, Set<Object>> myMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _choicesFuture = AppService.api.fetchChoices('guide_truc_de_toi_fr');
+    _loadChoices();
+  }
+
+  Future<void> _loadChoices() async {
+    try {
+      final choices = await _choicesFuture;
+      for (var choice in choices) {
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
+        if (!myList.contains(newVoyage)) {
+          setState(() {
+            myList.add(newVoyage);
+          });
+        }
+      }
+    } catch (error) {
+      // Handle error if fetching data fails
+      print('Error: $error');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<List<StepListResponse>>(
+        future: _choicesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final choices = snapshot.data!;
+            // Display your choices here
+            return Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AppResources.colorGray5, AppResources.colorWhite],
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset('images/backgroundExp.png'),
+                    SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Étape 1 sur 8',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(8, context)),
+                          Text(
+                            'Catégorie de l’expérience',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                          Text(
+                            'Dis-nous quel type d’expérience, tu proposes',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                          Container(
+                            width: double.infinity,
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                              runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                              children: myList.map((item) {
+                                return Item(
+                                  id: item.id,
+                                  text: item.title,
+                                  isSelected: myMap['guide_truc_de_toi_fr'] != null
+                                      ? myMap['guide_truc_de_toi_fr']!.contains(item.id)
+                                      : false,
+                                  onTap: () {
+                                    setState(() {
+                                      if (myMap['guide_truc_de_toi_fr'] == null) {
+                                        myMap['guide_truc_de_toi_fr'] =
+                                            Set<int>(); // Initialize if null
+                                      }
+
+                                      if (myMap['guide_truc_de_toi_fr']!.contains(item.id)) {
+                                        myMap['guide_truc_de_toi_fr']!.remove(item.id);
+                                      } else {
+                                        myMap['guide_truc_de_toi_fr']!.add(item.id);
+                                      }
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
+                          child: Container(
+                            width: ResponsiveSize.calculateWidth(183, context),
+                            height: ResponsiveSize.calculateHeight(44, context),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    EdgeInsets.symmetric(
+                                        horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.disabled)) {
+                                      return AppResources
+                                          .colorGray15; // Change to your desired grey color
+                                    }
+                                    return AppResources
+                                        .colorVitamine; // Your enabled color
+                                  },
+                                ),
+                                shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                ),
+                              ),
+                              onPressed: myMap['guide_truc_de_toi_fr'] != null &&
+                                  myMap['guide_truc_de_toi_fr']!.isNotEmpty
+                                  ? () {
+                                navigateTo(context, (_) => CreateExpStep2(myMap: myMap));
+                              }
+                                  : null, // Disable the button if no item is selected
+                              child: Image.asset('images/arrowLongRight.png'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class Item extends StatefulWidget {
+  final int id;
+  final String text;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const Item({
+    required this.id,
+    required this.text,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  State<Item> createState() => _ItemState();
+}
+
+class _ItemState extends State<Item> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: IntrinsicWidth(
+        child: Container(
+          height: ResponsiveSize.calculateHeight(40, context),
+          padding: EdgeInsets.symmetric(
+              horizontal: ResponsiveSize.calculateWidth(16, context),
+              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
+          decoration: BoxDecoration(
+            color: widget.isSelected ? Colors.black : Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(
+                ResponsiveSize.calculateCornerRadius(24, context))),
+            border: Border.all(color: AppResources.colorGray100),
+          ),
+          child: Center(
+            child: Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: widget.isSelected
+                        ? Colors.white
+                        : AppResources.colorGray100,
+                    fontWeight:
+                        widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+                  ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Voyage {
+  final int id;
+  final String title;
+
+  Voyage({
+    required this.id,
+    required this.title,
+  });
+}
