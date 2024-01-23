@@ -83,13 +83,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
     return Scaffold(
       body: AsyncForm(
           onValidated: bloc.makeProfileGuide,
-          onSuccess: () async {
-            bool isVerified = await bloc.makeProfileGuide();
-            if (isVerified) {
-              return navigateTo(context, (_) => LoadingGuidePage());
-            } else {
-              //return navigateTo(context, (_) => SignUpPage(email: bloc.email!));
-            }
+          onSuccess: () {
+            return navigateTo(context, (_) => LoadingGuidePage());
           },
           builder: (BuildContext context, void Function() validate) {
             return Container(
