@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
@@ -95,7 +96,9 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                             ),
                           ),
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          navigateTo(context, (_) => const CreateExpStep1());
+                        },
                         child: Text(
                           'CRÉER UNE EXPÈRIENCE',
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
