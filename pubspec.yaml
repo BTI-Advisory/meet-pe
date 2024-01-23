@@ -67,6 +67,9 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   hive_flutter: ^1.1.0
 
+  # Connect with social
+  google_sign_in: ^6.2.1
+
   # Internationalization
   intl: ^0.18.1
   timeago: ^3.2.2
