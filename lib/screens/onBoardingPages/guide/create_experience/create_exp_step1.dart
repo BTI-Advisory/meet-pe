@@ -130,11 +130,11 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                     ),
                     Expanded(
                       child: Align(
-                        alignment: Alignment.bottomCenter,
+                        alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
+                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context), right: ResponsiveSize.calculateWidth(28, context)),
                           child: Container(
-                            width: ResponsiveSize.calculateWidth(183, context),
+                            width: ResponsiveSize.calculateWidth(151, context),
                             height: ResponsiveSize.calculateHeight(44, context),
                             child: ElevatedButton(
                               style: ButtonStyle(
