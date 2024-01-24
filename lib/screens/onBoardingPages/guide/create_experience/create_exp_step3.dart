@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
-import 'create_exp_step3.dart';
 
-class CreateExpStep2 extends StatefulWidget {
-  CreateExpStep2({super.key, required this.myMap});
+class CreateExpStep3 extends StatefulWidget {
+  CreateExpStep3({super.key, required this.myMap});
 
   Map<String, Set<Object>> myMap = {};
 
   @override
-  State<CreateExpStep2> createState() => _CreateExpStep2State();
+  State<CreateExpStep3> createState() => _CreateExpStep3State();
 }
 
-class _CreateExpStep2State extends State<CreateExpStep2> {
+class _CreateExpStep3State extends State<CreateExpStep3> {
   late TextEditingController _textEditingControllerName;
   late TextEditingController _textEditingControllerDescr;
   String? validationMessageNameExp = '';
@@ -109,18 +107,18 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                         contentPadding: EdgeInsets.only(
                             top: ResponsiveSize.calculateHeight(20, context),
                             bottom:
-                                ResponsiveSize.calculateHeight(10, context)),
+                            ResponsiveSize.calculateHeight(10, context)),
                         // Adjust padding
                         suffix: SizedBox(
                             height:
-                                ResponsiveSize.calculateHeight(10, context)),
+                            ResponsiveSize.calculateHeight(10, context)),
                         enabledBorder: const UnderlineInputBorder(
                           borderSide:
-                              BorderSide(color: AppResources.colorGray15),
+                          BorderSide(color: AppResources.colorGray15),
                         ),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide:
-                              BorderSide(color: AppResources.colorGray15),
+                          BorderSide(color: AppResources.colorGray15),
                         ),
                         errorBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.red),
@@ -141,51 +139,6 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(40, context)),
-                    TextFormField(
-                      controller: _textEditingControllerDescr,
-                      maxLines: 4,
-                      keyboardType: TextInputType.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: AppResources.colorDark),
-                      decoration: InputDecoration(
-                        filled: false,
-                        hintText: 'La petite description',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium,
-                        contentPadding: EdgeInsets.only(
-                          top: ResponsiveSize.calculateHeight(20, context),
-                          bottom: ResponsiveSize.calculateHeight(10, context),
-                        ),
-                        // Adjust padding
-                        suffix: SizedBox(
-                            height:
-                                ResponsiveSize.calculateHeight(10, context)),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppResources.colorGray15),
-                        ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppResources.colorGray15),
-                        ),
-                        errorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      autofocus: true,
-                      textInputAction: TextInputAction.done,
-                      //onFieldSubmitted: (value) => validate(),
-                      validator: AppResources.validatorNotEmpty,
-                      //onSaved: (value) => bloc.name = value,
-                      onChanged: (value) {
-                        setState(() {
-                          validationMessageDescExp =
-                              AppResources.validatorNotEmpty(value);
-                          updateFormValidity();
-                        });
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -208,8 +161,8 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                                   vertical: ResponsiveSize.calculateHeight(
                                       10, context))),
                           backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
+                          MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
                               if (states.contains(MaterialState.disabled)) {
                                 return AppResources
                                     .colorGray15; // Change to your desired grey color
@@ -219,7 +172,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                             },
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
@@ -227,31 +180,31 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                         ),
                         onPressed: isFormValid
                             ? () {
-                                setState(() {
-                                  if (widget.myMap['desc_exp_title'] == null) {
-                                    widget.myMap['desc_exp_title'] =
-                                        Set<String>(); // Initialize if null
-                                  }
-                                  if (widget.myMap['desc_exp_desc'] == null) {
-                                    widget.myMap['desc_exp_desc'] =
-                                        Set<String>(); // Initialize if null
-                                  }
+                          setState(() {
+                            if (widget.myMap['desc_exp_title'] == null) {
+                              widget.myMap['desc_exp_title'] =
+                                  Set<String>(); // Initialize if null
+                            }
+                            if (widget.myMap['desc_exp_desc'] == null) {
+                              widget.myMap['desc_exp_desc'] =
+                                  Set<String>(); // Initialize if null
+                            }
 
-                                  if (_textEditingControllerName
-                                      .text.isNotEmpty) {
-                                    widget.myMap['desc_exp_title']!
-                                        .add(_textEditingControllerName.text);
-                                  }
-                                  if (_textEditingControllerDescr
-                                      .text.isNotEmpty) {
-                                    widget.myMap['desc_exp_desc']!
-                                        .add(_textEditingControllerDescr.text);
-                                  }
+                            if (_textEditingControllerName
+                                .text.isNotEmpty) {
+                              widget.myMap['desc_exp_title']!
+                                  .add(_textEditingControllerName.text);
+                            }
+                            if (_textEditingControllerDescr
+                                .text.isNotEmpty) {
+                              widget.myMap['desc_exp_desc']!
+                                  .add(_textEditingControllerDescr.text);
+                            }
 
-                                  // Proceed to the next step
-                                  navigateTo(context, (_) => CreateExpStep3(myMap: widget.myMap));
-                                });
-                              }
+                            // Proceed to the next step
+                            //navigateTo(context, (_) => CreateExpStep3(myMap: myMap));
+                          });
+                        }
                             : null,
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
