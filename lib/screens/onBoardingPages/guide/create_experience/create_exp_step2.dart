@@ -249,7 +249,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                                   }
 
                                   // Proceed to the next step
-                                  navigateTo(context, (_) => CreateExpStep3(myMap: widget.myMap));
+                                  navigateTo(context, (_) => CreateExpStep3(myMap: widget.myMap, email: _textEditingControllerName.text,));
                                 });
                               }
                             : null,
