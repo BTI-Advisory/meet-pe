@@ -1,33 +1,21 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../utils/audio_player.dart';
-import '../../../../utils/audio_recorder.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
-import 'create_exp_step4.dart';
+import 'create_exp_step3.dart';
 
-class CreateExpStep3 extends StatefulWidget {
-  CreateExpStep3({super.key, required this.myMap, required this.email});
-
-  final String email;
+class CreateExpStep4 extends StatefulWidget {
+  CreateExpStep4({super.key, required this.myMap});
 
   Map<String, Set<Object>> myMap = {};
 
   @override
-  State<CreateExpStep3> createState() => _CreateExpStep3State();
+  State<CreateExpStep4> createState() => _CreateExpStep4State();
 }
 
-class _CreateExpStep3State extends State<CreateExpStep3> {
-  bool showPlayer = false;
-  String? audioPath;
-
-  @override
-  void initState() {
-    showPlayer = false;
-    super.initState();
-  }
+class _CreateExpStep4State extends State<CreateExpStep4> {
+  double valueSlider = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +32,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('images/backgroundExp2.png'),
+              Image.asset('images/backgroundExp3.png'),
               SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
@@ -52,7 +40,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Étape 2 sur 8',
+                      'Étape 3 sur 8',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -61,70 +49,27 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(8, context)),
                     Text(
-                      'Description de l’expérience',
+                      'Durée de l’expérience',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(16, context)),
                     Text(
-                      'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                      'Donnes-nous une estimation pour que tes hôtes soient prêts !',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(40, context)),
-                    Text(
-                      widget.email,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: AppResources.colorDark),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: AppResources.colorGray15,
-                    ),
-                    SizedBox(
-                        height: ResponsiveSize.calculateHeight(40, context)),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(
-                          horizontal:
-                              ResponsiveSize.calculateWidth(22, context)),
-                      width: double.infinity,
-                      height: ResponsiveSize.calculateHeight(90, context),
-                      decoration: ShapeDecoration(
-                        color: AppResources.colorBeige,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              ResponsiveSize.calculateCornerRadius(
-                                  45, context)),
-                        ),
-                      ),
-                      child: showPlayer
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
-                              child: AudioPlayer(
-                                source: audioPath!,
-                                onDelete: () {
-                                  setState(() => showPlayer = false);
-                                },
-                              ),
-                            )
-                          : Recorder(
-                              onStop: (path) {
-                                if (kDebugMode)
-                                  print('Recorded file path: $path');
-                                setState(() {
-                                  audioPath = path;
-                                  showPlayer = true;
-                                });
-                              },
-                            ),
+                    Slider(
+                      value: valueSlider,
+                      max: 8,
+                      divisions: 8,
+                      label: '${valueSlider.round().toString()} heure',
+                      onChanged: (double value) {
+                        setState(() {
+                          valueSlider = value;
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -148,8 +93,8 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                                   vertical: ResponsiveSize.calculateHeight(
                                       10, context))),
                           backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
+                          MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
                               if (states.contains(MaterialState.disabled)) {
                                 return AppResources
                                     .colorGray15; // Change to your desired grey color
@@ -159,15 +104,13 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                             },
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap,));
-                        },
+                        onPressed: (){},
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
