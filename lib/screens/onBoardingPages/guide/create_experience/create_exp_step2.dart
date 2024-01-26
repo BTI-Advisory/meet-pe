@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
@@ -67,7 +68,42 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('images/backgroundExp2.png'),
+              Stack(children: [
+                Image.asset('images/backgroundExp2.png'),
+                Positioned(
+                  top: 48,
+                  left: 28,
+                  child: Container(
+                    width: ResponsiveSize.calculateWidth(24, context),
+                    height: ResponsiveSize.calculateHeight(24, context),
+                    //padding: const EdgeInsets.all(10),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            ResponsiveSize.calculateCornerRadius(40, context)),
+                      ),
+                    ),
+                    child: FloatingActionButton(
+                        backgroundColor: AppResources.colorWhite,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          String.fromCharCode(CupertinoIcons.back.codePoint),
+                          style: TextStyle(
+                            inherit: false,
+                            color: AppResources.colorVitamine,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: CupertinoIcons
+                                .exclamationmark_circle.fontFamily,
+                            package: CupertinoIcons
+                                .exclamationmark_circle.fontPackage,
+                          ),
+                        )),
+                  ),
+                ),
+              ]),
               SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
@@ -249,7 +285,13 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                                   }
 
                                   // Proceed to the next step
-                                  navigateTo(context, (_) => CreateExpStep3(myMap: widget.myMap, email: _textEditingControllerName.text,));
+                                  navigateTo(
+                                      context,
+                                      (_) => CreateExpStep3(
+                                            myMap: widget.myMap,
+                                            email:
+                                                _textEditingControllerName.text,
+                                          ));
                                 });
                               }
                             : null,
