@@ -47,9 +47,9 @@ dependencies:
   table_calendar: ^3.0.9
   widget_mask: ^1.0.0+0
   image_picker: ^1.0.7
-
   record: ^5.0.4
   audioplayers: ^5.2.1
+  dotted_border: ^2.1.0
 
   # Web
   http: ^1.1.0
