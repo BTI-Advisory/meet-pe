@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
-import 'create_exp_step3.dart';
+import 'create_exp_step5.dart';
 
 class CreateExpStep4 extends StatefulWidget {
   CreateExpStep4({super.key, required this.myMap});
@@ -32,7 +33,42 @@ class _CreateExpStep4State extends State<CreateExpStep4> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('images/backgroundExp3.png'),
+              Stack(children: [
+                Image.asset('images/backgroundExp3.png'),
+                Positioned(
+                  top: 48,
+                  left: 28,
+                  child: Container(
+                    width: ResponsiveSize.calculateWidth(24, context),
+                    height: ResponsiveSize.calculateHeight(24, context),
+                    //padding: const EdgeInsets.all(10),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            ResponsiveSize.calculateCornerRadius(40, context)),
+                      ),
+                    ),
+                    child: FloatingActionButton(
+                        backgroundColor: AppResources.colorWhite,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          String.fromCharCode(CupertinoIcons.back.codePoint),
+                          style: TextStyle(
+                            inherit: false,
+                            color: AppResources.colorVitamine,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: CupertinoIcons
+                                .exclamationmark_circle.fontFamily,
+                            package: CupertinoIcons
+                                .exclamationmark_circle.fontPackage,
+                          ),
+                        )),
+                  ),
+                ),
+              ]),
               SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
@@ -110,7 +146,21 @@ class _CreateExpStep4State extends State<CreateExpStep4> {
                             ),
                           ),
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          setState(() {
+                            if (widget.myMap['duree_exp'] == null) {
+                              widget.myMap['duree_exp'] =
+                                  Set<String>(); // Initialize if null
+                            }
+                            widget.myMap['duree_exp']!
+                                .add(valueSlider.toString());
+
+                            // Proceed to the next step
+                            print('FKFKKFFK $valueSlider');
+                            print('FNFNFNF ${widget.myMap}');
+                            navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap,));
+                          });
+                        },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
