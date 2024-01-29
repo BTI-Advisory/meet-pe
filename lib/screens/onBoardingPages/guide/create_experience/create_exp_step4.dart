@@ -156,8 +156,6 @@ class _CreateExpStep4State extends State<CreateExpStep4> {
                                 .add(valueSlider.toString());
 
                             // Proceed to the next step
-                            print('FKFKKFFK $valueSlider');
-                            print('FNFNFNF ${widget.myMap}');
                             navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap,));
                           });
                         },
