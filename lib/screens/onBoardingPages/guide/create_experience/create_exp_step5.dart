@@ -619,59 +619,67 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                   ],
                 ),
               ),
-              //Todo:
-              /*TextButton(
-                onPressed: () {},
-                child: Text(
-                  'ENREGISTRER',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),*/
               Expanded(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
                         bottom: ResponsiveSize.calculateHeight(40, context),
-                        right: ResponsiveSize.calculateWidth(28, context)),
-                    child: Container(
-                      width: ResponsiveSize.calculateWidth(151, context),
-                      height: ResponsiveSize.calculateHeight(44, context),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.symmetric(
-                                  horizontal: ResponsiveSize.calculateHeight(
-                                      24, context),
-                                  vertical: ResponsiveSize.calculateHeight(
-                                      10, context))),
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return AppResources
-                                    .colorGray15; // Change to your desired grey color
-                              }
-                              return AppResources
-                                  .colorVitamine; // Your enabled color
-                            },
-                          ),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                          ),
+                        left: ResponsiveSize.calculateWidth(28, context),
+                      ),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'ENREGISTRER',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
                         ),
-                        onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
-                            ? () {
-                          // Handle button press action here
-                        }
-                            : null, // Disable button if _imageList is empty
-                        child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: ResponsiveSize.calculateHeight(40, context),
+                          right: ResponsiveSize.calculateWidth(28, context),
+                      ),
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(151, context),
+                        height: ResponsiveSize.calculateHeight(44, context),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateHeight(
+                                        24, context),
+                                    vertical: ResponsiveSize.calculateHeight(
+                                        10, context))),
+                            backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return AppResources
+                                      .colorGray15; // Change to your desired grey color
+                                }
+                                return AppResources
+                                    .colorVitamine; // Your enabled color
+                              },
+                            ),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                          ),
+                          onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
+                              ? () {
+                            // Handle button press action here
+                          }
+                              : null, // Disable button if _imageList is empty
+                          child: Image.asset('images/arrowLongRight.png'),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
