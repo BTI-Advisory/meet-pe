@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import 'create_exp_step6.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -75,7 +77,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                   child: Container(
                     width: ResponsiveSize.calculateWidth(24, context),
                     height: ResponsiveSize.calculateHeight(24, context),
-                    //padding: const EdgeInsets.all(10),
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -83,6 +84,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                       ),
                     ),
                     child: FloatingActionButton(
+                        heroTag: "btn1",
                         backgroundColor: AppResources.colorWhite,
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -217,6 +219,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         ),
                                       ),
                                       child: FloatingActionButton(
+                                        heroTag: "btn2",
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () {
@@ -297,6 +300,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             ),
                                           ),
                                           child: FloatingActionButton(
+                                            heroTag: "btn3",
                                             backgroundColor:
                                                 AppResources.colorWhite,
                                             onPressed: () {
@@ -372,6 +376,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             ),
                                           ),
                                           child: FloatingActionButton(
+                                            heroTag: "btn4",
                                             backgroundColor:
                                                 AppResources.colorWhite,
                                             onPressed: () {
@@ -451,6 +456,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         ),
                                       ),
                                       child: FloatingActionButton(
+                                        heroTag: "btn5",
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () {
@@ -524,6 +530,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         ),
                                       ),
                                       child: FloatingActionButton(
+                                        heroTag: "btn6",
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () {
@@ -597,6 +604,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         ),
                                       ),
                                       child: FloatingActionButton(
+                                        heroTag: "btn7",
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () {
@@ -672,7 +680,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           ),
                           onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
                               ? () {
-                            // Handle button press action here
+                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal));
                           }
                               : null, // Disable button if _imageList is empty
                           child: Image.asset('images/arrowLongRight.png'),

@@ -10,9 +10,9 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step4.dart';
 
 class CreateExpStep3 extends StatefulWidget {
-  CreateExpStep3({super.key, required this.myMap, required this.email});
+  CreateExpStep3({super.key, required this.myMap, required this.name});
 
-  final String email;
+  final String name;
 
   Map<String, Set<Object>> myMap = {};
 
@@ -103,13 +103,13 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(16, context)),
                     Text(
-                      'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                      "C'est le moment idéal pour donner une touche personnelle à ton profil. Partage nous une courte description vocale qui donne vie à ton expérience ou quelque chose de spécial sur toi. Nos voyageurs adoreront entendre la voix derrière l'aventure. Appuie sur le bouton et fais-nous découvrir ton univers 🎙️",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(40, context)),
                     Text(
-                      widget.email,
+                      widget.name,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
