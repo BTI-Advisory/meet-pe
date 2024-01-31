@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_exp_step2.dart';
 import '../../../../models/step_list_response.dart';
@@ -23,7 +21,7 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('guide_truc_de_toi_fr');
+    _choicesFuture = AppService.api.fetchChoices('guide_categorie_de_lexperience');
     _loadChoices();
   }
 
@@ -104,20 +102,20 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                                 return Item(
                                   id: item.id,
                                   text: item.title,
-                                  isSelected: myMap['guide_truc_de_toi_fr'] != null
-                                      ? myMap['guide_truc_de_toi_fr']!.contains(item.id)
+                                  isSelected: myMap['categorie'] != null
+                                      ? myMap['categorie']!.contains(item.id)
                                       : false,
                                   onTap: () {
                                     setState(() {
-                                      if (myMap['guide_truc_de_toi_fr'] == null) {
-                                        myMap['guide_truc_de_toi_fr'] =
+                                      if (myMap['categorie'] == null) {
+                                        myMap['categorie'] =
                                             Set<int>(); // Initialize if null
                                       }
 
-                                      if (myMap['guide_truc_de_toi_fr']!.contains(item.id)) {
-                                        myMap['guide_truc_de_toi_fr']!.remove(item.id);
+                                      if (myMap['categorie']!.contains(item.id)) {
+                                        myMap['categorie']!.remove(item.id);
                                       } else {
-                                        myMap['guide_truc_de_toi_fr']!.add(item.id);
+                                        myMap['categorie']!.add(item.id);
                                       }
                                     });
                                   },
@@ -159,8 +157,8 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                                   ),
                                 ),
                               ),
-                              onPressed: myMap['guide_truc_de_toi_fr'] != null &&
-                                  myMap['guide_truc_de_toi_fr']!.isNotEmpty
+                              onPressed: myMap['categorie'] != null &&
+                                  myMap['categorie']!.isNotEmpty
                                   ? () {
                                 navigateTo(context, (_) => CreateExpStep2(myMap: myMap));
                               }
