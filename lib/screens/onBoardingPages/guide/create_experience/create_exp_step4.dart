@@ -148,11 +148,11 @@ class _CreateExpStep4State extends State<CreateExpStep4> {
                         ),
                         onPressed: (){
                           setState(() {
-                            if (widget.myMap['duree_exp'] == null) {
-                              widget.myMap['duree_exp'] =
+                            if (widget.myMap['dure'] == null) {
+                              widget.myMap['dure'] =
                                   Set<String>(); // Initialize if null
                             }
-                            widget.myMap['duree_exp']!
+                            widget.myMap['dure']!
                                 .add(valueSlider.toString());
 
                             // Proceed to the next step

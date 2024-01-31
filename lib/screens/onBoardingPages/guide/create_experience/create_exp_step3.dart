@@ -171,7 +171,8 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         bottom: ResponsiveSize.calculateHeight(44, context),
-                        right: ResponsiveSize.calculateWidth(28, context)),
+                        right: ResponsiveSize.calculateWidth(28, context),
+                    ),
                     child: Container(
                       width: ResponsiveSize.calculateWidth(151, context),
                       height: ResponsiveSize.calculateHeight(44, context),

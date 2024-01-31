@@ -268,23 +268,23 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           onPressed: isFormValid
                               ? () {
                                   setState(() {
-                                    if (widget.myMap['desc_exp_title'] == null) {
-                                      widget.myMap['desc_exp_title'] =
+                                    if (widget.myMap['nom'] == null) {
+                                      widget.myMap['nom'] =
                                           Set<String>(); // Initialize if null
                                     }
-                                    if (widget.myMap['desc_exp_desc'] == null) {
-                                      widget.myMap['desc_exp_desc'] =
+                                    if (widget.myMap['description'] == null) {
+                                      widget.myMap['description'] =
                                           Set<String>(); // Initialize if null
                                     }
 
                                     if (_textEditingControllerName
                                         .text.isNotEmpty) {
-                                      widget.myMap['desc_exp_title']!
+                                      widget.myMap['nom']!
                                           .add(_textEditingControllerName.text);
                                     }
                                     if (_textEditingControllerDescr
                                         .text.isNotEmpty) {
-                                      widget.myMap['desc_exp_desc']!
+                                      widget.myMap['description']!
                                           .add(_textEditingControllerDescr.text);
                                     }
 
