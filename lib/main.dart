@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/launch_screen.dart';
-import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -67,7 +66,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: buildAppTheme(),
       darkTheme: buildAppTheme(darkMode: true),
-      home: CreateExpStep1(),
+      home: LaunchScreen(),
     );
   }
 }

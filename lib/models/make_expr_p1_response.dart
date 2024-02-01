@@ -17,7 +17,7 @@ class MakeExprP1Response {
 @JsonSerializable()
 class Experience {
   final int id;
-  final String categorie;
+  final String? categorie;
   @JsonKey(name: 'title')
   final String title;
   @JsonKey(name: 'description')
@@ -25,19 +25,19 @@ class Experience {
   @JsonKey(name: 'dure')
   final String dure;
   @JsonKey(name: 'prix_par_voyageur')
-  final int prixParVoyageur;
+  final int? prixParVoyageur;
   @JsonKey(name: 'inclus')
-  final String inclus;
+  final String? inclus;
   @JsonKey(name: 'nombre_des_voyageur')
-  final int nombreDesVoyageur;
+  final int? nombreDesVoyageur;
   @JsonKey(name: 'type_des_voyageur')
-  final String typeDesVoyageur;
+  final String? typeDesVoyageur;
   @JsonKey(name: 'ville')
-  final String ville;
+  final String? ville;
   @JsonKey(name: 'addresse')
-  final String addresse;
+  final String? addresse;
   @JsonKey(name: 'code_postale')
-  final String codePostale;
+  final String? codePostale;
 
   Experience({
     required this.id,

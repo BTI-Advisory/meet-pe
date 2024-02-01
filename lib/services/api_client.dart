@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/make_expr_p1_response.dart';
 import 'package:meet_pe/models/step_list_response.dart';
 import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
@@ -373,6 +374,27 @@ class ApiClient {
     }
 
     return isVerified;
+  }
+
+  /// Mark a Make experience Guide P1
+  Future<MakeExprP1Response> makeExperienceGuide1(Map<String, dynamic> listChoice) async {
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/make-experience-guide-p1',
+            bodyJson: listChoice);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    return MakeExprP1Response.fromJson(response!);
   }
 
   /// Mark a message as read

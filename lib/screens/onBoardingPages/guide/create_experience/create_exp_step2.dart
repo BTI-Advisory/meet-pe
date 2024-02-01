@@ -84,7 +84,8 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              ResponsiveSize.calculateCornerRadius(40, context)),
+                              ResponsiveSize.calculateCornerRadius(
+                                  40, context)),
                         ),
                       ),
                       child: FloatingActionButton(
@@ -116,10 +117,8 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                     children: [
                       Text(
                         'Étape 2 sur 8',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontSize: 10, fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(8, context)),
@@ -258,8 +257,8 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                                     .colorVitamine; // Your enabled color
                               },
                             ),
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
@@ -268,33 +267,17 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           onPressed: isFormValid
                               ? () {
                                   setState(() {
-                                    if (widget.myMap['nom'] == null) {
-                                      widget.myMap['nom'] =
-                                          Set<String>(); // Initialize if null
-                                    }
-                                    if (widget.myMap['description'] == null) {
-                                      widget.myMap['description'] =
-                                          Set<String>(); // Initialize if null
-                                    }
-
-                                    if (_textEditingControllerName
-                                        .text.isNotEmpty) {
-                                      widget.myMap['nom']!
-                                          .add(_textEditingControllerName.text);
-                                    }
-                                    if (_textEditingControllerDescr
-                                        .text.isNotEmpty) {
-                                      widget.myMap['description']!
-                                          .add(_textEditingControllerDescr.text);
-                                    }
 
                                     // Proceed to the next step
                                     navigateTo(
                                         context,
                                         (_) => CreateExpStep3(
                                               myMap: widget.myMap,
-                                              name:
-                                                  _textEditingControllerName.text,
+                                              name: _textEditingControllerName
+                                                  .text,
+                                              description:
+                                                  _textEditingControllerDescr
+                                                      .text,
                                             ));
                                   });
                                 }

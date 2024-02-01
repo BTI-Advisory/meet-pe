@@ -10,9 +10,10 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step4.dart';
 
 class CreateExpStep3 extends StatefulWidget {
-  CreateExpStep3({super.key, required this.myMap, required this.name});
+  CreateExpStep3({super.key, required this.myMap, required this.name, required this.description});
 
   final String name;
+  final String description;
 
   Map<String, Set<Object>> myMap = {};
 
@@ -203,7 +204,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap,));
+                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
