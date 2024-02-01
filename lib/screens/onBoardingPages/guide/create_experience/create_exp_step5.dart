@@ -56,7 +56,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
 
   @override
   Widget build(BuildContext context) {
-    print('DJFJDJFDJF ${widget.myMap}');
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
