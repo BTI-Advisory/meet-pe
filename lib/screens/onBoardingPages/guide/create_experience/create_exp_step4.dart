@@ -11,11 +11,12 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step5.dart';
 
 class CreateExpStep4 extends StatefulWidget {
-  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description});
+  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.audioPath});
 
   Map<String, Set<Object>> myMap = {};
   final String name;
   final String description;
+  final String audioPath;
 
   @override
   State<CreateExpStep4> createState() => _CreateExpStep4State();
@@ -25,7 +26,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   double valueSlider = 0;
 
   @override
-  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, valueSlider);
+  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, valueSlider, widget.audioPath);
 
   void updateDuration(double value) {
     setState(() {
@@ -196,12 +197,13 @@ class CreateExpStep4Bloc with Disposable {
   String? name;
   String? description;
   double duration;
+  String? audioPath;
   Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.duration);
+  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.duration, this.audioPath);
 
   Future<void> makeExperienceGuide1() async {
     try {
@@ -215,11 +217,11 @@ class CreateExpStep4Bloc with Disposable {
       });
 
       // Perform the API call
-      await AppService.api.makeExperienceGuide1(modifiedMap);
+      await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
 
     } catch (error) {
       // Handle the error appropriately
-      print("Error in makeExperienceGuide: $error");
+      print("Error in make Experience Guide: $error");
     }
   }
 
