@@ -204,7 +204,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                           ),
                         ),
                         onPressed: () {
-                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description));
+                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description, audioPath: audioPath ?? '',));
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),

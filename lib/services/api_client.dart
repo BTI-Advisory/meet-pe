@@ -377,24 +377,59 @@ class ApiClient {
   }
 
   /// Mark a Make experience Guide P1
-  Future<MakeExprP1Response> makeExperienceGuide1(Map<String, dynamic> listChoice) async {
+  Future<MakeExprP1Response> makeExperienceGuide1(Map<String, dynamic> listChoice, {String? audioFilePath}) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer $_accessToken' ?? 'none',
+    };
 
-    // Send request
-    final response = await () async {
-      try {
-        return await _send<JsonObject>(_httpMethodPost, 'api/make-experience-guide-p1',
-            bodyJson: listChoice);
-      } catch (e) {
-        // Catch wrong user quality error
-        if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException(
-              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
-        }
-        rethrow;
-      }
-    }();
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p1'));
 
-    return MakeExprP1Response.fromJson(response!);
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    Map<String, String> outputData = transformData(listChoice);
+    request.fields.addAll(outputData);
+
+    // Add audio file if provided
+    if (audioFilePath != null) {
+      // Create a File object from the provided file path
+      final audioFile = File(audioFilePath);
+      request.files.add(await http.MultipartFile.fromPath('audio', audioFile.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      return MakeExprP1Response.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+    }
+  }
+
+  /// Mark a convert a list
+  Map<String, String> transformData(Map<String, dynamic> initialData) {
+    List<int> categories = List<int>.from(initialData['categorie']);
+    String categoriesString = categories.join(', ');
+
+    return {
+      'categorie': categoriesString,
+      'nom': initialData['nom'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'description': initialData['description'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'dure': initialData['dure'].toString() // Convert to string
+    };
   }
 
   /// Mark a message as read
