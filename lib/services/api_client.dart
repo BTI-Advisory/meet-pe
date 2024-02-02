@@ -349,9 +349,9 @@ class ApiClient {
   }
 
   /// Mark a Send list of choice Guide
-  Future<bool> sendListGuide(Map<String, dynamic> listChoice) async {
+  Future<bool> sendListGuide(Map<String, dynamic> listChoice, String imageFilePath) async {
     bool isVerified = false;
-
+    /*
     // Send request
     final response = await () async {
       try {
@@ -373,7 +373,51 @@ class ApiClient {
       isVerified = false;
     }
 
-    return isVerified;
+    return isVerified;*/
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer $_accessToken' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-profile-guide'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    Map<String, String> outputData = transformDataGuide(listChoice);
+    request.fields.addAll(outputData);
+
+    // Add audio file if provided
+    if (imageFilePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(imageFilePath);
+      //request.files.add(await http.MultipartFile.fromPath('audio', imageFile.path));
+
+      request.files.add(http.MultipartFile.fromBytes('picture', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+    //Todo: Fix bug, statusCode: 413, error: Request Entity Too Large
+    print('SJSJ 111 ${response.statusCode}');
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+    }
   }
 
   /// Mark a Make experience Guide P1
@@ -429,6 +473,27 @@ class ApiClient {
       'nom': initialData['nom'].replaceAll(' ', ' '), // Replace spaces with qsd
       'description': initialData['description'].replaceAll(' ', ' '), // Replace spaces with qsd
       'dure': initialData['dure'].toString() // Convert to string
+    };
+  }
+
+  /// Mark a convert a list in guide profile
+  Map<String, String> transformDataGuide(Map<String, dynamic> initialData) {
+    List<int> categories = List<int>.from(initialData['guide_truc_de_toi_fr']);
+    String categoriesString = categories.join(', ');
+
+    List<int> languages = List<int>.from(initialData['languages_fr']);
+    String languagesString = languages.join(', ');
+
+    List<int> personalite = List<int>.from(initialData['personalite_fr']);
+    String personaliteString = personalite.join(', ');
+
+    return {
+      'guide_truc_de_toi_fr': categoriesString,
+      'languages_fr': languagesString,
+      'personalite_fr': personaliteString,
+      'phone_number': initialData['phone_number'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'name': initialData['name'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'siren_number': initialData['siren_number'].replaceAll(' ', ' '), // Replace spaces with qsd
     };
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';
@@ -40,8 +42,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 
   String? validationMessageName = '';
   String? validationMessagePhone = '';
-  String? validationMessageEmail = '';
   bool isFormValid = false;
+  bool isChecked = false;
 
   double calculateProgress() {
     return widget.currentStep / widget.totalSteps;
@@ -65,14 +67,15 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 
     setState(() {
       selectedImagePath = imagePath;
+      bloc.imagePath = imagePath;
+      updateFormValidity();
     });
   }
 
   void updateFormValidity() {
     setState(() {
       isFormValid = validationMessageName == null &&
-          validationMessagePhone == null &&
-          validationMessageEmail == null;
+          validationMessagePhone == null && selectedImagePath != 'images/avatar_placeholder.png';
     });
   }
 
@@ -119,7 +122,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                           .headlineMedium
                           ?.copyWith(color: AppResources.colorGray100),
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
+                    SizedBox(height: ResponsiveSize.calculateHeight(38, context)),
                     Column(
                       children: [
                         Stack(
@@ -145,7 +148,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               child: Container(
                                 width: ResponsiveSize.calculateWidth(44, context),
                                 height: ResponsiveSize.calculateHeight(44, context),
-                                //padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(4),
                                 decoration: ShapeDecoration(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
@@ -164,7 +167,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                         )
                       ],
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(72, context)),
+                    SizedBox(height: ResponsiveSize.calculateHeight(49, context)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
                       child: Column(
@@ -216,7 +219,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                           Container(
                             height: ResponsiveSize.calculateHeight(28, context),
                             child: TextFormField(
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.phone,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -257,19 +260,60 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                             ),
                           ),
                           SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // Toggle the checkbox state on tap
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                  });
+                                },
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.circular(4.0),
+                                    color: Colors.white,
+                                  ),
+                                  child: isChecked
+                                      ? Icon(
+                                    Icons.check,
+                                    size: 10.0,
+                                    color: Colors.black,
+                                  )
+                                      : null,
+                                ),
+                              ),
+                              SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
+                              Text(
+                                'Je suis guide professionnel',
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
                           Container(
                             height: ResponsiveSize.calculateHeight(28, context),
                             child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
+                              enabled: isChecked,
+                              keyboardType: TextInputType.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
-                                  ?.copyWith(color: AppResources.colorGray100),
+                                  ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
                               decoration: InputDecoration(
                                 filled: false,
-                                hintText: 'Ton email',
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyMedium,
+                                hintText: 'Numéro SIREN',
+                                hintStyle: isChecked
+                                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
+                                : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
                                 contentPadding: EdgeInsets.only(
                                     top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
                                 // Adjust padding
@@ -283,37 +327,20 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                       color: AppResources.colorGray15),
                                 ),
                                 errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
+                                ),
+                                disabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
+                                ),
+                                focusedErrorBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
                                 ),
                               ),
                               autofocus: true,
                               textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (value) => validate(),
-                              validator: AppResources.validatorEmail,
-                              onSaved: (value) => bloc.email = value,
+                              onSaved: (value) => bloc.siren = value,
                               onChanged: (value) {
-                                setState(() {
-                                  validationMessageEmail =
-                                      AppResources.validatorEmail(value, true);
-                                  updateFormValidity();
-                                });
                               },
-                            ),
-                          ),
-                          //SizedBox(height: ResponsiveSize.calculateHeight(86, context)),
-                          SizedBox(height: ResponsiveSize.calculateHeight(56, context)),
-                          Visibility(
-                            visible: selectedImagePath ==
-                                'images/avatar_placeholder.png',
-                            child: Text(
-                              'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      color: AppResources.colorVitamine,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
@@ -324,41 +351,61 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                         alignment: Alignment.bottomCenter,
                         child: Padding(
                           padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
-                          child: Container(
-                            width: ResponsiveSize.calculateWidth(183, context),
-                            height: ResponsiveSize.calculateHeight(44, context),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.disabled)) {
-                                      return AppResources
-                                          .colorGray15; // Change to your desired grey color
-                                    }
-                                    return AppResources
-                                        .colorVitamine; // Your enabled color
-                                  },
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Visibility(
+                                visible: selectedImagePath ==
+                                    'images/avatar_placeholder.png',
+                                child: Text(
+                                  'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                      color: AppResources.colorVitamine,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ),
-                              onPressed: isFormValid
-                                  ? () {
-                                      validate();
-                                    }
-                                  : null,
-                              // Disable the button if no item is selected
-                              child: Image.asset('images/arrowLongRight.png'),
-                            ),
+                              SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                              Container(
+                                width: ResponsiveSize.calculateWidth(183, context),
+                                height: ResponsiveSize.calculateHeight(44, context),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all<EdgeInsets>(
+                                        EdgeInsets.symmetric(
+                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                    backgroundColor:
+                                        MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                        if (states
+                                            .contains(MaterialState.disabled)) {
+                                          return AppResources
+                                              .colorGray15; // Change to your desired grey color
+                                        }
+                                        return AppResources
+                                            .colorVitamine; // Your enabled color
+                                      },
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: isFormValid
+                                      ? () {
+                                          validate();
+                                        }
+                                      : null,
+                                  // Disable the button if no item is selected
+                                  child: Image.asset('images/arrowLongRight.png'),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -385,7 +432,8 @@ class Voyage {
 class Step4GuidePageBloc with Disposable {
   String? name;
   String? phone;
-  String? email;
+  String? siren;
+  String? imagePath;
   Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
@@ -393,7 +441,7 @@ class Step4GuidePageBloc with Disposable {
 
   Step4GuidePageBloc(this.myMap);
 
-  Future<bool> makeProfileGuide() async {
+  Future<void> makeProfileGuide() async {
     try {
       // Insert name and phone into modifiedMap
       if (name != null) {
@@ -402,6 +450,9 @@ class Step4GuidePageBloc with Disposable {
       if (phone != null) {
         modifiedMap['phone_number'] = phone!;
       }
+      if (siren != null) {
+        modifiedMap['siren_number'] = siren ?? '';
+      }
 
       // Convert sets to lists
       myMap.forEach((key, value) {
@@ -409,13 +460,11 @@ class Step4GuidePageBloc with Disposable {
       });
 
       // Perform the API call
-      bool isVerified = await AppService.api.sendListGuide(modifiedMap);
+      await AppService.api.sendListGuide(modifiedMap, imagePath!);
 
-      return isVerified;
     } catch (error) {
       // Handle the error appropriately
-      print("Error in makeProfileGuide: $error");
-      return false;
+      print("Error in make Profile Guide: $error");
     }
   }
 
