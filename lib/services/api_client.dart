@@ -351,29 +351,6 @@ class ApiClient {
   /// Mark a Send list of choice Guide
   Future<bool> sendListGuide(Map<String, dynamic> listChoice, String imageFilePath) async {
     bool isVerified = false;
-    /*
-    // Send request
-    final response = await () async {
-      try {
-        return await _send<JsonObject>(_httpMethodPost, 'api/make-profile-guide',
-            bodyJson: listChoice);
-      } catch (e) {
-        // Catch wrong user quality error
-        if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException(
-              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
-        }
-        rethrow;
-      }
-    }();
-
-    if (VerifyCode.fromJson(response!).verified == 'guide choices has been set successfully') {
-      isVerified = true;
-    } else {
-      isVerified = false;
-    }
-
-    return isVerified;*/
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -397,9 +374,8 @@ class ApiClient {
     if (imageFilePath != null) {
       // Create a File object from the provided file path
       final imageFile = File(imageFilePath);
-      //request.files.add(await http.MultipartFile.fromPath('audio', imageFile.path));
 
-      request.files.add(http.MultipartFile.fromBytes('picture', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+      request.files.add(http.MultipartFile.fromBytes('image', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
     }
 
     // Send the request
@@ -407,11 +383,9 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
-    //Todo: Fix bug, statusCode: 413, error: Request Entity Too Large
-    print('SJSJ 111 ${response.statusCode}');
 
     // Handle response
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       // Parse JSON response
       isVerified = true;
       return isVerified;
