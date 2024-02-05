@@ -82,6 +82,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
   @override
   Widget build(BuildContext context) {
     double progress = calculateProgress();
+    bool result = false;
 
     return Scaffold(
       body: AsyncForm(
