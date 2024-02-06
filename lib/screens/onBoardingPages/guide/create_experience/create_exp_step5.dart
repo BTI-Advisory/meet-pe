@@ -29,7 +29,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
   String selectedImagePath3 = '';
   String selectedImagePath4 = '';
   String selectedImagePath5 = '';
-  final List<File> _imageList = [];
+  final List<dynamic> _imageList = [];
 
   Future<void> pickImage(ImagePathCallback callback) async {
     // Your logic to pick an image goes here.
@@ -48,7 +48,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
       String imagePath = pickedFile?.path ?? '';
 
       setState(() {
-        _imageList.add(File(imagePath));
+        _imageList.add(imagePath);
         callback(imagePath);
       });
     }
@@ -680,7 +680,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           ),
                           onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
                               ? () {
-                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal));
+                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal, imageArray: _imageList,));
                           }
                               : null, // Disable button if _imageList is empty
                           child: Image.asset('images/arrowLongRight.png'),
