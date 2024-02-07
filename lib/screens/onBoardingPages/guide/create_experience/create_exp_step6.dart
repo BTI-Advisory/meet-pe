@@ -473,7 +473,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                       ),
                     ),
                     onPressed: () {
-                      navigateTo(context, (_) => CreateExpStep7());
+                      navigateTo(context, (_) => CreateExpStep7(photo: widget.photo, imageArray: widget.imageArray ));
                     },
                     child: Text(
                       'VALIDER LE VISUEL',

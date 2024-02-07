@@ -437,6 +437,50 @@ class ApiClient {
     }
   }
 
+  /// Mark a Make experience Guide P2
+  Future<MakeExprP1Response> makeExperienceGuide2(Map<String, dynamic> listChoice, String imageFilePath) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer $_accessToken' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p1'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    Map<String, String> outputData = transformData(listChoice);
+    request.fields.addAll(outputData);
+
+    // Add audio file if provided
+    if (imageFilePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(imageFilePath);
+
+      request.files.add(http.MultipartFile.fromBytes('image', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      return MakeExprP1Response.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+    }
+  }
+
   /// Mark a convert a list
   Map<String, String> transformData(Map<String, dynamic> initialData) {
     List<int> categories = List<int>.from(initialData['categorie']);
