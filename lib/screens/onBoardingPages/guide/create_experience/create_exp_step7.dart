@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import 'create_exp_step8.dart';
 
 class CreateExpStep7 extends StatefulWidget {
   const CreateExpStep7({super.key});
@@ -170,7 +172,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                           ),
                         ),
                         onPressed: () {
-                          //navigateTo(context, (_) => CreateExpStep8());
+                          navigateTo(context, (_) => CreateExpStep8());
                         },
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
