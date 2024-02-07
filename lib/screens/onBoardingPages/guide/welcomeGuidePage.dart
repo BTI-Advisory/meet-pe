@@ -1,9 +1,6 @@
-import 'package:fetcher/fetcher.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 
 import '../../../resources/resources.dart';
-import '../../../services/app_service.dart';
 import '../../../utils/utils.dart';
 import 'step1GuidePage.dart';
 

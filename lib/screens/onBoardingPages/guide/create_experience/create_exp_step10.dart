@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/created_experience.dart';
 
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
 
 class CreateExpStep10 extends StatefulWidget {
   const CreateExpStep10({super.key});
@@ -267,7 +269,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  //navigateTo(context, (_) => CreateExpStep9());
+                                  navigateTo(context, (_) => CreatedExperience());
                                 },
                                 child: Text(
                                   'POSTER MON EXPÉRIENCE',
