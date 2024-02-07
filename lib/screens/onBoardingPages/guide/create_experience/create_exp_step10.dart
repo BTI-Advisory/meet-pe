@@ -9,7 +9,8 @@ import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
 
 class CreateExpStep10 extends StatefulWidget {
-  const CreateExpStep10({super.key});
+  CreateExpStep10({super.key, required this.sendListMap});
+  Map<String, dynamic> sendListMap = {};
 
   @override
   State<CreateExpStep10> createState() => _CreateExpStep10State();
@@ -208,20 +209,20 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                   return Item(
                                     id: item.id,
                                     text: item.title,
-                                    isSelected: myMap['categorie'] != null
-                                        ? myMap['categorie']!.contains(item.id)
+                                    isSelected: myMap['guide_personnes_peuves_participer'] != null
+                                        ? myMap['guide_personnes_peuves_participer']!.contains(item.id)
                                         : false,
                                     onTap: () {
                                       setState(() {
-                                        if (myMap['categorie'] == null) {
-                                          myMap['categorie'] =
+                                        if (myMap['guide_personnes_peuves_participer'] == null) {
+                                          myMap['guide_personnes_peuves_participer'] =
                                               Set<int>(); // Initialize if null
                                         }
 
-                                        if (myMap['categorie']!.contains(item.id)) {
-                                          myMap['categorie']!.remove(item.id);
+                                        if (myMap['guide_personnes_peuves_participer']!.contains(item.id)) {
+                                          myMap['guide_personnes_peuves_participer']!.remove(item.id);
                                         } else {
-                                          myMap['categorie']!.add(item.id);
+                                          myMap['guide_personnes_peuves_participer']!.add(item.id);
                                         }
                                       });
                                     },
@@ -269,6 +270,12 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  widget.sendListMap['nombre_des_voyageur'] = _counter;
+                                  // Convert sets to lists
+                                  myMap.forEach((key, value) {
+                                    widget.sendListMap[key] = value.toList();
+                                  });
+                                  //Todo Add id to the list
                                   navigateTo(context, (_) => CreatedExperience());
                                 },
                                 child: Text(

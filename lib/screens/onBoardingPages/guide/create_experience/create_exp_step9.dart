@@ -7,7 +7,8 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step10.dart';
 
 class CreateExpStep9 extends StatefulWidget {
-  const CreateExpStep9({super.key});
+  CreateExpStep9({super.key, required this.sendListMap});
+  Map<String, dynamic> sendListMap = {};
 
   @override
   State<CreateExpStep9> createState() => _CreateExpStep9State();
@@ -323,7 +324,10 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                           onPressed: isFormValid
                               ? () {
                             setState(() {
-                              navigateTo(context, (_) => CreateExpStep10());
+                              widget.sendListMap['addresse'] = _textEditingControllerAdresse.text;
+                              widget.sendListMap['ville'] = _textEditingControllerVille.text;
+                              widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
+                              navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
                             });
                           }
                               : null,

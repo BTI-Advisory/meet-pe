@@ -9,7 +9,8 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step9.dart';
 
 class CreateExpStep8 extends StatefulWidget {
-  const CreateExpStep8({super.key});
+  CreateExpStep8({super.key, required this.sendListMap});
+  Map<String, dynamic> sendListMap = {};
 
   @override
   State<CreateExpStep8> createState() => _CreateExpStep8State();
@@ -147,20 +148,20 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   return Item(
                                     id: item.id,
                                     text: item.title,
-                                    isSelected: myMap['categorie'] != null
-                                        ? myMap['categorie']!.contains(item.id)
+                                    isSelected: myMap['et_avec_ça'] != null
+                                        ? myMap['et_avec_ça']!.contains(item.id)
                                         : false,
                                     onTap: () {
                                       setState(() {
-                                        if (myMap['categorie'] == null) {
-                                          myMap['categorie'] =
+                                        if (myMap['et_avec_ça'] == null) {
+                                          myMap['et_avec_ça'] =
                                               Set<int>(); // Initialize if null
                                         }
 
-                                        if (myMap['categorie']!.contains(item.id)) {
-                                          myMap['categorie']!.remove(item.id);
+                                        if (myMap['et_avec_ça']!.contains(item.id)) {
+                                          myMap['et_avec_ça']!.remove(item.id);
                                         } else {
-                                          myMap['categorie']!.add(item.id);
+                                          myMap['et_avec_ça']!.add(item.id);
                                         }
                                       });
                                     },
@@ -209,7 +210,11 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  navigateTo(context, (_) => CreateExpStep9());
+                                  // Convert sets to lists
+                                  myMap.forEach((key, value) {
+                                    widget.sendListMap[key] = value.toList();
+                                  });
+                                  navigateTo(context, (_) => CreateExpStep9(sendListMap: widget.sendListMap));
                                 },
                                 child: Image.asset('images/arrowLongRight.png'),
                               ),
