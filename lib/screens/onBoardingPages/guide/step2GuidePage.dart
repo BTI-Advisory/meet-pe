@@ -149,7 +149,7 @@ class _Step2GuidePageState extends State<Step2GuidePage> {
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
                                 MaterialStateProperty.resolveWith<Color>(
                                       (Set<MaterialState> states) {
