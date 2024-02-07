@@ -70,7 +70,12 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(children: [
-                Image.asset('images/backgroundExp4.png'),
+                Image.asset(
+                  'images/backgroundExp4.png',
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  height: ResponsiveSize.calculateHeight(190, context),
+                ),
                 Positioned(
                   top: 48,
                   left: 28,

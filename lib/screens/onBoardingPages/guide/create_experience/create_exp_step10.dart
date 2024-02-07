@@ -5,26 +5,39 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
-import 'create_exp_step9.dart';
 
-class CreateExpStep8 extends StatefulWidget {
-  const CreateExpStep8({super.key});
+class CreateExpStep10 extends StatefulWidget {
+  const CreateExpStep10({super.key});
 
   @override
-  State<CreateExpStep8> createState() => _CreateExpStep8State();
+  State<CreateExpStep10> createState() => _CreateExpStep10State();
 }
 
-class _CreateExpStep8State extends State<CreateExpStep8> {
+class _CreateExpStep10State extends State<CreateExpStep10> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
   Map<String, Set<Object>> myMap = {};
+  int _counter = 3;
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('et_avec_ça');
+    _choicesFuture = AppService.api.fetchChoices('guide_personnes_peuves_participer');
     _loadChoices();
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      if (_counter > 0) {
+        _counter--;
+      }
+    });
   }
 
   Future<void> _loadChoices() async {
@@ -71,7 +84,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                     children: [
                       Stack(children: [
                         Image.asset(
-                          'images/backgroundExp6.png',
+                          'images/backgroundExp8.png',
                           width: double.infinity,
                           fit: BoxFit.fill,
                           height: ResponsiveSize.calculateHeight(190, context),
@@ -112,12 +125,12 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                       ]),
                       SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28.0, context)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 6 sur 8',
+                              'Étape 8 sur 8',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -126,21 +139,67 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(8, context)),
                             Text(
-                              'Et avec ça ?',
+                              'Et avec qui ?',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'Renseigne ce qui est inclus dans ton expérience.',
+                              'A 2, à 3, à 4 ou plus ? Dis-nous combien de voyageurs peuvent venir vivre ton expérience',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(40, context)),
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppResources.colorGray45,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: _decrementCounter,
+                                    icon: Icon(Icons.remove, color: AppResources.colorGray75),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: ResponsiveSize.calculateWidth(18, context)),
+                                Text(
+                                  '$_counter',
+                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16),
+                                ),
+                                SizedBox(
+                                    width: ResponsiveSize.calculateWidth(18, context)),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppResources.colorGray45,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: _incrementCounter,
+                                    icon: Icon(Icons.add, color: AppResources.colorGray75),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(56, context)),
+                            Text(
+                              'Sélectionne les personnes qui peuvent participer à ton expérience : ',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(20, context)),
                             Container(
                               width: double.infinity,
                               child: Wrap(
-                                alignment: WrapAlignment.center,
+                                alignment: WrapAlignment.start,
                                 spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                 runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                                 children: myList.map((item) {
@@ -173,14 +232,13 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                       ),
                       Expanded(
                         child: Align(
-                          alignment: Alignment.bottomRight,
+                          alignment: Alignment.bottomCenter,
                           child: Padding(
                             padding: EdgeInsets.only(
                               bottom: ResponsiveSize.calculateHeight(44, context),
-                              right: ResponsiveSize.calculateWidth(28, context),
                             ),
                             child: Container(
-                              width: ResponsiveSize.calculateWidth(151, context),
+                              width: ResponsiveSize.calculateWidth(319, context),
                               height: ResponsiveSize.calculateHeight(44, context),
                               child: ElevatedButton(
                                 style: ButtonStyle(
@@ -209,9 +267,12 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  navigateTo(context, (_) => CreateExpStep9());
+                                  //navigateTo(context, (_) => CreateExpStep9());
                                 },
-                                child: Image.asset('images/arrowLongRight.png'),
+                                child: Text(
+                                  'POSTER MON EXPÉRIENCE',
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite)
+                                ),
                               ),
                             ),
                           ),
@@ -265,8 +326,8 @@ class _ItemState extends State<Item> {
             child: Row(
               children: [
                 Icon(
-                    Icons.ac_unit,
-                    size: 16,
+                  Icons.ac_unit,
+                  size: 10,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,
@@ -276,12 +337,12 @@ class _ItemState extends State<Item> {
                   widget.text,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: widget.isSelected
-                            ? Colors.white
-                            : AppResources.colorGray100,
-                        fontWeight:
-                            widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-                      ),
+                    color: widget.isSelected
+                        ? Colors.white
+                        : AppResources.colorGray100,
+                    fontWeight:
+                    widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+                  ),
                 ),
               ],
             ),
