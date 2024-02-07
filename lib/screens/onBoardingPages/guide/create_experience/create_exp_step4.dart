@@ -57,7 +57,12 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(children: [
-                    Image.asset('images/backgroundExp3.png'),
+                    Image.asset(
+                      'images/backgroundExp3.png',
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                      height: ResponsiveSize.calculateHeight(190, context),
+                    ),
                     Positioned(
                       top: 48,
                       left: 28,

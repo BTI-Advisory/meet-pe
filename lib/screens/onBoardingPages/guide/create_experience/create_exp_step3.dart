@@ -47,7 +47,12 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(children: [
-                Image.asset('images/backgroundExp2.png'),
+                Image.asset(
+                  'images/backgroundExp2.png',
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  height: ResponsiveSize.calculateHeight(190, context),
+                ),
                 Positioned(
                   top: 48,
                   left: 28,
@@ -144,7 +149,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                       child: showPlayer
                           ? Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
+                                  EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
                               child: AudioPlayer(
                                 source: audioPath!,
                                 onDelete: () {

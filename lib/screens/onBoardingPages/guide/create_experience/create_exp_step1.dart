@@ -67,7 +67,12 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset('images/backgroundExp.png'),
+                    Image.asset(
+                      'images/backgroundExp.png',
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                      height: ResponsiveSize.calculateHeight(190, context),
+                    ),
                     SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),

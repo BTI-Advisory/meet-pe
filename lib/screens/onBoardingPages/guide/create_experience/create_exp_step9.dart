@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import 'create_exp_step10.dart';
 
 class CreateExpStep9 extends StatefulWidget {
   const CreateExpStep9({super.key});
@@ -75,7 +77,12 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(children: [
-                  Image.asset('images/backgroundExp7.png'),
+                  Image.asset(
+                    'images/backgroundExp7.png',
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    height: ResponsiveSize.calculateHeight(190, context),
+                  ),
                   Positioned(
                     top: 48,
                     left: 28,
@@ -316,7 +323,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                           onPressed: isFormValid
                               ? () {
                             setState(() {
-                              //navigateTo(context, (_) => CreateExpStep10());
+                              navigateTo(context, (_) => CreateExpStep10());
                             });
                           }
                               : null,
