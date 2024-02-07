@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -7,6 +5,8 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import 'create_exp_step7.dart';
 
 class CreateExpStep6 extends StatefulWidget {
   const CreateExpStep6({super.key, required this.photo, required this.imageArray});
@@ -472,7 +472,9 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateTo(context, (_) => CreateExpStep7());
+                    },
                     child: Text(
                       'VALIDER LE VISUEL',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
