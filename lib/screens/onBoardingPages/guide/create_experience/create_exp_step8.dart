@@ -5,6 +5,8 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import 'create_exp_step9.dart';
 
 class CreateExpStep8 extends StatefulWidget {
   const CreateExpStep8({super.key});
@@ -202,7 +204,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  //navigateTo(context, (_) => CreateExpStep9());
+                                  navigateTo(context, (_) => CreateExpStep9());
                                 },
                                 child: Image.asset('images/arrowLongRight.png'),
                               ),
@@ -257,7 +259,13 @@ class _ItemState extends State<Item> {
           child: Center(
             child: Row(
               children: [
-                Icon(Icons.ac_unit, size: 16),
+                Icon(
+                    Icons.ac_unit,
+                    size: 16,
+                  color: widget.isSelected
+                      ? Colors.white
+                      : AppResources.colorGray100,
+                ),
                 SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
