@@ -9,10 +9,11 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step7.dart';
 
 class CreateExpStep6 extends StatefulWidget {
-  const CreateExpStep6({super.key, required this.photo, required this.imageArray});
+  const CreateExpStep6({super.key, required this.photo, required this.imageArray, required this.idExperience});
 
   final String photo;
   final List<dynamic> imageArray;
+  final int idExperience;
 
   @override
   State<CreateExpStep6> createState() => _CreateExpStep6State();
@@ -473,7 +474,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                       ),
                     ),
                     onPressed: () {
-                      navigateTo(context, (_) => CreateExpStep7(photo: widget.photo, imageArray: widget.imageArray ));
+                      navigateTo(context, (_) => CreateExpStep7(photo: widget.photo, imageArray: widget.imageArray, idExperience: widget.idExperience));
                     },
                     child: Text(
                       'VALIDER LE VISUEL',

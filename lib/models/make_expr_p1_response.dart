@@ -25,11 +25,11 @@ class Experience {
   @JsonKey(name: 'dure')
   final String dure;
   @JsonKey(name: 'prix_par_voyageur')
-  final int? prixParVoyageur;
+  final String? prixParVoyageur;
   @JsonKey(name: 'inclus')
   final String? inclus;
   @JsonKey(name: 'nombre_des_voyageur')
-  final int? nombreDesVoyageur;
+  final String? nombreDesVoyageur;
   @JsonKey(name: 'type_des_voyageur')
   final String? typeDesVoyageur;
   @JsonKey(name: 'ville')

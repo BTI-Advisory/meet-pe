@@ -14,9 +14,10 @@ import 'create_exp_step6.dart';
 typedef ImagePathCallback = void Function(String);
 
 class CreateExpStep5 extends StatefulWidget {
-  CreateExpStep5({super.key, required this.myMap});
+  CreateExpStep5({super.key, required this.myMap, required this.idExperience});
 
   Map<String, Set<Object>> myMap = {};
+  final int idExperience;
 
   @override
   State<CreateExpStep5> createState() => _CreateExpStep5State();
@@ -685,7 +686,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           ),
                           onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
                               ? () {
-                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal, imageArray: _imageList,));
+                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal, imageArray: _imageList, idExperience: widget.idExperience));
                           }
                               : null, // Disable button if _imageList is empty
                           child: Image.asset('images/arrowLongRight.png'),

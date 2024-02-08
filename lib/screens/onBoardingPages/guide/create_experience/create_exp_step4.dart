@@ -24,9 +24,10 @@ class CreateExpStep4 extends StatefulWidget {
 
 class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<CreateExpStep4, CreateExpStep4Bloc> {
   double valueSlider = 0;
+  final idExperience = 0;
 
   @override
-  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, valueSlider, widget.audioPath);
+  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, valueSlider, widget.audioPath, idExperience);
 
   void updateDuration(double value) {
     setState(() {
@@ -41,7 +42,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
       body: AsyncForm(
         onValidated: bloc.makeExperienceGuide1,
         onSuccess: () {
-          return navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap));
+          return navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap, idExperience: bloc.idExperience!));
         },
         builder: (BuildContext context, void Function() validate) {
           return Container(
@@ -203,12 +204,13 @@ class CreateExpStep4Bloc with Disposable {
   String? description;
   double duration;
   String? audioPath;
+  int? idExperience;
   Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.duration, this.audioPath);
+  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.duration, this.audioPath, this.idExperience);
 
   Future<void> makeExperienceGuide1() async {
     try {
@@ -222,7 +224,8 @@ class CreateExpStep4Bloc with Disposable {
       });
 
       // Perform the API call
-      await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
+      final response = await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
+      idExperience = response.experience.id;
 
     } catch (error) {
       // Handle the error appropriately
