@@ -390,7 +390,7 @@ class ApiClient {
       isVerified = true;
       return isVerified;
     } else {
-      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+      throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
     }
   }
 
@@ -433,12 +433,12 @@ class ApiClient {
       // Parse JSON response
       return MakeExprP1Response.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+      throw Exception('Failed to make experience guide P1: ${response.reasonPhrase}');
     }
   }
 
   /// Mark a Make experience Guide P2
-  Future<MakeExprP1Response> makeExperienceGuide2(Map<String, dynamic> listChoice, String imageFilePath) async {
+  Future<MakeExprP1Response> makeExperienceGuide2(Map<String, dynamic> listChoice) async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -447,7 +447,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p1'));
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p2'));
 
     // Add headers if provided
     if (headers != null) {
@@ -455,15 +455,22 @@ class ApiClient {
     }
 
     // Add JSON data
-    Map<String, String> outputData = transformData(listChoice);
+    Map<String, String> outputData = transformDataExperienceP2(listChoice);
     request.fields.addAll(outputData);
 
-    // Add audio file if provided
-    if (imageFilePath != null) {
+    // Add image file if provided
+    if (listChoice['image_principale'] != null) {
       // Create a File object from the provided file path
-      final imageFile = File(imageFilePath);
+      final imageFile = File(listChoice['image_principale']);
 
-      request.files.add(http.MultipartFile.fromBytes('image', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+      request.files.add(http.MultipartFile.fromBytes('image_principale', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Add image files
+    List<String> imagePaths = List<String>.from(listChoice['images']);
+    for (int i = 0; i < imagePaths.length; i++) {
+      final imageFile = File(imagePaths[i]);
+      request.files.add(http.MultipartFile.fromBytes('image_$i', await imageFile.readAsBytes(), filename: imageFile.path));
     }
 
     // Send the request
@@ -477,7 +484,7 @@ class ApiClient {
       // Parse JSON response
       return MakeExprP1Response.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to make experience guide: ${response.reasonPhrase}');
+      throw Exception('Failed to make experience guide P2: ${response.reasonPhrase}');
     }
   }
 
@@ -512,6 +519,26 @@ class ApiClient {
       'phone_number': initialData['phone_number'].replaceAll(' ', ' '), // Replace spaces with qsd
       'name': initialData['name'].replaceAll(' ', ' '), // Replace spaces with qsd
       'siren_number': initialData['siren_number'].replaceAll(' ', ' '), // Replace spaces with qsd
+    };
+  }
+
+  /// Mark a convert a list in experience p2 profile
+  Map<String, String> transformDataExperienceP2(Map<String, dynamic> initialData) {
+    List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
+    String avecCaString = avecCa.join(', ');
+
+    List<int> guidePersonnesPeuvesParticiper = List<int>.from(initialData['guide_personnes_peuves_participer']);
+    String guidePersonnesPeuvesParticiperString = guidePersonnesPeuvesParticiper.join(', ');
+
+    return {
+      'et_avec_ça': avecCaString,
+      'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString,
+      'prix_par_voyageur': initialData['prix_par_voyageur'].toString(),
+      'nombre_des_voyageur': initialData['nombre_des_voyageur'].toString(),
+      'ville': initialData['ville'].toString(),
+      'addresse': initialData['addresse'].toString(),
+      'code_postale': initialData['code_postale'].toString(),
+      'experience_id': initialData['experience_id'].toString(),
     };
   }
 

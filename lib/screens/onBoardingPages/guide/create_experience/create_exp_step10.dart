@@ -269,14 +269,16 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   widget.sendListMap['nombre_des_voyageur'] = _counter;
                                   // Convert sets to lists
                                   myMap.forEach((key, value) {
                                     widget.sendListMap[key] = value.toList();
                                   });
-                                  //Todo Add id to the list
-                                  navigateTo(context, (_) => CreatedExperience());
+                                  final response = await AppService.api.makeExperienceGuide2(widget.sendListMap);
+                                  if(response.experience.id != null) {
+                                    navigateTo(context, (_) => CreatedExperience());
+                                  }
                                 },
                                 child: Text(
                                   'POSTER MON EXPÉRIENCE',

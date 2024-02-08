@@ -7,10 +7,11 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step8.dart';
 
 class CreateExpStep7 extends StatefulWidget {
-  const CreateExpStep7({super.key, required this.photo, required this.imageArray});
+  const CreateExpStep7({super.key, required this.photo, required this.imageArray, required this.idExperience});
 
   final String photo;
   final List<dynamic> imageArray;
+  final int idExperience;
 
   @override
   State<CreateExpStep7> createState() => _CreateExpStep7State();
@@ -184,6 +185,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                           sendListMap['image_principale'] = widget.photo;
                           sendListMap['prix_par_voyageur'] = valueSlider.toInt();
                           sendListMap['images'] = widget.imageArray;
+                          sendListMap['experience_id'] = widget.idExperience;
 
                           navigateTo(context, (_) => CreateExpStep8(sendListMap: sendListMap));
                         },
