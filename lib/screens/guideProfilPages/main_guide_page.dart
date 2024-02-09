@@ -26,9 +26,6 @@ class _MainGuidePageState extends State<MainGuidePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _EpRootAppBar(
-          onPageChanged: bloc.setPage, pageController: bloc.pageController),
-      backgroundColor: Theme.of(context).primaryColor,
       body: EpTabbedPage.bottomBar(
         pageController: bloc.pageController,
         initialPage: 2,
