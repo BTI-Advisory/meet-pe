@@ -10,6 +10,8 @@ import 'package:meet_pe/models/make_expr_p1_response.dart';
 import 'package:meet_pe/models/step_list_response.dart';
 import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
+import 'package:meet_pe/services/secure_storage_service.dart';
+import 'package:meet_pe/services/storage_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/utils/exceptions/displayable_exception.dart';
 import 'package:meet_pe/utils/exceptions/ep_http_response_exception.dart';
@@ -153,6 +155,7 @@ class ApiClient {
     // -- Access token --
     // Save token in memory
     _accessToken = tokens.accessToken;
+    SecureStorageService.saveAccessToken(_accessToken!);
 
   }
 
@@ -234,6 +237,7 @@ class ApiClient {
     // -- Access token --
     // Save token in memory
     _accessToken = tokens.accessToken;
+    SecureStorageService.saveAccessToken(_accessToken!);
 
   }
 

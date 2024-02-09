@@ -8,6 +8,11 @@ class SecureStorageService {
   static Future<String?> readRefreshToken() => _storage.read(key: _refreshTokenKey);
   static Future<void> deleteRefreshToken() => _storage.delete(key: _refreshTokenKey);
 
+  static const _accessTokenKey = 'accessToken';
+  static Future<void> saveAccessToken(String value) => _storage.write(key: _accessTokenKey, value: value);
+  static Future<String?> readAccessToken() => _storage.read(key: _accessTokenKey);
+  static Future<void> deleteAccessToken() => _storage.delete(key: _accessTokenKey);
+
   static const _usernameKey = 'usernameKey';
   static Future<void> saveUsername(String value) => _storage.write(key: _usernameKey, value: value);
   static Future<String?> readUsername() => _storage.read(key: _usernameKey);
