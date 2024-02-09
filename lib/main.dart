@@ -1,11 +1,15 @@
+import 'package:fetcher/fetcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/launch_screen.dart';
-import 'package:meet_pe/screens/onBoardingPages/guide/loadingGuidePage.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
+import 'package:meet_pe/utils/utils.dart';
+import 'package:meet_pe/widgets/value_stream_builder.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -54,22 +58,7 @@ void main() async {
 
   // Start App
   //runApp(const MyApp());
-  initializeDateFormatting().then((_) => runApp(MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: buildAppTheme(),
-      darkTheme: buildAppTheme(darkMode: true),
-      home: LaunchScreen(),
-    );
-  }
+  initializeDateFormatting().then((_) => runApp(App()));
 }
 
 class App extends StatelessWidget {
@@ -86,16 +75,10 @@ class App extends StatelessWidget {
   /// We may use this on showMessage, showError, openDialog, etc.
   static BuildContext get navigatorContext => _navigatorKey.currentContext!;
 
-  @override
-  Widget build(context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
 // Todo: Implementing when Auth feature is done
 /// Build the default launch page widget
-/*static Widget buildLaunchPage() =>
-      AppService.instance.hasLocalUser ? const MainPage() : const LoginPage();
+static Widget buildLaunchPage() =>
+      AppService.instance.hasLocalUser ? const LaunchScreen() : const LaunchScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +100,7 @@ class App extends StatelessWidget {
         theme: buildAppTheme(),
         darkTheme: buildAppTheme(darkMode: true),
         navigatorKey: _navigatorKey,
-        home: AnalyticsService.isEnabled == null
-            ? const AnalyticsConsentPage()
-            : buildLaunchPage(),
+        home: buildLaunchPage(),
         builder: (context, child) {
           return Stack(
             fit: StackFit.expand,
@@ -144,5 +125,5 @@ class App extends StatelessWidget {
         },
       ),
     );
-  }*/
+  }
 }

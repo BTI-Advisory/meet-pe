@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
+import '../services/secure_storage_service.dart';
 import '../utils/utils.dart';
+import 'homePage.dart';
 import 'introMovePage.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -28,8 +30,17 @@ class _LaunchScreenState extends State<LaunchScreen>
       setState(() {});
     });
     //controller.repeat(reverse: true);
-    controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+    //controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+    redirectionState();
     super.initState();
+  }
+
+  void redirectionState() async {
+    if (await SecureStorageService.readAccessToken() != null) {
+      controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
+    } else {
+      controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+    }
   }
 
   @override
