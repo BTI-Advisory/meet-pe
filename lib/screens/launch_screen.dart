@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../services/secure_storage_service.dart';
 import '../utils/utils.dart';
-import 'homePage.dart';
 import 'introMovePage.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _LaunchScreenState extends State<LaunchScreen>
 
   void redirectionState() async {
     if (await SecureStorageService.readAccessToken() != null) {
-      controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
+      controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
     } else {
       controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
     }
