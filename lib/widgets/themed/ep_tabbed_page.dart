@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:meet_pe/utils/_utils.dart';
 
 import '../../resources/icons/font_awesome_flutter/fa_icon.dart';
@@ -25,6 +26,19 @@ class EpTabbedPage extends StatefulWidget {
 class _EpTabbedPageState extends State<EpTabbedPage> {
   late int _index;
   late StreamSubscription<int> _streamSubscription;
+
+  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(25),
+    topRight: Radius.circular(25),
+  ));
+  SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.pinned;
+  EdgeInsets padding = EdgeInsets.zero;
+  SnakeShape snakeShape = SnakeShape.circle;
+  Color selectedColor = AppResources.colorBeige;
+  Color unselectedColor = AppResources.colorDark;
+  bool showSelectedLabels = true;
+  bool showUnselectedLabels = true;
+  int _selectedItemPosition = 2;
 
   @override
   void initState() {
@@ -60,12 +74,81 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
         body: widget.pages[_index].page,
-        bottomNavigationBar: _EpBottomNavigationBar(
-          currentIndex: _index,
-          onTap: setIndex,
-          items: widget.pages,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(185, 185, 184, 0.10),
+                offset: Offset(0, -1),
+                blurRadius: 2,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Color.fromRGBO(185, 185, 184, 0.09),
+                offset: Offset(0, -4),
+                blurRadius: 4,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Color.fromRGBO(185, 185, 184, 0.05),
+                offset: Offset(0, -9),
+                blurRadius: 6,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Color.fromRGBO(185, 185, 184, 0.01),
+                offset: Offset(0, -17),
+                blurRadius: 7,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Color.fromRGBO(185, 185, 184, 0.00),
+                offset: Offset(0, -26),
+                blurRadius: 7,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: SnakeNavigationBar.color(
+            height: 72,
+            behaviour: snakeBarStyle,
+            snakeShape: snakeShape,
+            shape: bottomBarShape,
+            padding: padding,
+
+            ///configuration for SnakeNavigationBar.color
+            snakeViewColor: selectedColor,
+            selectedItemColor:
+            snakeShape == SnakeShape.indicator ? selectedColor : null,
+            unselectedItemColor: unselectedColor,
+
+            ///configuration for SnakeNavigationBar.gradient
+            // snakeViewGradient: selectedGradient,
+            // selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
+            // unselectedItemGradient: unselectedGradient,
+
+            showUnselectedLabels: showUnselectedLabels,
+            showSelectedLabels: showSelectedLabels,
+
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_bag), label: 'Expériences'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.message), label: 'Messages'),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')
+              /*BottomNavigationBarItem(
+                  icon: Image.asset('images/bag_icon.png'), label: 'Expériences'),
+              BottomNavigationBarItem(
+                  icon: Image.asset('images/message_icon.png'), label: 'Messages'),
+              BottomNavigationBarItem(icon: Image.asset('images/user_icon.png'), label: 'Profil')*/
+            ],
+            currentIndex: _index,
+            onTap: setIndex,
+            //items: widget.pages,
+            selectedLabelStyle: const TextStyle(fontSize: 14),
+            unselectedLabelStyle: const TextStyle(fontSize: 10),
+          ),
         ),
       ),
     );
