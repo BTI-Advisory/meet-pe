@@ -3,4 +3,5 @@ export 'password_field.dart';
 export 'async_form.dart';
 export 'themed/ep_tabbed_page.dart';
 export 'themed/ep_thick_dot.dart';
+export 'themed/ep_app_bar.dart';
 export 'value_stream_builder.dart';

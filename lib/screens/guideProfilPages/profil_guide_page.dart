@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/screens/guideProfilPages/profilesPages/availabilities_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/app_service.dart';
+import '../../utils/utils.dart';
 
 class ProfileGuidePage extends StatefulWidget {
   const ProfileGuidePage({super.key});
@@ -186,7 +188,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                   child: Column(
                     children: [
                       sectionProfile('Mes disponibilités', Icons.calendar_month, () {
-                        //navigateTo(context, (_) => const IntroMovePage());
+                        navigateTo(context, (_) => const AvailabilitiesPage());
                       }),
                       sectionProfile('Mon compte', Icons.person, () {
                         //navigateTo(context, (_) => const IntroMovePage());
