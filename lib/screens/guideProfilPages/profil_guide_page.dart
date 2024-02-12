@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
+import '../../services/app_service.dart';
+
 class ProfileGuidePage extends StatefulWidget {
   const ProfileGuidePage({super.key});
 
@@ -179,20 +181,35 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(8.0, context)),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Icon(Icons.calendar_month, size: 16,),
-                        SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
-                        Text(
-                          'Mes disponibilités',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                        )
-                      ],
+                  child: Column(
+                    children: [
+                      sectionProfile('Mes disponibilités', Icons.calendar_month, () {
+                        //navigateTo(context, (_) => const IntroMovePage());
+                      }),
+                      sectionProfile('Mon compte', Icons.person, () {
+                        //navigateTo(context, (_) => const IntroMovePage());
+                      }),
+                      sectionProfile('Demandes archivées', Icons.bookmark, () {
+                        //navigateTo(context, (_) => const IntroMovePage());
+                      }),
+                      sectionProfile('Notifications & newsletters', Icons.notifications, () {
+                        //navigateTo(context, (_) => const IntroMovePage());
+                      }),
+                      sectionProfile('Aide & assistance', Icons.contact_support, () {
+                        //navigateTo(context, (_) => const IntroMovePage());
+                      }),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context)),
+                  child: TextButton(
+                    onPressed: AppService.instance.logOut,
+                    child: Text(
+                      'Se déconnecter',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorDark, decoration: TextDecoration.underline),
                     ),
                   ),
                 )
@@ -200,6 +217,46 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget sectionProfile(String title, IconData icon, VoidCallback onTapCallback) {
+    return GestureDetector(
+      onTap: onTapCallback,
+      child: Column(
+        children: [
+          SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, size: 16,),
+                  SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                  )
+                ],
+              ),
+              Image.asset('images/chevron_right.png', width: 27, height: 27, fit: BoxFit.fill),
+            ],
+          ),
+          SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+          Container(
+            decoration: const ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1,
+                  strokeAlign: BorderSide.strokeAlignCenter,
+                  color: AppResources.colorGray15,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
