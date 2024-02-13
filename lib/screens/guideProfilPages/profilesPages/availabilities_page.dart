@@ -16,8 +16,10 @@ class AvailabilitiesPage extends StatefulWidget {
 class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   bool isAvailable = false;
   bool isAvailableHour = false;
-  String hourAvailableStart = '00:00';
-  String hourAvailableEnd = '23:59';
+  String hourAvailableStart = '';
+  String hourAvailableEnd = '';
+  String hourSecondAvailableStart = '';
+  String hourSecondAvailableEnd = '';
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +136,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   }
 
   Widget dayAvailable(String dayName) {
+    print('DFHDHF HELLO $dayName');
     return Column(
       children: [
         const SizedBox(height: 24),
@@ -144,141 +147,330 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
-                    width: double.infinity,
-                    height: 452,
-                    //color: Colors.amber,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(height: 39),
-                          Text(
-                            'Horaires',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                          Text(
-                            'Le prix moyen d’une expérience est de 55 €',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: AppResources.colorGray60),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                  return StatefulBuilder(
+                    builder: (BuildContext context,
+                        StateSetter setState) {
+                      return Container(
+                        width: double.infinity,
+                        height: 452,
+                        color: AppResources.colorWhite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const SizedBox(height: 39),
                               Text(
-                                'Disponible de 9:00 à 18:00',
+                                'Horaires',
+                                style: Theme.of(context).textTheme.headlineMedium,
+                              ),
+                              Text(
+                                'Le prix moyen d’une expérience est de 55 €',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
-                                    ?.copyWith(
+                                    ?.copyWith(color: AppResources.colorGray60),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Disponible de 9:00 à 18:00',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff797979)),
-                              ),
-                              StatefulBuilder(
-                                builder: (BuildContext context,
-                                    StateSetter setState) {
-                                  return Switch.adaptive(
-                                    value: isAvailableHour,
-                                    activeColor: AppResources.colorVitamine,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        isAvailableHour = value;
-                                      });
-                                    },
-                                  );
-                                },
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: 155.50,
-                                height: 52,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                        width: 1,
-                                        color: AppResources.colorGray15),
-                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ),
-                                child: GestureDetector(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'De',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(fontSize: 12),
+                                  StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Switch.adaptive(
+                                        value: isAvailableHour,
+                                        activeColor: AppResources.colorVitamine,
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            isAvailableHour = value;
+                                          });
+                                        },
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                              ///Select Hour
+                              Row(
+                                children: [
+                                  ///Choose start time
+                                  Container(
+                                    width: 155.50,
+                                    height: 52,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 6),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorGray15),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            StateSetter setState) {
-                                          return Text(
-                                            hourAvailableStart,
+                                    ),
+                                    child: GestureDetector(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'De',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                color: Color(0x3F1D1D1D)),
-                                          );
-                                        },
+                                                .bodyMedium
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                          StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setState) {
+                                              return Text(
+                                                hourAvailableStart != '' ? hourAvailableStart : '00:00',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                    color: hourAvailableStart != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                              );
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                      /*Text(
-                                        hourAvailableStart,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                                color: Color(0x3F1D1D1D)),
-                                      ),*/
-                                    ],
+                                      onTap: () {
+                                        DatePicker.showTimePicker(context,
+                                            showTitleActions: true,
+                                            showSecondsColumn: false,
+                                            onChanged: (date) {
+                                              print('change $date');
+                                            }, onConfirm: (date) {
+                                              print('confirm $date');
+                                              setState(() {
+                                                hourAvailableStart = '${date.hour}:${date.minute}';
+                                              });
+                                            }, locale: LocaleType.fr);
+                                      },
+                                    ),
                                   ),
-                                  onTap: () {
-                                    DatePicker.showTimePicker(context,
-                                        showTitleActions: true,
-                                        showSecondsColumn: false,
-                                        onChanged: (date) {
-                                          print('change $date');
-                                        }, onConfirm: (date) {
-                                          print('confirm $date');
-                                          setState(() {
-                                            hourAvailableStart = '${date.hour}:${date.minute}';
-                                            print('hourAvailableStart: $hourAvailableStart');
-                                          });
-                                        }, locale: LocaleType.fr);
-                                  },
+                                  const SizedBox(width: 8),
+                                  ///Choose end time
+                                  Container(
+                                    width: 155.50,
+                                    height: 52,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 6),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorGray15),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'A',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                          StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setState) {
+                                              return Text(
+                                                hourAvailableEnd != '' ? hourAvailableEnd : '23:59',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                    color: hourAvailableEnd != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        DatePicker.showTimePicker(context,
+                                            showTitleActions: true,
+                                            showSecondsColumn: false,
+                                            onChanged: (date) {
+                                              print('change $date');
+                                            }, onConfirm: (date) {
+                                              print('confirm $date');
+                                              setState(() {
+                                                hourAvailableEnd = '${date.hour}:${date.minute}';
+                                              });
+                                            }, locale: LocaleType.fr);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 39),
+                              ///Select Second Hour
+                              Row(
+                                children: [
+                                  ///Choose start time
+                                  Container(
+                                    width: 155.50,
+                                    height: 52,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 6),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorGray15),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'De',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                          StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setState) {
+                                              return Text(
+                                                hourSecondAvailableStart != '' ? hourSecondAvailableStart : '00:00',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                    color: hourSecondAvailableStart != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        DatePicker.showTimePicker(context,
+                                            showTitleActions: true,
+                                            showSecondsColumn: false,
+                                            onChanged: (date) {
+                                              print('change $date');
+                                            }, onConfirm: (date) {
+                                              print('confirm $date');
+                                              setState(() {
+                                                hourSecondAvailableStart = '${date.hour}:${date.minute}';
+                                              });
+                                            }, locale: LocaleType.fr);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ///Choose end time
+                                  Container(
+                                    width: 155.50,
+                                    height: 52,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 6),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorGray15),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'A',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                          StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setState) {
+                                              return Text(
+                                                hourSecondAvailableEnd != '' ? hourSecondAvailableEnd : '23:59',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                    color: hourSecondAvailableEnd != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        DatePicker.showTimePicker(context,
+                                            showTitleActions: true,
+                                            showSecondsColumn: false,
+                                            onChanged: (date) {
+                                              print('change $date');
+                                            }, onConfirm: (date) {
+                                              print('confirm $date');
+                                              setState(() {
+                                                hourSecondAvailableEnd = '${date.hour}:${date.minute}';
+                                              });
+                                            }, locale: LocaleType.fr);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 47),
+                              Container(
+                                width: ResponsiveSize.calculateWidth(319, context),
+                                height: ResponsiveSize.calculateHeight(44, context),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    padding:
+                                    MaterialStateProperty.all<EdgeInsets>(
+                                        EdgeInsets.symmetric(
+                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.transparent),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side: BorderSide(width: 1, color: AppResources.colorDark),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'ENREGISTRER',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(color: AppResources.colorDark),
+                                  ),
+                                  onPressed: () => Navigator.pop(context),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                          ElevatedButton(
-                            child: Text(
-                              'ENREGISTRER',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: AppResources.colorDark),
-                            ),
-                            //onPressed: () => Navigator.pop(context),
-                            onPressed: () {
-                              showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay(hour: 12, minute: 00));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   );
                 },
               );
@@ -295,7 +487,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 Row(
                   children: [
                     Text(
-                      'Non disponible',
+                      hourAvailableStart != '' ? '${hourAvailableStart}-${hourAvailableEnd}' : 'Non disponible',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w400,
                           color: AppResources.colorDark),
