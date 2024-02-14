@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
@@ -7,9 +8,14 @@ import '../utils/responsive_size.dart';
 import '../utils/utils.dart';
 
 class ExceptionalAbsences extends StatefulWidget {
-  const ExceptionalAbsences({super.key, required this.onCallBack});
+  const ExceptionalAbsences({
+    super.key,
+    required this.onCallBack,
+    required this.absences, // Include list of absences as a parameter
+  });
 
-  final Function(String) onCallBack;
+  final Function(List<Map<String, String>>) onCallBack; // Change the type of the callback function
+  final List<Map<String, String>> absences; // Define list of absences
 
   @override
   State<ExceptionalAbsences> createState() => _ExceptionalAbsencesState();
@@ -29,6 +35,18 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
   String hourSecondAvailableEnd = '';
 
   bool isRangeSelected = false;
+
+  void addAbsence(String startDate, String endDate, String startHour, String endHour) {
+    setState(() {
+      Map<String, String> newAbsence = {
+        'startDate': startDate,
+        'endDate': endDate,
+        'startHour': startHour,
+        'endHour': endHour,
+      };
+      widget.absences.add(newAbsence);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +72,9 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 12, color: const Color(0xFF979797)),
                   ),
+                  const SizedBox(height: 31),
                   Container(
                     width: ResponsiveSize.calculateWidth(319, context),
-                    height: 340,
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -179,7 +197,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 44),
-
                   ///Select Hour
                   Row(
                     children: [
@@ -231,9 +248,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                                         .textTheme
                                         .bodyLarge
                                         ?.copyWith(
-                                            color: hourAvailableStart != ''
-                                                ? AppResources.colorDark
-                                                : Color(0x3F1D1D1D)),
+                                            color: AppResources.colorDark),
                                   );
                                 },
                               ),
@@ -278,9 +293,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                                         .textTheme
                                         .bodyLarge
                                         ?.copyWith(
-                                            color: hourAvailableEnd != ''
-                                                ? AppResources.colorDark
-                                                : Color(0x3F1D1D1D)),
+                                            color: AppResources.colorDark),
                                   );
                                 },
                               ),
@@ -303,122 +316,123 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 39),
                   const SizedBox(height: 47),
                   isRangeSelected
                       ? Row(
-                    children: [
-                      Container(
-                        width: 145,
-                        height: 44,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateWidth(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        12, context))),
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                side: const BorderSide(
-                                    width: 1, color: AppResources.colorDark),
-                                borderRadius: BorderRadius.circular(40),
+                          children: [
+                            Container(
+                              width: 145,
+                              height: 44,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty
+                                      .all<EdgeInsets>(EdgeInsets.symmetric(
+                                          horizontal:
+                                              ResponsiveSize.calculateWidth(
+                                                  24, context),
+                                          vertical:
+                                              ResponsiveSize.calculateHeight(
+                                                  12, context))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          width: 1,
+                                          color: AppResources.colorDark),
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  'SUPPRIMER',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
                               ),
                             ),
-                          ),
-                          child: Text(
-                            'SUPPRIMER',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          ),
-                          onPressed: () {
-                            widget.onCallBack(
-                                '$hourAvailableStart-$hourAvailableEnd');
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 29),
-                      Container(
-                        width: 145,
-                        height: 44,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateWidth(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        12, context))),
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: AppResources.colorDark),
-                                borderRadius: BorderRadius.circular(40),
+                            const SizedBox(width: 29),
+                            Container(
+                              width: 145,
+                              height: 44,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty
+                                      .all<EdgeInsets>(EdgeInsets.symmetric(
+                                          horizontal:
+                                              ResponsiveSize.calculateWidth(
+                                                  24, context),
+                                          vertical:
+                                              ResponsiveSize.calculateHeight(
+                                                  12, context))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          width: 1,
+                                          color: AppResources.colorDark),
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  'ENREGISTRER',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                                onPressed: () {
+                                  addAbsence(_rangeStart.toString(), _rangeStart.toString(), hourAvailableStart, hourAvailableEnd);
+                                  widget.onCallBack(widget.absences);
+                                  Navigator.pop(context);
+                                },
                               ),
-                            ),
-                          ),
-                          child: Text(
-                            'ENREGISTRER',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          ),
-                          onPressed: () {
-                            widget.onCallBack(
-                                '$hourAvailableStart-$hourAvailableEnd');
-                            Navigator.pop(context);
-                          },
-                        ),
-                      )
-                    ],
-                  )
+                            )
+                          ],
+                        )
                       : Container(
-                    width: ResponsiveSize.calculateWidth(319, context),
-                    height: ResponsiveSize.calculateHeight(44, context),
-                    child: TextButton(
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(
-                                horizontal: ResponsiveSize.calculateWidth(
-                                    24, context),
-                                vertical: ResponsiveSize.calculateHeight(
-                                    12, context))),
-                        backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                        shape: MaterialStateProperty.all<
-                            RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 1, color: AppResources.colorDark),
-                            borderRadius: BorderRadius.circular(40),
+                          width: ResponsiveSize.calculateWidth(319, context),
+                          height: ResponsiveSize.calculateHeight(44, context),
+                          child: TextButton(
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  EdgeInsets.symmetric(
+                                      horizontal: ResponsiveSize.calculateWidth(
+                                          24, context),
+                                      vertical: ResponsiveSize.calculateHeight(
+                                          12, context))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 1, color: AppResources.colorDark),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              'ENREGISTRER',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: AppResources.colorDark),
+                            ),
+                            onPressed: () {
+                              showMessage(context, 'Select date!');
+                            },
                           ),
                         ),
-                      ),
-                      child: Text(
-                        'ENREGISTRER',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: AppResources.colorDark),
-                      ),
-                      onPressed: () {
-                        widget.onCallBack(
-                            '$hourAvailableStart-$hourAvailableEnd');
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
                   const SizedBox(height: 73),
                 ],
               ),

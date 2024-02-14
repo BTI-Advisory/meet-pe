@@ -13,6 +13,7 @@ class AvailabilitiesPage extends StatefulWidget {
 
 class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   bool isAvailable = false;
+  List<Map<String, String>> absencesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -185,16 +186,16 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      print('Button pressed');
                       showModalBottomSheet<void>(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
                           return ExceptionalAbsences(
-                            onCallBack: (date) {
-                              // Handle the selected date here
+                            absences: [],
+                            onCallBack: (absence) {
+                              print('absences List $absence');
                               setState(() {
-                                // Update any state variables if needed
+                                absencesList = absence;
                               });
                             },
                           );
@@ -208,6 +209,10 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                           .bodySmall
                           ?.copyWith(color: AppResources.colorVitamine),
                     ),
+                  ),
+                  const SizedBox(height: 34),
+                  Text(
+                      '${absencesList.length}',
                   ),
                 ],
               ),
