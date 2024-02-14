@@ -375,11 +375,15 @@ class _DayAvailableState extends State<DayAvailable> {
                 Row(
                   children: [
                     Text(
-                      hourAvailableStart != '' ? '$hourAvailableStart-$hourAvailableEnd' : 'Non disponible',
+                      isAvailableHour == true
+                          ? '9:00-18:00'
+                          : hourAvailableStart != '' ? '$hourAvailableStart-$hourAvailableEnd' : 'Non disponible',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: AppResources.colorDark),
-                    ),
+                        fontWeight: FontWeight.w400,
+                        color: AppResources.colorDark,
+                      ),
+                    )
+                    ,
                     Image.asset('images/chevron_right.png',
                         width: 27, height: 27, fit: BoxFit.fill),
                   ],
