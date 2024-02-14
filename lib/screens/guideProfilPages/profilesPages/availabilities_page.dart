@@ -184,7 +184,23 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('Button pressed');
+                      showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (BuildContext context) {
+                          return ExceptionalAbsences(
+                            onCallBack: (date) {
+                              // Handle the selected date here
+                              setState(() {
+                                // Update any state variables if needed
+                              });
+                            },
+                          );
+                        },
+                      );
+                    },
                     child: Text(
                       'Ajouter une abscence',
                       style: Theme.of(context)

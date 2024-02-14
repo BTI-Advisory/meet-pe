@@ -6,3 +6,4 @@ export 'themed/ep_thick_dot.dart';
 export 'themed/ep_app_bar.dart';
 export 'value_stream_builder.dart';
 export 'day_available.dart';
+export 'exceptional_absences.dart';
