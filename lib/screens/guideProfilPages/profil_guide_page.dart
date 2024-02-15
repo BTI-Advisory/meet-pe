@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/availabilities_page.dart';
-import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support.dart';
+import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
+import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/app_service.dart';
@@ -198,10 +199,10 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                         //navigateTo(context, (_) => const IntroMovePage());
                       }),
                       sectionProfile('Notifications & newsletters', Icons.notifications, () {
-                        //navigateTo(context, (_) => const IntroMovePage());
+                        navigateTo(context, (_) => const NotificationsNewslettersPage());
                       }),
                       sectionProfile('Aide & assistance', Icons.contact_support, () {
-                        navigateTo(context, (_) => const HelpSupport());
+                        navigateTo(context, (_) => const HelpSupportPage());
                       }),
                     ],
                   ),
