@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/_widgets.dart';
 
 class AvailabilitiesPage extends StatefulWidget {
@@ -17,7 +18,6 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: const EpAppBar(
         title: 'Mes disponibilités',
@@ -193,7 +193,6 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                           return ExceptionalAbsences(
                             absences: [],
                             onCallBack: (absence) {
-                              print('absences List $absence');
                               setState(() {
                                 absencesList = absence;
                               });
@@ -211,15 +210,56 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                     ),
                   ),
                   const SizedBox(height: 34),
-                  Text(
-                      '${absencesList.length}',
-                  ),
                 ],
               ),
+            ),
+            Column(
+              children: absencesList.map((absence) {
+                final startDate = absence["startDate"];
+                final formattedStartDate = yearsFrenchFormat(startDate!);
+                final endDate = absence["endDate"];
+                final formattedEndDate = yearsFrenchFormat(endDate!);
+                return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+              }).toList(),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget listExceptionalAbsences(String startDate, String endDate) {
+    return Column(
+      children: [
+        const SizedBox(height: 19),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 31),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Du $startDate au $endDate',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
+              ),
+              Image.asset('images/chevron_right.png',
+                  width: 27, height: 27, fit: BoxFit.fill),
+            ],
+          ),
+        ),
+        const SizedBox(height: 19),
+        Container(
+          width: 390,
+          decoration: const ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                strokeAlign: BorderSide.strokeAlignCenter,
+                color: AppResources.colorImputStroke,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

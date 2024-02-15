@@ -391,7 +391,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences> {
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
                                 onPressed: () {
-                                  addAbsence(_rangeStart.toString(), _rangeStart.toString(), hourAvailableStart, hourAvailableEnd);
+                                  addAbsence(_rangeStart.toString(), _rangeEnd.toString(), hourAvailableStart, hourAvailableEnd);
+                                  addAbsence(_rangeStart.toString(), _rangeEnd.toString(), hourAvailableStart, hourAvailableEnd);
                                   widget.onCallBack(widget.absences);
                                   Navigator.pop(context);
                                 },
