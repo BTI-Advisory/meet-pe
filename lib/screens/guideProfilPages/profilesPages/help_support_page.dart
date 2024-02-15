@@ -4,14 +4,14 @@ import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/_widgets.dart';
 
-class HelpSupport extends StatefulWidget {
-  const HelpSupport({super.key});
+class HelpSupportPage extends StatefulWidget {
+  const HelpSupportPage({super.key});
 
   @override
-  State<HelpSupport> createState() => _HelpSupportState();
+  State<HelpSupportPage> createState() => _HelpSupportPageState();
 }
 
-class _HelpSupportState extends State<HelpSupport> {
+class _HelpSupportPageState extends State<HelpSupportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
