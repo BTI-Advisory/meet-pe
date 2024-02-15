@@ -270,3 +270,11 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year + 3, kToday.month, kToday.day);
+
+String yearsFrenchFormat(String date) {
+  DateTime originalDate = DateTime.parse(date);
+
+  // Format the date to the desired format
+  String transformedDateString = "${originalDate.day}/${originalDate.month}/${originalDate.year}";
+  return transformedDateString;
+}
