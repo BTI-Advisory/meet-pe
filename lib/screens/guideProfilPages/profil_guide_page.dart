@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/screens/guideProfilPages/profilesPages/archived_requests_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/availabilities_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
@@ -196,7 +197,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                         //navigateTo(context, (_) => const IntroMovePage());
                       }),
                       sectionProfile('Demandes archivées', Icons.bookmark, () {
-                        //navigateTo(context, (_) => const IntroMovePage());
+                        navigateTo(context, (_) => const ArchivedRequestsPage());
                       }),
                       sectionProfile('Notifications & newsletters', Icons.notifications, () {
                         navigateTo(context, (_) => const NotificationsNewslettersPage());
