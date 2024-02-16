@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/services/api_client.dart';
 
 import '../../../resources/resources.dart';
+import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
@@ -20,6 +22,23 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
   bool isAppNotificationAvailable = false;
   bool isSMSAvailable = false;
   bool isCallMobileAvailable = false;
+
+  void sendNotificationSettings() async{
+    // Prepare the notification settings data
+    Map<String, bool> notificationSettings = {
+      "reservation_email": isEmailResAvailable,
+      "reservation_app": isAppNotificationResAvailable,
+      "reservation_sms": isSMSResAvailable,
+      "reservation_appel_telephone": isCallMobileResAvailable,
+      "notification_meetpe_email": isEmailAvailable,
+      "notification_meetpe_app": isAppNotificationAvailable,
+      "notification_meetpe_sms": isSMSAvailable,
+      "notification_meetpe_appel_telephone": isCallMobileAvailable
+    };
+
+    // Call the API method to send notification settings
+    await AppService.api.sendNotificationSettings(notificationSettings);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,11 +136,36 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                     });
                   }),
                   const SizedBox(height: 23),
-                  Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppResources.colorGray30),
+                  Container(
+                    width: ResponsiveSize.calculateWidth(319, context),
+                    height: ResponsiveSize.calculateHeight(44, context),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        padding:
+                        MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.symmetric(
+                                horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                        backgroundColor: MaterialStateProperty.all(
+                            Colors.transparent),
+                        shape: MaterialStateProperty.all<
+                            RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: AppResources.colorDark),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        'ENREGISTRER',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(color: AppResources.colorDark),
+                      ),
+                      onPressed: () {
+                        sendNotificationSettings();
+                      },
+                    ),
                   ),
                   const SizedBox(height: 23)
                 ],
