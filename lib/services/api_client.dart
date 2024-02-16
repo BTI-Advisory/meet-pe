@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
+import 'package:meet_pe/models/notification_settings_response.dart';
 import 'package:meet_pe/models/step_list_response.dart';
 import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
@@ -544,6 +545,27 @@ class ApiClient {
       'code_postale': initialData['code_postale'].toString(),
       'experience_id': initialData['experience_id'].toString(),
     };
+  }
+
+  /// Mark a set notification settings
+  Future<NotificationSettingsResponse> sendNotificationSettings(Map<String, bool> listNotification) async {
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/set-notification-settings',
+            bodyJson: listNotification);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    return NotificationSettingsResponse.fromJson(response!);
   }
 
   /// Mark a message as read
