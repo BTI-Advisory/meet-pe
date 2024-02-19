@@ -30,7 +30,7 @@ class _MainGuidePageState extends State<MainGuidePage>
         pageController: bloc.pageController,
         initialPage: 2,
         pages: [
-          const EpTabbedPageItem(Icons.co_present, ExperiencesGuidePage()),
+          const EpTabbedPageItem(Icons.backpack, ExperiencesGuidePage()),
           EpTabbedPageItem(FontAwesomeIcons.envelope, const MessagesGuidePage(),
                   (context, child) {
                 return ValueStreamBuilder<bool>(

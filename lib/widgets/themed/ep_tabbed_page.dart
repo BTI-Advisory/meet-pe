@@ -133,7 +133,7 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
 
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_bag), label: 'Expériences'),
+                  icon: Icon(Icons.backpack), label: 'Expériences'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.message), label: 'Messages'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')
