@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
@@ -9,7 +10,6 @@ import '../services/storage_service.dart';
 import '../utils/_utils.dart';
 import '../widgets/async_form.dart';
 import '../widgets/password_field.dart';
-import 'homePage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key, required this.email});
@@ -34,7 +34,7 @@ class _SignInPageState extends State<SignInPage>
             onValidated: bloc.login,
             onSuccess: () {
               bloc.saveCredentials();
-              return navigateTo(context, (_) => const HomePage(), clearHistory: true);
+              return navigateTo(context, (_) => const MainGuidePage(), clearHistory: true);
             },
             builder: (context, validate) {
               bloc.setValidateForm(validate);
