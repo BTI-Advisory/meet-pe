@@ -568,6 +568,18 @@ class ApiClient {
     return NotificationSettingsResponse.fromJson(response!);
   }
 
+  /// Get notification settings
+  Future<NotificationSettingsResponse> getNotificationSettings() async {
+    print('HELLO $_accessToken');
+    // Send request
+    final response =
+    await _send<JsonObject>(_httpMethodGet, 'api/get-user-notification-settings');
+    print('URURUR RESPONSE ${response}');
+
+    // Return data
+    return NotificationSettingsResponse.fromJson(response!);
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content

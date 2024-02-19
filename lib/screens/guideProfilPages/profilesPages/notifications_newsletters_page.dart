@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meet_pe/services/api_client.dart';
 
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
@@ -22,6 +21,31 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
   bool isAppNotificationAvailable = false;
   bool isSMSAvailable = false;
   bool isCallMobileAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchNotificationSettings();
+  }
+
+  Future<void> _fetchNotificationSettings() async {
+    try {
+      final notifications = await AppService.api.getNotificationSettings();
+      setState(() {
+        isEmailResAvailable = notifications.reservationEmail;
+        isAppNotificationResAvailable = notifications.reservationApp;
+        isSMSResAvailable = notifications.reservationSms;
+        isCallMobileResAvailable = notifications.reservationAppelTelephone;
+        isEmailAvailable = notifications.notificationMeetpeEmail;
+        isAppNotificationAvailable = notifications.notificationMeetpeApp;
+        isSMSAvailable = notifications.notificationMeetpeSms;
+        isCallMobileAvailable = notifications.notificationMeetpeAppelTelephone;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching notification settings: $e');
+    }
+  }
 
   void sendNotificationSettings() async{
     // Prepare the notification settings data

@@ -18,7 +18,7 @@ class CreateExpStep7 extends StatefulWidget {
 }
 
 class _CreateExpStep7State extends State<CreateExpStep7> {
-  double valueSlider = 0;
+  double valueSlider = 30;
   Map<String, dynamic> sendListMap = {};
 
   void updateDuration(double value) {
@@ -113,7 +113,8 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                         height: ResponsiveSize.calculateHeight(40, context)),
                     Slider(
                       value: valueSlider,
-                      max: 100,
+                      min: 30,
+                      max: 500,
                       divisions: 10,
                       label: '${valueSlider.round().toString()} €',
                       onChanged: (double value) {
