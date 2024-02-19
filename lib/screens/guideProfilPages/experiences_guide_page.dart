@@ -61,6 +61,10 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => _buildPopupDialog(context),
+                              );
                             },
                             child: RequestCard(),
                           ),
@@ -183,6 +187,215 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      insetPadding: EdgeInsets.symmetric(horizontal: 0),
+      backgroundColor: AppResources.colorWhite,
+      content: SizedBox(
+        width: 329,
+        height: 420,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 19),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 21),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          ClipOval(
+                              child: Image.asset('images/imageTest.png', width: 75, height: 75, fit: BoxFit.cover)
+                          ),
+                          SizedBox(width: ResponsiveSize.calculateWidth(19, context)),
+                          Column(
+                            children: [
+                              Text(
+                                'Chen',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
+                              ),
+                              Text(
+                                  'Lucie',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.close, size: 20, color: AppResources.colorGray30),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 21),
+                  Row(
+                    children: [
+                      Container(
+                        height: ResponsiveSize.calculateHeight(
+                            28, context),
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                            ResponsiveSize.calculateWidth(
+                                12, context)),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(ResponsiveSize
+                                  .calculateCornerRadius(
+                                  20, context))),
+                          border: Border.all(
+                              color: AppResources.colorDark),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                  'images/icon_verified.png', color: AppResources.colorDark),
+                              SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                              Text(
+                                'Vérifié',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                  color: AppResources
+                                      .colorDark,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: ResponsiveSize.calculateWidth(41, context)),
+                      Text(
+                        'expériences vécues',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                      ),
+                      SizedBox(width: ResponsiveSize.calculateWidth(5, context)),
+                      Text(
+                        '343',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Expérience réservée le 26/11/24',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    'Le Paris de Maria en deux lignes',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark, fontSize: 14),
+                  ),
+                  const SizedBox(height: 23),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Nombre de voyageurs',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                      ),
+                      Text(
+                        '2',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Créneau réservé',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                      ),
+                      Text(
+                        'Ma. 17 fév. 11h30',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              decoration: const ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 1,
+                    strokeAlign: BorderSide.strokeAlignCenter,
+                    color: AppResources.colorImputStroke,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      print('Accepted');
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.check, size: 24,),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Accepter',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: AppResources.colorDark),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 19),
+                  GestureDetector(
+                    onTap: () {
+                      print('Refuser');
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.close, size: 24,),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Refuser',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: AppResources.colorDark),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      )
     );
   }
 }
