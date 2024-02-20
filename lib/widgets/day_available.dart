@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:meet_pe/services/app_service.dart';
 
 import '../resources/resources.dart';
-import '../utils/responsive_size.dart';
+import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
   const DayAvailable({super.key, required this.dayName, required this.onCallBack});
@@ -348,7 +349,29 @@ class _DayAvailableState extends State<DayAvailable> {
                                         .bodyLarge
                                         ?.copyWith(color: AppResources.colorDark),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    // Create a TimeSlot object
+                                    TimeSlot timeSlot = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
+
+                                    // Create a list of TimeSlot objects
+                                    List<TimeSlot> times = [timeSlot];
+
+                                    // Create an Availability object
+                                    Availability availability = Availability(
+                                      day: widget.dayName,
+                                      isAvailableFullDay: false,
+                                      times: times,
+                                    );
+
+                                    // Convert the Availability object to JSON
+                                    Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
+
+                                    await AppService.api.sendScheduleAvailability(json);
+
+
+
+
+
                                     widget.onCallBack('$hourAvailableStart-$hourAvailableEnd');
                                     Navigator.pop(context);
                                   },
