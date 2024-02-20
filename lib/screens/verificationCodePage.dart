@@ -154,32 +154,6 @@ class _VerificationCodePageState extends State<VerificationCodePage>
   }
 }
 
-/*class VerificationCodePageBloc with Disposable {
-  late TextEditingController codeController;
-  late Function() validateForm;
-  final String code;
-
-  VerificationCodePageBloc({required this.code}) {
-    codeController = TextEditingController();
-    codeController.text = code;
-  }
-
-  void setValidateForm(Function() value) => validateForm = value;
-
-  BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
-
-  Future<bool> verifyCode() async {
-    bool isVerified = await AppService.api.verifyCode(code!);
-    return isVerified;
-  }
-
-  @override
-  void dispose() {
-    codeController.dispose();
-    super.dispose();
-  }
-}*/
-
 class VerificationCodePageBloc with Disposable {
   String? code;
 

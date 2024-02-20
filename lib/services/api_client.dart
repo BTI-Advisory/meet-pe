@@ -570,14 +570,59 @@ class ApiClient {
 
   /// Get notification settings
   Future<NotificationSettingsResponse> getNotificationSettings() async {
-    print('HELLO $_accessToken');
     // Send request
     final response =
     await _send<JsonObject>(_httpMethodGet, 'api/get-user-notification-settings');
-    print('URURUR RESPONSE ${response}');
 
     // Return data
     return NotificationSettingsResponse.fromJson(response!);
+  }
+
+  /// Mark a set schedule availability
+  Future<void> sendScheduleAvailability(Map<String, dynamic> availabilityData) async {
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/set-schedule-availability',
+            bodyJson: availabilityData);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+  }
+
+  /// Mark a set schedule absence
+  Future<bool> sendScheduleAbsence(Map<String, dynamic> absenceData) async {
+    bool isCreated = false;
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/set-schedule-absence',
+            bodyJson: absenceData);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'absence has been saved successfully') {
+      isCreated = true;
+    } else {
+      isCreated = false;
+    }
+
+    return isCreated;
   }
 
   /// Mark a message as read
@@ -848,7 +893,9 @@ class ApiClient {
       AsyncValueGetter<T>? onUnauthorizedRetryCallback}) async {
     // Set auth header (need to be here so that token is up-to-date when re-trying request)
     request.headers.addAll({
-      'Authorization': 'Bearer $_accessToken' ?? 'none',
+      //Todo Remove this when refresh token is ready
+      //'Authorization': 'Bearer $_accessToken' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
       // TEMP server fix, remove 'none' when not needed (currently if access_token is missing it returns a 421) ?
     });
 
