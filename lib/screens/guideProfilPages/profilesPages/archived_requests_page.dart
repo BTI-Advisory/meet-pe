@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
@@ -57,7 +58,21 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
           ),
           child: Row(
             children: [
-              Image.asset('images/imageTest.png', width: 68, height: 68, fit: BoxFit.cover),
+              WidgetMask(
+                blendMode: BlendMode.srcATop,
+                childSaveLayer: true,
+                mask: Image.asset(
+                  'images/imageTest.png',
+                  width: 68,
+                  height: 68,
+                  fit: BoxFit.cover,
+                ),
+                child: Image.asset(
+                  'images/mask_picture.png',
+                  width: 68,
+                  height: 68,
+                ),
+              ),
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
