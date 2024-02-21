@@ -9,15 +9,7 @@ import '../resources/resources.dart';
 import '../services/app_service.dart';
 
 class ExceptionalAbsences extends StatefulWidget {
-  const ExceptionalAbsences({
-    super.key,
-    required this.onCallBack,
-    required this.absences, // Include list of absences as a parameter
-  });
-
-  final Function(List<Map<String, String>>)
-      onCallBack; // Change the type of the callback function
-  final List<Map<String, String>> absences; // Define list of absences
+  const ExceptionalAbsences({super.key});
 
   @override
   State<ExceptionalAbsences> createState() => _ExceptionalAbsencesState();
@@ -41,19 +33,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
   String hourSecondAvailableEnd = '';
 
   bool isRangeSelected = false;
-
-  void addAbsence(
-      String startDate, String endDate, String startHour, String endHour) {
-    setState(() {
-      Map<String, String> newAbsence = {
-        'startDate': startDate,
-        'endDate': endDate,
-        'startHour': startHour,
-        'endHour': endHour,
-      };
-      widget.absences.add(newAbsence);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

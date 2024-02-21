@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/register_response.dart';
+import '../models/absence_list_response.dart';
 import '../models/verify_code.dart';
 
 const _httpMethodGet = 'GET';
@@ -576,6 +578,24 @@ class ApiClient {
 
     // Return data
     return NotificationSettingsResponse.fromJson(response!);
+  }
+
+  /// Get list absence
+  Future<List<AbsenceListResponse>> getAbsenceList() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-schedule-absence'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseScheduleEntries(response.body);
+    } else {
+      throw Exception('Failed to load schedule entries');
+    }
   }
 
   /// Mark a set schedule availability

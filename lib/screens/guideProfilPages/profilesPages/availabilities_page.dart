@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/absence_list_response.dart';
+import '../../../models/absence_list_response.dart';
 import '../../../resources/resources.dart';
+import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/_widgets.dart';
@@ -15,6 +18,26 @@ class AvailabilitiesPage extends StatefulWidget {
 class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   bool isAvailable = false;
   List<Map<String, String>> absencesList = [];
+
+  List<AbsenceListResponse> absenceList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      final entries = await AppService.api.getAbsenceList();
+      setState(() {
+        absenceList = entries;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching absence list: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,14 +213,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return ExceptionalAbsences(
-                            absences: [],
-                            onCallBack: (absence) {
-                              setState(() {
-                                absencesList = absence;
-                              });
-                            },
-                          );
+                          return const ExceptionalAbsences();
                         },
                       );
                     },
@@ -209,17 +225,24 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                           ?.copyWith(color: AppResources.colorVitamine),
                     ),
                   ),
-                  const SizedBox(height: 34),
                 ],
               ),
             ),
             Column(
-              children: absencesList.map((absence) {
-                final startDate = absence["startDate"];
-                final formattedStartDate = yearsFrenchFormat(startDate!);
-                final endDate = absence["endDate"];
-                final formattedEndDate = yearsFrenchFormat(endDate!);
-                return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+              children: absenceList.map((absence) {
+                if(absence.day == null) {
+                  final startDate = absence.dateFrom;
+                  final formattedStartDate = yearsFrenchFormat(startDate!);
+                  final endDate = absence.dateTo;
+                  final formattedEndDate = yearsFrenchFormat(endDate!);
+                  return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+                } else {
+                  final startDate = absence.day;
+                  final formattedStartDate = yearsFrenchFormat(startDate!);
+                  final endDate = absence.day;
+                  final formattedEndDate = yearsFrenchFormat(endDate!);
+                  return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+                }
               }).toList(),
             ),
           ],
