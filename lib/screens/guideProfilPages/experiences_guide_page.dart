@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/resources.dart';
 import '../../utils/responsive_size.dart';
+import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
+import 'experiencePages/edit_experience_page.dart';
 
 class ExperiencesGuidePage extends StatefulWidget {
   const ExperiencesGuidePage({super.key});
@@ -73,7 +75,12 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                       )
                     : Column(
                         children: [
-                          MyCardExperience(),
+                          GestureDetector(
+                            onTap: () {
+                              navigateTo(context, (_) => const EditExperiencePage());
+                            },
+                            child: MyCardExperience(),
+                          ),
                           MyCardExperience(),
                         ],
                       ),

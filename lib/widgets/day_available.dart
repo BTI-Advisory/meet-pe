@@ -359,7 +359,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                     // Create an Availability object
                                     Availability availability = Availability(
                                       day: widget.dayName,
-                                      isAvailableFullDay: false,
+                                      isAvailableFullDay: isAvailableHour,
                                       times: times,
                                     );
 
