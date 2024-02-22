@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/absence_list_response.dart';
-import '../../../models/absence_list_response.dart';
+import '../../../models/availability_list_response.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
@@ -17,17 +17,32 @@ class AvailabilitiesPage extends StatefulWidget {
 
 class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   bool isAvailable = false;
-  List<Map<String, String>> absencesList = [];
-
   List<AbsenceListResponse> absenceList = [];
+  List<AvailabilityListResponse> availabilityList = [];
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    fetchAvailabilityData();
+    fetchAbsenceData();
   }
 
-  Future<void> fetchData() async {
+  Future<void> fetchAvailabilityData() async {
+    try {
+      final response = await AppService.api.getAvailabilityList();
+      setState(() {
+        availabilityList = response;
+      });
+      for (var item in availabilityList) {
+        print(item.day);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error fetching absence list: $e');
+    }
+  }
+
+  Future<void> fetchAbsenceData() async {
     try {
       final entries = await AppService.api.getAbsenceList();
       setState(() {
@@ -139,6 +154,17 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 ],
               ),
             ),
+            /*Visibility(
+              visible: !isAvailable,
+              child: Column(
+                children: availabilityList.map((item) {
+                  return DayAvailable(availabilityList: item, dayName: 'Lundi', onCallBack: (date) {
+                    setState(() {
+                    });
+                  });
+                }).toList(),
+              ),
+            ),*/
             Visibility(
               visible: !isAvailable,
               child: Column(

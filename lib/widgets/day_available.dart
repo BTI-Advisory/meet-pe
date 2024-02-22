@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:meet_pe/services/app_service.dart';
 
+import '../models/availability_list_response.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
+  /*const DayAvailable({super.key, required this.availabilityList, required this.dayName, required this.onCallBack});
+  final AvailabilityListResponse availabilityList;*/
   const DayAvailable({super.key, required this.dayName, required this.onCallBack});
   final String dayName;
   final Function(String) onCallBack;

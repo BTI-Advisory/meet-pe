@@ -22,6 +22,7 @@ import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/availability_list_response.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
 import '../models/verify_code.dart';
@@ -594,7 +595,25 @@ class ApiClient {
     if (response.statusCode == 200) {
       return parseScheduleEntries(response.body);
     } else {
-      throw Exception('Failed to load schedule entries');
+      throw Exception('Failed to load absence list');
+    }
+  }
+
+  /// Get list availability
+  Future<List<AvailabilityListResponse>> getAvailabilityList() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-schedule-availability'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseAvailabilityItem(response.body);
+    } else {
+      throw Exception('Failed to load availability list');
     }
   }
 
