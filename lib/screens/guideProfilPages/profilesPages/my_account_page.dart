@@ -105,7 +105,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ),
                 ),
                 const SizedBox(height: 19),
-                Container(
+                /*Container(
                   width: 390,
                   decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
@@ -146,7 +146,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     ],
                   )
                 ),
-                const SizedBox(height: 42),
+                const SizedBox(height: 42),*/
                 TextButton(
                     onPressed: () {},
                     child: Text(
