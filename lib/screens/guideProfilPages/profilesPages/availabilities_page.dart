@@ -23,8 +23,21 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   @override
   void initState() {
     super.initState();
+    _fetchFullAvailable();
     fetchAvailabilityData();
     fetchAbsenceData();
+  }
+
+  Future<void> _fetchFullAvailable() async {
+    try {
+      final fullAvailable = await AppService.api.getFullAvailable();
+      setState(() {
+        isAvailable = fullAvailable.available;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching notification settings: $e');
+    }
   }
 
   Future<void> fetchAvailabilityData() async {
