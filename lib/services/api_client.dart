@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/is_full_availability_response.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
 import 'package:meet_pe/models/notification_settings_response.dart';
 import 'package:meet_pe/models/step_list_response.dart';
@@ -579,6 +580,16 @@ class ApiClient {
 
     // Return data
     return NotificationSettingsResponse.fromJson(response!);
+  }
+
+  /// Get is full available
+  Future<IsFullAvailabilityResponse> getFullAvailable() async {
+    // Send request
+    final response =
+    await _send<JsonObject>(_httpMethodGet, 'api/get-is-full-availability');
+
+    // Return data
+    return IsFullAvailabilityResponse.fromJson(response!);
   }
 
   /// Get list absence
