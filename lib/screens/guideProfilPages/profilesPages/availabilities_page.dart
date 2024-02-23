@@ -114,8 +114,17 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         value: isAvailable,
                         activeColor: AppResources.colorVitamine,
                         onChanged: (bool value) {
+                          // Update the state immediately without awaiting the async operation
                           setState(() {
                             isAvailable = value;
+                          });
+
+                          // Call the asynchronous operation and handle its completion
+                          AppService.api.sendFullAvailable(value).then((_) {
+                            // Optionally, you can perform additional actions after the operation completes
+                          }).catchError((error) {
+                            // Handle any errors that occur during the asynchronous operation
+                            print('Error: $error');
                           });
                         },
                       )
