@@ -4,6 +4,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../../../resources/resources.dart';
 import '../../../utils/_utils.dart';
+import '../../../widgets/themed/ep_app_bar.dart';
 
 class EditExperiencePage extends StatefulWidget {
   const EditExperiencePage({super.key});
@@ -13,9 +14,28 @@ class EditExperiencePage extends StatefulWidget {
 }
 
 class _EditExperiencePageState extends State<EditExperiencePage> {
+  bool onLine = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: EpAppBar(
+        title: 'Mode Edition',
+        actions: [
+          Text(
+            'En ligne',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12, color: AppResources.colorDark)
+          ),
+          Switch.adaptive(
+            value: onLine,
+            activeColor: AppResources.colorVitamine,
+            onChanged: (bool value) {
+              setState(() {
+                onLine = value;
+              });
+            },
+          )
+        ],
+      ),
       body: Stack(
           children: [
             SingleChildScrollView(
@@ -38,7 +58,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           children: [
                             Container(
                               width: ResponsiveSize.calculateWidth(375, context),
-                              height: ResponsiveSize.calculateHeight(576, context),
+                              height: 576,
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -47,8 +67,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     child: Container(
                                       width:
                                       ResponsiveSize.calculateWidth(427, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          592, context),
+                                      height: 592,
                                       child: Image.asset(
                                         'images/imageTest.png',
                                         fit: BoxFit.cover,
@@ -61,8 +80,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     child: Container(
                                       width:
                                       ResponsiveSize.calculateWidth(375, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          532, context),
+                                      height: 532,
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           begin: Alignment(-0.00, -1.00),
@@ -76,61 +94,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            //back button
-                            Positioned(
-                              top: 48,
-                              left: 28,
-                              child: Container(
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        ResponsiveSize.calculateCornerRadius(
-                                            40, context)),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width:
-                                      ResponsiveSize.calculateWidth(24, context),
-                                      height:
-                                      ResponsiveSize.calculateHeight(24, context),
-                                      child: FloatingActionButton(
-                                        backgroundColor: AppResources.colorWhite,
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          String.fromCharCode(
-                                              CupertinoIcons.back.codePoint),
-                                          style: TextStyle(
-                                            inherit: false,
-                                            color: AppResources.colorVitamine,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: CupertinoIcons
-                                                .exclamationmark_circle.fontFamily,
-                                            package: CupertinoIcons
-                                                .exclamationmark_circle.fontPackage,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        width: ResponsiveSize.calculateWidth(
-                                            8, context)),
-                                    Text(
-                                      'Editer l’expérience',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.copyWith(color: AppResources.colorWhite),
-                                    ),
-                                  ],
-                                ),
                               ),
                             ),
                             //bloc info in the bottom
@@ -164,13 +127,11 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       ),
                                       SizedBox(
                                           width: ResponsiveSize.calculateWidth(
-                                              5, context)),
+                                              11, context)),
                                       Container(
                                         width: ResponsiveSize.calculateWidth(
                                             85, context),
-                                        height: ResponsiveSize.calculateHeight(
-                                            28, context),
-                                        //padding: EdgeInsets.only(top: ResponsiveSize.calculateHeight(6, context), left: ResponsiveSize.calculateWidth(12, context), right: ResponsiveSize.calculateWidth(16, context), bottom: ResponsiveSize.calculateHeight(6, context)),
+                                        height: 28,
                                         decoration: ShapeDecoration(
                                           color: AppResources.colorVitamine,
                                           shape: RoundedRectangleBorder(
@@ -191,27 +152,48 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                           ),
                                         ),
                                       ),
+                                      SizedBox(
+                                          width: ResponsiveSize.calculateWidth(
+                                              11, context)),
+                                      Container(
+                                        width: ResponsiveSize.calculateWidth(
+                                            85, context),
+                                        height: 28,
+                                        decoration: ShapeDecoration(
+                                          color: AppResources.colorWhite,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                ResponsiveSize.calculateCornerRadius(
+                                                    20, context)),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '100€/pers',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                fontSize: 12,
+                                                color: AppResources.colorDark),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(
-                                      height: ResponsiveSize.calculateHeight(
-                                          12, context)),
+                                  const SizedBox(height: 12),
                                   Row(
                                     children: [
                                       IntrinsicWidth(
                                         child: Container(
-                                          height: ResponsiveSize.calculateHeight(
-                                              28, context),
+                                          height: 28,
                                           padding: EdgeInsets.symmetric(
                                               horizontal:
                                               ResponsiveSize.calculateWidth(
                                                   12, context)),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(ResponsiveSize
-                                                    .calculateCornerRadius(
-                                                    20, context))),
+                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                                             border: Border.all(
                                                 color: AppResources.colorBeigeLight),
                                           ),
@@ -246,18 +228,14 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               8, context)),
                                       IntrinsicWidth(
                                         child: Container(
-                                          height: ResponsiveSize.calculateHeight(
-                                              28, context),
+                                          height: 28,
                                           padding: EdgeInsets.symmetric(
                                               horizontal:
                                               ResponsiveSize.calculateWidth(
                                                   12, context)),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(ResponsiveSize
-                                                    .calculateCornerRadius(
-                                                    20, context))),
+                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                                             border: Border.all(
                                                 color: AppResources.colorBeigeLight),
                                           ),
@@ -291,18 +269,14 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               8, context)),
                                       IntrinsicWidth(
                                         child: Container(
-                                          height: ResponsiveSize.calculateHeight(
-                                              28, context),
+                                          height: 28,
                                           padding: EdgeInsets.symmetric(
                                               horizontal:
                                               ResponsiveSize.calculateWidth(
                                                   12, context)),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(ResponsiveSize
-                                                    .calculateCornerRadius(
-                                                    20, context))),
+                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                                             border: Border.all(
                                                 color: AppResources.colorBeigeLight),
                                           ),
@@ -342,7 +316,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           'images/background_mask.png',
                         ),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(32, context)),
+                      const SizedBox(height: 32),
                       SizedBox(
                         width: ResponsiveSize.calculateWidth(319, context),
                         child: Text(
@@ -353,7 +327,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               ?.copyWith(fontSize: 32, color: AppResources.colorDark),
                         ),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                      const SizedBox(height: 20),
                       SizedBox(
                         width: ResponsiveSize.calculateWidth(319, context),
                         child: Opacity(
@@ -366,7 +340,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(27, context)),
+                      const SizedBox(height: 27),
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.symmetric(
@@ -374,7 +348,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         width: double.infinity,
                         child: Image.asset('images/play-wave.png'),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                      const SizedBox(height: 34),
                       SizedBox(
                         width: ResponsiveSize.calculateWidth(319, context),
                         child: Text(
@@ -395,38 +369,74 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
               right: 0,
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 40.0),
-                color: Colors.transparent,
+                padding: EdgeInsets.symmetric(vertical: 13.0),
+                color: Colors.white,
                 child: Center(
-                  child: Container(
-                    width: ResponsiveSize.calculateWidth(319, context),
-                    height: ResponsiveSize.calculateHeight(44, context),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(
-                                horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                        backgroundColor:
-                        MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            return AppResources
-                                .colorVitamine;
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: ResponsiveSize.calculateWidth(160, context),
+                        height: 44,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(24, context), vertical: 12)),
+                            backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                return AppResources
+                                    .colorWhite;
+                              },
+                            ),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
                           },
-                        ),
-                        shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                          child: Text(
+                            'SUPPRIMER',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                           ),
                         ),
                       ),
-                      onPressed: () {
-                      },
-                      child: Text(
-                        'ENREGISTRER',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
-                      ),
-                    ),
+                      const SizedBox(width: 7),
+                      Container(
+                        width: ResponsiveSize.calculateWidth(160, context),
+                        height: 44,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(24, context), vertical: 12)),
+                            backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                return AppResources
+                                    .colorVitamine;
+                              },
+                            ),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                          },
+                          child: Text(
+                            'ENREGISTRER',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
