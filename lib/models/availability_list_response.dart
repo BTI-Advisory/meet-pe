@@ -4,7 +4,7 @@ class AvailabilityListResponse {
   final int id;
   final int userId;
   final String day;
-  final int isAvailableFullTime;
+  final bool isAvailableFullTime;
   final String createdAt;
   final String updatedAt;
   final List<ScheduleTime> scheduleTimes;

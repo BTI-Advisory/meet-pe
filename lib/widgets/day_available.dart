@@ -7,11 +7,8 @@ import '../resources/resources.dart';
 import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
-  /*const DayAvailable({super.key, required this.availabilityList, required this.dayName, required this.onCallBack});
-  final AvailabilityListResponse availabilityList;*/
-  const DayAvailable({super.key, required this.dayName, required this.onCallBack});
-  final String dayName;
-  final Function(String) onCallBack;
+  const DayAvailable({super.key, required this.availabilityList});
+  final AvailabilityListResponse availabilityList;
 
   @override
   State<DayAvailable> createState() => _DayAvailableState();
@@ -23,6 +20,18 @@ class _DayAvailableState extends State<DayAvailable> {
   String hourAvailableEnd = '';
   String hourSecondAvailableStart = '';
   String hourSecondAvailableEnd = '';
+
+  String timeResult(List<ScheduleTime> times) {
+    if(times.isNotEmpty) {
+      if(times.length == 1) {
+        return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}';
+      } else {
+        return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}  /  ${times[1].from.substring(0, 5)}-${times[1].to.substring(0, 5)}';
+      }
+    } else {
+      return 'Non disponible';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -354,28 +363,46 @@ class _DayAvailableState extends State<DayAvailable> {
                                   ),
                                   onPressed: () async {
                                     // Create a TimeSlot object
-                                    TimeSlot timeSlot = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
+                                    print('EHFEe 11 $hourAvailableStart');
+                                    print('EHFEe 22 $hourAvailableEnd');
+                                    print('EHFEe 33 $hourSecondAvailableStart');
+                                    print('EHFEe 44 $hourSecondAvailableEnd');
 
-                                    // Create a list of TimeSlot objects
-                                    List<TimeSlot> times = [timeSlot];
+                                    if(hourSecondAvailableStart != '' && hourSecondAvailableEnd != '') {
+                                      TimeSlot timeSlot1 = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
+                                      TimeSlot timeSlot2 = TimeSlot(from: hourSecondAvailableStart, to: hourSecondAvailableEnd);
+                                      // Create a list of TimeSlot objects
+                                      List<TimeSlot> times = [timeSlot1, timeSlot2];
+                                      // Create an Availability object
+                                      Availability availability = Availability(
+                                        day: widget.availabilityList.day,
+                                        isAvailableFullDay: isAvailableHour,
+                                        times: times,
+                                      );
 
-                                    // Create an Availability object
-                                    Availability availability = Availability(
-                                      day: widget.dayName,
-                                      isAvailableFullDay: isAvailableHour,
-                                      times: times,
-                                    );
+                                      // Convert the Availability object to JSON
+                                      Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
 
-                                    // Convert the Availability object to JSON
-                                    Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
+                                      await AppService.api.sendScheduleAvailability(json);
+                                    } else {
+                                      TimeSlot timeSlot = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
 
-                                    await AppService.api.sendScheduleAvailability(json);
+                                      // Create a list of TimeSlot objects
+                                      List<TimeSlot> times = [timeSlot];
 
+                                      // Create an Availability object
+                                      Availability availability = Availability(
+                                        day: widget.availabilityList.day,
+                                        isAvailableFullDay: isAvailableHour,
+                                        times: times,
+                                      );
 
+                                      // Convert the Availability object to JSON
+                                      Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
 
+                                      await AppService.api.sendScheduleAvailability(json);
+                                    }
 
-
-                                    widget.onCallBack('$hourAvailableStart-$hourAvailableEnd');
                                     Navigator.pop(context);
                                   },
                                 ),
@@ -393,7 +420,7 @@ class _DayAvailableState extends State<DayAvailable> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.dayName,
+                  widget.availabilityList.day,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFF797979)),
@@ -401,9 +428,9 @@ class _DayAvailableState extends State<DayAvailable> {
                 Row(
                   children: [
                     Text(
-                      isAvailableHour == true
+                      widget.availabilityList.isAvailableFullTime == true
                           ? '9:00-18:00'
-                          : hourAvailableStart != '' ? '$hourAvailableStart-$hourAvailableEnd' : 'Non disponible',
+                          : timeResult(widget.availabilityList.scheduleTimes),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400,
                         color: AppResources.colorDark,

@@ -4,8 +4,7 @@ import '../../../models/absence_list_response.dart';
 import '../../../models/availability_list_response.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
 class AvailabilitiesPage extends StatefulWidget {
@@ -36,7 +35,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
       });
     } catch (e) {
       // Handle error
-      print('Error fetching notification settings: $e');
+      print('Error fetching full available: $e');
     }
   }
 
@@ -51,7 +50,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
       }
     } catch (e) {
       // Handle error
-      print('Error fetching absence list: $e');
+      print('Error fetching availability list: $e');
     }
   }
 
@@ -167,50 +166,12 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 ],
               ),
             ),
-            /*Visibility(
-              visible: !isAvailable,
-              child: Column(
-                children: availabilityList.map((item) {
-                  return DayAvailable(availabilityList: item, dayName: 'Lundi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  });
-                }).toList(),
-              ),
-            ),*/
             Visibility(
               visible: !isAvailable,
               child: Column(
-                children: [
-                  DayAvailable(dayName: 'Lundi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Mardi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Mercredi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Jeudi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Vendredi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Samedi', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                  DayAvailable(dayName: 'Dimanche', onCallBack: (date) {
-                    setState(() {
-                    });
-                  }),
-                ],
+                children: availabilityList.map((item) {
+                  return DayAvailable(availabilityList: item);
+                }).toList(),
               ),
             ),
             SizedBox(
