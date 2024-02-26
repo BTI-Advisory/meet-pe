@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/utils/message.dart';
 
 import '../../../resources/resources.dart';
+import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
@@ -12,6 +14,53 @@ class MyAccountPage extends StatefulWidget {
 }
 
 class _MyAccountPageState extends State<MyAccountPage> {
+  late TextEditingController _textEditingControllerFirstName;
+  late TextEditingController _textEditingControllerLastName;
+  late TextEditingController _textEditingControllerCurrentPassword;
+  late TextEditingController _textEditingControllerNewPassword;
+  String? validationMessageFirstName = '';
+  String? validationMessageLastName = '';
+  bool isFormValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingControllerFirstName = TextEditingController();
+    _textEditingControllerFirstName.addListener(_onTextChanged);
+    _textEditingControllerLastName = TextEditingController();
+    _textEditingControllerLastName.addListener(_onTextChanged);
+    _textEditingControllerCurrentPassword = TextEditingController();
+    _textEditingControllerCurrentPassword.addListener(_onTextChanged);
+    _textEditingControllerNewPassword = TextEditingController();
+    _textEditingControllerNewPassword.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    _textEditingControllerFirstName.removeListener(_onTextChanged);
+    _textEditingControllerFirstName.dispose();
+    _textEditingControllerLastName.removeListener(_onTextChanged);
+    _textEditingControllerLastName.dispose();
+    _textEditingControllerCurrentPassword.removeListener(_onTextChanged);
+    _textEditingControllerCurrentPassword.dispose();
+    _textEditingControllerNewPassword.removeListener(_onTextChanged);
+    _textEditingControllerNewPassword.dispose();
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
+
+  void updateFormValidity() {
+    setState(() {
+      isFormValid =
+          validationMessageFirstName == null && validationMessageLastName == null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,12 +92,181 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 32),
-                  accountRowDefault('Nom & prénom', ''),
-                  accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92'),
-                  accountRowDefault('e-mail', 'sofia.martins@cognac.com'),
-                  accountRowDefault('mot de passe', '********'),
-                  accountRowDefault('adresse', ''),
-                  accountRowDefault('sécurité & vie privée', ''),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                              builder: (BuildContext context,
+                                  StateSetter setState) {
+                                return Container(
+                                  width: double.infinity,
+                                  height: 357,
+                                  color: AppResources.colorWhite,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const SizedBox(height: 39),
+                                        Text(
+                                          'Nom & Prénom',
+                                          style: Theme.of(context).textTheme.headlineMedium,
+                                        ),
+                                        Column(
+                                          children: [
+                                            TextFormField(
+                                              controller: _textEditingControllerFirstName,
+                                              keyboardType: TextInputType.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(color: AppResources.colorDark),
+                                              decoration: InputDecoration(
+                                                filled: false,
+                                                hintText: 'Ton prénom',
+                                                hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                contentPadding: EdgeInsets.only(
+                                                    top: ResponsiveSize.calculateHeight(20, context),
+                                                    bottom:
+                                                    ResponsiveSize.calculateHeight(10, context)),
+                                                // Adjust padding
+                                                suffix: SizedBox(
+                                                    height:
+                                                    ResponsiveSize.calculateHeight(10, context)),
+                                                enabledBorder: const UnderlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide(color: AppResources.colorGray15),
+                                                ),
+                                                focusedBorder: const UnderlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide(color: AppResources.colorGray15),
+                                                ),
+                                                errorBorder: const UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: Colors.red),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              textInputAction: TextInputAction.done,
+                                              //onFieldSubmitted: (value) => validate(),
+                                              validator: AppResources.validatorNotEmpty,
+                                              //onSaved: (value) => bloc.name = value,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  validationMessageFirstName =
+                                                      AppResources.validatorNotEmpty(value);
+                                                  updateFormValidity();
+                                                });
+                                              },
+                                            ),
+                                            const SizedBox(height: 40),
+                                            TextFormField(
+                                              controller: _textEditingControllerLastName,
+                                              keyboardType: TextInputType.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(color: AppResources.colorDark),
+                                              decoration: InputDecoration(
+                                                filled: false,
+                                                hintText: 'Ton nom',
+                                                hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                contentPadding: EdgeInsets.only(
+                                                    top: ResponsiveSize.calculateHeight(20, context),
+                                                    bottom:
+                                                    ResponsiveSize.calculateHeight(10, context)),
+                                                // Adjust padding
+                                                suffix: SizedBox(
+                                                    height:
+                                                    ResponsiveSize.calculateHeight(10, context)),
+                                                enabledBorder: const UnderlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide(color: AppResources.colorGray15),
+                                                ),
+                                                focusedBorder: const UnderlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide(color: AppResources.colorGray15),
+                                                ),
+                                                errorBorder: const UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: Colors.red),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              textInputAction: TextInputAction.done,
+                                              //onFieldSubmitted: (value) => validate(),
+                                              validator: AppResources.validatorNotEmpty,
+                                              //onSaved: (value) => bloc.name = value,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  validationMessageLastName =
+                                                      AppResources.validatorNotEmpty(value);
+                                                  updateFormValidity();
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 53),
+                                        Container(
+                                          width: ResponsiveSize.calculateWidth(319, context),
+                                          height: ResponsiveSize.calculateHeight(44, context),
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              padding:
+                                              MaterialStateProperty.all<EdgeInsets>(
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                              backgroundColor: MaterialStateProperty.all(
+                                                  Colors.transparent),
+                                              shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                  side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                  borderRadius: BorderRadius.circular(40),
+                                                ),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'ENREGISTRER',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(color: AppResources.colorDark),
+                                            ),
+                                            onPressed: () async {
+                                              // Call the asynchronous operation and handle its completion
+                                              AppService.api.updateName(_textEditingControllerFirstName.text, _textEditingControllerLastName.text).then((_) {
+                                                // Optionally, you can perform additional actions after the operation completes
+                                                Navigator.pop(context);
+                                              }).catchError((error) {
+                                                // Handle any errors that occur during the asynchronous operation
+                                                print('Error: $error');
+                                                Navigator.pop(context);
+                                                if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                  showMessage(context, error.toString());
+                                                }
+
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                      );
+                    },
+                    child: accountRowDefault('Nom & prénom', '', true)
+                  ),
+                  accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92', true),
+                  accountRowDefault('e-mail', 'sofia.martins@cognac.com', false),
+                  accountRowDefault('mot de passe', '********', true),
+                  accountRowDefault('adresse', '', true),
+                  accountRowDefault('sécurité & vie privée', '', true),
                   const SizedBox(height: 20),
                   Text(
                     'Informations bancaires',
@@ -163,7 +381,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     );
   }
 
-  Widget accountRowDefault(String name, String? info) {
+  Widget accountRowDefault(String name, String? info, bool modify) {
     return Column(
       children: [
         const SizedBox(height: 19),
@@ -178,10 +396,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
               children: [
                 Text(
                   info ?? '',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: modify ? AppResources.colorDark : Color(0xFFBBBBBB)),
                 ),
-                Image.asset('images/chevron_right.png',
-                    width: 27, height: 27, fit: BoxFit.fill),
+                Visibility(
+                  visible: modify,
+                  child: Image.asset('images/chevron_right.png',
+                      width: 27, height: 27, fit: BoxFit.fill),
+                ),
               ],
             ),
           ],
