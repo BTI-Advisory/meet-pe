@@ -20,6 +20,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late TextEditingController _textEditingControllerNewPassword;
   String? validationMessageFirstName = '';
   String? validationMessageLastName = '';
+  String? validationMessageCurrentPassword = '';
+  String? validationMessageNewPaswword = '';
   bool isFormValid = false;
 
   @override
@@ -264,7 +266,178 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ),
                   accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92', true),
                   accountRowDefault('e-mail', 'sofia.martins@cognac.com', false),
-                  accountRowDefault('mot de passe', '********', true),
+                  GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                builder: (BuildContext context,
+                                    StateSetter setState) {
+                                  return Container(
+                                    width: double.infinity,
+                                    height: 357,
+                                    color: AppResources.colorWhite,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          const SizedBox(height: 39),
+                                          Text(
+                                            'Mot de passe',
+                                            style: Theme.of(context).textTheme.headlineMedium,
+                                          ),
+                                          Column(
+                                            children: [
+                                              TextFormField(
+                                                controller: _textEditingControllerCurrentPassword,
+                                                keyboardType: TextInputType.visiblePassword,
+                                                obscureText: true,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(color: AppResources.colorDark),
+                                                decoration: InputDecoration(
+                                                  filled: false,
+                                                  hintText: 'Current mot de passe',
+                                                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                  contentPadding: EdgeInsets.only(
+                                                      top: ResponsiveSize.calculateHeight(20, context),
+                                                      bottom:
+                                                      ResponsiveSize.calculateHeight(10, context)),
+                                                  // Adjust padding
+                                                  suffix: SizedBox(
+                                                      height:
+                                                      ResponsiveSize.calculateHeight(10, context)),
+                                                  enabledBorder: const UnderlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide(color: AppResources.colorGray15),
+                                                  ),
+                                                  focusedBorder: const UnderlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide(color: AppResources.colorGray15),
+                                                  ),
+                                                  errorBorder: const UnderlineInputBorder(
+                                                    borderSide: BorderSide(color: Colors.red),
+                                                  ),
+                                                ),
+                                                autofocus: true,
+                                                textInputAction: TextInputAction.done,
+                                                //onFieldSubmitted: (value) => validate(),
+                                                validator: AppResources.validatorPassword,
+                                                //onSaved: (value) => bloc.name = value,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    validationMessageCurrentPassword =
+                                                        AppResources.validatorPassword(value);
+                                                    updateFormValidity();
+                                                  });
+                                                },
+                                              ),
+                                              const SizedBox(height: 40),
+                                              TextFormField(
+                                                controller: _textEditingControllerNewPassword,
+                                                keyboardType: TextInputType.visiblePassword,
+                                                obscureText: true,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(color: AppResources.colorDark),
+                                                decoration: InputDecoration(
+                                                  filled: false,
+                                                  hintText: 'Nouveau mot de passe',
+                                                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                  contentPadding: EdgeInsets.only(
+                                                      top: ResponsiveSize.calculateHeight(20, context),
+                                                      bottom:
+                                                      ResponsiveSize.calculateHeight(10, context)),
+                                                  // Adjust padding
+                                                  suffix: SizedBox(
+                                                      height:
+                                                      ResponsiveSize.calculateHeight(10, context)),
+                                                  enabledBorder: const UnderlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide(color: AppResources.colorGray15),
+                                                  ),
+                                                  focusedBorder: const UnderlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide(color: AppResources.colorGray15),
+                                                  ),
+                                                  errorBorder: const UnderlineInputBorder(
+                                                    borderSide: BorderSide(color: Colors.red),
+                                                  ),
+                                                ),
+                                                autofocus: true,
+                                                textInputAction: TextInputAction.done,
+                                                //onFieldSubmitted: (value) => validate(),
+                                                validator: AppResources.validatorPassword,
+                                                //onSaved: (value) => bloc.name = value,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    validationMessageNewPaswword =
+                                                        AppResources.validatorPassword(value);
+                                                    updateFormValidity();
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 53),
+                                          Container(
+                                            width: ResponsiveSize.calculateWidth(319, context),
+                                            height: ResponsiveSize.calculateHeight(44, context),
+                                            child: TextButton(
+                                              style: ButtonStyle(
+                                                padding:
+                                                MaterialStateProperty.all<EdgeInsets>(
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                backgroundColor: MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                                shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                    side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                    borderRadius: BorderRadius.circular(40),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'ENREGISTRER',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(color: AppResources.colorDark),
+                                              ),
+                                              onPressed: () async {
+                                                // Call the asynchronous operation and handle its completion
+                                                AppService.api.updatePassword(_textEditingControllerCurrentPassword.text, _textEditingControllerNewPassword.text).then((_) {
+                                                  // Optionally, you can perform additional actions after the operation completes
+                                                  Navigator.pop(context);
+                                                }).catchError((error) {
+                                                  // Handle any errors that occur during the asynchronous operation
+                                                  print('Error: $error');
+                                                  Navigator.pop(context);
+                                                  if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                    showMessage(context, error.toString());
+                                                  }
+
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                        );
+                      },
+                      child: accountRowDefault('mot de passe', '********', true),
+                  ),
                   accountRowDefault('adresse', '', true),
                   accountRowDefault('sécurité & vie privée', '', true),
                   const SizedBox(height: 20),
