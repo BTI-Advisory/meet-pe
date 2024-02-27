@@ -18,10 +18,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late TextEditingController _textEditingControllerLastName;
   late TextEditingController _textEditingControllerCurrentPassword;
   late TextEditingController _textEditingControllerNewPassword;
+  late TextEditingController _textEditingControllerIBAN;
+  late TextEditingController _textEditingControllerBIC;
+  late TextEditingController _textEditingControllerNameTitulaire;
   String? validationMessageFirstName = '';
   String? validationMessageLastName = '';
   String? validationMessageCurrentPassword = '';
-  String? validationMessageNewPaswword = '';
+  String? validationMessageNewPassword = '';
+  String? validationMessageIBAN = '';
+  String? validationMessageBIC = '';
+  String? validationMessageNameTitulaire = '';
   bool isFormValid = false;
 
   @override
@@ -35,6 +41,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerCurrentPassword.addListener(_onTextChanged);
     _textEditingControllerNewPassword = TextEditingController();
     _textEditingControllerNewPassword.addListener(_onTextChanged);
+    _textEditingControllerIBAN = TextEditingController();
+    _textEditingControllerIBAN.addListener(_onTextChanged);
+    _textEditingControllerBIC = TextEditingController();
+    _textEditingControllerBIC.addListener(_onTextChanged);
+    _textEditingControllerNameTitulaire = TextEditingController();
+    _textEditingControllerNameTitulaire.addListener(_onTextChanged);
   }
 
   @override
@@ -47,6 +59,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerCurrentPassword.dispose();
     _textEditingControllerNewPassword.removeListener(_onTextChanged);
     _textEditingControllerNewPassword.dispose();
+    _textEditingControllerIBAN.removeListener(_onTextChanged);
+    _textEditingControllerIBAN.dispose();
+    _textEditingControllerBIC.removeListener(_onTextChanged);
+    _textEditingControllerBIC.dispose();
+    _textEditingControllerNameTitulaire.removeListener(_onTextChanged);
+    _textEditingControllerNameTitulaire.dispose();
     super.dispose();
   }
 
@@ -375,7 +393,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                 //onSaved: (value) => bloc.name = value,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    validationMessageNewPaswword =
+                                                    validationMessageNewPassword =
                                                         AppResources.validatorPassword(value);
                                                     updateFormValidity();
                                                   });
@@ -460,93 +478,307 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 ],
               ),
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Informations de compte bancaire',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 73,
-                            height: 21,
-                            alignment: Alignment.center,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFFFECAB),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(
+                        builder: (BuildContext context,
+                            StateSetter setState) {
+                          return Container(
+                            width: double.infinity,
+                            height: 432,
+                            color: AppResources.colorWhite,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 28),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const SizedBox(height: 39),
+                                  Text(
+                                    'Informations bancaires',
+                                    style: Theme.of(context).textTheme.headlineMedium,
+                                  ),
+                                  Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: _textEditingControllerIBAN,
+                                        keyboardType: TextInputType.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                        decoration: InputDecoration(
+                                          filled: false,
+                                          hintText: 'IBAN',
+                                          hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                          contentPadding: EdgeInsets.only(
+                                              top: ResponsiveSize.calculateHeight(20, context),
+                                              bottom:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          // Adjust padding
+                                          suffix: SizedBox(
+                                              height:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          enabledBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          focusedBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          errorBorder: const UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.red),
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        textInputAction: TextInputAction.done,
+                                        //onFieldSubmitted: (value) => validate(),
+                                        validator: AppResources.validatorNotEmpty,
+                                        //onSaved: (value) => bloc.name = value,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            validationMessageIBAN =
+                                                AppResources.validatorNotEmpty(value);
+                                            updateFormValidity();
+                                          });
+                                        },
+                                      ),
+                                      const SizedBox(height: 40),
+                                      TextFormField(
+                                        controller: _textEditingControllerBIC,
+                                        keyboardType: TextInputType.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                        decoration: InputDecoration(
+                                          filled: false,
+                                          hintText: 'BIC',
+                                          hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                          contentPadding: EdgeInsets.only(
+                                              top: ResponsiveSize.calculateHeight(20, context),
+                                              bottom:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          // Adjust padding
+                                          suffix: SizedBox(
+                                              height:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          enabledBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          focusedBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          errorBorder: const UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.red),
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        textInputAction: TextInputAction.done,
+                                        //onFieldSubmitted: (value) => validate(),
+                                        validator: AppResources.validatorNotEmpty,
+                                        //onSaved: (value) => bloc.name = value,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            validationMessageBIC =
+                                                AppResources.validatorNotEmpty(value);
+                                            updateFormValidity();
+                                          });
+                                        },
+                                      ),
+                                      const SizedBox(height: 40),
+                                      TextFormField(
+                                        controller: _textEditingControllerNameTitulaire,
+                                        keyboardType: TextInputType.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                        decoration: InputDecoration(
+                                          filled: false,
+                                          hintText: 'Nom du titulaire du compte',
+                                          hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                          contentPadding: EdgeInsets.only(
+                                              top: ResponsiveSize.calculateHeight(20, context),
+                                              bottom:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          // Adjust padding
+                                          suffix: SizedBox(
+                                              height:
+                                              ResponsiveSize.calculateHeight(10, context)),
+                                          enabledBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          focusedBorder: const UnderlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: AppResources.colorGray15),
+                                          ),
+                                          errorBorder: const UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.red),
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        textInputAction: TextInputAction.done,
+                                        //onFieldSubmitted: (value) => validate(),
+                                        validator: AppResources.validatorNotEmpty,
+                                        //onSaved: (value) => bloc.name = value,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            validationMessageNameTitulaire =
+                                                AppResources.validatorNotEmpty(value);
+                                            updateFormValidity();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 53),
+                                  Container(
+                                    width: ResponsiveSize.calculateWidth(319, context),
+                                    height: ResponsiveSize.calculateHeight(44, context),
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                        backgroundColor: MaterialStateProperty.all(
+                                            Colors.transparent),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            side: BorderSide(width: 1, color: AppResources.colorDark),
+                                            borderRadius: BorderRadius.circular(40),
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'ENREGISTRER',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(color: AppResources.colorDark),
+                                      ),
+                                      onPressed: () async {
+                                        // Call the asynchronous operation and handle its completion
+                                        AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text).then((_) {
+                                          // Optionally, you can perform additional actions after the operation completes
+                                          Navigator.pop(context);
+                                        }).catchError((error) {
+                                          // Handle any errors that occur during the asynchronous operation
+                                          print('Error: $error');
+                                          Navigator.pop(context);
+                                          if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                            showMessage(context, error.toString());
+                                          }
+
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Text(
-                              'à compléter',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                          );
+                        },
+                      );
+                    }
+                );
+              },
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Informations de compte bancaire',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 73,
+                              height: 21,
+                              alignment: Alignment.center,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFFFECAB),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                'à compléter',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                              ),
                             ),
-                          ),
-                          Image.asset('images/chevron_right.png',
-                              width: 27, height: 27, fit: BoxFit.fill),
-                        ],
-                      ),
-                    ],
+                            Image.asset('images/chevron_right.png',
+                                width: 27, height: 27, fit: BoxFit.fill),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 19),
-                /*Container(
-                  width: 390,
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                        color: AppResources.colorImputStroke,
+                  const SizedBox(height: 19),
+                  /*Container(
+                    width: 390,
+                    decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          strokeAlign: BorderSide.strokeAlignCenter,
+                          color: AppResources.colorImputStroke,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 25),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Informations de paiement',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                      ),
-                      Image.asset('images/chevron_right.png',
-                          width: 27, height: 27, fit: BoxFit.fill),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                  child: Row(
-                    children: [
-                      Image.asset('images/bank_logo.png'),
-                      const SizedBox(width: 21),
-                      Text(
-                        'xxxx xxxx xxxx 792',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
-                      )
-                    ],
-                  )
-                ),
-                const SizedBox(height: 42),*/
-                TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Supprimer mon compte',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Informations de paiement',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                        ),
+                        Image.asset('images/chevron_right.png',
+                            width: 27, height: 27, fit: BoxFit.fill),
+                      ],
                     ),
-                ),
-                const SizedBox(height: 65),
-              ],
+                  ),
+                  const SizedBox(height: 18),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
+                    child: Row(
+                      children: [
+                        Image.asset('images/bank_logo.png'),
+                        const SizedBox(width: 21),
+                        Text(
+                          'xxxx xxxx xxxx 792',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                        )
+                      ],
+                    )
+                  ),
+                  const SizedBox(height: 42),*/
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Supprimer mon compte',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
+                      ),
+                  ),
+                  const SizedBox(height: 65),
+                ],
+              ),
             )
           ],
         ),
