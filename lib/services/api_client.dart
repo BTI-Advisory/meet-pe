@@ -669,6 +669,33 @@ class ApiClient {
     IsFullAvailabilityResponse.fromJson(response!);
   }
 
+  /// Update bank info
+  Future<void> updateBankInfo(String iban, String bic, String name) async {
+    final data = {
+      'IBAN': iban,
+      'BIC': bic,
+      'nom_du_titulaire': name
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-bank-info',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    IsFullAvailabilityResponse.fromJson(response!);
+  }
+
   /// Get list absence
   Future<List<AbsenceListResponse>> getAbsenceList() async {
     final Map<String, String> headers = {
