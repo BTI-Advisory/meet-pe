@@ -696,6 +696,33 @@ class ApiClient {
     IsFullAvailabilityResponse.fromJson(response!);
   }
 
+  /// Update address info
+  Future<void> updateAddressInfo(String rue, String ville, String zip) async {
+    final data = {
+      'rue': rue,
+      'ville': ville,
+      'code_postal': zip
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-addresse-info',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    IsFullAvailabilityResponse.fromJson(response!);
+  }
+
   /// Get list absence
   Future<List<AbsenceListResponse>> getAbsenceList() async {
     final Map<String, String> headers = {
