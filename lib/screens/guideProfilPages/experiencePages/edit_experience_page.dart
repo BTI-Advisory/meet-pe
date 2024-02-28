@@ -15,6 +15,44 @@ class EditExperiencePage extends StatefulWidget {
 
 class _EditExperiencePageState extends State<EditExperiencePage> {
   bool onLine = true;
+  late TextEditingController _textEditingControllerDescription;
+  String? validationMessageDescription = '';
+  bool isFormValid = false;
+  double valueSlider = 30;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingControllerDescription = TextEditingController();
+    _textEditingControllerDescription.addListener(_onTextChanged);
+    _textEditingControllerDescription.text = 'Je te réserve une balade inattendue et pleine de surprises à travers le seizième arrondissement de Paris. Prépare-toi à découvrir des coins secrets, à déguster des délices locaux et à vivre des moments mémorables.';
+  }
+
+  @override
+  void dispose() {
+    _textEditingControllerDescription.removeListener(_onTextChanged);
+    _textEditingControllerDescription.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
+
+  void updateFormValidity() {
+    setState(() {
+      isFormValid =
+          validationMessageDescription == null;
+    });
+  }
+
+  void updateDuration(double value) {
+    setState(() {
+      valueSlider = value;
+      //bloc.updateDuration(value); // Call the method to update duration in bloc
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +227,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '100€/pers',
+                                            '${valueSlider.toInt()}€/pers',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge
@@ -205,6 +243,117 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         right: 10,
                                         child: editButton(onTap: () {
                                           print('Edit price');
+                                          showModalBottomSheet<void>(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              builder: (BuildContext context) {
+                                                return Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                  child: StatefulBuilder(
+                                                    builder: (BuildContext context,
+                                                        StateSetter setState) {
+                                                      return Container(
+                                                        width: double.infinity,
+                                                        height: 357,
+                                                        color: AppResources.colorWhite,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: <Widget>[
+                                                              const SizedBox(height: 39),
+                                                              Text(
+                                                                'Prix de l’experience',
+                                                                style: Theme.of(context).textTheme.headlineMedium,
+                                                              ),
+                                                              const SizedBox(height: 57),
+                                                              Slider(
+                                                                value: valueSlider,
+                                                                min: 30,
+                                                                max: 500,
+                                                                divisions: 10,
+                                                                label: '${valueSlider.round().toString()} €',
+                                                                onChanged: (double value) {
+                                                                  setState(() {
+                                                                    valueSlider = value;
+                                                                    updateDuration(value);
+                                                                  });
+                                                                },
+                                                              ),
+                                                              SizedBox(
+                                                                  height: ResponsiveSize.calculateHeight(33, context)),
+                                                              Container(
+                                                                width: double.infinity,
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Prix conseillé dans cette catégorie',
+                                                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                                                                    ),
+                                                                    Text(
+                                                                      ' 30 €',
+                                                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(height: 53),
+                                                              Container(
+                                                                width: ResponsiveSize.calculateWidth(319, context),
+                                                                height: ResponsiveSize.calculateHeight(44, context),
+                                                                child: TextButton(
+                                                                  style: ButtonStyle(
+                                                                    padding:
+                                                                    MaterialStateProperty.all<EdgeInsets>(
+                                                                        EdgeInsets.symmetric(
+                                                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                                    backgroundColor: MaterialStateProperty.all(
+                                                                        Colors.transparent),
+                                                                    shape: MaterialStateProperty.all<
+                                                                        RoundedRectangleBorder>(
+                                                                      RoundedRectangleBorder(
+                                                                        side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                                        borderRadius: BorderRadius.circular(40),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  child: Text(
+                                                                    'ENREGISTRER',
+                                                                    style: Theme.of(context)
+                                                                        .textTheme
+                                                                        .bodyLarge
+                                                                        ?.copyWith(color: AppResources.colorDark),
+                                                                  ),
+                                                                  onPressed: () async {
+                                                                    Navigator.pop(context);
+                                                                    ///Todo Add api
+                                                                    // Call the asynchronous operation and handle its completion
+                                                                    /*AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text).then((_) {
+                                                      // Optionally, you can perform additional actions after the operation completes
+                                                      Navigator.pop(context);
+                                                    }).catchError((error) {
+                                                      // Handle any errors that occur during the asynchronous operation
+                                                      print('Error: $error');
+                                                      Navigator.pop(context);
+                                                      if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                        showMessage(context, error.toString());
+                                                      }
+
+                                                    });*/
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                          );
                                         }),
                                       )
                                     ],
@@ -374,7 +523,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         child: Opacity(
                           opacity: 0.50,
                           child: Text(
-                            'Je te réserve une balade inattendue et pleine de surprises à travers le seizième arrondissement de Paris. Prépare-toi à découvrir des coins secrets, à déguster des délices locaux et à vivre des moments mémorables.',
+                            _textEditingControllerDescription.text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -389,6 +538,135 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         right: 0,
                         child: editButton(onTap: () {
                           print('Edit description');
+                          showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  child: StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        width: double.infinity,
+                                        height: 432,
+                                        color: AppResources.colorWhite,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              const SizedBox(height: 39),
+                                              Text(
+                                                'Description de l’experience',
+                                                style: Theme.of(context).textTheme.headlineMedium,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  TextFormField(
+                                                    controller: _textEditingControllerDescription,
+                                                    keyboardType: TextInputType.multiline,
+                                                    textInputAction: TextInputAction.newline,
+                                                    //textInputAction: TextInputAction.done,
+                                                    maxLines: null,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium
+                                                        ?.copyWith(color: AppResources.colorDark),
+                                                    decoration: InputDecoration(
+                                                      filled: false,
+                                                      hintText: 'Description',
+                                                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                      contentPadding: EdgeInsets.only(
+                                                          top: ResponsiveSize.calculateHeight(20, context),
+                                                          bottom:
+                                                          ResponsiveSize.calculateHeight(10, context)),
+                                                      // Adjust padding
+                                                      suffix: SizedBox(
+                                                          height:
+                                                          ResponsiveSize.calculateHeight(10, context)),
+                                                      enabledBorder: const UnderlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide(color: AppResources.colorGray15),
+                                                      ),
+                                                      focusedBorder: const UnderlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide(color: AppResources.colorGray15),
+                                                      ),
+                                                      errorBorder: const UnderlineInputBorder(
+                                                        borderSide: BorderSide(color: Colors.red),
+                                                      ),
+                                                    ),
+                                                    autofocus: true,
+                                                    //onFieldSubmitted: (value) => validate(),
+                                                    validator: AppResources.validatorNotEmpty,
+                                                    //onSaved: (value) => bloc.name = value,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        validationMessageDescription =
+                                                            AppResources.validatorNotEmpty(value);
+                                                        updateFormValidity();
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 53),
+                                              Container(
+                                                width: ResponsiveSize.calculateWidth(319, context),
+                                                height: ResponsiveSize.calculateHeight(44, context),
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    padding:
+                                                    MaterialStateProperty.all<EdgeInsets>(
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                    backgroundColor: MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                    shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                        side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                        borderRadius: BorderRadius.circular(40),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    'ENREGISTRER',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.copyWith(color: AppResources.colorDark),
+                                                  ),
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    ///Todo Add api
+                                                    // Call the asynchronous operation and handle its completion
+                                                    /*AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text).then((_) {
+                                                      // Optionally, you can perform additional actions after the operation completes
+                                                      Navigator.pop(context);
+                                                    }).catchError((error) {
+                                                      // Handle any errors that occur during the asynchronous operation
+                                                      print('Error: $error');
+                                                      Navigator.pop(context);
+                                                      if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                        showMessage(context, error.toString());
+                                                      }
+
+                                                    });*/
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                          );
                         }),
                       )
                     ],
