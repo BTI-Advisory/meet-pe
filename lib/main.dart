@@ -1,4 +1,5 @@
 import 'package:fetcher/fetcher.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,8 @@ import 'package:meet_pe/utils/utils.dart';
 import 'package:meet_pe/widgets/value_stream_builder.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   // Init Flutter
@@ -29,7 +32,7 @@ void main() async {
 
   // init Firebase
   //TODO: when implementing FirebaseCrashlytics
-  /*await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   if (!kReleaseMode)
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
@@ -38,7 +41,7 @@ void main() async {
     if (shouldReportException(flutterErrorDetails.exception)) {
       FirebaseCrashlytics.instance.recordFlutterError(flutterErrorDetails);
     }
-  };*/
+  };
 
   // Set default intl package locale
   Intl.defaultLocale = App.defaultLocale.toString();
