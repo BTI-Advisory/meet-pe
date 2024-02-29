@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591671924763",
+    "project_id": "meet-people-21ddc",
+    "storage_bucket": "meet-people-21ddc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591671924763:android:650d112a81fb0dbeba80be",
+        "android_client_info": {
+          "package_name": "com.example.meet_pe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeV38AZZNjCg5EM1ikC2Q25Geif5azuJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

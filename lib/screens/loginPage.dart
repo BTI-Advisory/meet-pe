@@ -6,6 +6,10 @@ import 'package:meet_pe/screens/verificationEmailPage.dart';
 import '../utils/responsive_size.dart';
 import '../utils/utils.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:meet_pe/firebase_options.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -14,12 +18,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  Future<UserCredential> signInWithGoogle() async{
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId:
+    (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.ios)
+        ? DefaultFirebaseOptions.currentPlatform.iosClientId
+        : DefaultFirebaseOptions.currentPlatform.androidClientId
+    ).signIn();
+
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider. credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -40,7 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: Image.asset('images/googleButton.png'),
                     ),
-                    onPressed: (){},
+                    onPressed: () async {
+                      try {
+                        final UserCredential userCredential = await signInWithGoogle();
+                        if(context.mounted) {
+                          print('Hello world: ${userCredential.user!.email}');
+                        }
+                      } catch(e) {}
+                    },
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
                   TextButton(
@@ -61,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(325, context),
-                    child: Text.rich(
+                    child: const Text.rich(
                       TextSpan(
                         children: [
                           TextSpan(
@@ -131,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     height: 1,
                     width: double.infinity,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           width: 1,
@@ -143,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(width: ResponsiveSize.calculateWidth(34, context),),
-                Text(
+                const Text(
                   'ou',
                   style: TextStyle(
                     color: Colors.black,
@@ -158,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     height: 1, //
                     width: double.infinity,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           width: 1,
