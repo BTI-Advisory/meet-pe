@@ -19,7 +19,6 @@ Map<String, dynamic> _$MakeExprP1ResponseToJson(MakeExprP1Response instance) =>
 
 Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       id: json['id'] as int,
-      categorie: json['categorie'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
       dure: json['dure'] as String,
@@ -30,12 +29,13 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       ville: json['ville'] as String?,
       addresse: json['addresse'] as String?,
       codePostale: json['code_postale'] as String?,
+      userId: json['user_id'] as int,
+      status: json['status'] as String,
     );
 
 Map<String, dynamic> _$ExperienceToJson(Experience instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'categorie': instance.categorie,
       'title': instance.title,
       'description': instance.description,
       'dure': instance.dure,
@@ -46,4 +46,6 @@ Map<String, dynamic> _$ExperienceToJson(Experience instance) =>
       'ville': instance.ville,
       'addresse': instance.addresse,
       'code_postale': instance.codePostale,
+      'user_id': instance.userId,
+      'status': instance.status,
     };

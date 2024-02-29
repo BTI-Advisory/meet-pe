@@ -9,7 +9,6 @@ import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/app_service.dart';
 import '../../utils/utils.dart';
-import '../onBoardingPages/guide/create_experience/create_exp_step1.dart';
 
 class ProfileGuidePage extends StatefulWidget {
   const ProfileGuidePage({super.key});
@@ -205,8 +204,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                         navigateTo(context, (_) => const NotificationsNewslettersPage());
                       }),
                       sectionProfile('Aide & assistance', Icons.contact_support, () {
-                        //navigateTo(context, (_) => const HelpSupportPage());
-                        navigateTo(context, (_) => const CreateExpStep1());
+                        navigateTo(context, (_) => const HelpSupportPage());
                       }),
                     ],
                   ),

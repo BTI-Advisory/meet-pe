@@ -315,7 +315,7 @@ class ApiClient {
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
       'api-key': '$_apiKey', // Include your authorization header
-      'Authorization': 'Bearer $_accessToken' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
     //Todo: replace with _send function
@@ -364,7 +364,7 @@ class ApiClient {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
       'api-key': '$_apiKey',
-      'Authorization': 'Bearer $_accessToken' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
     // Create a multi-part request
@@ -409,7 +409,7 @@ class ApiClient {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
       'api-key': '$_apiKey',
-      'Authorization': 'Bearer $_accessToken' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
     // Create a multi-part request
@@ -452,7 +452,7 @@ class ApiClient {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
       'api-key': '$_apiKey',
-      'Authorization': 'Bearer $_accessToken' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
     // Create a multi-part request
@@ -488,6 +488,7 @@ class ApiClient {
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
 
+    print('SDJFSJDFJSDJF 222 ${response.body}');
     // Handle response
     if (response.statusCode == 200) {
       // Parse JSON response
