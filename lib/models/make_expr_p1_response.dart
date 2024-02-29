@@ -17,7 +17,6 @@ class MakeExprP1Response {
 @JsonSerializable()
 class Experience {
   final int id;
-  final String? categorie;
   @JsonKey(name: 'title')
   final String title;
   @JsonKey(name: 'description')
@@ -38,10 +37,13 @@ class Experience {
   final String? addresse;
   @JsonKey(name: 'code_postale')
   final String? codePostale;
+  @JsonKey(name: 'user_id')
+  final int userId;
+  @JsonKey(name: 'status')
+  final String status;
 
   Experience({
     required this.id,
-    required this.categorie,
     required this.title,
     required this.description,
     required this.dure,
@@ -52,6 +54,8 @@ class Experience {
     required this.ville,
     required this.addresse,
     required this.codePostale,
+    required this.userId,
+    required this.status,
   });
 
   factory Experience.fromJson(Map<String, dynamic> json) => _$ExperienceFromJson(json);

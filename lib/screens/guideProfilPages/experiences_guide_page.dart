@@ -5,6 +5,7 @@ import '../../resources/resources.dart';
 import '../../utils/responsive_size.dart';
 import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
+import '../onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import 'experiencePages/edit_experience_page.dart';
 
 class ExperiencesGuidePage extends StatefulWidget {
@@ -97,6 +98,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
               onPressed: () {
                 // Add your action here
                 print('Floating Action Button pressed');
+                navigateTo(context, (_) => const CreateExpStep1());
               },
               backgroundColor: AppResources.colorVitamine,
               shape: RoundedRectangleBorder(
