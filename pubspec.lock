@@ -297,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  facebook_auth_desktop:
+    dependency: transitive
+    description:
+      name: facebook_auth_desktop
+      sha256: e6cc4d6f50a1d67d99e7dac7d77a40fe27122496e224cb708ae168d7d9aac0ac
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -454,6 +462,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  flutter_facebook_auth:
+    dependency: "direct main"
+    description:
+      name: flutter_facebook_auth
+      sha256: "4958d39b62791d8f08c429b5c296e9e27f850e3385d63ebc9fe7b69f2c243c6c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
+  flutter_facebook_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_platform_interface
+      sha256: "86630c4dbba1c20fba26ea9e59ad0d48f5ff59e7373cacd36f916160186f9ce9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
+  flutter_facebook_auth_web:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_web
+      sha256: "22dca8091409309ad85b9f430fbd8f57b686276979da5195e7e97587352567ce"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:

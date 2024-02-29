@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/verificationEmailPage.dart';
@@ -9,6 +8,7 @@ import '../utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meet_pe/firebase_options.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,6 +31,13 @@ class _LoginPageState extends State<LoginPage> {
     final credential = GoogleAuthProvider. credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+    final OAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
   @override
@@ -82,7 +89,14 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: Image.asset('images/facebookButton.png'),
                     ),
-                    onPressed: (){},
+                    onPressed: () async {
+                      try {
+                        final UserCredential userCredential = await signInWithFacebook();
+                        if(context.mounted) {
+                          print('Hello world: ${userCredential.user!.displayName}');
+                        }
+                      } catch(e) {}
+                    },
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                   SizedBox(

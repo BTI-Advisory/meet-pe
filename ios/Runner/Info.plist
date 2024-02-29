@@ -69,8 +69,21 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>com.googleusercontent.apps.591671924763-222t6rphgilvq1j131ipeh1ci0tfa85b</string>
+                <string>fb852006380031830</string>
             </array>
         </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>852006380031830</string>
+    <key>FacebookClientToken</key>
+    <string>8326acb7db0b2ea78e8d190f9b29448f</string>
+    <key>FacebookDisplayName</key>
+    <string>Meet People</string>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
     </array>
 </dict>
 </plist>
