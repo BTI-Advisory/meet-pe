@@ -26,6 +26,7 @@ import 'package:http/http.dart' as http;
 import '../models/availability_list_response.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
+import '../models/user_response.dart';
 import '../models/verify_code.dart';
 
 const _httpMethodGet = 'GET';
@@ -244,6 +245,27 @@ class ApiClient {
     _accessToken = tokens.accessToken;
     SecureStorageService.saveAccessToken(_accessToken!);
 
+  }
+
+  /// Get User Info
+  Future<UserResponse> getUserInfo() async {
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodGet, 'api/user');
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    return UserResponse.fromJson(response!);
   }
 
   /// Mark a Check code
@@ -488,7 +510,6 @@ class ApiClient {
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
 
-    print('SDJFSJDFJSDJF 222 ${response.body}');
     // Handle response
     if (response.statusCode == 200) {
       // Parse JSON response

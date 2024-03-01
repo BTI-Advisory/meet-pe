@@ -7,7 +7,8 @@ import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
 class MyAccountPage extends StatefulWidget {
-  const MyAccountPage({super.key});
+  const MyAccountPage({super.key, required this.iBAN});
+  final String? iBAN;
 
   @override
   State<MyAccountPage> createState() => _MyAccountPageState();
@@ -956,19 +957,22 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ),
                         Row(
                           children: [
-                            Container(
-                              width: 73,
-                              height: 21,
-                              alignment: Alignment.center,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFECAB),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                            Visibility(
+                              visible: widget.iBAN == null,
+                              child: Container(
+                                width: 73,
+                                height: 21,
+                                alignment: Alignment.center,
+                                decoration: ShapeDecoration(
+                                  color: Color(0xFFFFECAB),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                'à compléter',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                                child: Text(
+                                  'à compléter',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                                ),
                               ),
                             ),
                             Image.asset('images/chevron_right.png',
