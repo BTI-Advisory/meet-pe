@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/models/guide_experiences_response.dart';
 
 import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
@@ -20,11 +21,13 @@ class ExperiencesGuidePage extends StatefulWidget {
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = true; // Track if it's currently "Request" or "Experience"
   List<GuideReservationResponse> reservationList = [];
+  List<GuideExperiencesResponse> experiencesList = [];
 
   @override
   void initState() {
     super.initState();
     fetchGuideReservationData();
+    fetchGuideExperiencesData();
   }
 
   void toggleRole() {
@@ -44,7 +47,22 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
       }
     } catch (e) {
       // Handle error
-      print('Error fetching availability list: $e');
+      print('Error fetching reservation list: $e');
+    }
+  }
+
+  Future<void> fetchGuideExperiencesData() async {
+    try {
+      final response = await AppService.api.getGuideExperiencesList();
+      setState(() {
+        experiencesList = response;
+      });
+      for (var item in experiencesList) {
+        print(item.status);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error fetching experiences list: $e');
     }
   }
 
@@ -99,7 +117,16 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         ],
                       )
                     : Column(
-                        children: [
+                        children: List.generate(
+                          experiencesList.length,
+                              (index) => GestureDetector(
+                                onTap: () {
+                                  navigateTo(context, (_) => const EditExperiencePage());
+                                },
+                                child: MyCardExperience(guideExperiencesResponse: experiencesList[index],),
+                              ),
+                        ),
+                        /*children: [
                           GestureDetector(
                             onTap: () {
                               navigateTo(context, (_) => const EditExperiencePage());
@@ -107,7 +134,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                             child: MyCardExperience(),
                           ),
                           MyCardExperience(),
-                        ],
+                        ],*/
                       ),
               ),
             ],

@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/guide_experiences_response.dart';
 import 'package:meet_pe/models/guide_reservation_response.dart';
 import 'package:meet_pe/models/is_full_availability_response.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
@@ -843,7 +844,7 @@ class ApiClient {
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);
     } else {
-      throw Exception('Failed to load availability list');
+      throw Exception('Failed to load reservation list');
     }
   }
 
@@ -856,6 +857,23 @@ class ApiClient {
     // Return data
     return response['data']!.map<GuideReservationResponse>((json) => GuideReservationResponse.fromJson(json)).toList(growable: false);
   }*/
+
+  Future<List<GuideExperiencesResponse>> getGuideExperiencesList() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-guide-experiences'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseGuideExperiencesItem(response.body);
+    } else {
+      throw Exception('Failed to load experiences list');
+    }
+  }
 
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
