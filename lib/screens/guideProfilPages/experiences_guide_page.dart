@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/resources.dart';
+import '../../services/app_service.dart';
 import '../../utils/responsive_size.dart';
 import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
@@ -17,11 +19,33 @@ class ExperiencesGuidePage extends StatefulWidget {
 
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = true; // Track if it's currently "Request" or "Experience"
+  List<GuideReservationResponse> reservationList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchGuideReservationData();
+  }
 
   void toggleRole() {
     setState(() {
       isRequest = !isRequest;
     });
+  }
+
+  Future<void> fetchGuideReservationData() async {
+    try {
+      final response = await AppService.api.getGuideReservationList();
+      setState(() {
+        reservationList = response;
+      });
+      for (var item in reservationList) {
+        print(item.voyageur);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error fetching availability list: $e');
+    }
   }
 
   @override
