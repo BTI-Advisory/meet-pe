@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/guide_reservation_response.dart';
 import 'package:meet_pe/models/is_full_availability_response.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
 import 'package:meet_pe/models/notification_settings_response.dart';
@@ -827,6 +828,34 @@ class ApiClient {
 
     return isCreated;
   }
+
+  /// Get list guide reservation
+  Future<List<GuideReservationResponse>> getGuideReservationList() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-guide-reservation'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseGuideReservationItem(response.body);
+    } else {
+      throw Exception('Failed to load availability list');
+    }
+  }
+
+  ///Todo replace
+  /*Future<List<GuideReservationResponse>> getGuideReservationList() async {
+    // Send request
+    final response = await _send<JsonObject>(_httpMethodGet, 'api/get-guide-reservation');
+    if (response == null) return const [];
+
+    // Return data
+    return response['data']!.map<GuideReservationResponse>((json) => GuideReservationResponse.fromJson(json)).toList(growable: false);
+  }*/
 
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
