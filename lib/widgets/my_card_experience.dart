@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/models/guide_experiences_response.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../resources/resources.dart';
 
 class MyCardExperience extends StatefulWidget {
-  const MyCardExperience({Key? key}) : super(key: key);
+  //const MyCardExperience({Key? key}) : super(key: key, required this.guideExperiencesResponse);
+  MyCardExperience({super.key, required this.guideExperiencesResponse});
+  final GuideExperiencesResponse guideExperiencesResponse;
 
   @override
   _MyCardExperienceState createState() => _MyCardExperienceState();
@@ -56,23 +60,27 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Le Paris de Maria en deux...',
+                        widget.guideExperiencesResponse.title,
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
                             ?.copyWith(fontSize: 14, color: AppResources.colorDark),
                       ),
-                      Text(
-                        'Postée le 16/07/2024',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                      Visibility(
+                        visible: widget.guideExperiencesResponse.status == 'en ligne',
+                        child: Text(
+                          'Postée le ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                        ),
                       ),
-                      const Row(
+                      if(widget.guideExperiencesResponse.status == 'en cours de vérification')
+                      Row(
                         children: [
-                          Icon(Icons.circle, size: 10, color: Color(0xFF54EE9D)),
+                          Icon(Icons.watch_later_outlined, size: 10, color: AppResources.colorVitamine),
                           Text(
-                            'en ligne',
+                            widget.guideExperiencesResponse.status,
                             style: TextStyle(
-                              color: Color(0xFF54EE9D),
+                              color: AppResources.colorVitamine,
                               fontSize: 10,
                               fontFamily: 'Outfit',
                               fontWeight: FontWeight.w400,
@@ -80,7 +88,39 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                             ),
                           )
                         ],
-                      )
+                      ),
+                      if(widget.guideExperiencesResponse.status == 'à compléter')
+                        Row(
+                          children: [
+                            Icon(Icons.hourglass_empty, size: 10, color: AppResources.colorVitamine),
+                            Text(
+                              widget.guideExperiencesResponse.status,
+                              style: TextStyle(
+                                color: AppResources.colorVitamine,
+                                fontSize: 10,
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w400,
+                                height: 0.14,
+                              ),
+                            )
+                          ],
+                        ),
+                      if(widget.guideExperiencesResponse.status == 'en ligne')
+                        Row(
+                          children: [
+                            Icon(Icons.circle, size: 10, color: Color(0xFF54EE9D)),
+                            Text(
+                              widget.guideExperiencesResponse.status,
+                              style: TextStyle(
+                                color: Color(0xFF54EE9D),
+                                fontSize: 10,
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w400,
+                                height: 0.14,
+                              ),
+                            )
+                          ],
+                        )
                     ],
                   ),
                   const SizedBox(width: 43),
