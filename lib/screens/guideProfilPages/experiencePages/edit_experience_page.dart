@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -24,6 +25,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   bool isFormValid = false;
   double valueSlider = 30;
   late Future<ExperienceDataResponse> _experienceDataFuture;
+  String selectedImagePath = 'images/imageTest.png';
 
   @override
   void initState() {
@@ -85,6 +87,35 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       // Handle error
       print('Error update exp price: $e');
     }
+  }
+
+  Future<void> _updateExperienceImage(int experienceID, String pathImage) async {
+    try {
+      final update = await AppService.api.updateExperienceImage(experienceID, pathImage);
+    } catch (e) {
+      // Handle error
+      print('Error update exp image: $e');
+    }
+  }
+
+  Future<void> pickImage() async {
+    // Your logic to pick an image goes here.
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        source: ImageSource
+            .gallery); // Use source: ImageSource.camera for taking a new picture
+
+    if (pickedFile != null) {
+      // Do something with the picked image (e.g., upload or process it)
+      //File imageFile = File(pickedFile.path);
+      // Add your logic here to handle the selected image
+    }
+    // For demonstration purposes, I'm using a static image path.
+    String imagePath = pickedFile?.path ?? '';
+
+    setState(() {
+      selectedImagePath = imagePath;
+    });
   }
 
   @override
@@ -153,7 +184,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                             427, context),
                                         height: 592,
                                         child: Image.asset(
-                                          'images/imageTest.png',
+                                          selectedImagePath,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -186,6 +217,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       right: 28,
                                       child: editButton(onTap: () {
                                         print('Edit image');
+                                        pickImage();
                                       }),
                                     ),
                                   ],
@@ -781,7 +813,9 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _updateExperienceImage(widget.experienceId, selectedImagePath);
+                            },
                             child: Text(
                               'ENREGISTRER',
                               style: Theme.of(context)

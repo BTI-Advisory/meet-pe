@@ -969,6 +969,55 @@ class ApiClient {
     }();
   }
 
+  /// Mark a update experience image
+  Future<bool> updateExperienceImage(int experienceID, String imageFilePath) async {
+    bool isVerified = false;
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final data = {
+      'experience_id': experienceID.toString(),
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-experience-image-principale'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    request.fields.addAll(data);
+
+    // Add audio file if provided
+    if (imageFilePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(imageFilePath);
+
+      request.files.add(http.MultipartFile.fromBytes('image_principale', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      throw Exception('Failed to send update image: ${response.reasonPhrase}');
+    }
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
