@@ -26,12 +26,10 @@ void main() async {
     if (!kReleaseMode) debugPrintThrottled(message, wrapWidth: wrapWidth);
 
     // Send to Crashlytics journal
-    //TODO: when implementing FirebaseCrashlytics
-    //if (message != null) FirebaseCrashlytics.instance.log(message);
+    if (message != null) FirebaseCrashlytics.instance.log(message);
   };
 
   // init Firebase
-  //TODO: when implementing FirebaseCrashlytics
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Init notifications
   AppService.instance.initFirebaseMessaging();

@@ -105,8 +105,7 @@ class CachedJsonBox<T> {
         // If an error occurs while reading, delete cache
         _value = null;
         _clear();
-        // TODO: Remove the comment when implementing Crashlytics
-        //reportError(e, s);
+        reportError(e, s);
       }
     }
     return _value;
