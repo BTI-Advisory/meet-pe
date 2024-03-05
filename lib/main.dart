@@ -33,6 +33,8 @@ void main() async {
   // init Firebase
   //TODO: when implementing FirebaseCrashlytics
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Init notifications
+  AppService.instance.initFirebaseMessaging();
   if (!kReleaseMode)
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
