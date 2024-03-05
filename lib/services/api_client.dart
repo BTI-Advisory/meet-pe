@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
+import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:meet_pe/models/guide_experiences_response.dart';
 import 'package:meet_pe/models/guide_reservation_response.dart';
 import 'package:meet_pe/models/is_full_availability_response.dart';
@@ -873,6 +874,30 @@ class ApiClient {
     } else {
       throw Exception('Failed to load experiences list');
     }
+  }
+
+  /// Mark a get of experience detail
+  Future<ExperienceDataResponse> getExperienceDetail(int experienceID) async {
+    final data = {
+      'experience_id': experienceID
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/get-experience',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    return ExperienceDataResponse.fromJson(response!);
   }
 
   /// Mark a message as read
