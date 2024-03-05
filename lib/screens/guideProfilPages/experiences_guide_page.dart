@@ -43,7 +43,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
         reservationList = response;
       });
       for (var item in reservationList) {
-        print(item.voyageur);
+        //print(item.voyageur);
       }
     } catch (e) {
       // Handle error
@@ -58,7 +58,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
         experiencesList = response;
       });
       for (var item in experiencesList) {
-        print(item.status);
+        //print(item.status);
       }
     } catch (e) {
       // Handle error
@@ -121,7 +121,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           experiencesList.length,
                               (index) => GestureDetector(
                                 onTap: () {
-                                  navigateTo(context, (_) => const EditExperiencePage());
+                                  navigateTo(context, (_) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline));
                                 },
                                 child: MyCardExperience(guideExperiencesResponse: experiencesList[index],),
                               ),
