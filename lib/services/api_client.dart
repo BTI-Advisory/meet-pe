@@ -946,6 +946,29 @@ class ApiClient {
     }();
   }
 
+  /// Mark a update experience price
+  Future<void> updateExperiencePrice(int experienceID, int price) async {
+    final data = {
+      'experience_id': experienceID,
+      'prix_par_voyageur': price
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-experience-price-per-person',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
