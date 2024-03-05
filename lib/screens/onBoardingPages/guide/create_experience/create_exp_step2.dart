@@ -187,7 +187,9 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           height: ResponsiveSize.calculateHeight(40, context)),
                       TextFormField(
                         controller: _textEditingControllerDescr,
-                        maxLines: 4,
+                        maxLines: null,
+                        textInputAction: TextInputAction.newline,
+                        //textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.name,
                         style: Theme.of(context)
                             .textTheme
@@ -218,7 +220,6 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           ),
                         ),
                         autofocus: true,
-                        textInputAction: TextInputAction.done,
                         //onFieldSubmitted: (value) => validate(),
                         validator: AppResources.validatorNotEmpty,
                         //onSaved: (value) => bloc.name = value,

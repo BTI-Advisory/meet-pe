@@ -224,7 +224,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                               navigateTo(context, (_) => const AvailabilitiesPage());
                             }),
                             sectionProfile('Mon compte', Icons.person, () {
-                              navigateTo(context, (_) => MyAccountPage(iBAN: userInfo.IBAN,));
+                              navigateTo(context, (_) => MyAccountPage(iBAN: userInfo.IBAN, email: userInfo.email));
                             }),
                             sectionProfile('Demandes archivées', Icons.bookmark, () {
                               navigateTo(context, (_) => const ArchivedRequestsPage());

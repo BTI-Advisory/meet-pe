@@ -7,8 +7,9 @@ import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
 class MyAccountPage extends StatefulWidget {
-  const MyAccountPage({super.key, required this.iBAN});
+  const MyAccountPage({super.key, required this.iBAN, required this.email});
   final String? iBAN;
+  final String email;
 
   @override
   State<MyAccountPage> createState() => _MyAccountPageState();
@@ -307,7 +308,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     child: accountRowDefault('Nom & prénom', '', true)
                   ),
                   accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92', true),
-                  accountRowDefault('e-mail', 'sofia.martins@cognac.com', false),
+                  accountRowDefault('e-mail', widget.email, false),
                   GestureDetector(
                       onTap: () {
                         showModalBottomSheet<void>(

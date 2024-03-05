@@ -6,7 +6,7 @@ import 'package:meet_pe/services/secure_storage_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/utils/exceptions/unauthorized_exception.dart';
 import 'package:fetcher/fetcher.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rxdart/rxdart.dart';
@@ -43,8 +43,6 @@ class AppService {
     if (refreshToken != null) _apiClient.refreshToken = refreshToken;
   }
 
-  // TODO: Remove the comment when implementing Crashlytics
-  /*
   Future<bool> askNotificationPermission() async {
     final status = (await FirebaseMessaging.instance.requestPermission()).authorizationStatus;
     if (status == AuthorizationStatus.authorized) {
@@ -86,7 +84,6 @@ class AppService {
     }
   }
   //#endregion
-  */
 
   //#region App info
   BehaviorSubject<String>? _appVersion;
@@ -117,14 +114,12 @@ class AppService {
     // TODO: Remove the comment when implementing Crashlytics and add API
     // Additional tasks
     await Future.wait([
-      // TODO: Remove the comment when implementing Crashlytics and add API
-      //_updateDeviceData(),
+      _updateDeviceData(),
       //fetchUserData(),
     ]);
   }
 
-  // TODO: Remove the comment when implementing Crashlytics
-  /*Future<void> _updateDeviceData() async {
+  Future<void> _updateDeviceData() async {
     try {
       // Init notifications
       final firebaseToken = await initFirebaseMessaging();    // OPTI don't send token if user refused permission
@@ -144,8 +139,8 @@ class AppService {
       // Just report
       reportError(e, s);
     }
-  }*/
-
+  }
+  ///Todo Update the user response
   Future<void> fetchUserData() async {
     // Fetch data
     final userData = await AppService.api.getUserCardData();
@@ -164,8 +159,7 @@ class AppService {
   /// Handle errors
   void handleError(Object exception, StackTrace stack, {dynamic reason}) {
     // Report error
-    // TODO: Remove the comment when implementing Crashlytics
-    //reportError(exception, stack, reason: reason);    // Do not await
+    reportError(exception, stack, reason: reason);    // Do not await
 
     // Handle Unauthorized Exception
     if (exception is UnauthorizedException) {

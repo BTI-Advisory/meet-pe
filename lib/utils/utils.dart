@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -168,7 +169,7 @@ Future<void> showError(BuildContext context, Object error) async {
 }
 
 /// Report error to Crashlytics
-/*Future<void> reportError(Object exception, StackTrace stack, {dynamic reason}) async {
+Future<void> reportError(Object exception, StackTrace stack, {dynamic reason}) async {
   if (shouldReportException(exception)) {
     // Report to Crashlytics
     await FirebaseCrashlytics.instance.recordError(exception, stack, reason: reason);
@@ -176,7 +177,7 @@ Future<void> showError(BuildContext context, Object error) async {
     // Just log
     debugPrint('Unreported error thrown: $exception');
   }
-}*/
+}
 
 /// Indicate whether this exception should be reported
 bool shouldReportException(Object? exception) =>
