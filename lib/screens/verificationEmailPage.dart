@@ -12,8 +12,6 @@ import '../utils/utils.dart';
 class VerificationEmailPage extends StatefulWidget {
   const VerificationEmailPage({super.key});
 
-  //TODO: Display keyboard auto
-
   @override
   State<VerificationEmailPage> createState() => _VerificationEmailPageState();
 }

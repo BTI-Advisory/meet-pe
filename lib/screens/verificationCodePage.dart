@@ -37,7 +37,6 @@ class _VerificationCodePageState extends State<VerificationCodePage>
               if (isVerified) {
                 return navigateTo(context, (_) => WelcomePage());
               } else {
-                //Todo: add alert
                 showMessage(context, 'Erreur code');
               }
             },
