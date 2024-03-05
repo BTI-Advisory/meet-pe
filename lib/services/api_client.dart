@@ -923,6 +923,29 @@ class ApiClient {
     }();
   }
 
+  /// Mark a update experience description
+  Future<void> updateExperienceDescription(int experienceID, String description) async {
+    final data = {
+      'experience_id': experienceID,
+      'description': description
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-experience-description',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content

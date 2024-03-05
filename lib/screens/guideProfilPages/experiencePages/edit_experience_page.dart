@@ -69,6 +69,15 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     }
   }
 
+  Future<void> _updateExperienceDescription(int experienceID, String description) async {
+    try {
+      final update = await AppService.api.updateExperienceDescription(experienceID, description);
+    } catch (e) {
+      // Handle error
+      print('Error update exp description: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +111,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final experienceData = snapshot.data!;
-            _textEditingControllerDescription.text = experienceData.description;
             return Stack(children: [
               SingleChildScrollView(
                 child: Container(
@@ -667,21 +675,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                               ?.copyWith(color: AppResources.colorDark),
                                                         ),
                                                         onPressed: () async {
+                                                          _updateExperienceDescription(widget.experienceId, _textEditingControllerDescription.text);
                                                           Navigator.pop(context);
-                                                          ///Todo Add api
-                                                          // Call the asynchronous operation and handle its completion
-                                                          /*AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text).then((_) {
-                                                      // Optionally, you can perform additional actions after the operation completes
-                                                      Navigator.pop(context);
-                                                    }).catchError((error) {
-                                                      // Handle any errors that occur during the asynchronous operation
-                                                      print('Error: $error');
-                                                      Navigator.pop(context);
-                                                      if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                                        showMessage(context, error.toString());
-                                                      }
-
-                                                    });*/
                                                         },
                                                       ),
                                                     ),
