@@ -60,6 +60,15 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     });
   }
 
+  Future<void> _updateExperienceOnline(int experienceID, bool isOnline) async {
+    try {
+      final update = await AppService.api.updateExperienceOnline(experienceID, isOnline);
+    } catch (e) {
+      // Handle error
+      print('Error update exp online: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +87,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
             onChanged: (bool value) {
               setState(() {
                 onLine = value;
+                _updateExperienceOnline(widget.experienceId, value);
               });
             },
           )

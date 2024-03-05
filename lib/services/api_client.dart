@@ -900,6 +900,29 @@ class ApiClient {
     return ExperienceDataResponse.fromJson(response!);
   }
 
+  /// Mark a update experience online
+  Future<void> updateExperienceOnline(int experienceID, bool isOnline) async {
+    final data = {
+      'experience_id': experienceID,
+      'is_online': isOnline
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-experience-is-online',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
