@@ -256,8 +256,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
           ),
         ],
       ),
-      child: TypeAheadField(
-        textFieldConfiguration: TextFieldConfiguration(
+      child: TypeAheadField<String>(
+        controller: widget.controller,
+        builder: (context, controller, focusNode) => TextField(
           controller: widget.controller,
           style: Theme.of(context)
               .textTheme
@@ -289,26 +290,26 @@ class _SearchTextFieldState extends State<SearchTextField> {
               borderRadius: BorderRadius.circular(30.0),
               borderSide: const BorderSide(
                 color:
-                    Colors.white, // Border color when the TextField is focused
+                Colors.white, // Border color when the TextField is focused
               ),
             ),
           ),
         ),
-        suggestionsCallback: (pattern) async {
-          return await _getSuggestions(pattern);
-        },
         itemBuilder: (context, suggestion) {
           return ListTile(
             title: Text(suggestion),
           );
         },
-        onSuggestionSelected: (suggestion) {
+        onSelected: (Object? value) {
           setState(() {
-            widget.controller.text = suggestion; // Update the text field text
+            widget.controller.text = value.toString(); // Update the text field text
           });
-          // Additional actions based on the selected suggestion
-        },
+      }, suggestionsCallback: (String search) async {
+        return await _getSuggestions(search);
+      },
       ),
+
+
     );
   }
 }
