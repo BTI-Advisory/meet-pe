@@ -8,11 +8,13 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
+import '../experiences_guide_page.dart';
 
 class EditExperiencePage extends StatefulWidget {
-  const EditExperiencePage({super.key, required this.experienceId, required this.isOnline});
+  const EditExperiencePage({super.key, required this.experienceId, required this.isOnline, required this.price});
   final int experienceId;
   final bool isOnline;
+  final double price;
 
   @override
   State<EditExperiencePage> createState() => _EditExperiencePageState();
@@ -26,12 +28,17 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   double valueSlider = 30;
   late Future<ExperienceDataResponse> _experienceDataFuture;
   String selectedImagePath = 'images/imageTest.png';
+  bool updateOnline = false;
+  bool updateDescription = false;
+  bool updatePhoto = false;
+  bool updatePrices = false;
 
   @override
   void initState() {
     super.initState();
     _experienceDataFuture = AppService.api.getExperienceDetail(widget.experienceId);
     onLine = widget.isOnline;
+    valueSlider = widget.price;
     _textEditingControllerDescription = TextEditingController();
     _textEditingControllerDescription.addListener(_onTextChanged);
   }
@@ -55,7 +62,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     });
   }
 
-  void updateDuration(double value) {
+  void updatePrice(double value) {
     setState(() {
       valueSlider = value;
       //bloc.updateDuration(value); // Call the method to update duration in bloc
@@ -136,7 +143,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
             onChanged: (bool value) {
               setState(() {
                 onLine = value;
-                _updateExperienceOnline(widget.experienceId, value);
+                updateOnline = true;
               });
             },
           )
@@ -183,10 +190,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         width: ResponsiveSize.calculateWidth(
                                             427, context),
                                         height: 592,
-                                        child: Image.asset(
-                                          selectedImagePath,
-                                          fit: BoxFit.cover,
-                                        ),
+                                        child: Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover),
                                       ),
                                     ),
 
@@ -218,6 +222,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       child: editButton(onTap: () {
                                         print('Edit image');
                                         pickImage();
+                                        updatePhoto = true;
                                       }),
                                     ),
                                   ],
@@ -272,7 +277,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              'Aventurier',
+                                              experienceData.categorie[0],
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge
@@ -353,7 +358,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                                       onChanged: (double value) {
                                                                         setState(() {
                                                                           valueSlider = value;
-                                                                          updateDuration(value);
+                                                                          updatePrice(value);
                                                                         });
                                                                       },
                                                                     ),
@@ -403,7 +408,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                                               ?.copyWith(color: AppResources.colorDark),
                                                                         ),
                                                                         onPressed: () async {
-                                                                          _updateExperiencePrice(widget.experienceId, valueSlider.toInt());
+                                                                          updatePrices = true;
                                                                           Navigator.pop(context);
                                                                         },
                                                                       ),
@@ -470,6 +475,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         SizedBox(
                                             width: ResponsiveSize.calculateWidth(
                                                 8, context)),
+                                        if(experienceData.guideIsPro)
                                         IntrinsicWidth(
                                           child: Container(
                                             height: 28,
@@ -511,6 +517,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                             ),
                                           ),
                                         ),
+                                        if(experienceData.guideIsPro)
                                         SizedBox(
                                             width: ResponsiveSize.calculateWidth(
                                                 8, context)),
@@ -703,7 +710,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                               ?.copyWith(color: AppResources.colorDark),
                                                         ),
                                                         onPressed: () async {
-                                                          _updateExperienceDescription(widget.experienceId, _textEditingControllerDescription.text);
+                                                          updateDescription = true;
                                                           Navigator.pop(context);
                                                         },
                                                       ),
@@ -814,7 +821,20 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               ),
                             ),
                             onPressed: () {
-                              _updateExperienceImage(widget.experienceId, selectedImagePath);
+                              if(updateDescription) {
+                                _updateExperienceDescription(widget.experienceId, _textEditingControllerDescription.text);
+                              }
+                              if(updateOnline) {
+                                _updateExperienceOnline(widget.experienceId, onLine);
+                              }
+                              if(updatePrices) {
+                                _updateExperiencePrice(widget.experienceId, valueSlider.toInt());
+                              }
+                              if(updatePhoto) {
+                                _updateExperienceImage(widget.experienceId, selectedImagePath);
+                              }
+                              //ExperiencesGuidePage.of(context).fetchGuideExperiencesData();
+                              Navigator.maybePop(context);
                             },
                             child: Text(
                               'ENREGISTRER',
