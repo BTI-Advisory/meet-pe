@@ -5,13 +5,13 @@ class GuideExperiencesResponse {
   final String title;
   final String description;
   final String dure;
-  final String prixParVoyageur;
+  final String? prixParVoyageur;
   //final String? inclus;
-  final String nombreDesVoyageurs;
+  final String? nombreDesVoyageurs;
   //final String? typeDesVoyageurs;
-  final String ville;
-  final String addresse;
-  final String codePostale;
+  final String? ville;
+  final String? addresse;
+  final String? codePostale;
   final String createdAt;
   final String updatedAt;
   //final String? audioFile;
@@ -19,12 +19,12 @@ class GuideExperiencesResponse {
   final String status;
   final String country;
   final String categorie;
-  final String guidePersonnesPeuvesParticiper;
-  final String etAvecCa;
+  final String? guidePersonnesPeuvesParticiper;
+  final String? etAvecCa;
   final bool isOnline;
   //final String? lang;
   //final String? lat;
-  final PhotoPrincipal photoPrincipal;
+  final PhotoPrincipal? photoPrincipal;
 
   GuideExperiencesResponse({
     required this.id,
@@ -56,30 +56,25 @@ class GuideExperiencesResponse {
   factory GuideExperiencesResponse.fromJson(Map<String, dynamic> json) {
 
     return GuideExperiencesResponse(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      dure: json['dure'],
-      prixParVoyageur: json['prix_par_voyageur'],
-      //inclus: json['inclus'],
-      nombreDesVoyageurs: json['nombre_des_voyageur'],
-      //typeDesVoyageurs: json['type_des_voyageur'],
-      ville: json['ville'],
-      addresse: json['addresse'],
-      codePostale: json['code_postale'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      //audioFile: json['audio_file'],
-      userId: json['user_id'],
-      status: json['status'],
-      country: json['country'],
-      categorie: json['categorie'],
-      guidePersonnesPeuvesParticiper: json['guide_personnes_peuves_participer'],
-      etAvecCa: json['et_avec_ça'],
-      isOnline: json['is_online'],
-      //lang: json['lang'],
-      //lat: json['lat'],
-      photoPrincipal: PhotoPrincipal.fromJson(json['photoprincipal']),
+      id: json?['id'] ?? 0,
+      title: json?['title'] ?? '',
+      description: json?['description'] ?? '',
+      dure: json?['dure'] ?? '',
+      prixParVoyageur: json?['prix_par_voyageur'] ?? '',
+      nombreDesVoyageurs: json?['nombre_des_voyageur'] ?? '',
+      ville: json?['ville'] ?? '',
+      addresse: json?['addresse'] ?? '',
+      codePostale: json?['code_postale'] ?? '',
+      createdAt: json?['created_at'] ?? '',
+      updatedAt: json?['updated_at'] ?? '',
+      userId: json?['user_id'] ?? 0,
+      status: json?['status'] ?? '',
+      country: json?['country'] ?? '',
+      categorie: json?['categorie'] ?? '',
+      guidePersonnesPeuvesParticiper: json?['guide_personnes_peuves_participer'] ?? '',
+      etAvecCa: json?['et_avec_ça'] ?? '',
+      isOnline: json?['is_online'] ?? false,
+      photoPrincipal: json?['photoprincipal'] != null ? PhotoPrincipal.fromJson(json?['photoprincipal']) : null,
     );
   }
 }
@@ -103,12 +98,12 @@ class PhotoPrincipal {
 
   factory PhotoPrincipal.fromJson(Map<String, dynamic> json) {
     return PhotoPrincipal(
-      id: json['id'],
-      guideExperienceId: json['guide_experience_id'],
-      photoUrl: json['photo_url'],
-      typeImage: json['type_image'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      id: json?['id'] ?? 0,
+      guideExperienceId: json?['guide_experience_id'] ?? 0,
+      photoUrl: json?['photo_url'] ?? '',
+      typeImage: json?['type_image'] ?? '',
+      createdAt: json?['created_at'] ?? '',
+      updatedAt: json?['updated_at'] ?? '',
     );
   }
 }

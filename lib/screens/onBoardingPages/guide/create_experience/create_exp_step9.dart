@@ -18,9 +18,11 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
   late TextEditingController _textEditingControllerAdresse;
   late TextEditingController _textEditingControllerVille;
   late TextEditingController _textEditingControllerCodePostal;
+  late TextEditingController _textEditingControllerCountry;
   String? validationMessageAdresse = '';
   String? validationMessageVille = '';
   String? validationMessageCodePostal = '';
+  String? validationMessageCountry = '';
   bool isFormValid = false;
 
   @override
@@ -32,6 +34,8 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
     _textEditingControllerVille.addListener(_onTextChanged);
     _textEditingControllerCodePostal = TextEditingController();
     _textEditingControllerCodePostal.addListener(_onTextChanged);
+    _textEditingControllerCountry = TextEditingController();
+    _textEditingControllerCountry.addListener(_onTextChanged);
   }
 
   @override
@@ -42,6 +46,8 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
     _textEditingControllerVille.dispose();
     _textEditingControllerCodePostal.removeListener(_onTextChanged);
     _textEditingControllerCodePostal.dispose();
+    _textEditingControllerCountry.removeListener(_onTextChanged);
+    _textEditingControllerCountry.dispose();
     super.dispose();
   }
 
@@ -54,7 +60,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
   void updateFormValidity() {
     setState(() {
       isFormValid =
-          validationMessageAdresse == null && validationMessageVille == null && validationMessageCodePostal == null;
+          validationMessageAdresse == null && validationMessageVille == null && validationMessageCodePostal == null && validationMessageCountry == null;
     });
   }
 
@@ -281,6 +287,52 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                           });
                         },
                       ),
+                      SizedBox(
+                          height: ResponsiveSize.calculateHeight(40, context)),
+                      TextFormField(
+                        controller: _textEditingControllerCountry,
+                        keyboardType: TextInputType.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppResources.colorDark),
+                        decoration: InputDecoration(
+                          filled: false,
+                          hintText: 'Pays',
+                          hintStyle: Theme.of(context).textTheme.bodyMedium,
+                          contentPadding: EdgeInsets.only(
+                              top: ResponsiveSize.calculateHeight(20, context),
+                              bottom:
+                              ResponsiveSize.calculateHeight(10, context)),
+                          // Adjust padding
+                          suffix: SizedBox(
+                              height:
+                              ResponsiveSize.calculateHeight(10, context)),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: AppResources.colorGray15),
+                          ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: AppResources.colorGray15),
+                          ),
+                          errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        autofocus: true,
+                        textInputAction: TextInputAction.done,
+                        //onFieldSubmitted: (value) => validate(),
+                        validator: AppResources.validatorNotEmpty,
+                        //onSaved: (value) => bloc.name = value,
+                        onChanged: (value) {
+                          setState(() {
+                            validationMessageCountry =
+                                AppResources.validatorNotEmpty(value);
+                            updateFormValidity();
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -327,6 +379,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               widget.sendListMap['addresse'] = _textEditingControllerAdresse.text;
                               widget.sendListMap['ville'] = _textEditingControllerVille.text;
                               widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
+                              widget.sendListMap['country'] = _textEditingControllerCountry.text;
                               navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
                             });
                           }

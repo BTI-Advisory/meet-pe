@@ -572,6 +572,7 @@ class ApiClient {
       'ville': initialData['ville'].toString(),
       'addresse': initialData['addresse'].toString(),
       'code_postale': initialData['code_postale'].toString(),
+      'country': initialData['country'].toString(),
       'experience_id': initialData['experience_id'].toString(),
     };
   }
