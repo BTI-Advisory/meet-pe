@@ -1019,6 +1019,28 @@ class ApiClient {
     }
   }
 
+  /// Mark a delete experience
+  Future<void> deleteExperience(int experienceID) async {
+    final data = {
+      'experience_id': experienceID,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodDelete, 'api/delete-experience',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content
