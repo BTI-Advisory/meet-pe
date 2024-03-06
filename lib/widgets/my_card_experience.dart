@@ -43,12 +43,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                   WidgetMask(
                     blendMode: BlendMode.srcATop,
                     childSaveLayer: true,
-                    mask: Image.asset(
-                      'images/imageTest.png',
-                      width: 68,
-                      height: 68,
-                      fit: BoxFit.cover,
-                    ),
+                    mask: Image.network(widget.guideExperiencesResponse.photoPrincipal.photoUrl, width: 68, height: 68, fit: BoxFit.cover),
                     child: Image.asset(
                       'images/mask_picture.png',
                       width: 68,
@@ -75,49 +70,46 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                       ),
                       if(widget.guideExperiencesResponse.status == 'en cours de vérification')
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.watch_later_outlined, size: 10, color: AppResources.colorVitamine),
+                          Icon(Icons.watch_later_outlined, size: 17, color: AppResources.colorVitamine),
+                          const SizedBox(width: 5),
                           Text(
                             widget.guideExperiencesResponse.status,
-                            style: TextStyle(
-                              color: AppResources.colorVitamine,
-                              fontSize: 10,
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w400,
-                              height: 0.14,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppResources.colorVitamine),
                           )
                         ],
                       ),
                       if(widget.guideExperiencesResponse.status == 'à compléter')
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.hourglass_empty, size: 10, color: AppResources.colorVitamine),
+                            Icon(Icons.hourglass_empty, size: 17, color: AppResources.colorVitamine),
+                            const SizedBox(width: 5),
                             Text(
                               widget.guideExperiencesResponse.status,
-                              style: TextStyle(
-                                color: AppResources.colorVitamine,
-                                fontSize: 10,
-                                fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w400,
-                                height: 0.14,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorVitamine),
                             )
                           ],
                         ),
                       if(widget.guideExperiencesResponse.status == 'en ligne')
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.circle, size: 10, color: Color(0xFF54EE9D)),
+                            Icon(Icons.circle, size: 17, color: Color(0xFF54EE9D)),
+                            const SizedBox(width: 5),
                             Text(
                               widget.guideExperiencesResponse.status,
-                              style: TextStyle(
-                                color: Color(0xFF54EE9D),
-                                fontSize: 10,
-                                fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w400,
-                                height: 0.14,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: Color(0xFF54EE9D)),
                             )
                           ],
                         )
