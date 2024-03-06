@@ -24,8 +24,7 @@ dependencies:
   # Widgets / UI
   flash: ^3.0.5+1
   flutter_verification_code: ^1.1.7
-  # Change this because make problem
-  flutter_typeahead: ^3.1.0
+  flutter_typeahead: ^5.2.0
   table_calendar: ^3.0.9
   widget_mask: ^1.0.0+0
   image_picker: ^1.0.7
