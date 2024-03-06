@@ -8,7 +8,6 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
-import '../experiences_guide_page.dart';
 
 class EditExperiencePage extends StatefulWidget {
   const EditExperiencePage({super.key, required this.experienceId, required this.isOnline, required this.price});
@@ -99,6 +98,15 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   Future<void> _updateExperienceImage(int experienceID, String pathImage) async {
     try {
       final update = await AppService.api.updateExperienceImage(experienceID, pathImage);
+    } catch (e) {
+      // Handle error
+      print('Error update exp image: $e');
+    }
+  }
+
+  Future<void> _deleteExperience(int experienceID) async {
+    try {
+      final delete = await AppService.api.deleteExperience(experienceID);
     } catch (e) {
       // Handle error
       print('Error update exp image: $e');
@@ -786,7 +794,10 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _deleteExperience(widget.experienceId);
+                              Navigator.pop(context);
+                            },
                             child: Text(
                               'SUPPRIMER',
                               style: Theme.of(context)
@@ -833,7 +844,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               if(updatePhoto) {
                                 _updateExperienceImage(widget.experienceId, selectedImagePath);
                               }
-                              //ExperiencesGuidePage.of(context).fetchGuideExperiencesData();
                               Navigator.maybePop(context);
                             },
                             child: Text(
