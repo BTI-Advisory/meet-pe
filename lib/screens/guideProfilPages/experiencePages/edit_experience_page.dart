@@ -198,7 +198,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         width: ResponsiveSize.calculateWidth(
                                             427, context),
                                         height: 592,
-                                        child: Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover),
+                                        child: updatePhoto ? Image.asset(selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover)
                                       ),
                                     ),
 

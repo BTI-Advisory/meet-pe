@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:fetcher/src/exceptions/unreported_exception.dart';
@@ -277,5 +278,14 @@ String yearsFrenchFormat(String date) {
 
   // Format the date to the desired format
   String transformedDateString = "${originalDate.day}/${originalDate.month}/${originalDate.year}";
+  return transformedDateString;
+}
+
+String requestFrenchFormat(String date) {
+  DateTime originalDate = DateTime.parse(date);
+
+  // Format the date to the desired format
+  String transformedDateString = DateFormat('E d MMM à HH:mm', 'fr_FR').format(originalDate);
+  transformedDateString = transformedDateString.replaceFirst(transformedDateString.substring(0,1), transformedDateString.substring(0,1).toUpperCase());
   return transformedDateString;
 }

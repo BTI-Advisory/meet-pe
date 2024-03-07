@@ -112,6 +112,21 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                                   ?.copyWith(color: Color(0xFF54EE9D)),
                             )
                           ],
+                        ),
+                      if(widget.guideExperiencesResponse.status == 'hors ligne')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.circle, size: 17, color: AppResources.colorVitamine),
+                            const SizedBox(width: 5),
+                            Text(
+                              widget.guideExperiencesResponse.status,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorVitamine),
+                            )
+                          ],
                         )
                     ],
                   ),
@@ -120,28 +135,31 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                 ],
               ),
             ),
-            Positioned(
-                top: 0,
-                left: 73,
-                child: Container(
-                  width: 43,
-                  height: 18,
-                  decoration: ShapeDecoration(
-                    color: AppResources.colorVitamine,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
+            Visibility(
+              visible: widget.guideExperiencesResponse.status == 'en cours de vérification',
+              child: Positioned(
+                  top: 0,
+                  left: 73,
+                  child: Container(
+                    width: 43,
+                    height: 18,
+                    decoration: ShapeDecoration(
+                      color: AppResources.colorVitamine,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                        'New',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 12, color: AppResources.colorWhite)
+                    child: Center(
+                      child: Text(
+                          'New',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontSize: 12, color: AppResources.colorWhite)
+                      ),
                     ),
-                  ),
-                )
+                  )
+              ),
             )
           ]
         ),

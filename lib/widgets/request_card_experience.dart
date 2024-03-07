@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../models/guide_reservation_response.dart';
 import '../resources/resources.dart';
+import '../utils/utils.dart';
 
 class RequestCard extends StatefulWidget {
-  const RequestCard({Key? key}) : super(key: key);
+  //const RequestCard({Key? key}) : super(key: key);
+  RequestCard({super.key, required this.guideReservationResponse});
+  final GuideReservationResponse guideReservationResponse;
 
   @override
   _RequestCardState createState() => _RequestCardState();
@@ -41,11 +45,11 @@ class _RequestCardState extends State<RequestCard> {
                       Column(
                         children: [
                           ClipOval(
-                              child: Image.asset('images/imageTest.png', width: 38, height: 38, fit: BoxFit.cover)
+                            child: Image.network(widget.guideReservationResponse.voyageur.profilePath, width: 38, height: 38, fit: BoxFit.cover),
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'Lucie',
+                            widget.guideReservationResponse.voyageur.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -58,14 +62,14 @@ class _RequestCardState extends State<RequestCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Ma. 17 fév. à 11h30',
+                            requestFrenchFormat(widget.guideReservationResponse.dateTime),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
                                 ?.copyWith(fontSize: 14, color: AppResources.colorDark),
                           ),
                           Text(
-                            'Le Paris de Maria...',
+                            widget.guideReservationResponse.experience.title,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                           ),
                         ],
@@ -140,28 +144,31 @@ class _RequestCardState extends State<RequestCard> {
                 ],
               ),
             ),
-            Positioned(
-                top: 0,
-                left: 63,
-                child: Container(
-                  width: 43,
-                  height: 18,
-                  decoration: ShapeDecoration(
-                    color: AppResources.colorVitamine,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
+            Visibility(
+              visible: (widget.guideReservationResponse.status == 'Pending'),
+              child: Positioned(
+                  top: 0,
+                  left: 63,
+                  child: Container(
+                    width: 43,
+                    height: 18,
+                    decoration: ShapeDecoration(
+                      color: AppResources.colorVitamine,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'New',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 12, color: AppResources.colorWhite)
+                    child: Center(
+                      child: Text(
+                        'New',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontSize: 12, color: AppResources.colorWhite)
+                      ),
                     ),
-                  ),
-                )
+                  )
+              ),
             )
           ],
         ),
