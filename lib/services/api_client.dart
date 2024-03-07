@@ -749,6 +749,31 @@ class ApiClient {
     IsFullAvailabilityResponse.fromJson(response!);
   }
 
+  /// Update Description
+  Future<void> updateDescription(String description) async {
+    final data = {
+      'description': description,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-description',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    IsFullAvailabilityResponse.fromJson(response!);
+  }
+
   /// Get list absence
   Future<List<AbsenceListResponse>> getAbsenceList() async {
     final Map<String, String> headers = {
