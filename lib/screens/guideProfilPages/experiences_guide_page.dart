@@ -103,18 +103,18 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                     horizontal: ResponsiveSize.calculateWidth(13, context)),
                 child: isRequest
                     ? Column(
-                        children: [
-                          GestureDetector(
+                        children: List.generate(
+                          reservationList.length,
+                              (index) => GestureDetector(
                             onTap: () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => _buildPopupDialog(context),
+                                builder: (BuildContext context) => _buildPopupDialog(context, reservationList[index]),
                               );
                             },
-                            child: RequestCard(),
+                            child: RequestCard(guideReservationResponse: reservationList[index],),
                           ),
-                          RequestCard(),
-                        ],
+                        ),
                       )
                     : Column(
                         children: List.generate(
@@ -242,7 +242,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget _buildPopupDialog(BuildContext context, GuideReservationResponse reservation) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       insetPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -266,21 +266,13 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                       Row(
                         children: [
                           ClipOval(
-                              child: Image.asset('images/imageTest.png', width: 75, height: 75, fit: BoxFit.cover)
+                              child: Image.network(reservation.voyageur.profilePath, width: 75, height: 75, fit: BoxFit.cover)
                           ),
                           SizedBox(width: ResponsiveSize.calculateWidth(19, context)),
-                          Column(
-                            children: [
-                              Text(
-                                'Chen',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
-                              ),
-                              Text(
-                                  'Lucie',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
-                              )
-                            ],
-                          )
+                          Text(
+                              reservation.voyageur.name,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
+                          ),
                         ],
                       ),
                       IconButton(
@@ -346,12 +338,12 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Expérience réservée le 26/11/24',
+                    'Expérience réservée le ${yearsFrenchFormat(reservation.createdAt)}',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    'Le Paris de Maria en deux lignes',
+                    reservation.experience.title,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark, fontSize: 14),
                   ),
                   const SizedBox(height: 23),
@@ -363,7 +355,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
                       ),
                       Text(
-                        '2',
+                        reservation.nombreDesVoyageurs.toString(),
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
                       ),
                     ],
@@ -377,7 +369,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
                       ),
                       Text(
-                        'Ma. 17 fév. 11h30',
+                        requestFrenchFormat(reservation.dateTime),
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
                       ),
                     ],
