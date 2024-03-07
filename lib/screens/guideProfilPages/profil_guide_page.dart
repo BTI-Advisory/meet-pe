@@ -9,6 +9,7 @@ import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_new
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/app_service.dart';
+import '../../utils/message.dart';
 import '../../utils/utils.dart';
 
 class ProfileGuidePage extends StatefulWidget {
@@ -21,11 +22,36 @@ class ProfileGuidePage extends StatefulWidget {
 class _ProfileGuidePageState extends State<ProfileGuidePage> {
   bool isGuide = true; // Track if it's currently "Voyageur" or "Guide"
   late Future<UserResponse> _userInfoFuture;
+  late TextEditingController _textEditingControllerDescription;
+  String? validationMessageDescription = '';
+  bool isFormValid = false;
 
   @override
   void initState() {
     super.initState();
     _userInfoFuture = AppService.api.getUserInfo();
+    _textEditingControllerDescription = TextEditingController();
+    _textEditingControllerDescription.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _textEditingControllerDescription.removeListener(_onTextChanged);
+    _textEditingControllerDescription.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerDescription.text.isEmpty;
+    });
+  }
+
+  void updateFormValidity() {
+    setState(() {
+      isFormValid =
+          _textEditingControllerDescription == null;
+    });
   }
 
   void toggleRole() {
@@ -67,80 +93,211 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                         ),
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
-                      Container(
-                        width: ResponsiveSize.calculateWidth(336, context),
-                        height: ResponsiveSize.calculateHeight(163, context),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(8, context))),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: ResponsiveSize.calculateWidth(72, context),
-                                  height: ResponsiveSize.calculateHeight(72, context),
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(userInfo.profilePath),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(162.50, context)),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  child: StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        width: double.infinity,
+                                        height: 357,
+                                        color: AppResources.colorWhite,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              const SizedBox(height: 39),
+                                              Text(
+                                                'Mon Profil',
+                                                style: Theme.of(context).textTheme.headlineMedium,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  TextFormField(
+                                                    controller: _textEditingControllerDescription,
+                                                    keyboardType: TextInputType.multiline,
+                                                    textInputAction: TextInputAction.newline,
+                                                    //textInputAction: TextInputAction.done,
+                                                    maxLines: null,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium
+                                                        ?.copyWith(color: AppResources.colorDark),
+                                                    decoration: InputDecoration(
+                                                      filled: false,
+                                                      hintText: 'A propos de moi',
+                                                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                      contentPadding: EdgeInsets.only(
+                                                          top: ResponsiveSize.calculateHeight(20, context),
+                                                          bottom:
+                                                          ResponsiveSize.calculateHeight(10, context)),
+                                                      // Adjust padding
+                                                      suffix: SizedBox(
+                                                          height:
+                                                          ResponsiveSize.calculateHeight(10, context)),
+                                                      enabledBorder: const UnderlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide(color: AppResources.colorGray15),
+                                                      ),
+                                                      focusedBorder: const UnderlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide(color: AppResources.colorGray15),
+                                                      ),
+                                                      errorBorder: const UnderlineInputBorder(
+                                                        borderSide: BorderSide(color: Colors.red),
+                                                      ),
+                                                    ),
+                                                    autofocus: true,
+                                                    //onFieldSubmitted: (value) => validate(),
+                                                    validator: AppResources.validatorNotEmpty,
+                                                    //onSaved: (value) => bloc.name = value,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        validationMessageDescription =
+                                                            AppResources.validatorNotEmpty(value);
+                                                        updateFormValidity();
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 53),
+                                              Container(
+                                                width: ResponsiveSize.calculateWidth(319, context),
+                                                height: ResponsiveSize.calculateHeight(44, context),
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    padding:
+                                                    MaterialStateProperty.all<EdgeInsets>(
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                    backgroundColor: MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                    shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                        side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                        borderRadius: BorderRadius.circular(40),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    'ENREGISTRER',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.copyWith(color: AppResources.colorDark),
+                                                  ),
+                                                  onPressed: () async {
+                                                    // Call the asynchronous operation and handle its completion
+                                                    AppService.api.updateDescription(_textEditingControllerDescription.text).then((_) {
+                                                      // Optionally, you can perform additional actions after the operation completes
+                                                      Navigator.pop(context);
+                                                    }).catchError((error) {
+                                                      // Handle any errors that occur during the asynchronous operation
+                                                      print('Error: $error');
+                                                      Navigator.pop(context);
+                                                      if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                        showMessage(context, error.toString());
+                                                      }
+
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                          );
+                        },
+                        child: Container(
+                          width: ResponsiveSize.calculateWidth(336, context),
+                          height: ResponsiveSize.calculateHeight(163, context),
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(8, context))),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x3F000000),
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: ResponsiveSize.calculateWidth(72, context),
+                                    height: ResponsiveSize.calculateHeight(72, context),
+                                    decoration: ShapeDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(userInfo.profilePath),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(162.50, context)),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: ResponsiveSize.calculateWidth(13, context),),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      userInfo.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall
-                                          ?.copyWith(color: AppResources.colorDark),
-                                    ),
-                                    SizedBox(width: ResponsiveSize.calculateHeight(6, context),),
-                                    Text(
-                                      'Modifier mon profil',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(fontSize: 12, color: AppResources.colorGray45),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width: ResponsiveSize.calculateWidth(80, context),),
-                                Image.asset('images/chevron_right.png', width: 27, height: 27, fit: BoxFit.fill),
-                              ],
-                            ),
-                            SizedBox(height: ResponsiveSize.calculateHeight(12, context)),
-                            Container(
-                              width: ResponsiveSize.calculateWidth(319, context),
-                              height: ResponsiveSize.calculateHeight(52, context),
-                              padding: const EdgeInsets.all(4),
-                              decoration: ShapeDecoration(
-                                color: AppResources.colorGray5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
-                                ),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(13, context),),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        userInfo.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(color: AppResources.colorDark),
+                                      ),
+                                      SizedBox(width: ResponsiveSize.calculateHeight(6, context),),
+                                      Text(
+                                        'Modifier mon profil',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(fontSize: 12, color: AppResources.colorGray45),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(80, context),),
+                                  Image.asset('images/chevron_right.png', width: 27, height: 27, fit: BoxFit.fill),
+                                ],
                               ),
-                              child: isGuide ? buildGuideUI() : buildVoyageurUI(),
-                            ),
-                          ],
+                              SizedBox(height: ResponsiveSize.calculateHeight(12, context)),
+                              Container(
+                                width: ResponsiveSize.calculateWidth(319, context),
+                                height: ResponsiveSize.calculateHeight(52, context),
+                                padding: const EdgeInsets.all(4),
+                                decoration: ShapeDecoration(
+                                  color: AppResources.colorGray5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                  ),
+                                ),
+                                child: isGuide ? buildGuideUI() : buildVoyageurUI(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
