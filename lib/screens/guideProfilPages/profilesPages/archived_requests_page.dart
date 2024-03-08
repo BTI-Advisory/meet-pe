@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:widget_mask/widget_mask.dart';
 
+import '../../../models/archived_reservation_response.dart';
 import '../../../resources/resources.dart';
+import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
@@ -13,13 +15,58 @@ class ArchivedRequestsPage extends StatefulWidget {
 }
 
 class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
+  late Future<List<ArchivedReservationResponse>> _archivedReservationFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _archivedReservationFuture = AppService.api.getArchivedReservation();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const EpAppBar(
         title: 'Demandes archivées',
       ),
-      body: SingleChildScrollView(
+      body: FutureBuilder<List<ArchivedReservationResponse>>(
+        future: _archivedReservationFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final archivedReservation = snapshot.data!;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ResponsiveSize.calculateWidth(13, context)),
+                    /*child: Column(
+                      children: [
+                        const SizedBox(height: 37),
+                        requestCard(),
+                        requestCard()
+                      ],
+                    ),*/
+                    child: Column(
+                      children: List.generate(
+                        archivedReservation.length,
+                            (index) => GestureDetector(
+                          onTap: () {},
+                          child: requestCard(archivedReservation[index]),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+        }
+      ),
+      /*body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -35,11 +82,11 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
             )
           ],
         ),
-      ),
+      ),*/
     );
   }
 
-  Widget requestCard() {
+  Widget requestCard(ArchivedReservationResponse archivedReservation) {
     return Column(
       children: [
         Container(
@@ -61,8 +108,8 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
               WidgetMask(
                 blendMode: BlendMode.srcATop,
                 childSaveLayer: true,
-                mask: Image.asset(
-                  'images/imageTest.png',
+                mask: Image.network(
+                  archivedReservation.voyageur.profilePath,
                   width: 68,
                   height: 68,
                   fit: BoxFit.cover,
@@ -78,7 +125,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Paris XVIe avec Ma...',
+                    archivedReservation.experience.title,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -90,22 +137,6 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                   ),
                 ],
               ),
-              const SizedBox(width: 43),
-              Container(
-                width: 73,
-                height: 21,
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFFFECAB),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'à compléter',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
-                ),
-              )
             ],
           ),
         ),

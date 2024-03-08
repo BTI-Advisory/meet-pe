@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
+import 'package:meet_pe/models/archived_reservation_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
@@ -855,6 +856,24 @@ class ApiClient {
     }
 
     return isCreated;
+  }
+
+  /// Mark a get archived reservation
+  Future<List<ArchivedReservationResponse>> getArchivedReservation() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-archived-reservation'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseArchivedReservation(response.body);
+    } else {
+      throw Exception('Failed to load reservation list');
+    }
   }
 
   /// Get list guide reservation
