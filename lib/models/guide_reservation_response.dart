@@ -74,6 +74,8 @@ class Voyageur {
   final String rue;
   final String codePostal;
   final String ville;*/
+  final bool isVerified;
+  final int numberOfExperiences;
 
   Voyageur({
     required this.id,
@@ -94,6 +96,8 @@ class Voyageur {
     required this.rue,
     required this.codePostal,
     required this.ville,*/
+    required this.isVerified,
+    required this.numberOfExperiences,
   });
 
   factory Voyageur.fromJson(Map<String, dynamic> json) {
@@ -116,6 +120,8 @@ class Voyageur {
       rue: json['rue'],
       codePostal: json['code_postal'],
       ville: json['ville'],*/
+      isVerified: json['is_verified'],
+      numberOfExperiences: json['number_of_experiences'],
     );
   }
 }
