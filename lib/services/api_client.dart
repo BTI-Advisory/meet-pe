@@ -876,6 +876,32 @@ class ApiClient {
     }
   }
 
+  /// Update reservation status
+  Future<void> updateReservationStatus(int reservationId, String status) async {
+    final data = {
+      'reservation_id': reservationId,
+      'status': status,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-reservation-status',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    IsFullAvailabilityResponse.fromJson(response!);
+  }
+
   /// Get list guide reservation
   Future<List<GuideReservationResponse>> getGuideReservationList() async {
     final Map<String, String> headers = {
