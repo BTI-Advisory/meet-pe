@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/guide_reservation_response.dart';
 import '../resources/resources.dart';
+import '../services/app_service.dart';
+import '../utils/message.dart';
 import '../utils/utils.dart';
 
 class RequestCard extends StatefulWidget {
@@ -14,7 +16,6 @@ class RequestCard extends StatefulWidget {
 }
 
 class _RequestCardState extends State<RequestCard> {
-  bool accepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +77,25 @@ class _RequestCardState extends State<RequestCard> {
                       ),
                       const SizedBox(width: 23),
                       Visibility(
-                        visible: !accepted,
+                        visible: (widget.guideReservationResponse.status != 'Acceptée'),
                         child: Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  accepted = true;
-                                });
                                 print('Accepted');
+                                // Call the asynchronous operation and handle its completion
+                                AppService.api.updateReservationStatus(widget.guideReservationResponse.id, 'Acceptée').then((_) {
+                                  // Optionally, you can perform additional actions after the operation completes
+                                  Navigator.pop(context);
+                                }).catchError((error) {
+                                  // Handle any errors that occur during the asynchronous operation
+                                  print('Error: $error');
+                                  Navigator.pop(context);
+                                  if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                    showMessage(context, error.toString());
+                                  }
+
+                                });
                               },
                               child: Column(
                                 children: [
@@ -104,6 +115,19 @@ class _RequestCardState extends State<RequestCard> {
                             GestureDetector(
                               onTap: () {
                                 print('Refuser');
+                                // Call the asynchronous operation and handle its completion
+                                AppService.api.updateReservationStatus(widget.guideReservationResponse.experience.id, 'Refusée').then((_) {
+                                  // Optionally, you can perform additional actions after the operation completes
+                                  Navigator.pop(context);
+                                }).catchError((error) {
+                                  // Handle any errors that occur during the asynchronous operation
+                                  print('Error: $error');
+                                  Navigator.pop(context);
+                                  if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                    showMessage(context, error.toString());
+                                  }
+
+                                });
                               },
                               child: Column(
                                 children: [
@@ -123,7 +147,7 @@ class _RequestCardState extends State<RequestCard> {
                         ),
                       ),
                       Visibility(
-                        visible: accepted,
+                        visible: (widget.guideReservationResponse.status == 'Acceptée'),
                         child: Row(
                           children: [
                             const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
@@ -145,7 +169,7 @@ class _RequestCardState extends State<RequestCard> {
               ),
             ),
             Visibility(
-              visible: (widget.guideReservationResponse.status == 'Pending'),
+              visible: (widget.guideReservationResponse.status == 'En attente'),
               child: Positioned(
                   top: 0,
                   left: 63,

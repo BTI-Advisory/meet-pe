@@ -5,6 +5,7 @@ import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
+import '../../utils/message.dart';
 import '../../utils/responsive_size.dart';
 import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
@@ -399,47 +400,76 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
             SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      print('Accepted');
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.check, size: 24,),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Accepter',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: AppResources.colorDark),
-                        )
-                      ],
+              child: Visibility(
+                visible: reservation.status != 'Acceptée',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        print('Accepted');
+                        // Call the asynchronous operation and handle its completion
+                        AppService.api.updateReservationStatus(reservation.id, 'Acceptée').then((_) {
+                          // Optionally, you can perform additional actions after the operation completes
+                          Navigator.pop(context);
+                        }).catchError((error) {
+                          // Handle any errors that occur during the asynchronous operation
+                          print('Error: $error');
+                          Navigator.pop(context);
+                          if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                            showMessage(context, error.toString());
+                          }
+
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Icon(Icons.check, size: 24,),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Accepter',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: AppResources.colorDark),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 19),
-                  GestureDetector(
-                    onTap: () {
-                      print('Refuser');
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.close, size: 24,),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Refuser',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: AppResources.colorDark),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                    const SizedBox(width: 19),
+                    GestureDetector(
+                      onTap: () async {
+                        print('Refuser');
+                        // Call the asynchronous operation and handle its completion
+                        AppService.api.updateReservationStatus(reservation.id, 'Refusée').then((_) {
+                          // Optionally, you can perform additional actions after the operation completes
+                          Navigator.pop(context);
+                        }).catchError((error) {
+                          // Handle any errors that occur during the asynchronous operation
+                          print('Error: $error');
+                          Navigator.pop(context);
+                          if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                            showMessage(context, error.toString());
+                          }
+
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Icon(Icons.close, size: 24,),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Refuser',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: AppResources.colorDark),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20),
