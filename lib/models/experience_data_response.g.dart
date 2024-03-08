@@ -34,6 +34,8 @@ ExperienceDataResponse _$ExperienceDataResponseFromJson(
           .toList(),
       isOnline: json['is_online'] as bool,
       guideIsPro: json['guide_is_pro'] as bool,
+      descriptionGuide: json['description_guide'] as String?,
+      nameGuide: json['nom_of_guide'] as String,
       photoPrincipal: PhotoPrincipal.fromJson(
           json['photoprincipal'] as Map<String, dynamic>),
     );

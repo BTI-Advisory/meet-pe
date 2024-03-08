@@ -286,52 +286,58 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                   const SizedBox(height: 21),
                   Row(
                     children: [
-                      Container(
-                        height: ResponsiveSize.calculateHeight(
-                            28, context),
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                            ResponsiveSize.calculateWidth(
-                                12, context)),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(ResponsiveSize
-                                  .calculateCornerRadius(
-                                  20, context))),
-                          border: Border.all(
-                              color: AppResources.colorDark),
-                        ),
-                        child: Center(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                  'images/icon_verified.png', color: AppResources.colorDark),
-                              SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                              Text(
-                                'Vérifié',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                  color: AppResources
-                                      .colorDark,
-                                  fontSize: 12,
+                      Visibility(
+                        visible: reservation.voyageur.isVerified,
+                        child: Container(
+                          height: ResponsiveSize.calculateHeight(
+                              28, context),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                              ResponsiveSize.calculateWidth(
+                                  12, context)),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(ResponsiveSize
+                                    .calculateCornerRadius(
+                                    20, context))),
+                            border: Border.all(
+                                color: AppResources.colorDark),
+                          ),
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                    'images/icon_verified.png', color: AppResources.colorDark),
+                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                Text(
+                                  'Vérifié',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                    color: AppResources
+                                        .colorDark,
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(width: ResponsiveSize.calculateWidth(41, context)),
+                      Visibility(
+                          visible: reservation.voyageur.isVerified,
+                          child: SizedBox(width: ResponsiveSize.calculateWidth(41, context))
+                      ),
                       Text(
                         'expériences vécues',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
                       ),
                       SizedBox(width: ResponsiveSize.calculateWidth(5, context)),
                       Text(
-                        '343',
+                        reservation.voyageur.numberOfExperiences.toString(),
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                       )
                     ],

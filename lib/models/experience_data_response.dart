@@ -24,6 +24,8 @@ class ExperienceDataResponse {
     required this.etAvecCa,
     required this.isOnline,
     required this.guideIsPro,
+    required this.descriptionGuide,
+    required this.nameGuide,
     required this.photoPrincipal});
 
   @JsonKey(name: 'id')
@@ -64,6 +66,10 @@ class ExperienceDataResponse {
   final bool isOnline;
   @JsonKey(name: 'guide_is_pro')
   final bool guideIsPro;
+  @JsonKey(name: 'description_guide')
+  final String? descriptionGuide;
+  @JsonKey(name: 'nom_of_guide')
+  final String nameGuide;
   @JsonKey(name: 'photoprincipal')
   final PhotoPrincipal photoPrincipal;
 

@@ -736,25 +736,47 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 27),
+                        const SizedBox(height: 63),
                         Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: ResponsiveSize.calculateWidth(22, context)),
-                          width: double.infinity,
-                          child: Image.asset('images/play-wave.png'),
-                        ),
-                        const SizedBox(height: 34),
-                        SizedBox(
-                          width: ResponsiveSize.calculateWidth(319, context),
-                          child: Text(
-                            'Gallery',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(color: AppResources.colorDark),
+                          padding: const EdgeInsets.only(
+                            top: 28,
+                            left: 28,
+                            right: 28,
+                            bottom: 40,
+                          ),
+                          decoration: const ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 318,
+                                child: Text(
+                                  'Un mot sur ${experienceData.nameGuide}',
+                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 32, color: AppResources.colorVitamine),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              SizedBox(
+                                width: 319,
+                                child: Text(
+                                  experienceData.descriptionGuide ?? '',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        const SizedBox(height: 54),
                       ],
                     ),
                   ),
