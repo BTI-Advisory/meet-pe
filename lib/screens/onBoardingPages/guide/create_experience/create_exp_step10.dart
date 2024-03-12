@@ -7,16 +7,23 @@ import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
+import 'create_exp_step7.dart';
 
 class CreateExpStep10 extends StatefulWidget {
-  CreateExpStep10({super.key, required this.sendListMap});
-  Map<String, dynamic> sendListMap = {};
+  //CreateExpStep10({super.key, required this.sendListMap});
+  //Map<String, dynamic> sendListMap = {};
+  const CreateExpStep10({super.key, required this.photo, required this.imageArray, required this.idExperience});
+
+  final String photo;
+  final List<dynamic> imageArray;
+  final int idExperience;
 
   @override
   State<CreateExpStep10> createState() => _CreateExpStep10State();
 }
 
 class _CreateExpStep10State extends State<CreateExpStep10> {
+  Map<String, dynamic> sendListMap = {};
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
   Map<String, Set<Object>> myMap = {};
@@ -235,13 +242,14 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                       ),
                       Expanded(
                         child: Align(
-                          alignment: Alignment.bottomCenter,
+                          alignment: Alignment.bottomRight,
                           child: Padding(
                             padding: EdgeInsets.only(
                               bottom: ResponsiveSize.calculateHeight(44, context),
+                              right: ResponsiveSize.calculateWidth(28, context),
                             ),
                             child: Container(
-                              width: ResponsiveSize.calculateWidth(319, context),
+                              width: ResponsiveSize.calculateWidth(151, context),
                               height: ResponsiveSize.calculateHeight(44, context),
                               child: ElevatedButton(
                                 style: ButtonStyle(
@@ -270,20 +278,17 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  widget.sendListMap['nombre_des_voyageur'] = _counter;
+                                  sendListMap['nombre_des_voyageur'] = _counter;
                                   // Convert sets to lists
                                   myMap.forEach((key, value) {
-                                    widget.sendListMap[key] = value.toList();
+                                    sendListMap[key] = value.toList();
                                   });
-                                  final response = await AppService.api.makeExperienceGuide2(widget.sendListMap);
-                                  if(response.experience.id != null) {
-                                    navigateTo(context, (_) => CreatedExperience());
-                                  }
+                                  sendListMap['image_principale'] = widget.photo;
+                                  sendListMap['images'] = widget.imageArray;
+                                  sendListMap['experience_id'] = widget.idExperience;
+                                  navigateTo(context, (_) => CreateExpStep7(sendListMap: sendListMap));
                                 },
-                                child: Text(
-                                  'POSTER MON EXPÉRIENCE',
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite)
-                                ),
+                                child: Image.asset('images/arrowLongRight.png'),
                               ),
                             ),
                           ),
