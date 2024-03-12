@@ -40,13 +40,15 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      if (_counter < 10) {
+        _counter++;
+      }
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      if (_counter > 0) {
+      if (_counter > 1) {
         _counter--;
       }
     });

@@ -451,7 +451,7 @@ class ApiClient {
     request.fields.addAll(outputData);
 
     // Add audio file if provided
-    if (audioFilePath != null) {
+    if (audioFilePath != null && audioFilePath != '') {
       // Create a File object from the provided file path
       final audioFile = File(audioFilePath);
       request.files.add(await http.MultipartFile.fromPath('audio', audioFile.path));
