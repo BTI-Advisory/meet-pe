@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../resources/resources.dart';
+import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
 import 'create_exp_step10.dart';
+import 'created_experience.dart';
 
 class CreateExpStep9 extends StatefulWidget {
   CreateExpStep9({super.key, required this.sendListMap});
@@ -338,14 +340,13 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                 ),
                 Expanded(
                   child: Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomCenter,
                     child: Padding(
                       padding: EdgeInsets.only(
                         bottom: ResponsiveSize.calculateHeight(44, context),
-                        right: ResponsiveSize.calculateWidth(28, context),
                       ),
                       child: Container(
-                        width: ResponsiveSize.calculateWidth(151, context),
+                        width: ResponsiveSize.calculateWidth(319, context),
                         height: ResponsiveSize.calculateHeight(44, context),
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -374,17 +375,24 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                             ),
                           ),
                           onPressed: isFormValid
-                              ? () {
+                              ? () async {
                             setState(() {
                               widget.sendListMap['addresse'] = _textEditingControllerAdresse.text;
                               widget.sendListMap['ville'] = _textEditingControllerVille.text;
                               widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
                               widget.sendListMap['country'] = _textEditingControllerCountry.text;
-                              navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
+                              //navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
                             });
+                            final response = await AppService.api.makeExperienceGuide2(widget.sendListMap);
+                            if(response.experience.id != null) {
+                              navigateTo(context, (_) => CreatedExperience());
+                            }
                           }
                               : null,
-                          child: Image.asset('images/arrowLongRight.png'),
+                          child: Text(
+                            'POSTER MON EXPÉRIENCE',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite)
+                          ),
                         ),
                       ),
                     ),
