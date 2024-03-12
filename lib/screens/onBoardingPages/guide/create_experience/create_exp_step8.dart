@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
-import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
 import 'create_exp_step9.dart';
@@ -17,292 +15,184 @@ class CreateExpStep8 extends StatefulWidget {
 }
 
 class _CreateExpStep8State extends State<CreateExpStep8> {
-  late Future<List<StepListResponse>> _choicesFuture;
-  late List<Voyage> myList = [];
-  Map<String, Set<Object>> myMap = {};
+  double valueSlider = 30;
 
-  @override
-  void initState() {
-    super.initState();
-    _choicesFuture = AppService.api.fetchChoices('et_avec_ça');
-    _loadChoices();
-  }
-
-  Future<void> _loadChoices() async {
-    try {
-      final choices = await _choicesFuture;
-      for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
-        if (!myList.contains(newVoyage)) {
-          setState(() {
-            myList.add(newVoyage);
-          });
-        }
-      }
-    } catch (error) {
-      // Handle error if fetching data fails
-      print('Error: $error');
-    }
+  void updateDuration(double value) {
+    setState(() {
+      valueSlider = value;
+      //bloc.updateDuration(value); // Call the method to update duration in bloc
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<StepListResponse>>(
-          future: _choicesFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              final choices = snapshot.data!;
-              // Display your choices here
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [AppResources.colorGray5, AppResources.colorWhite],
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(children: [
-                        Image.asset(
-                          'images/backgroundExp6.png',
-                          width: double.infinity,
-                          fit: BoxFit.fill,
-                          height: ResponsiveSize.calculateHeight(190, context),
-                        ),
-                        Positioned(
-                          top: 48,
-                          left: 28,
-                          child: Container(
-                            width: ResponsiveSize.calculateWidth(24, context),
-                            height: ResponsiveSize.calculateHeight(24, context),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    ResponsiveSize.calculateCornerRadius(40, context)),
-                              ),
-                            ),
-                            child: FloatingActionButton(
-                                heroTag: "btn1",
-                                backgroundColor: AppResources.colorWhite,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  String.fromCharCode(CupertinoIcons.back.codePoint),
-                                  style: TextStyle(
-                                    inherit: false,
-                                    color: AppResources.colorVitamine,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: CupertinoIcons
-                                        .exclamationmark_circle.fontFamily,
-                                    package: CupertinoIcons
-                                        .exclamationmark_circle.fontPackage,
-                                  ),
-                                )),
-                          ),
-                        ),
-                      ]),
-                      SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Étape 6 sur 8',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(8, context)),
-                            Text(
-                              'Et avec ça ?',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(16, context)),
-                            Text(
-                              'Renseigne ce qui est inclus dans ton expérience.',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(40, context)),
-                            Container(
-                              width: double.infinity,
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                children: myList.map((item) {
-                                  return Item(
-                                    id: item.id,
-                                    text: item.title,
-                                    isSelected: myMap['et_avec_ça'] != null
-                                        ? myMap['et_avec_ça']!.contains(item.id)
-                                        : false,
-                                    onTap: () {
-                                      setState(() {
-                                        if (myMap['et_avec_ça'] == null) {
-                                          myMap['et_avec_ça'] =
-                                              Set<int>(); // Initialize if null
-                                        }
-
-                                        if (myMap['et_avec_ça']!.contains(item.id)) {
-                                          myMap['et_avec_ça']!.remove(item.id);
-                                        } else {
-                                          myMap['et_avec_ça']!.add(item.id);
-                                        }
-                                      });
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: ResponsiveSize.calculateHeight(44, context),
-                              right: ResponsiveSize.calculateWidth(28, context),
-                            ),
-                            child: Container(
-                              width: ResponsiveSize.calculateWidth(151, context),
-                              height: ResponsiveSize.calculateHeight(44, context),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.symmetric(
-                                          horizontal: ResponsiveSize.calculateHeight(
-                                              24, context),
-                                          vertical: ResponsiveSize.calculateHeight(
-                                              10, context))),
-                                  backgroundColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.disabled)) {
-                                        return AppResources
-                                            .colorGray15; // Change to your desired grey color
-                                      }
-                                      return AppResources
-                                          .colorVitamine; // Your enabled color
-                                    },
-                                  ),
-                                  shape:
-                                  MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // Convert sets to lists
-                                  myMap.forEach((key, value) {
-                                    widget.sendListMap[key] = value.toList();
-                                  });
-                                  navigateTo(context, (_) => CreateExpStep9(sendListMap: widget.sendListMap));
-                                },
-                                child: Image.asset('images/arrowLongRight.png'),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          }),
-    );
-  }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveSize.calculateWidth(16, context),
-              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(
-                ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppResources.colorGray5, AppResources.colorWhite],
           ),
-          child: Center(
-            child: Row(
-              children: [
-                Icon(
-                    Icons.ac_unit,
-                    size: 16,
-                  color: widget.isSelected
-                      ? Colors.white
-                      : AppResources.colorGray100,
+        ),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(children: [
+                Image.asset(
+                  'images/backgroundExp5.png',
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  height: ResponsiveSize.calculateHeight(190, context),
                 ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                Text(
-                  widget.text,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: widget.isSelected
-                            ? Colors.white
-                            : AppResources.colorGray100,
-                        fontWeight:
-                            widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+                Positioned(
+                  top: 48,
+                  left: 28,
+                  child: Container(
+                    width: ResponsiveSize.calculateWidth(24, context),
+                    height: ResponsiveSize.calculateHeight(24, context),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            ResponsiveSize.calculateCornerRadius(40, context)),
                       ),
+                    ),
+                    child: FloatingActionButton(
+                        heroTag: "btn1",
+                        backgroundColor: AppResources.colorWhite,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          String.fromCharCode(CupertinoIcons.back.codePoint),
+                          style: TextStyle(
+                            inherit: false,
+                            color: AppResources.colorVitamine,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: CupertinoIcons
+                                .exclamationmark_circle.fontFamily,
+                            package: CupertinoIcons
+                                .exclamationmark_circle.fontPackage,
+                          ),
+                        )),
+                  ),
                 ),
-              ],
-            ),
+              ]),
+              SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Étape 6 sur 8',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(8, context)),
+                    Text(
+                      'Ça coûte combien ?',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(16, context)),
+                    Text(
+                      'Renseigne le prix de ton expérience par personne.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(40, context)),
+                    Slider(
+                      value: valueSlider,
+                      min: 30,
+                      max: 500,
+                      divisions: 10,
+                      label: '${valueSlider.round().toString()} €',
+                      onChanged: (double value) {
+                        setState(() {
+                          valueSlider = value;
+                          updateDuration(value);
+                        });
+                      },
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(33, context)),
+                    Container(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Prix conseillé dans cette catégorie',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                          ),
+                          Text(
+                            ' 30 €',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: ResponsiveSize.calculateHeight(44, context),
+                      right: ResponsiveSize.calculateWidth(28, context),
+                    ),
+                    child: Container(
+                      width: ResponsiveSize.calculateWidth(151, context),
+                      height: ResponsiveSize.calculateHeight(44, context),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(
+                                  horizontal: ResponsiveSize.calculateHeight(
+                                      24, context),
+                                  vertical: ResponsiveSize.calculateHeight(
+                                      10, context))),
+                          backgroundColor:
+                          MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppResources
+                                    .colorGray15; // Change to your desired grey color
+                              }
+                              return AppResources
+                                  .colorVitamine; // Your enabled color
+                            },
+                          ),
+                          shape:
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
+
+                          navigateTo(context, (_) => CreateExpStep9(sendListMap: widget.sendListMap));
+                        },
+                        child: Image.asset('images/arrowLongRight.png'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }
