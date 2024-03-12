@@ -6,7 +6,6 @@ import 'package:widget_mask/widget_mask.dart';
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
-import 'create_exp_step10.dart';
 import 'create_exp_step7.dart';
 
 class CreateExpStep6 extends StatefulWidget {
@@ -475,8 +474,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                       ),
                     ),
                     onPressed: () {
-                      //navigateTo(context, (_) => CreateExpStep7(photo: widget.photo, imageArray: widget.imageArray, idExperience: widget.idExperience));
-                      navigateTo(context, (_) => CreateExpStep10(photo: widget.photo, imageArray: widget.imageArray, idExperience: widget.idExperience));
+                      navigateTo(context, (_) => CreateExpStep7(photo: widget.photo, imageArray: widget.imageArray, idExperience: widget.idExperience));
                     },
                     child: Text(
                       'VALIDER LE VISUEL',
