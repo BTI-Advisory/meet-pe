@@ -25,6 +25,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
   String? validationMessageCodePostal = '';
   String? validationMessageCountry = '';
   bool isFormValid = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -373,24 +374,30 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                               ),
                             ),
                           ),
-                          onPressed: isFormValid
+                          onPressed: isFormValid && !isLoading
                               ? () async {
                             setState(() {
+                              isLoading = true;
                               widget.sendListMap['addresse'] = _textEditingControllerAdresse.text;
                               widget.sendListMap['ville'] = _textEditingControllerVille.text;
                               widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
                               widget.sendListMap['country'] = _textEditingControllerCountry.text;
-                              //navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
                             });
                             final response = await AppService.api.makeExperienceGuide2(widget.sendListMap);
                             if(response.experience.id != null) {
                               navigateTo(context, (_) => CreatedExperience());
                             }
+                            setState(() {
+                              isLoading = false;
+                            });
                           }
                               : null,
-                          child: Text(
+                          child: isLoading
+                              ? CircularProgressIndicator() // Show loader when isLoading is true
+                              : Text(
                             'POSTER MON EXPÉRIENCE',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite)
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: AppResources.colorWhite),
                           ),
                         ),
                       ),
