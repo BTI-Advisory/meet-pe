@@ -31,6 +31,7 @@ import '../models/availability_list_response.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
 import '../models/user_response.dart';
+import '../models/user_social_response.dart';
 import '../models/verify_code.dart';
 
 const _httpMethodGet = 'GET';
@@ -112,6 +113,34 @@ class ApiClient {
     _processAuthTokens(response!);
   }
 
+  /// Log user in, and return user id
+  Future<void> loginSocial(String name, String email, String token) async {
+    // Build request content
+    final data = {
+      'name': name,
+      'email': email,
+      'token': token,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/AuthSocialMedia',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Process tokens
+    _processAuthTokensSocial(response!);
+  }
+
   /// A reference to the current _refreshAccessToken running task
   Future<void>? _refreshAccessTokenTask;
 
@@ -166,6 +195,21 @@ class ApiClient {
     // Save token in memory
     _accessToken = tokens.accessToken;
     SecureStorageService.saveAccessToken(_accessToken!);
+
+  }
+
+  void _processAuthTokensSocial(JsonObject tokensJson) {
+    // Decode response
+    final tokens = UserSocialResponse.fromJson(tokensJson);
+
+    // -- Access token --
+    // Save token in memory
+    _accessToken = tokens.token;
+    SecureStorageService.saveAccessToken(_accessToken!);
+
+    SecureStorageService.saveRole(tokens.roles.length.toString());
+
+    SecureStorageService.saveAction(tokens.action);
 
   }
 

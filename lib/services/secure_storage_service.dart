@@ -23,5 +23,15 @@ class SecureStorageService {
   static Future<String?> readPassword() => _storage.read(key: _passwordKey);
   static Future<void> deletePassword() => _storage.delete(key: _passwordKey);
 
+  static const _roleKey = 'roleKey';
+  static Future<void> saveRole(String value) => _storage.write(key: _roleKey, value: value);
+  static Future<String?> readRole() => _storage.read(key: _roleKey);
+  static Future<void> deleteRole() => _storage.delete(key: _roleKey);
+
+  static const _actionKey = 'actionKey';
+  static Future<void> saveAction(String value) => _storage.write(key: _actionKey, value: value);
+  static Future<String?> readAction() => _storage.read(key: _actionKey);
+  static Future<void> deleteAction() => _storage.delete(key: _actionKey);
+
   static Future<void> deleteAll() => _storage.deleteAll();
 }
