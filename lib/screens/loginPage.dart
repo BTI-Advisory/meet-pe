@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/verificationEmailPage.dart';
+import 'package:meet_pe/screens/welcomePage.dart';
+import 'package:meet_pe/services/app_service.dart';
+import 'package:meet_pe/utils/message.dart';
 
+import '../services/secure_storage_service.dart';
 import '../utils/responsive_size.dart';
 import '../utils/utils.dart';
 
@@ -9,6 +13,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meet_pe/firebase_options.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+import 'guideProfilPages/main_guide_page.dart';
+import 'homePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-    final credential = GoogleAuthProvider. credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -70,7 +77,18 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         final UserCredential userCredential = await signInWithGoogle();
                         if(context.mounted) {
-                          print('Hello world: ${userCredential.user!.email}');
+                          await AppService.api.loginSocial(userCredential.user!.displayName!, userCredential.user!.email!, await userCredential.user!.getIdToken() ?? '');
+                          Future.delayed(Duration(seconds: 1), () async {
+                            if(await SecureStorageService.readAction() == 'connexion') {
+                              if (await SecureStorageService.readRole() == 'voyageur') {
+                                navigateTo(context, (_) => const HomePage());
+                              } else {
+                                navigateTo(context, (_) => const MainGuidePage());
+                              }
+                            } else {
+                              navigateTo(context, (_) => const WelcomePage());
+                            }
+                          });
                         }
                       } catch(e) {}
                     },
@@ -81,7 +99,9 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: Image.asset('images/appleButton.png'),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      showMessage(context, 'Coming soon');
+                    },
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
                   TextButton(
@@ -93,7 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         final UserCredential userCredential = await signInWithFacebook();
                         if(context.mounted) {
-                          print('Hello world: ${userCredential.user!.displayName}');
+                          await AppService.api.loginSocial(userCredential.user!.displayName!, userCredential.user!.email!, await userCredential.user!.getIdToken() ?? '');
+                          Future.delayed(Duration(seconds: 1), () async {
+                            if(await SecureStorageService.readAction() == 'connexion') {
+                              if (await SecureStorageService.readRole() == '1') {
+                                navigateTo(context, (_) => const HomePage());
+                              } else if (await SecureStorageService.readRole() == '2') {
+                                navigateTo(context, (_) => const MainGuidePage());
+                              }
+                            } else {
+                              navigateTo(context, (_) => const WelcomePage());
+                            }
+                          });
                         }
                       } catch(e) {}
                     },

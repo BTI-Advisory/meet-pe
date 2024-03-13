@@ -6,6 +6,7 @@ import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../services/secure_storage_service.dart';
 import '../utils/utils.dart';
+import 'homePage.dart';
 import 'introMovePage.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -37,7 +38,11 @@ class _LaunchScreenState extends State<LaunchScreen>
 
   void redirectionState() async {
     if (await SecureStorageService.readAccessToken() != null) {
-      controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+      if (await SecureStorageService.readRole() == '1') {
+        controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
+      } else {
+        controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+      }
     } else {
       controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
     }
