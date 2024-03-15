@@ -103,7 +103,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
+                    SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(108, context),
                       child: LinearProgressIndicator(
@@ -294,10 +294,55 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               ),
                               SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                               Text(
-                                'Je suis guide professionnel',
+                                'Je suis professionnel',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
                               )
                             ],
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
+                          Container(
+                            height: ResponsiveSize.calculateHeight(28, context),
+                            child: TextFormField(
+                              enabled: isChecked,
+                              keyboardType: TextInputType.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
+                              decoration: InputDecoration(
+                                filled: false,
+                                hintText: 'Nom de l’entreprise',
+                                hintStyle: isChecked
+                                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
+                                    : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
+                                contentPadding: EdgeInsets.only(
+                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
+                                // Adjust padding
+                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppResources.colorGray15),
+                                ),
+                                focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppResources.colorGray15),
+                                ),
+                                errorBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
+                                ),
+                                disabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
+                                ),
+                                focusedErrorBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppResources.colorGray15),
+                                ),
+                              ),
+                              autofocus: true,
+                              textInputAction: TextInputAction.done,
+                              onSaved: (value) => bloc.nameOfSociety = value,
+                              onChanged: (value) {
+                              },
+                            ),
                           ),
                           SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
                           Container(
@@ -433,6 +478,7 @@ class Voyage {
 class Step4GuidePageBloc with Disposable {
   String? name;
   String? phone;
+  String? nameOfSociety;
   String? siren;
   String? imagePath;
   Map<String, Set<Object>> myMap;
@@ -450,6 +496,9 @@ class Step4GuidePageBloc with Disposable {
       }
       if (phone != null) {
         modifiedMap['phone_number'] = phone!;
+      }
+      if (nameOfSociety != null) {
+        modifiedMap['name_of_company'] = nameOfSociety ?? '';
       }
       if (siren != null) {
         modifiedMap['siren_number'] = siren ?? '';
