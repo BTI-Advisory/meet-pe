@@ -1155,6 +1155,27 @@ class ApiClient {
     }();
   }
 
+  /// Update delete user
+  Future<void> deleteUser() async {
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/delete-user');
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    VerifyCode.fromJson(response!);
+  }
+
   /// Mark a message as read
   Future<void> askResetPassword(String email) async {
     // Build request content

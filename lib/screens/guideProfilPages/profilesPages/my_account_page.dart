@@ -1027,7 +1027,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ),
                   const SizedBox(height: 42),*/
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppService.api.deleteUser();
+                        AppService.instance.logOut;
+                      },
                       child: Text(
                         'Supprimer mon compte',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
