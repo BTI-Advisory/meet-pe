@@ -79,7 +79,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
+                    SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(108, context),
                       child: LinearProgressIndicator(
