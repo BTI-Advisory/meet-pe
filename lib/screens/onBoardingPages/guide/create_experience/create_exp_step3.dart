@@ -94,7 +94,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Étape 2 sur 8',
+                      'Étape 2 sur 9',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
