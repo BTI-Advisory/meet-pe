@@ -16,6 +16,46 @@ class CreateExpStep8 extends StatefulWidget {
 
 class _CreateExpStep8State extends State<CreateExpStep8> {
   double valueSlider = 30;
+  bool isKidsAvailable = false;
+  bool isGroupeAvailable = false;
+  int _counter = 3;
+  late TextEditingController _textEditingControllerPriceGroup;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingControllerPriceGroup = TextEditingController();
+    _textEditingControllerPriceGroup.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _textEditingControllerPriceGroup.removeListener(_onTextChanged);
+    _textEditingControllerPriceGroup.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      if (_counter < 10) {
+        _counter++;
+      }
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      if (_counter > 1) {
+        _counter--;
+      }
+    });
+  }
 
   void updateDuration(double value) {
     setState(() {
@@ -106,7 +146,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
-                        height: ResponsiveSize.calculateHeight(40, context)),
+                        height: ResponsiveSize.calculateHeight(30, context)),
                     Slider(
                       value: valueSlider,
                       min: 30,
@@ -121,22 +161,172 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                       },
                     ),
                     SizedBox(
-                        height: ResponsiveSize.calculateHeight(33, context)),
+                        height: ResponsiveSize.calculateHeight(20, context)),
                     Container(
                       width: double.infinity,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Prix conseillé dans cette catégorie',
+                            'Revenus estimés 82 €/pers',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
-                          ),
-                          Text(
-                            ' 30 €',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorDark),
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(23, context)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Réduction 30% enfants 2-12ans',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                        ),
+                        Switch.adaptive(
+                          value: isKidsAvailable,
+                          activeColor: AppResources.colorVitamine,
+                          onChanged: (bool value) {
+                            // Update the state immediately without awaiting the async operation
+                            setState(() {
+                              isKidsAvailable = value;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Prix Groupe Privé',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                        ),
+                        Switch.adaptive(
+                          value: isGroupeAvailable,
+                          activeColor: AppResources.colorVitamine,
+                          onChanged: (bool value) {
+                            // Update the state immediately without awaiting the async operation
+                            setState(() {
+                              isGroupeAvailable = value;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(15, context)),
+                    Text(
+                      'Un voyageur peut réserver l’expérience rien que pour lui et ses proches.',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Nombre de personne max.',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(
+                            width: ResponsiveSize.calculateWidth(
+                                16, context)),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppResources.colorGray45,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: _decrementCounter,
+                            icon: Icon(Icons.remove,
+                                color: AppResources.colorGray75),
+                          ),
+                        ),
+                        SizedBox(
+                            width: ResponsiveSize.calculateWidth(
+                                8, context)),
+                        Text(
+                          '$_counter',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(fontSize: 16),
+                        ),
+                        SizedBox(
+                            width: ResponsiveSize.calculateWidth(
+                                8, context)),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppResources.colorGray45,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: _incrementCounter,
+                            icon: Icon(Icons.add,
+                                color: AppResources.colorGray75),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(9, context)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Prix Groupe Privé',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Container(
+                          width: 52,
+                          height: 40,
+                          child: TextFormField(
+                            controller: _textEditingControllerPriceGroup,
+                            keyboardType: TextInputType.number,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(fontSize: 16, color: AppResources.colorDark),
+                            decoration: InputDecoration(
+                              filled: false,
+                              hintText: '350',
+                              hintStyle:
+                              Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16, color: AppResources.colorGray60),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                              // Adjust padding
+                              suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: AppResources.colorGray15),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: AppResources.colorGray15),
+                              ),
+                              errorBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            autofocus: true,
+                            textInputAction: TextInputAction.done,
+                            //onFieldSubmitted: (value) => validate(),
+                            validator: AppResources.validatorNotEmpty,
+                            /*onSaved: (value) => bloc.name = value,
+                            onChanged: (value) {
+                              setState(() {
+                                validationMessageName =
+                                    AppResources.validatorNotEmpty(value);
+                                updateFormValidity();
+                              });
+                            },*/
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Revenus estimés 287 €',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                     ),
                   ],
                 ),
@@ -180,6 +370,11 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                         ),
                         onPressed: () {
                           widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
+                          widget.sendListMap['discount_kids_between_2_and_12'] = isKidsAvailable.toString();
+                          widget.sendListMap['support_group_prive'] = isGroupeAvailable.toString();
+                          widget.sendListMap['max_number_of_persons'] = _counter.toInt();
+                          widget.sendListMap['price_group_prive'] = _textEditingControllerPriceGroup.text;
+                          widget.sendListMap['dernier_minute_reservation'] = 'fdgdfg';
 
                           navigateTo(context, (_) => CreateExpStep9(sendListMap: widget.sendListMap));
                         },
