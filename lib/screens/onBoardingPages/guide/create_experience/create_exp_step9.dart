@@ -72,7 +72,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                     children: [
                       Stack(children: [
                         Image.asset(
-                          'images/backgroundExp6.png',
+                          'images/backgroundExp7.png',
                           width: double.infinity,
                           fit: BoxFit.fill,
                           height: ResponsiveSize.calculateHeight(190, context),
@@ -118,7 +118,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 7 sur 8',
+                              'Étape 7 sur 9',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

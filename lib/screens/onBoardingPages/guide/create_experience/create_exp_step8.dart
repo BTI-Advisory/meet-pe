@@ -81,7 +81,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
             children: [
               Stack(children: [
                 Image.asset(
-                  'images/backgroundExp5.png',
+                  'images/backgroundExp6.png',
                   width: double.infinity,
                   fit: BoxFit.fill,
                   height: ResponsiveSize.calculateHeight(190, context),
@@ -127,7 +127,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Étape 6 sur 8',
+                      'Étape 6 sur 9',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -374,7 +374,6 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                           widget.sendListMap['support_group_prive'] = isGroupeAvailable.toString();
                           widget.sendListMap['max_number_of_persons'] = _counter.toInt();
                           widget.sendListMap['price_group_prive'] = _textEditingControllerPriceGroup.text;
-                          widget.sendListMap['dernier_minute_reservation'] = 'fdgdfg';
 
                           navigateTo(context, (_) => CreateExpStep9(sendListMap: widget.sendListMap));
                         },

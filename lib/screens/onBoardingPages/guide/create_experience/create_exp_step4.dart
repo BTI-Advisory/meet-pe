@@ -105,7 +105,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Étape 3 sur 8',
+                          'Étape 3 sur 9',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
