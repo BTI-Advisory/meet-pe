@@ -535,6 +535,7 @@ class ApiClient {
 
     // Add JSON data
     Map<String, String> outputData = transformDataExperienceP2(listChoice);
+    print('RYYRYRYRYRY $outputData');
     request.fields.addAll(outputData);
 
     // Add image file if provided
@@ -558,6 +559,8 @@ class ApiClient {
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
 
+    print('JRJGTJJGT ${response.statusCode}');
+    print('JRJGTJJGT ${response.body}');
     // Handle response
     if (response.statusCode == 200) {
       // Parse JSON response
@@ -619,6 +622,11 @@ class ApiClient {
       'code_postale': initialData['code_postale'].toString(),
       'country': initialData['country'].toString(),
       'experience_id': initialData['experience_id'].toString(),
+      'support_group_prive': initialData['support_group_prive'].toString(),
+      'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
+      'price_group_prive': initialData['price_group_prive'].toString(),
+      'max_number_of_persons': initialData['max_number_of_persons'].toString(),
+      'dernier_minute_reservation': initialData['dernier_minute_reservation'].toString(),
     };
   }
 
