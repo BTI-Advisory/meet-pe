@@ -109,7 +109,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(16, context)),
                     Text(
-                      "C'est le moment idéal pour donner une touche personnelle à ton profil. Partage nous une courte description vocale qui donne vie à ton expérience ou quelque chose de spécial sur toi. Nos voyageurs adoreront entendre la voix derrière l'aventure. Appuie sur le bouton et fais-nous découvrir ton univers 🎙️",
+                      "Envie de te démarquer ? Appuie sur le bouton et fais-nous découvrir ton univers 🎙️ C'est une opportunité unique de partager ta passion ou quelque chose sur toi et créer une connexion avec nos voyageurs. Fais entendre ta voix et rends ton expérience encore plus mémorable ✨",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
