@@ -38,7 +38,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String? validationMessageVille = '';
   String? validationMessageZip = '';
   bool isFormValid = false;
-  String selectedImagePath = 'Ajouter un document';
+  String selectedImagePath = '';
 
   @override
   void initState() {
@@ -1111,7 +1111,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
                                                       const SizedBox(width: 8),
                                                       Text(
-                                                        selectedImagePath,
+                                                        'Ajouter un document',
                                                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                                                       )
                                                     ],
@@ -1179,6 +1179,114 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         );
                       },
                       child: accountRowDefault('Ma pièce d’identité', '', true)
+                  ),
+                  const SizedBox(height: 24),
+                  GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                                child: StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Container(
+                                      width: double.infinity,
+                                      height: 357,
+                                      color: AppResources.colorWhite,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            const SizedBox(height: 39),
+                                            Text(
+                                              'Mon KBIS',
+                                              style: Theme.of(context).textTheme.headlineMedium,
+                                            ),
+                                            const SizedBox(height: 39),
+                                            GestureDetector(
+                                              onTap: () {
+                                                pickImage();
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
+                                                      const SizedBox(width: 8),
+                                                      Text(
+                                                        'Ajouter un document',
+                                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Container(
+                                                    height: 1,
+                                                    color: AppResources.colorGray15,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 53),
+                                            Container(
+                                              width: ResponsiveSize.calculateWidth(319, context),
+                                              height: ResponsiveSize.calculateHeight(44, context),
+                                              child: TextButton(
+                                                style: ButtonStyle(
+                                                  padding:
+                                                  MaterialStateProperty.all<EdgeInsets>(
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                  backgroundColor: MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                                  shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                      side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                      borderRadius: BorderRadius.circular(40),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'ENREGISTRER',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.copyWith(color: AppResources.colorDark),
+                                                ),
+                                                onPressed: () async {
+                                                  // Call the asynchronous operation and handle its completion
+                                                  AppService.api.sendKbisFile(selectedImagePath,).then((_) {
+                                                    // Optionally, you can perform additional actions after the operation completes
+                                                    Navigator.pop(context);
+                                                  }).catchError((error) {
+                                                    // Handle any errors that occur during the asynchronous operation
+                                                    print('Error: $error');
+                                                    Navigator.pop(context);
+                                                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                      showMessage(context, error.toString());
+                                                    }
+
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: accountRowDefault('Mon KBIS', '', true)
                   ),
                 ],
               ),
