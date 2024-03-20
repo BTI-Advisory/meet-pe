@@ -837,7 +837,49 @@ class ApiClient {
       isVerified = true;
       return isVerified;
     } else {
-      throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
+      throw Exception('Failed to send identity card: ${response.reasonPhrase}');
+    }
+  }
+
+  /// Mark a Upload KBIS
+  Future<bool> sendKbisFile(String filePath) async {
+    bool isVerified = false;
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-KBIS-file'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add audio file if provided
+    if (filePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(filePath);
+
+      request.files.add(http.MultipartFile.fromBytes('KBIS_file', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      throw Exception('Failed to send KBIS file: ${response.reasonPhrase}');
     }
   }
 
