@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/message.dart';
 
 import '../../../resources/resources.dart';
@@ -37,6 +38,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String? validationMessageVille = '';
   String? validationMessageZip = '';
   bool isFormValid = false;
+  String selectedImagePath = 'Ajouter un document';
 
   @override
   void initState() {
@@ -98,6 +100,27 @@ class _MyAccountPageState extends State<MyAccountPage> {
     setState(() {
       isFormValid =
           validationMessageFirstName == null && validationMessageLastName == null;
+    });
+  }
+
+  Future<void> pickImage() async {
+    // Your logic to pick an image goes here.
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        source: ImageSource
+            .gallery); // Use source: ImageSource.camera for taking a new picture
+
+    if (pickedFile != null) {
+      // Do something with the picked image (e.g., upload or process it)
+      //File imageFile = File(pickedFile.path);
+      // Add your logic here to handle the selected image
+    }
+    // For demonstration purposes, I'm using a static image path.
+    String imagePath = pickedFile?.path ?? '';
+
+    setState(() {
+      selectedImagePath = imagePath;
+      updateFormValidity();
     });
   }
 
@@ -1076,98 +1099,30 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                               'Ma pièce d’identité',
                                               style: Theme.of(context).textTheme.headlineMedium,
                                             ),
-                                            Column(
-                                              children: [
-                                                TextFormField(
-                                                  controller: _textEditingControllerFirstName,
-                                                  keyboardType: TextInputType.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(color: AppResources.colorDark),
-                                                  decoration: InputDecoration(
-                                                    filled: false,
-                                                    hintText: 'Ton prénom',
-                                                    hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                    contentPadding: EdgeInsets.only(
-                                                        top: ResponsiveSize.calculateHeight(20, context),
-                                                        bottom:
-                                                        ResponsiveSize.calculateHeight(10, context)),
-                                                    // Adjust padding
-                                                    suffix: SizedBox(
-                                                        height:
-                                                        ResponsiveSize.calculateHeight(10, context)),
-                                                    enabledBorder: const UnderlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: AppResources.colorGray15),
-                                                    ),
-                                                    focusedBorder: const UnderlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: AppResources.colorGray15),
-                                                    ),
-                                                    errorBorder: const UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.red),
-                                                    ),
+                                            const SizedBox(height: 39),
+                                            GestureDetector(
+                                              onTap: () {
+                                                pickImage();
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
+                                                      const SizedBox(width: 8),
+                                                      Text(
+                                                        selectedImagePath,
+                                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                                                      )
+                                                    ],
                                                   ),
-                                                  autofocus: true,
-                                                  textInputAction: TextInputAction.done,
-                                                  //onFieldSubmitted: (value) => validate(),
-                                                  validator: AppResources.validatorNotEmpty,
-                                                  //onSaved: (value) => bloc.name = value,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      validationMessageFirstName =
-                                                          AppResources.validatorNotEmpty(value);
-                                                      updateFormValidity();
-                                                    });
-                                                  },
-                                                ),
-                                                const SizedBox(height: 40),
-                                                TextFormField(
-                                                  controller: _textEditingControllerLastName,
-                                                  keyboardType: TextInputType.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(color: AppResources.colorDark),
-                                                  decoration: InputDecoration(
-                                                    filled: false,
-                                                    hintText: 'Ton nom',
-                                                    hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                    contentPadding: EdgeInsets.only(
-                                                        top: ResponsiveSize.calculateHeight(20, context),
-                                                        bottom:
-                                                        ResponsiveSize.calculateHeight(10, context)),
-                                                    // Adjust padding
-                                                    suffix: SizedBox(
-                                                        height:
-                                                        ResponsiveSize.calculateHeight(10, context)),
-                                                    enabledBorder: const UnderlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: AppResources.colorGray15),
-                                                    ),
-                                                    focusedBorder: const UnderlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: AppResources.colorGray15),
-                                                    ),
-                                                    errorBorder: const UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.red),
-                                                    ),
-                                                  ),
-                                                  autofocus: true,
-                                                  textInputAction: TextInputAction.done,
-                                                  //onFieldSubmitted: (value) => validate(),
-                                                  validator: AppResources.validatorNotEmpty,
-                                                  //onSaved: (value) => bloc.name = value,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      validationMessageLastName =
-                                                          AppResources.validatorNotEmpty(value);
-                                                      updateFormValidity();
-                                                    });
-                                                  },
-                                                ),
-                                              ],
+                                                  const SizedBox(height: 8),
+                                                  Container(
+                                                    height: 1,
+                                                    color: AppResources.colorGray15,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                             const SizedBox(height: 53),
                                             Container(
@@ -1198,7 +1153,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                 ),
                                                 onPressed: () async {
                                                   // Call the asynchronous operation and handle its completion
-                                                  AppService.api.updateName(_textEditingControllerFirstName.text, _textEditingControllerLastName.text).then((_) {
+                                                  AppService.api.sendIdCard(selectedImagePath,).then((_) {
                                                     // Optionally, you can perform additional actions after the operation completes
                                                     Navigator.pop(context);
                                                   }).catchError((error) {

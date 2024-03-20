@@ -535,7 +535,6 @@ class ApiClient {
 
     // Add JSON data
     Map<String, String> outputData = transformDataExperienceP2(listChoice);
-    print('RYYRYRYRYRY $outputData');
     request.fields.addAll(outputData);
 
     // Add image file if provided
@@ -559,8 +558,6 @@ class ApiClient {
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
 
-    print('JRJGTJJGT ${response.statusCode}');
-    print('JRJGTJJGT ${response.body}');
     // Handle response
     if (response.statusCode == 200) {
       // Parse JSON response
@@ -800,6 +797,48 @@ class ApiClient {
 
     // Return data
     IsFullAvailabilityResponse.fromJson(response!);
+  }
+
+  /// Mark a Upload ID Card
+  Future<bool> sendIdCard(String filePath) async {
+    bool isVerified = false;
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-piece-identite'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add audio file if provided
+    if (filePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(filePath);
+
+      request.files.add(http.MultipartFile.fromBytes('piece_identite', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
+    }
   }
 
   /// Update Description
