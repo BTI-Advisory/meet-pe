@@ -470,40 +470,9 @@ class SignUpPageBloc with Disposable {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
     usernameController.text = email;
-    tryBiometricsAuthentication();
   }
 
   void setValidateForm(Function() value) => validateForm = value;
-
-  void tryBiometricsAuthentication() async {
-    final username = await SecureStorageService.readUsername();
-    final password = await SecureStorageService.readPassword();
-    final availableBiometrics = await localAuth.getAvailableBiometrics();
-    final biometricsEnabled = StorageService.biometricsEnabledBox.value ?? true;
-    if (biometricsEnabled &&
-        availableBiometrics.isNotEmpty &&
-        (username ?? '').isNotEmpty &&
-        (password ?? '').isNotEmpty) loginWithBiometrics(validateForm);
-  }
-
-  void loginWithBiometrics(VoidCallback validate) async {
-    try {
-      final bool didAuthenticate = await localAuth.authenticate(
-        localizedReason:
-        'Veuillez vous authentifier pour accéder à votre compte',
-        options: const AuthenticationOptions(biometricOnly: true),
-      );
-      if (didAuthenticate) {
-        usernameController.text =
-            await SecureStorageService.readUsername() ?? '';
-        passwordController.text =
-            await SecureStorageService.readPassword() ?? '';
-        validate();
-      }
-    } catch (e) {
-      debugPrint('LocalAuth ERROR : $e');
-    }
-  }
 
   void saveCredentials() {
     SecureStorageService.saveUsername(usernameController.text);
@@ -512,12 +481,8 @@ class SignUpPageBloc with Disposable {
 
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
-  //Future<void> login() => AppService.instance
-  //.login(usernameController.text, passwordController.text);
   Future<void> register() async {
     print('Login function called'); // Check if this is printed
-    //await AppService.instance
-        //.login(usernameController.text, passwordController.text);
     await AppService.api.register(usernameController.text, passwordController.text);
   }
 
