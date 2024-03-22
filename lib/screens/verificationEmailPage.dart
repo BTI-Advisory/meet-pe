@@ -27,7 +27,7 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-        onValidated: bloc.checkEmail,
+        //onValidated: bloc.checkEmail,
         onSuccess: () async {
           bool isVerified = await bloc.checkEmail();
           if (isVerified) {

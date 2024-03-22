@@ -91,372 +91,378 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             return navigateTo(context, (_) => LoadingGuidePage());
           },
           builder: (BuildContext context, void Function() validate) {
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppResources.colorGray5, AppResources.colorWhite],
+            return SingleChildScrollView(
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: 0,
+                  maxHeight: MediaQuery.of(context).size.height,
                 ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
-                    SizedBox(
-                      width: ResponsiveSize.calculateWidth(108, context),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 8,
-                        backgroundColor: AppResources.colorImputStroke,
-                        color: AppResources.colorVitamine,
-                        borderRadius: BorderRadius.circular(3.5),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [AppResources.colorGray5, AppResources.colorWhite],
+                  ),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
+                      SizedBox(
+                        width: ResponsiveSize.calculateWidth(108, context),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 8,
+                          backgroundColor: AppResources.colorImputStroke,
+                          color: AppResources.colorVitamine,
+                          borderRadius: BorderRadius.circular(3.5),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
-                    Text(
-                      'Quelques informations...',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: AppResources.colorGray100),
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(38, context)),
-                    Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: ResponsiveSize.calculateWidth(168, context),
-                              height: ResponsiveSize.calculateHeight(168, context),
-                              child: WidgetMask(
-                                blendMode: BlendMode.srcATop,
-                                childSaveLayer: true,
-                                mask: Image.asset(
-                                  selectedImagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                                child: Image.asset(
-                                  'images/image_frame.png',
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                width: ResponsiveSize.calculateWidth(44, context),
-                                height: ResponsiveSize.calculateHeight(44, context),
-                                padding: const EdgeInsets.all(4),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                      SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
+                      Text(
+                        'Quelques informations...',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(color: AppResources.colorGray100),
+                      ),
+                      SizedBox(height: ResponsiveSize.calculateHeight(38, context)),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                width: ResponsiveSize.calculateWidth(168, context),
+                                height: ResponsiveSize.calculateHeight(168, context),
+                                child: WidgetMask(
+                                  blendMode: BlendMode.srcATop,
+                                  childSaveLayer: true,
+                                  mask: Image.asset(
+                                    selectedImagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  child: Image.asset(
+                                    'images/image_frame.png',
                                   ),
                                 ),
-                                child: FloatingActionButton(
-                                  backgroundColor: AppResources.colorVitamine,
-                                  onPressed: () {
-                                    pickImage();
-                                  },
-                                  child: Icon(Icons.add, color: Colors.white),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  width: ResponsiveSize.calculateWidth(44, context),
+                                  height: ResponsiveSize.calculateHeight(44, context),
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                    ),
+                                  ),
+                                  child: FloatingActionButton(
+                                    backgroundColor: AppResources.colorVitamine,
+                                    onPressed: () {
+                                      pickImage();
+                                    },
+                                    child: Icon(Icons.add, color: Colors.white),
+                                  ),
                                 ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(height: ResponsiveSize.calculateHeight(49, context)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: ResponsiveSize.calculateHeight(28, context),
+                              child: TextFormField(
+                                keyboardType: TextInputType.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppResources.colorGray100),
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  hintText: 'Ton prénom',
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  contentPadding: EdgeInsets.only(
+                                      top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
+                                  // Adjust padding
+                                  suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                                autofocus: true,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (value) => validate(),
+                                validator: AppResources.validatorNotEmpty,
+                                onSaved: (value) => bloc.name = value,
+                                onChanged: (value) {
+                                  setState(() {
+                                    validationMessageName =
+                                        AppResources.validatorNotEmpty(value);
+                                    updateFormValidity();
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                            Container(
+                              height: ResponsiveSize.calculateHeight(28, context),
+                              child: TextFormField(
+                                keyboardType: TextInputType.phone,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppResources.colorGray100),
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  hintText: 'Ton numéro de téléphone',
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  contentPadding: EdgeInsets.only(
+                                      top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
+                                  // Adjust padding
+                                  suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                                autofocus: true,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (value) => validate(),
+                                validator: AppResources.validatorNotEmpty,
+                                onSaved: (value) => bloc.phone = value,
+                                onChanged: (value) {
+                                  setState(() {
+                                    validationMessagePhone =
+                                        AppResources.validatorNotEmpty(value);
+                                    updateFormValidity();
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    // Toggle the checkbox state on tap
+                                    setState(() {
+                                      isChecked = !isChecked;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(4.0),
+                                      color: Colors.white,
+                                    ),
+                                    child: isChecked
+                                        ? Icon(
+                                      Icons.check,
+                                      size: 10.0,
+                                      color: Colors.black,
+                                    )
+                                        : null,
+                                  ),
+                                ),
+                                SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
+                                Text(
+                                  'Je suis professionnel',
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
+                            Container(
+                              height: ResponsiveSize.calculateHeight(28, context),
+                              child: TextFormField(
+                                enabled: isChecked,
+                                keyboardType: TextInputType.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  hintText: 'Nom de l’entreprise',
+                                  hintStyle: isChecked
+                                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
+                                      : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
+                                  contentPadding: EdgeInsets.only(
+                                      top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
+                                  // Adjust padding
+                                  suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                  disabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                  focusedErrorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                ),
+                                autofocus: true,
+                                textInputAction: TextInputAction.done,
+                                onSaved: (value) => bloc.nameOfSociety = value,
+                                onChanged: (value) {
+                                },
+                              ),
+                            ),
+                            SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
+                            Container(
+                              height: ResponsiveSize.calculateHeight(28, context),
+                              child: TextFormField(
+                                enabled: isChecked,
+                                keyboardType: TextInputType.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  hintText: 'Numéro SIREN',
+                                  hintStyle: isChecked
+                                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
+                                  : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
+                                  contentPadding: EdgeInsets.only(
+                                      top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
+                                  // Adjust padding
+                                  suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                  disabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                  focusedErrorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppResources.colorGray15),
+                                  ),
+                                ),
+                                autofocus: true,
+                                textInputAction: TextInputAction.done,
+                                onSaved: (value) => bloc.siren = value,
+                                onChanged: (value) {
+                                },
                               ),
                             ),
                           ],
-                        )
-                      ],
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(49, context)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: ResponsiveSize.calculateHeight(28, context),
-                            child: TextFormField(
-                              keyboardType: TextInputType.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorGray100),
-                              decoration: InputDecoration(
-                                filled: false,
-                                hintText: 'Ton prénom',
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyMedium,
-                                contentPadding: EdgeInsets.only(
-                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
-                                // Adjust padding
-                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              autofocus: true,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (value) => validate(),
-                              validator: AppResources.validatorNotEmpty,
-                              onSaved: (value) => bloc.name = value,
-                              onChanged: (value) {
-                                setState(() {
-                                  validationMessageName =
-                                      AppResources.validatorNotEmpty(value);
-                                  updateFormValidity();
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                          Container(
-                            height: ResponsiveSize.calculateHeight(28, context),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorGray100),
-                              decoration: InputDecoration(
-                                filled: false,
-                                hintText: 'Ton numéro de téléphone',
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyMedium,
-                                contentPadding: EdgeInsets.only(
-                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
-                                // Adjust padding
-                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              autofocus: true,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (value) => validate(),
-                              validator: AppResources.validatorNotEmpty,
-                              onSaved: (value) => bloc.phone = value,
-                              onChanged: (value) {
-                                setState(() {
-                                  validationMessagePhone =
-                                      AppResources.validatorNotEmpty(value);
-                                  updateFormValidity();
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  // Toggle the checkbox state on tap
-                                  setState(() {
-                                    isChecked = !isChecked;
-                                  });
-                                },
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius:
-                                    BorderRadius.circular(4.0),
-                                    color: Colors.white,
-                                  ),
-                                  child: isChecked
-                                      ? Icon(
-                                    Icons.check,
-                                    size: 10.0,
-                                    color: Colors.black,
-                                  )
-                                      : null,
-                                ),
-                              ),
-                              SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
-                              Text(
-                                'Je suis professionnel',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
-                          Container(
-                            height: ResponsiveSize.calculateHeight(28, context),
-                            child: TextFormField(
-                              enabled: isChecked,
-                              keyboardType: TextInputType.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
-                              decoration: InputDecoration(
-                                filled: false,
-                                hintText: 'Nom de l’entreprise',
-                                hintStyle: isChecked
-                                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
-                                    : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
-                                contentPadding: EdgeInsets.only(
-                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
-                                // Adjust padding
-                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                                disabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                                focusedErrorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                              ),
-                              autofocus: true,
-                              textInputAction: TextInputAction.done,
-                              onSaved: (value) => bloc.nameOfSociety = value,
-                              onChanged: (value) {
-                              },
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(21, context)),
-                          Container(
-                            height: ResponsiveSize.calculateHeight(28, context),
-                            child: TextFormField(
-                              enabled: isChecked,
-                              keyboardType: TextInputType.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
-                              decoration: InputDecoration(
-                                filled: false,
-                                hintText: 'Numéro SIREN',
-                                hintStyle: isChecked
-                                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
-                                : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
-                                contentPadding: EdgeInsets.only(
-                                    top: ResponsiveSize.calculateHeight(20, context), bottom: ResponsiveSize.calculateHeight(10, context)),
-                                // Adjust padding
-                                suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppResources.colorGray15),
-                                ),
-                                errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                                disabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                                focusedErrorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppResources.colorGray15),
-                                ),
-                              ),
-                              autofocus: true,
-                              textInputAction: TextInputAction.done,
-                              onSaved: (value) => bloc.siren = value,
-                              onChanged: (value) {
-                              },
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Visibility(
-                                visible: selectedImagePath ==
-                                    'images/avatar_placeholder.png',
-                                child: Text(
-                                  'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                      color: AppResources.colorVitamine,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Visibility(
+                                  visible: selectedImagePath ==
+                                      'images/avatar_placeholder.png',
+                                  child: Text(
+                                    'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                        color: AppResources.colorVitamine,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
-                              Container(
-                                width: ResponsiveSize.calculateWidth(183, context),
-                                height: ResponsiveSize.calculateHeight(44, context),
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all<EdgeInsets>(
-                                        EdgeInsets.symmetric(
-                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                                    backgroundColor:
-                                        MaterialStateProperty.resolveWith<Color>(
-                                      (Set<MaterialState> states) {
-                                        if (states
-                                            .contains(MaterialState.disabled)) {
+                                SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                                Container(
+                                  width: ResponsiveSize.calculateWidth(183, context),
+                                  height: ResponsiveSize.calculateHeight(44, context),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all<EdgeInsets>(
+                                          EdgeInsets.symmetric(
+                                              horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                      backgroundColor:
+                                          MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states
+                                              .contains(MaterialState.disabled)) {
+                                            return AppResources
+                                                .colorGray15; // Change to your desired grey color
+                                          }
                                           return AppResources
-                                              .colorGray15; // Change to your desired grey color
-                                        }
-                                        return AppResources
-                                            .colorVitamine; // Your enabled color
-                                      },
-                                    ),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                              .colorVitamine; // Your enabled color
+                                        },
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                        ),
                                       ),
                                     ),
+                                    onPressed: isFormValid
+                                        ? () {
+                                            validate();
+                                          }
+                                        : null,
+                                    // Disable the button if no item is selected
+                                    child: Image.asset('images/arrowLongRight.png'),
                                   ),
-                                  onPressed: isFormValid
-                                      ? () {
-                                          validate();
-                                        }
-                                      : null,
-                                  // Disable the button if no item is selected
-                                  child: Image.asset('images/arrowLongRight.png'),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

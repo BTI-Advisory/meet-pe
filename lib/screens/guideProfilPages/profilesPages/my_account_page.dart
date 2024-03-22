@@ -1450,8 +1450,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                AppService.api.deleteUser();
+              onPressed: () async {
+                await AppService.api.deleteUser();
                 AppService.instance.logOut;
               },
               child: Text(
