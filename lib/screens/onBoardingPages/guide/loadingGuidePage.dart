@@ -3,7 +3,7 @@ import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_e
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
-import '../../homePage.dart';
+import '../../guideProfilPages/main_guide_page.dart';
 
 class LoadingGuidePage extends StatefulWidget {
   const LoadingGuidePage({super.key});
@@ -69,7 +69,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                           ),
                         ),
                         onPressed: (){
-                          navigateTo(context, (_) => const HomePage());
+                          navigateTo(context, (_) => const MainGuidePage());
                         },
                         child: Text(
                           'PARCOURIR L’APPLICATION',

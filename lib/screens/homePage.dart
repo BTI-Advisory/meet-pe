@@ -21,6 +21,13 @@ class _HomePageState extends State<HomePage> {
           TextButton(
               onPressed: AppService.instance.logOut,
               child: Text('Logout'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await AppService.api.deleteUser();
+              AppService.instance.logOut;
+            },
+            child: Text('Delete'),
           )
         ],
       ),

@@ -196,6 +196,7 @@ class ApiClient {
     _accessToken = tokens.accessToken;
     SecureStorageService.saveAccessToken(_accessToken!);
 
+    SecureStorageService.saveRole(tokens.roles.length.toString());
   }
 
   void _processAuthTokensSocial(JsonObject tokensJson) {
@@ -307,6 +308,11 @@ class ApiClient {
         if (e is EpHttpResponseException && e.statusCode == 400) {
           throw const DisplayableException(
               'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        if (e is EpHttpResponseException && e.statusCode == 401) {
+          AppService.instance.logOut();
+          //throw const DisplayableException(
+              //'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
         }
         rethrow;
       }
