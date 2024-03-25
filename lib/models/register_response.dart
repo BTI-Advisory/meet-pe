@@ -18,6 +18,7 @@ class User {
   final String name;
   final String email;
   final int otp_code;
+  final bool isVerifiedAccount;
   final String updated_at;
   final String created_at;
   final int id;
@@ -26,6 +27,7 @@ class User {
     required this.name,
     required this.email,
     required this.otp_code,
+    required this.isVerifiedAccount,
     required this.updated_at,
     required this.created_at,
     required this.id,
