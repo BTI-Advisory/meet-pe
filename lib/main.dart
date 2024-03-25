@@ -101,7 +101,7 @@ static Widget buildLaunchPage() =>
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
         supportedLocales: const [defaultLocale],
         theme: buildAppTheme(),
-        darkTheme: buildAppTheme(darkMode: true),
+        darkTheme: buildAppTheme(darkMode: false),
         navigatorKey: _navigatorKey,
         home: buildLaunchPage(),
         builder: (context, child) {
