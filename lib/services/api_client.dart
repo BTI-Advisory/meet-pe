@@ -27,12 +27,14 @@ import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
 import '../models/availability_list_response.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
 import '../models/user_response.dart';
 import '../models/user_social_response.dart';
 import '../models/verify_code.dart';
+import '../screens/loginPage.dart';
 
 const _httpMethodGet = 'GET';
 const _httpMethodPost = 'POST';
@@ -1323,7 +1325,22 @@ class ApiClient {
     }();
 
     // Return data
-    VerifyCode.fromJson(response!);
+    final result = VerifyCode.fromJson(response!);
+    if(result.verified == 'Successfully logged out') {
+      // Delete auth tokens
+      clearTokens();
+
+      // Delete local data
+      unawaited(SecureStorageService.deleteRefreshToken());
+      ///Todo Remove when refresh token is ready
+      unawaited(SecureStorageService.deleteAccessToken());
+
+      // Delete user data
+      unawaited(StorageService.deleteAll(butAnalyticsEnabled: true));
+
+      // Go back to connexion page
+      navigateTo(App.navigatorContext, (_) => const LoginPage(), clearHistory: true);
+    }
   }
 
   /// Mark a message as read

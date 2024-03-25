@@ -60,7 +60,7 @@ class _Step9PageState extends State<Step9Page> {
               Container(
                 width: ResponsiveSize.calculateWidth(319, context),
                 //height: ResponsiveSize.calculateHeight(411, context),
-                height: 340,
+                height: 360,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
