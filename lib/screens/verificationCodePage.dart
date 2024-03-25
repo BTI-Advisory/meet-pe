@@ -99,7 +99,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                   height: ResponsiveSize.calculateHeight(66, context),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: bloc.verifyCode,
                                   child: Text(
                                     'Renvoyer le code',
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorGray30, decoration: TextDecoration.underline),
