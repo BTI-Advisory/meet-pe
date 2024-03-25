@@ -199,6 +199,7 @@ class ApiClient {
     SecureStorageService.saveAccessToken(_accessToken!);
 
     SecureStorageService.saveRole(tokens.roles.length.toString());
+    SecureStorageService.saveIsVerified(tokens.user.isVerifiedAccount.toString());
   }
 
   void _processAuthTokensSocial(JsonObject tokensJson) {
@@ -295,6 +296,7 @@ class ApiClient {
     // Save token in memory
     _accessToken = tokens.accessToken;
     SecureStorageService.saveAccessToken(_accessToken!);
+    SecureStorageService.saveIsVerified(tokens.user.isVerifiedAccount.toString());
 
   }
 

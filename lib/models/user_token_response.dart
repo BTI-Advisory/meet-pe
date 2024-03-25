@@ -29,6 +29,8 @@ class User {
   final String updatedAt;
   @JsonKey(name: 'otp_code')
   final String otpCode;
+  @JsonKey(name: 'is_verified_account')
+  final bool isVerifiedAccount;
 
   User({
     required this.name,
@@ -36,6 +38,7 @@ class User {
     required this.createdAt,
     required this.updatedAt,
     required this.otpCode,
+    required this.isVerifiedAccount
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

@@ -33,5 +33,10 @@ class SecureStorageService {
   static Future<String?> readAction() => _storage.read(key: _actionKey);
   static Future<void> deleteAction() => _storage.delete(key: _actionKey);
 
+  static const _isVerifiedKey = 'isVerified';
+  static Future<void> saveIsVerified(String value) => _storage.write(key: _isVerifiedKey, value: value);
+  static Future<String?> readIsVerified() => _storage.read(key: _isVerifiedKey);
+  static Future<void> deleteIsVerified() => _storage.delete(key: _isVerifiedKey);
+
   static Future<void> deleteAll() => _storage.deleteAll();
 }

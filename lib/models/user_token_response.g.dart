@@ -26,6 +26,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
       otpCode: json['otp_code'] as String,
+      isVerifiedAccount: json['is_verified_account'] as bool,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -34,4 +35,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       'otp_code': instance.otpCode,
+      'is_verified_account': instance.isVerifiedAccount,
     };
