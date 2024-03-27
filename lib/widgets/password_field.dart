@@ -52,6 +52,12 @@ class _PasswordFieldState extends State<PasswordField> {
             borderSide: BorderSide(
                 color: _isError ? Color(0xFFFF0000) : AppResources.colorGray15),
           ),
+          errorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
