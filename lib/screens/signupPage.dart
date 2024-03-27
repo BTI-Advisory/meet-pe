@@ -129,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage>
                                   ),
                                   if (validationMessage != null)
                                     const Text(
-                                      'CHAMPS INVALIDE',
+                                      'Ⓧ 6 caractères minimum',
                                       style: TextStyle(
                                         color: Color(0xFFFF0000),
                                         fontSize: 10,
