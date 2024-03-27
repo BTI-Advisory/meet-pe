@@ -200,8 +200,6 @@ class Pages extends StatelessWidget {
                   height: 44,
                   child: TextButton(
                     style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(34, context), vertical: ResponsiveSize.calculateHeight(14, context))),
                         backgroundColor:
                         MaterialStateProperty.all(Color(0xFFFF4C00)),
                         shape:
@@ -209,12 +207,9 @@ class Pages extends StatelessWidget {
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(24, context)),
                             ))),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'C’EST PARTI !!!',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
-                      ),
+                    child: Text(
+                      'C’EST PARTI !!!',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                     ),
                     onPressed: () {
                       navigateTo(context, (_) => const LoginPage());
@@ -228,8 +223,6 @@ class Pages extends StatelessWidget {
                   height: ResponsiveSize.calculateHeight(44, context),
                   child: TextButton(
                     style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: 34, vertical: 14)),
                         backgroundColor:
                         MaterialStateProperty.all(Color(0xFFFF4C00)),
                         shape:
@@ -237,11 +230,8 @@ class Pages extends StatelessWidget {
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(24, context)),
                             ))),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Image.asset('images/arrowLongRight.png'),
-                    ),
                     onPressed: !buttonShow ? onNextPage : null,
+                    child: Image.asset('images/arrowLongRight.png'),
                   ),
                 ),
               ]
