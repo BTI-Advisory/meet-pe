@@ -169,6 +169,9 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           errorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
+                          focusedErrorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                         ),
                         autofocus: true,
                         textInputAction: TextInputAction.done,
@@ -216,6 +219,9 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                                 BorderSide(color: AppResources.colorGray15),
                           ),
                           errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                          focusedErrorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
                         ),

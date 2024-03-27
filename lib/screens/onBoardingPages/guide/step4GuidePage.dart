@@ -206,6 +206,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   errorBorder: const UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
+                                  focusedErrorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
                                 ),
                                 autofocus: true,
                                 textInputAction: TextInputAction.next,
@@ -248,6 +251,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                         color: AppResources.colorGray15),
                                   ),
                                   errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  focusedErrorBorder: const UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
                                 ),

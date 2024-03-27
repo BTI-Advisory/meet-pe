@@ -183,6 +183,9 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                           errorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
+                          focusedErrorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                         ),
                         autofocus: true,
                         textInputAction: TextInputAction.done,
@@ -227,6 +230,9 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                             BorderSide(color: AppResources.colorGray15),
                           ),
                           errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                          focusedErrorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
                         ),
@@ -275,6 +281,9 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                           errorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
+                          focusedErrorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                         ),
                         autofocus: true,
                         textInputAction: TextInputAction.done,
@@ -319,6 +328,9 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                             BorderSide(color: AppResources.colorGray15),
                           ),
                           errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                          focusedErrorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                           ),
                         ),

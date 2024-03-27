@@ -70,6 +70,9 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
                     errorBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
                     ),
+                    focusedErrorBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
                   ),
                   autofocus: true,
                   textInputAction: TextInputAction.done,
