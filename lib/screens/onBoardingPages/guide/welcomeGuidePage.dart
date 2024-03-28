@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../resources/resources.dart';
+import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import 'step1GuidePage.dart';
 
@@ -28,11 +29,11 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
         ),
         child: Stack(
           children: [
-            Image.asset('images/welcome_map.png', width: double.infinity, height: 229, fit: BoxFit.fill,),
+            Image.asset('images/welcome_map.png', width: double.infinity, height: ResponsiveSize.calculateHeight(229, context), fit: BoxFit.fill,),
             Positioned.fill(
-              top: 157,
+              top: ResponsiveSize.calculateHeight(157, context),
               child: Container(
-                margin: const EdgeInsets.only(left: 28, right: 28,),
+                margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
                 child: Column(
                   children: [
                     const SizedBox(
@@ -48,7 +49,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 50,),
+                    SizedBox(height: ResponsiveSize.calculateHeight(50, context),),
                     SizedBox(
                       width: double.infinity,
                       child: Text(
@@ -56,38 +57,40 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: 1.5),
                       ),
                     ),
-                    const SizedBox(height: 40,),
-                    const Spacer(),
-                    Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              padding:
-                              MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12)),
-                              backgroundColor: MaterialStateProperty.all(
-                                  AppResources.colorWhite),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
+                    SizedBox(height: ResponsiveSize.calculateHeight(40, context),),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
+                          child: Container(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  padding:
+                                  MaterialStateProperty.all<EdgeInsets>(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 12)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      AppResources.colorWhite),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
                                 ),
+                              onPressed: () {
+                                navigateTo(context, (_) => const Step1GuidePage(totalSteps: 5, currentStep: 1,));
+                              }, // Disable the button if no item is selected
+                              child: Text(
+                                'COMMENCE PAR TE PRÉSENTER',
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                               ),
-                            ),
-                            onPressed: (){
-                              navigateTo(context, (_) => const Step1GuidePage(totalSteps: 5, currentStep: 1,));
-                            },
-                            child: Text(
-                              'COMMENCE PAR TE PRÉSENTER',
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40,),
-                      ],
+                      ),
                     ),
 
                   ],
