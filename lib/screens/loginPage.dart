@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                   margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(52, context), right: ResponsiveSize.calculateWidth(44, context)),
                   child: GestureDetector(
                     onTap: () {
-                      //navigateTo(context, (_) => const VerificationEmailPage());
+                      navigateTo(context, (_) => const VerificationEmailPage());
                     },
                     child: Image.asset('images/emailButton.png', width: ResponsiveSize.calculateWidth(279, context), height: ResponsiveSize.calculateHeight(32, context),),
                   ),
@@ -257,32 +257,6 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: ResponsiveSize.calculateHeight(57, context)),
-            Container(
-              width: ResponsiveSize.calculateWidth(241, context),
-              height: 40,
-              child: TextButton(
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0xFFFF4C00)),
-                    shape:
-                    MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(24, context)),
-                        ))),
-                child: Text(
-                  'CONTINUER AVEC CET EMAIL',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(color: AppResources.colorWhite, fontSize: ResponsiveSize.calculateTextSize(12, context)),
-                ),
-                onPressed: () {
-                  navigateTo(context, (_) => const VerificationEmailPage());
-                },
-              ),
-            ),
           ],
         ),
       ),

@@ -155,7 +155,6 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                         borderSide: BorderSide(color: Colors.red),
                                                       ),
                                                     ),
-                                                    autofocus: true,
                                                     //onFieldSubmitted: (value) => validate(),
                                                     validator: AppResources.validatorNotEmpty,
                                                     //onSaved: (value) => bloc.name = value,
