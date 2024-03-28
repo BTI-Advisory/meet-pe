@@ -210,7 +210,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
                                 ),
-                                autofocus: true,
                                 textInputAction: TextInputAction.next,
                                 onFieldSubmitted: (value) => validate(),
                                 validator: AppResources.validatorNotEmpty,
@@ -257,7 +256,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
                                 ),
-                                autofocus: true,
                                 textInputAction: TextInputAction.done,
                                 onFieldSubmitted: (value) => validate(),
                                 validator: AppResources.validatorNotEmpty,
@@ -348,7 +346,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     borderSide: BorderSide(color: AppResources.colorGray15),
                                   ),
                                 ),
-                                autofocus: true,
                                 textInputAction: TextInputAction.done,
                                 onSaved: (value) => bloc.nameOfSociety = value,
                                 onChanged: (value) {
@@ -393,7 +390,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     borderSide: BorderSide(color: AppResources.colorGray15),
                                   ),
                                 ),
-                                autofocus: true,
                                 textInputAction: TextInputAction.done,
                                 onSaved: (value) => bloc.siren = value,
                                 onChanged: (value) {

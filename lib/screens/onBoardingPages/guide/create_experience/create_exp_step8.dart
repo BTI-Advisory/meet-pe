@@ -308,7 +308,6 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                 borderSide: BorderSide(color: Colors.red),
                               ),
                             ),
-                            autofocus: true,
                             textInputAction: TextInputAction.done,
                             //onFieldSubmitted: (value) => validate(),
                             validator: AppResources.validatorNotEmpty,

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
-import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../services/secure_storage_service.dart';
@@ -49,7 +48,7 @@ class _LaunchScreenState extends State<LaunchScreen>
         controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
       }
     } else {
-      controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
+      controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
     }
   }
 
