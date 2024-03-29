@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage>
                                   Container(
                                     width: MediaQuery.of(context).size.width - 96,
                                     child: PasswordField(
-                                      onFieldSubmitted: (value) => validate(),
+                                      //onFieldSubmitted: (value) => validate(),
                                       controller: bloc.passwordController,
                                       onChanged: (value) {
                                         setState(() {

@@ -69,7 +69,7 @@ class _PasswordFieldState extends State<PasswordField> {
             ),
           )),
       obscureText: !_showPassword,
-      textInputAction: widget.textInputAction ?? TextInputAction.done,
+      textInputAction: widget.textInputAction ?? TextInputAction.unspecified,
       autocorrect: false,
       validator: widget.validator ?? AppResources.validatorPassword,
       /*onChanged: (value) {

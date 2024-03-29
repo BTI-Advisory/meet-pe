@@ -267,28 +267,16 @@ class _ItemState extends State<Item> {
             border: Border.all(color: AppResources.colorGray100),
           ),
           child: Center(
-            child: Row(
-              children: [
-                Icon(
-                  Icons.ac_unit,
-                  size: 16,
-                  color: widget.isSelected
-                      ? Colors.white
-                      : AppResources.colorGray100,
-                ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                Text(
-                  widget.text,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: widget.isSelected
-                        ? Colors.white
-                        : AppResources.colorGray100,
-                    fontWeight:
-                    widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-                  ),
-                ),
-              ],
+            child: Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: widget.isSelected
+                    ? Colors.white
+                    : AppResources.colorGray100,
+                fontWeight:
+                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+              ),
             ),
           ),
         ),

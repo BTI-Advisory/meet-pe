@@ -32,7 +32,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -148,6 +148,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                                   return Item(
                                     id: item.id,
                                     text: item.title,
+                                    image: item.image,
                                     isSelected: myMap['et_avec_ça'] != null
                                         ? myMap['et_avec_ça']!.contains(item.id)
                                         : false,
@@ -235,12 +236,14 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
 class Item extends StatefulWidget {
   final int id;
   final String text;
+  final String image;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
     required this.id,
     required this.text,
+    required this.image,
     required this.isSelected,
     required this.onTap,
   });
@@ -269,9 +272,11 @@ class _ItemState extends State<Item> {
           child: Center(
             child: Row(
               children: [
-                Icon(
-                    Icons.ac_unit,
-                    size: 16,
+                if(widget.image != '')
+                Image.network(
+                  widget.image,
+                  width: 16,
+                  height: 16,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,
@@ -300,9 +305,11 @@ class _ItemState extends State<Item> {
 class Voyage {
   final int id;
   final String title;
+  final String image;
 
   Voyage({
     required this.id,
     required this.title,
+    required this.image,
   });
 }

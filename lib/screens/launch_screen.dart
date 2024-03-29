@@ -39,7 +39,8 @@ class _LaunchScreenState extends State<LaunchScreen>
   void redirectionState() async {
     print('SDJFSJDFJ ${await SecureStorageService.readAccessToken()}');
     print('SDJFSJDFJ ${await SecureStorageService.readRole()}');
-    if (await SecureStorageService.readAccessToken() != null && await SecureStorageService.readIsVerified() == 'true') {
+    //if (await SecureStorageService.readAccessToken() != null && await SecureStorageService.readIsVerified() == 'true') {
+    if (await SecureStorageService.readAccessToken() != null) {
       if (await SecureStorageService.readRole() == '1') {
         controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
       } else if (await SecureStorageService.readRole() == '2')  {

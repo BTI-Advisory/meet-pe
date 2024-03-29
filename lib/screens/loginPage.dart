@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           await AppService.api.loginSocial(userCredential.user!.displayName!, userCredential.user!.email!, await userCredential.user!.getIdToken() ?? '');
                           Future.delayed(Duration(seconds: 1), () async {
                             if(await SecureStorageService.readAction() == 'connexion') {
-                              if (await SecureStorageService.readRole() == 'voyageur') {
+                              if (await SecureStorageService.readRole() == '1') {
                                 navigateTo(context, (_) => const HomePage());
                               } else {
                                 navigateTo(context, (_) => const MainGuidePage());

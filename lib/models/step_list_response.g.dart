@@ -10,10 +10,12 @@ StepListResponse _$StepListResponseFromJson(Map<String, dynamic> json) =>
     StepListResponse(
       id: json['id'] as int,
       choiceTxt: json['choice_txt'] as String,
+      svg: json['svg'] as String,
     );
 
 Map<String, dynamic> _$StepListResponseToJson(StepListResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'choice_txt': instance.choiceTxt,
+      'svg': instance.svg,
     };
