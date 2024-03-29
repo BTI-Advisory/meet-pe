@@ -177,6 +177,9 @@ class AppService {
     unawaited(SecureStorageService.deleteRefreshToken());
     ///Todo Remove when refresh token is ready
     unawaited(SecureStorageService.deleteAccessToken());
+    unawaited(SecureStorageService.deleteRole());
+    unawaited(SecureStorageService.deleteAction());
+    unawaited(SecureStorageService.deleteIsVerified());
 
     // Delete user data
     unawaited(StorageService.deleteAll(butAnalyticsEnabled: true));

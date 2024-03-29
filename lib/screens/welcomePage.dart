@@ -4,6 +4,7 @@ import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
+import '../services/secure_storage_service.dart';
 import '../utils/utils.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -91,6 +92,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               ),
                             ),
                             onPressed: (){
+                              SecureStorageService.saveRole('2');
                               AppService.api.setRole('guide').then((response) {
                                 // If the API call is successful, navigate to a new screen
                                 navigateTo(context, (_) => const WelcomeGuidePage());
@@ -135,6 +137,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               ),
                             ),
                             onPressed: (){
+                              SecureStorageService.saveRole('1');
                               AppService.api.setRole('voyageur').then((response) {
                                 // If the API call is successful, navigate to a new screen
                                 navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));

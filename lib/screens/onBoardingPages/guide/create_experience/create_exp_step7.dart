@@ -58,7 +58,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -243,6 +243,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                   return Item(
                                     id: item.id,
                                     text: item.title,
+                                    image: item.image,
                                     isSelected: myMap[
                                                 'guide_personnes_peuves_participer'] !=
                                             null
@@ -355,12 +356,14 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
 class Item extends StatefulWidget {
   final int id;
   final String text;
+  final String image;
   final bool isSelected;
   final VoidCallback onTap;
 
   const Item({
     required this.id,
     required this.text,
+    required this.image,
     required this.isSelected,
     required this.onTap,
   });
@@ -396,6 +399,14 @@ class _ItemState extends State<Item> {
                       ? Colors.white
                       : AppResources.colorGray100,
                 ),
+                /*Image.network(
+                  widget.image,
+                  width: 10,
+                  height: 10,
+                  color: widget.isSelected
+                      ? Colors.white
+                      : AppResources.colorGray100,
+                ),*/
                 SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
@@ -421,9 +432,11 @@ class _ItemState extends State<Item> {
 class Voyage {
   final int id;
   final String title;
+  final String image;
 
   Voyage({
     required this.id,
     required this.title,
+    required this.image,
   });
 }
