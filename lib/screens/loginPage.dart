@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/verificationEmailPage.dart';
 import 'package:meet_pe/screens/welcomePage.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/utils/message.dart';
+import 'package:meet_pe/widgets/web_view_container.dart';
 
 import '../services/secure_storage_service.dart';
 import '../utils/responsive_size.dart';
@@ -132,10 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(325, context),
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'En continuant avec Google, Apple ou Facebook vous accepter ',
                             style: TextStyle(
                               color: Color(0xFF979797),
@@ -147,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextSpan(
                             text: 'les Conditions Générales',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFFFF4C00),
                               fontSize: 14,
                               fontFamily: 'Outfit',
@@ -155,8 +157,12 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: TextDecoration.underline,
                               height: 0,
                             ),
+                            recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://youtube.com'));
+                            },
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' et la ',
                             style: TextStyle(
                               color: Color(0xFF979797),
@@ -168,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextSpan(
                             text: 'Politique de Confidentialité',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFFFF4C00),
                               fontSize: 14,
                               fontFamily: 'Outfit',
@@ -176,8 +182,12 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: TextDecoration.underline,
                               height: 0,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://amazon.com'));
+                              },
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' Meetpe',
                             style: TextStyle(
                               color: Color(0xFF979797),
