@@ -42,6 +42,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 
   String? validationMessageName = '';
   String? validationMessagePhone = '';
+  String? validationMessageEse = '';
+  String? validationMessageSiren = '';
   bool isFormValid = false;
   bool isChecked = false;
 
@@ -72,12 +74,23 @@ class _Step4GuidePageState extends State<Step4GuidePage>
     });
   }
 
+  ///Chat gpt
   void updateFormValidity() {
     setState(() {
-      isFormValid = validationMessageName == null &&
-          validationMessagePhone == null && selectedImagePath != 'images/avatar_placeholder.png';
+      if (isChecked) {
+        isFormValid = validationMessageName == null &&
+            validationMessagePhone == null &&
+            selectedImagePath != 'images/avatar_placeholder.png' &&
+            validationMessageEse == null &&
+            validationMessageSiren == null;
+      } else {
+        isFormValid = validationMessageName == null &&
+            validationMessagePhone == null &&
+            selectedImagePath != 'images/avatar_placeholder.png';
+      }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -275,9 +288,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    // Toggle the checkbox state on tap
                                     setState(() {
                                       isChecked = !isChecked;
+                                      bloc.isCheck = isChecked;
+                                      updateFormValidity();
                                     });
                                   },
                                   child: Container(
@@ -347,8 +361,15 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   ),
                                 ),
                                 textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (value) => validate(),
+                                validator: AppResources.validatorNotEmpty,
                                 onSaved: (value) => bloc.nameOfSociety = value,
                                 onChanged: (value) {
+                                  setState(() {
+                                    validationMessageEse=
+                                        AppResources.validatorNotEmpty(value);
+                                    updateFormValidity();
+                                  });
                                 },
                               ),
                             ),
@@ -357,7 +378,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                               height: ResponsiveSize.calculateHeight(28, context),
                               child: TextFormField(
                                 enabled: isChecked,
-                                keyboardType: TextInputType.name,
+                                keyboardType: TextInputType.number,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -391,8 +412,15 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   ),
                                 ),
                                 textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (value) => validate(),
+                                validator: AppResources.validatorSiren,
                                 onSaved: (value) => bloc.siren = value,
                                 onChanged: (value) {
+                                  setState(() {
+                                    validationMessageSiren =
+                                        AppResources.validatorSiren(value);
+                                    updateFormValidity();
+                                  });
                                 },
                               ),
                             ),
@@ -489,6 +517,7 @@ class Step4GuidePageBloc with Disposable {
   String? nameOfSociety;
   String? siren;
   String? imagePath;
+  bool? isCheck;
   Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
@@ -505,10 +534,10 @@ class Step4GuidePageBloc with Disposable {
       if (phone != null) {
         modifiedMap['phone_number'] = phone!;
       }
-      if (nameOfSociety != null) {
+      if (nameOfSociety != null && isCheck == true) {
         modifiedMap['name_of_company'] = nameOfSociety ?? '';
       }
-      if (siren != null) {
+      if (siren != null && isCheck == true) {
         modifiedMap['siren_number'] = siren ?? '';
       }
 
@@ -516,6 +545,12 @@ class Step4GuidePageBloc with Disposable {
       myMap.forEach((key, value) {
         modifiedMap[key] = value.toList();
       });
+
+      print('ertertert ${name!}');
+      print('ertertert ${phone!}');
+      print('ertertert ${isCheck!}');
+      print('ertertert ${nameOfSociety!}');
+      print('ertertert ${siren!}');
 
       // Perform the API call
       await AppService.api.sendListGuide(modifiedMap, imagePath!);

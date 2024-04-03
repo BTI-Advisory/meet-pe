@@ -82,6 +82,8 @@ class AppResources {
           !_validatorEmailRegex.hasMatch(value!)
           ? 'Ⓧ Format incorrect'
           : null;
+  static String? validatorSiren(String? value) =>
+      value == null || value.length != 9 ? 'Ⓧ 9 caractères obligatoire' : null;
 
   // String
   static const textFormMandatory = 'Ⓧ Obligatoire';
