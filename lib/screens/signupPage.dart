@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meet_pe/screens/verificationCodePage.dart';
@@ -11,6 +12,7 @@ import '../services/secure_storage_service.dart';
 import '../services/storage_service.dart';
 import '../utils/_utils.dart';
 import '../utils/countdown_timer.dart';
+import '../widgets/web_view_container.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.email});
@@ -175,14 +177,14 @@ class _SignUpPageState extends State<SignUpPage>
                                         ),
                                       ),
                                       SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
-                                      const Column(
+                                      Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
                                           Text.rich(
                                             TextSpan(
                                               children: [
-                                                TextSpan(
+                                                const TextSpan(
                                                   text: 'J’accepte les ',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
@@ -194,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                 ),
                                                 TextSpan(
                                                   text: 'Conditions Générales',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFFFF4C00),
                                                     fontSize: 13,
                                                     fontFamily: 'Outfit',
@@ -203,8 +205,12 @@ class _SignUpPageState extends State<SignUpPage>
                                                     TextDecoration.underline,
                                                     height: 0,
                                                   ),
+                                                  recognizer: TapGestureRecognizer()
+                                                    ..onTap = () {
+                                                      navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://youtube.com'));
+                                                    },
                                                 ),
-                                                TextSpan(
+                                                const TextSpan(
                                                   text: ' et ',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
@@ -220,7 +226,7 @@ class _SignUpPageState extends State<SignUpPage>
                                           ),
                                           Text.rich(
                                             TextSpan(children: [
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: ' la ',
                                                 style: TextStyle(
                                                   color: Color(0xFF979797),
@@ -233,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage>
                                               TextSpan(
                                                 text:
                                                 'Politique de Confidentialité',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(0xFFFF4C00),
                                                   fontSize: 13,
                                                   fontFamily: 'Outfit',
@@ -242,8 +248,12 @@ class _SignUpPageState extends State<SignUpPage>
                                                   TextDecoration.underline,
                                                   height: 0,
                                                 ),
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://amazon.com'));
+                                                  },
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: ' ',
                                                 style: TextStyle(
                                                   color: Color(0xFF979797),
@@ -255,7 +265,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                   height: 0,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: 'Meetpe',
                                                 style: TextStyle(
                                                   color: Color(0xFF979797),
