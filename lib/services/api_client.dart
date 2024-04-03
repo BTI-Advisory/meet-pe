@@ -605,9 +605,10 @@ class ApiClient {
       'guide_truc_de_toi_fr': categoriesString,
       'languages_fr': languagesString,
       'personalite_fr': personaliteString,
-      'phone_number': initialData['phone_number'].replaceAll(' ', ' '), // Replace spaces with qsd
-      'name': initialData['name'].replaceAll(' ', ' '), // Replace spaces with qsd
-      'siren_number': initialData['siren_number'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'phone_number': initialData['phone_number'].toString(),
+      'name': initialData['name'].toString(),
+      'siren_number': initialData['siren_number'].toString(),
+      'name_of_company': initialData['name_of_company'].toString(),
     };
   }
 
