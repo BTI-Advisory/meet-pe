@@ -46,7 +46,7 @@ class _SignUpPageState extends State<SignUpPage>
             onValidated: bloc.register,
             onSuccess: () {
               bloc.saveCredentials();
-              return navigateTo(context, (_) => const VerificationCodePage(),
+              return navigateTo(context, (_) => VerificationCodePage(email: widget.email),
                   clearHistory: true);
             },
             builder: (context, validate) {
