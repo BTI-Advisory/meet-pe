@@ -11,7 +11,8 @@ import '../utils/_utils.dart';
 import '../widgets/async_form.dart';
 
 class VerificationCodePage extends StatefulWidget {
-  const VerificationCodePage({super.key,});
+  final String email;
+  const VerificationCodePage({super.key, required this.email});
 
   @override
   State<VerificationCodePage> createState() => _VerificationCodePageState();
@@ -99,7 +100,10 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                   height: ResponsiveSize.calculateHeight(66, context),
                                 ),
                                 TextButton(
-                                  onPressed: bloc.verifyCode,
+                                  onPressed: () {
+                                    bloc.resendCode(widget.email);
+                                    showMessage(context, 'code renvoyé');
+                                  },
                                   child: Text(
                                     'Renvoyer le code',
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorGray30, decoration: TextDecoration.underline),
@@ -159,6 +163,11 @@ class VerificationCodePageBloc with Disposable {
   Future<bool> verifyCode() async {
     bool isVerified = await AppService.api.verifyCode(code!);
     return isVerified;
+  }
+
+  Future<bool> resendCode(String email) async {
+    bool isResend = await AppService.api.resendCode(email!);
+    return isResend;
   }
 }
 

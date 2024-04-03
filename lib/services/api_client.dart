@@ -358,6 +358,36 @@ class ApiClient {
     return isVerified;
   }
 
+  /// Mark a resend code
+  Future<bool> resendCode(String email) async {
+    bool isVerified = false;
+    final data = {
+      'email': email,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/resend-code-auth', bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'code has been sended successfully') {
+      isVerified = true;
+    } else {
+      isVerified = false;
+    }
+
+    return isVerified;
+  }
+
   /// Mark a Set role
   Future<bool> setRole(String role) async {
     bool isSet = false;
