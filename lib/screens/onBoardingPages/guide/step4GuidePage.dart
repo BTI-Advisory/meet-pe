@@ -362,7 +362,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 ),
                                 textInputAction: TextInputAction.done,
                                 onFieldSubmitted: (value) => validate(),
-                                validator: AppResources.validatorNotEmpty,
+                                //validator: AppResources.validatorNotEmpty,
                                 onSaved: (value) => bloc.nameOfSociety = value,
                                 onChanged: (value) {
                                   setState(() {
@@ -413,7 +413,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 ),
                                 textInputAction: TextInputAction.done,
                                 onFieldSubmitted: (value) => validate(),
-                                validator: AppResources.validatorSiren,
+                                //validator: AppResources.validatorSiren,
                                 onSaved: (value) => bloc.siren = value,
                                 onChanged: (value) {
                                   setState(() {
@@ -525,7 +525,7 @@ class Step4GuidePageBloc with Disposable {
 
   Step4GuidePageBloc(this.myMap);
 
-  Future<void> makeProfileGuide() async {
+  /*Future<void> makeProfileGuide() async {
     try {
       // Insert name and phone into modifiedMap
       if (name != null) {
@@ -546,15 +546,53 @@ class Step4GuidePageBloc with Disposable {
         modifiedMap[key] = value.toList();
       });
 
-      print('ertertert ${name!}');
-      print('ertertert ${phone!}');
-      print('ertertert ${isCheck!}');
-      print('ertertert ${nameOfSociety!}');
-      print('ertertert ${siren!}');
+      print('ertertert modifiedMap ${modifiedMap!}');
+      print('ertertert name ${name!}');
+      print('ertertert phone ${phone!}');
+      print('ertertert isCheck ${isCheck!}');
+      print('ertertert nameOfSociety ${nameOfSociety!}');
+      print('ertertert siren ${siren!}');
 
       // Perform the API call
       await AppService.api.sendListGuide(modifiedMap, imagePath!);
 
+    } catch (error) {
+      // Handle the error appropriately
+      print("Error in make Profile Guide: $error");
+    }
+  }*/
+  Future<void> makeProfileGuide() async {
+    try {
+      if (isCheck == false) {
+        // Only send data if isChecked is false
+        modifiedMap['name'] = name!;
+        modifiedMap['phone_number'] = phone!;
+        // Convert sets to lists
+        myMap.forEach((key, value) {
+          modifiedMap[key] = value.toList();
+        });
+        await AppService.api.sendListGuide(modifiedMap, imagePath!);
+      } else {
+        // Send all data if isChecked is true
+        if (name != null && phone != null && nameOfSociety != null && siren != null) {
+          // Insert name, phone, nameOfSociety, siren, and imagePath into modifiedMap
+          modifiedMap['name'] = name!;
+          modifiedMap['phone_number'] = phone!;
+          modifiedMap['name_of_company'] = nameOfSociety!;
+          modifiedMap['siren_number'] = siren!;
+
+          // Convert sets to lists
+          myMap.forEach((key, value) {
+            modifiedMap[key] = value.toList();
+          });
+
+          // Perform the API call
+          await AppService.api.sendListGuide(modifiedMap, imagePath!);
+        } else {
+          // Handle incomplete data when isChecked is true
+          print('Incomplete data: Some fields are missing.');
+        }
+      }
     } catch (error) {
       // Handle the error appropriately
       print("Error in make Profile Guide: $error");
