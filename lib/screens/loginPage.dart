@@ -6,6 +6,7 @@ import 'package:meet_pe/screens/welcomePage.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/utils/message.dart';
 import 'package:meet_pe/widgets/web_view_container.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../services/secure_storage_service.dart';
 import '../utils/responsive_size.dart';
@@ -47,6 +48,11 @@ class _LoginPageState extends State<LoginPage> {
     final OAuthCredential facebookAuthCredential =
     FacebookAuthProvider.credential(loginResult.accessToken!.token);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  Future<UserCredential> signInWithApple() async {
+    final appleProvider = AppleAuthProvider();
+    return await FirebaseAuth.instance.signInWithProvider(appleProvider);
   }
 
   @override
@@ -101,9 +107,29 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: Image.asset('images/appleButton.png'),
                     ),
-                    onPressed: (){
-                      showMessage(context, 'Coming soon');
-                    },
+                      onPressed: () async {
+                        try {
+                          final UserCredential userCredential = await signInWithApple();
+                          print('FJRFJRJF ${userCredential.user!.displayName!}');
+                          print('FJRFJRJF ${userCredential.user!.email!}');
+                          print('FJRFJRJF ${userCredential.user!.getIdToken()!}');
+                          print('FJRFJRJF ${userCredential.user!}');
+                          /*if(context.mounted) {
+                            await AppService.api.loginSocial(userCredential.user!.displayName!, userCredential.user!.email!, await userCredential.user!.getIdToken() ?? '');
+                            Future.delayed(Duration(seconds: 1), () async {
+                              if(await SecureStorageService.readAction() == 'connexion') {
+                                if (await SecureStorageService.readRole() == '1') {
+                                  navigateTo(context, (_) => const HomePage());
+                                } else {
+                                  navigateTo(context, (_) => const MainGuidePage());
+                                }
+                              } else {
+                                navigateTo(context, (_) => const WelcomePage());
+                              }
+                            });
+                          }*/
+                        } catch(e) {}
+                      },
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
                   TextButton(
