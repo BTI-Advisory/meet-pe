@@ -96,8 +96,8 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                     top: 48,
                     left: 28,
                     child: Container(
-                      width: ResponsiveSize.calculateWidth(24, context),
-                      height: ResponsiveSize.calculateHeight(24, context),
+                      width: ResponsiveSize.calculateWidth(32, context),
+                      height: ResponsiveSize.calculateHeight(32, context),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(

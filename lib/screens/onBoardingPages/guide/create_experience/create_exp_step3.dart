@@ -57,8 +57,8 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                   top: 48,
                   left: 28,
                   child: Container(
-                    width: ResponsiveSize.calculateWidth(24, context),
-                    height: ResponsiveSize.calculateHeight(24, context),
+                    width: ResponsiveSize.calculateWidth(32, context),
+                    height: ResponsiveSize.calculateHeight(32, context),
                     //padding: const EdgeInsets.all(10),
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(

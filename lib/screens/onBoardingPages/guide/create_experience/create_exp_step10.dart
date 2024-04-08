@@ -81,8 +81,8 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                           top: 48,
                           left: 28,
                           child: Container(
-                            width: ResponsiveSize.calculateWidth(24, context),
-                            height: ResponsiveSize.calculateHeight(24, context),
+                            width: ResponsiveSize.calculateWidth(32, context),
+                            height: ResponsiveSize.calculateHeight(32, context),
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
