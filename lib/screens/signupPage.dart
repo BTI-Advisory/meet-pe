@@ -493,7 +493,7 @@ class SignUpPageBloc with Disposable {
 
   Future<void> register() async {
     print('Login function called'); // Check if this is printed
-    await AppService.api.register(usernameController.text, passwordController.text);
+    await AppService.instance.register(usernameController.text, passwordController.text);
   }
 
   @override

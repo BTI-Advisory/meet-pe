@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBeV38AZZNjCg5EM1ikC2Q25Geif5azuJc',
-    appId: '1:591671924763:android:650d112a81fb0dbeba80be',
+    appId: '1:591671924763:android:27cd993a446d8747ba80be',
     messagingSenderId: '591671924763',
     projectId: 'meet-people-21ddc',
     storageBucket: 'meet-people-21ddc.appspot.com',
@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '591671924763',
     projectId: 'meet-people-21ddc',
     storageBucket: 'meet-people-21ddc.appspot.com',
+    androidClientId: '591671924763-gnr8sl04h1mji33j78jqeli5j30e46ou.apps.googleusercontent.com',
+    iosClientId: '591671924763-222t6rphgilvq1j131ipeh1ci0tfa85b.apps.googleusercontent.com',
     iosBundleId: 'com.meetpe',
   );
 }
