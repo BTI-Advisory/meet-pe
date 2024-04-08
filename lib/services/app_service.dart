@@ -119,6 +119,32 @@ class AppService {
     ]);
   }
 
+  Future<void> register(String email, String password) async {
+    // Login
+    await api.register(email, password);
+
+
+    // TODO: Remove the comment when implementing Crashlytics and add API
+    // Additional tasks
+    await Future.wait([
+      _updateDeviceData(),
+      //fetchUserData(),
+    ]);
+  }
+
+  Future<void> loginSocial(String name, String email, String token) async {
+    // Login
+    await api.loginSocial(name, email, token);
+
+
+    // TODO: Remove the comment when implementing Crashlytics and add API
+    // Additional tasks
+    await Future.wait([
+      _updateDeviceData(),
+      //fetchUserData(),
+    ]);
+  }
+
   Future<void> _updateDeviceData() async {
     try {
       // Init notifications

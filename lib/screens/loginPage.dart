@@ -52,7 +52,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<UserCredential> signInWithApple() async {
     final appleProvider = AppleAuthProvider();
-    return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    appleProvider.addScope('email');
+    var credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    return credential;
   }
 
   @override
@@ -110,12 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         try {
                           final UserCredential userCredential = await signInWithApple();
-                          print('FJRFJRJF ${userCredential.user!.displayName!}');
-                          print('FJRFJRJF ${userCredential.user!.email!}');
-                          print('FJRFJRJF ${userCredential.user!.getIdToken()!}');
-                          print('FJRFJRJF ${userCredential.user!}');
-                          /*if(context.mounted) {
-                            await AppService.api.loginSocial(userCredential.user!.displayName!, userCredential.user!.email!, await userCredential.user!.getIdToken() ?? '');
+                          if(context.mounted) {
+                            await AppService.api.loginSocial('From Apple', userCredential.user!.email!, userCredential.user!.uid ?? '');
                             Future.delayed(Duration(seconds: 1), () async {
                               if(await SecureStorageService.readAction() == 'connexion') {
                                 if (await SecureStorageService.readRole() == '1') {
@@ -127,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                                 navigateTo(context, (_) => const WelcomePage());
                               }
                             });
-                          }*/
+                          }
                         } catch(e) {}
                       },
                   ),
