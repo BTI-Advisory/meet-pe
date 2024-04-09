@@ -154,8 +154,8 @@ class _SignUpPageState extends State<SignUpPage>
                                           });
                                         },
                                         child: Container(
-                                          width: 32,
-                                          height: 32,
+                                          width: 20,
+                                          height: 20,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                               color: !_showErrorMessage
@@ -307,8 +307,8 @@ class _SignUpPageState extends State<SignUpPage>
                                           });
                                         },
                                         child: Container(
-                                          width: 32,
-                                          height: 32,
+                                          width: 20,
+                                          height: 20,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                               color: Colors.black,
