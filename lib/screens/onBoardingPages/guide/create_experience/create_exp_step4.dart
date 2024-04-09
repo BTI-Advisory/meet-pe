@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../../resources/resources.dart';
@@ -129,7 +130,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                           value: valueSlider,
                           max: 8,
                           divisions: 8,
-                          label: '${valueSlider.round().toString()} heure',
+                          label: '${valueSlider.round().toString()} heure'.plural(valueSlider.round()),
                           onChanged: (double value) {
                             setState(() {
                               valueSlider = value;
