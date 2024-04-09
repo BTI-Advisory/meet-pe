@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meet_pe/utils/_utils.dart';
 
 import '../../resources/icons/font_awesome_flutter/fa_icon.dart';
@@ -27,7 +28,8 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
   late int _index;
   late StreamSubscription<int> _streamSubscription;
 
-  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(borderRadius: BorderRadius.only(
+  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
     topLeft: Radius.circular(25),
     topRight: Radius.circular(25),
   ));
@@ -120,7 +122,7 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
             ///configuration for SnakeNavigationBar.color
             snakeViewColor: selectedColor,
             selectedItemColor:
-            snakeShape == SnakeShape.indicator ? selectedColor : null,
+                snakeShape == SnakeShape.indicator ? selectedColor : null,
             unselectedItemColor: unselectedColor,
 
             ///configuration for SnakeNavigationBar.gradient
@@ -131,17 +133,42 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
             showUnselectedLabels: showUnselectedLabels,
             showSelectedLabels: showSelectedLabels,
 
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              /*BottomNavigationBarItem(
                   icon: Icon(Icons.backpack), label: 'Expériences'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.message), label: 'Messages'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')
-              /*BottomNavigationBarItem(
-                  icon: Image.asset('images/bag_icon.png'), label: 'Expériences'),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')*/
               BottomNavigationBarItem(
-                  icon: Image.asset('images/message_icon.png'), label: 'Messages'),
-              BottomNavigationBarItem(icon: Image.asset('images/user_icon.png'), label: 'Profil')*/
+                  icon: ColorFiltered(
+                    colorFilter: _index == 0
+                        ? const ColorFilter.mode(
+                            AppResources.colorVitamine, BlendMode.srcIn)
+                        : const ColorFilter.mode(
+                            AppResources.colorGray90, BlendMode.srcIn),
+                    child: SvgPicture.asset('images/bag_svg.svg'),
+                  ),
+                  label: 'Expériences'),
+              BottomNavigationBarItem(
+                  icon: ColorFiltered(
+                    colorFilter: _index == 1
+                        ? const ColorFilter.mode(
+                            AppResources.colorVitamine, BlendMode.srcIn)
+                        : const ColorFilter.mode(
+                            AppResources.colorGray90, BlendMode.srcIn),
+                    child: SvgPicture.asset('images/message_svg.svg'),
+                  ),
+                  label: 'Messages'),
+              BottomNavigationBarItem(
+                  icon: ColorFiltered(
+                    colorFilter: _index == 2
+                        ? const ColorFilter.mode(
+                            AppResources.colorVitamine, BlendMode.srcIn)
+                        : const ColorFilter.mode(
+                            AppResources.colorGray90, BlendMode.srcIn),
+                    child: SvgPicture.asset('images/user_svg.svg'),
+                  ),
+                  label: 'Profil')
             ],
             currentIndex: _index,
             onTap: setIndex,
@@ -158,9 +185,9 @@ class _EpTabbedPageState extends State<EpTabbedPage> {
 class _EpBottomNavigationBar extends StatelessWidget {
   const _EpBottomNavigationBar(
       {Key? key,
-        required this.currentIndex,
-        required this.onTap,
-        required this.items})
+      required this.currentIndex,
+      required this.onTap,
+      required this.items})
       : super(key: key);
 
   final int currentIndex;
