@@ -4,6 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:info_popup/info_popup.dart';
+import 'package:meet_pe/widgets/popup_view.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
@@ -43,7 +45,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
       // Do something with the picked image (e.g., upload or process it)
       //File imageFile = File(pickedFile.path);
       // Add your logic here to handle the selected image
-
 
       // For demonstration purposes, I'm using a static image path.
       String imagePath = pickedFile?.path ?? '';
@@ -118,13 +119,19 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Étape 4 sur 9',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
-                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Étape 4 sur 9',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                    fontSize: 10, fontWeight: FontWeight.w400),
+                          ),
+                          const PopupView(contentTitle: "Capture l'Action 💥 /  Montre l'Authenticité 🌟 / Explore la Diversité 🌈 / Joue avec la Lumière ☀️ et Engage tes futurs Participants 🎉 \n\nN’oublie jamais la way of life de Meet People lors du choix de tes photos 📸, du partage, des échanges et des sourires !\n ", iconData: Icons.help_outline,)
+                        ]),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(8, context)),
                     Text(
@@ -646,14 +653,17 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                         onPressed: () {},
                         child: Text(
                           'ENREGISTRER',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: AppResources.colorGray45),
                         ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          bottom: ResponsiveSize.calculateHeight(40, context),
-                          right: ResponsiveSize.calculateWidth(28, context),
+                        bottom: ResponsiveSize.calculateHeight(40, context),
+                        right: ResponsiveSize.calculateWidth(28, context),
                       ),
                       child: Container(
                         width: ResponsiveSize.calculateWidth(151, context),
@@ -667,8 +677,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                     vertical: ResponsiveSize.calculateHeight(
                                         10, context))),
                             backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
                                   return AppResources
                                       .colorGray15; // Change to your desired grey color
@@ -677,17 +687,23 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                     .colorVitamine; // Your enabled color
                               },
                             ),
-                            shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
                             ),
                           ),
-                          onPressed: _imageList.isNotEmpty // Only enable button if _imageList is not empty
+                          onPressed: _imageList
+                                  .isNotEmpty // Only enable button if _imageList is not empty
                               ? () {
-                            navigateTo(context, (_) => CreateExpStep6(photo: selectedImagePathPrincipal, imageArray: _imageList, idExperience: widget.idExperience));
-                          }
+                                  navigateTo(
+                                      context,
+                                      (_) => CreateExpStep6(
+                                          photo: selectedImagePathPrincipal,
+                                          imageArray: _imageList,
+                                          idExperience: widget.idExperience));
+                                }
                               : null, // Disable button if _imageList is empty
                           child: Image.asset('images/arrowLongRight.png'),
                         ),

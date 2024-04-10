@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
+import '../../../../widgets/popup_view.dart';
 import 'create_exp_step9.dart';
 
 class CreateExpStep8 extends StatefulWidget {
@@ -165,12 +166,13 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                     Container(
                       width: double.infinity,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Revenus estimés 82 €/pers',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                           ),
+                          const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits', iconData: Icons.info_outline,)
                         ],
                       ),
                     ),
@@ -178,9 +180,15 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Réduction 30% enfants 2-12ans',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Réduction 30% enfants 2-12ans',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                            ),
+                            const PopupView(contentTitle: "Si tu coches cette case il y aura directement une remise de 30% qui s’appliquera pour les enfants.", iconData: Icons.info_outline,)
+                          ],
                         ),
                         Switch.adaptive(
                           value: isKidsAvailable,
@@ -197,9 +205,15 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Prix Groupe Privé',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Prix Groupe Privé',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                            ),
+                            const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privée ou 1 personne.", iconData: Icons.info_outline,)
+                          ],
                         ),
                         Switch.adaptive(
                           value: isGroupeAvailable,
@@ -323,9 +337,15 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                         ),
                       ],
                     ),
-                    Text(
-                      'Revenus estimés 287 €',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Revenus estimés 82 €/pers',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                        ),
+                        const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits', iconData: Icons.info_outline,)
+                      ],
                     ),
                   ],
                 ),

@@ -6,6 +6,7 @@ import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
+import '../../../../widgets/popup_view.dart';
 import 'create_exp_step11.dart';
 
 class CreateExpStep10 extends StatefulWidget {
@@ -117,12 +118,18 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Étape 8 sur 9',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Étape 8 sur 9',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                                ),
+                                const PopupView(contentTitle: "Tips Meet People : plus tu encourageras de « l’instant Booking » en réduisant ce timing plus tu auras l’occasion de remplir ton expérience 💪🏼", iconData: Icons.help_outline,)
+                              ],
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(8, context)),
