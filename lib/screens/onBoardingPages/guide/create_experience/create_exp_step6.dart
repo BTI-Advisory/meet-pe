@@ -9,11 +9,13 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step7.dart';
 
 class CreateExpStep6 extends StatefulWidget {
-  const CreateExpStep6({super.key, required this.photo, required this.imageArray, required this.idExperience});
+  const CreateExpStep6({super.key, required this.photo, required this.imageArray, required this.idExperience, required this.name, required this.description});
 
   final String photo;
   final List<dynamic> imageArray;
   final int idExperience;
+  final String name;
+  final String description;
 
   @override
   State<CreateExpStep6> createState() => _CreateExpStep6State();
@@ -23,7 +25,6 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -152,7 +153,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(319, context),
                       child: Text(
-                        'Le Paris de Maria \nen deux lignes ',
+                        widget.name,
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
@@ -165,7 +166,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                       child: Opacity(
                         opacity: 0.50,
                         child: Text(
-                          'Je te réserve une balade inattendue et pleine de surprises à travers le seizième arrondissement de Paris. Prépare-toi à découvrir des coins secrets, à déguster des délices locaux et à vivre des moments mémorables.',
+                          widget.description,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontWeight: FontWeight.w400,
                               color: AppResources.colorDark),

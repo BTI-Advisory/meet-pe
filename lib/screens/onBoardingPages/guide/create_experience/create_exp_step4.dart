@@ -43,7 +43,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
       body: AsyncForm(
         onValidated: bloc.makeExperienceGuide1,
         onSuccess: () {
-          return navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap, idExperience: bloc.idExperience!));
+          return navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, idExperience: bloc.idExperience!));
         },
         builder: (BuildContext context, void Function() validate) {
           return Container(
