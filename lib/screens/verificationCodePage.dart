@@ -77,7 +77,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .headlineMedium!
-                                      .copyWith(color: AppResources.colorDark, fontSize: 32),
+                                      .copyWith(color: AppResources.colorDark, fontSize: 28),
                                   keyboardType: TextInputType.number,
                                   underlineColor: AppResources.colorGray15,
                                   length: 6,

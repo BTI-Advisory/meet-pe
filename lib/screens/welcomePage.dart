@@ -55,8 +55,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(double.infinity, context),
                       child: Text(
-                        'Avec notre système de matching, rencontre \ndes locaux passionnés et vis des expériences \nfaites pour toi !\n',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorBeige,),
+                        'Avec notre système de matching, rencontre des locaux passionnés et vis des expériences faites pour toi !\n',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige,),
                       ),
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
