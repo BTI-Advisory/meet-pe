@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:meet_pe/widgets/popup_view.dart';
@@ -152,18 +153,18 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           children: [
                             Stack(
                               children: [
-                                DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  color: AppResources.colorGray45,
-                                  radius: Radius.circular(
-                                      ResponsiveSize.calculateCornerRadius(
-                                          12, context)),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      pickImage((String imagePath) {
-                                        selectedImagePathPrincipal = imagePath;
-                                      });
-                                    },
+                                GestureDetector(
+                                  onTap: () {
+                                    pickImage((String imagePath) {
+                                      selectedImagePathPrincipal = imagePath;
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    color: AppResources.colorGray45,
+                                    radius: Radius.circular(
+                                        ResponsiveSize.calculateCornerRadius(
+                                            12, context)),
                                     child: Container(
                                         width: ResponsiveSize.calculateWidth(
                                             206, context),
@@ -256,42 +257,43 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               child: Column(
                                 children: [
                                   Stack(children: [
-                                    DottedBorder(
-                                      borderType: BorderType.RRect,
-                                      color: AppResources.colorGray45,
-                                      radius: Radius.circular(
-                                          ResponsiveSize.calculateCornerRadius(
-                                              12, context)),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            pickImage((String imagePath) {
-                                              selectedImagePath1 = imagePath;
-                                            });
-                                          },
-                                          child: Container(
-                                            width:
-                                                ResponsiveSize.calculateWidth(
-                                                    98, context),
-                                            height:
-                                                ResponsiveSize.calculateHeight(
-                                                    98, context),
-                                            child: selectedImagePath1.isEmpty
-                                                ? const Icon(
-                                                    Icons.add,
-                                                    color: AppResources
-                                                        .colorGray60,
-                                                  )
-                                                : ClipRRect(
-                                                    borderRadius: BorderRadius
-                                                        .circular(ResponsiveSize
-                                                            .calculateCornerRadius(
-                                                                12, context)),
-                                                    child: Image.file(
-                                                      File(selectedImagePath1),
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        pickImage((String imagePath) {
+                                          selectedImagePath1 = imagePath;
+                                        });
+                                      },
+                                      child: DottedBorder(
+                                        borderType: BorderType.RRect,
+                                        color: AppResources.colorGray45,
+                                        radius: Radius.circular(
+                                            ResponsiveSize.calculateCornerRadius(
+                                                12, context)),
+                                        child: Container(
+                                          width:
+                                              ResponsiveSize.calculateWidth(
+                                                  98, context),
+                                          height:
+                                              ResponsiveSize.calculateHeight(
+                                                  98, context),
+                                          child: selectedImagePath1.isEmpty
+                                              ? const Icon(
+                                                  Icons.add,
+                                                  color: AppResources
+                                                      .colorGray60,
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius: BorderRadius
+                                                      .circular(ResponsiveSize
+                                                          .calculateCornerRadius(
+                                                              12, context)),
+                                                  child: Image.file(
+                                                    File(selectedImagePath1),
+                                                    fit: BoxFit.cover,
                                                   ),
-                                          )),
+                                                ),
+                                        ),
+                                      ),
                                     ),
                                     Positioned(
                                       bottom: 8,
@@ -332,42 +334,43 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                       height: ResponsiveSize.calculateHeight(
                                           10, context)),
                                   Stack(children: [
-                                    DottedBorder(
-                                      borderType: BorderType.RRect,
-                                      color: AppResources.colorGray45,
-                                      radius: Radius.circular(
-                                          ResponsiveSize.calculateCornerRadius(
-                                              12, context)),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            pickImage((String imagePath) {
-                                              selectedImagePath2 = imagePath;
-                                            });
-                                          },
-                                          child: Container(
-                                            width:
-                                                ResponsiveSize.calculateWidth(
-                                                    98, context),
-                                            height:
-                                                ResponsiveSize.calculateHeight(
-                                                    98, context),
-                                            child: selectedImagePath2.isEmpty
-                                                ? const Icon(
-                                                    Icons.add,
-                                                    color: AppResources
-                                                        .colorGray60,
-                                                  )
-                                                : ClipRRect(
-                                                    borderRadius: BorderRadius
-                                                        .circular(ResponsiveSize
-                                                            .calculateCornerRadius(
-                                                                12, context)),
-                                                    child: Image.file(
-                                                      File(selectedImagePath2),
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        pickImage((String imagePath) {
+                                          selectedImagePath2 = imagePath;
+                                        });
+                                      },
+                                      child: DottedBorder(
+                                        borderType: BorderType.RRect,
+                                        color: AppResources.colorGray45,
+                                        radius: Radius.circular(
+                                            ResponsiveSize.calculateCornerRadius(
+                                                12, context)),
+                                        child: Container(
+                                          width:
+                                              ResponsiveSize.calculateWidth(
+                                                  98, context),
+                                          height:
+                                              ResponsiveSize.calculateHeight(
+                                                  98, context),
+                                          child: selectedImagePath2.isEmpty
+                                              ? const Icon(
+                                                  Icons.add,
+                                                  color: AppResources
+                                                      .colorGray60,
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius: BorderRadius
+                                                      .circular(ResponsiveSize
+                                                          .calculateCornerRadius(
+                                                              12, context)),
+                                                  child: Image.file(
+                                                    File(selectedImagePath2),
+                                                    fit: BoxFit.cover,
                                                   ),
-                                          )),
+                                                ),
+                                        ),
+                                      ),
                                     ),
                                     Positioned(
                                       bottom: 8,
@@ -416,39 +419,40 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           children: [
                             Expanded(
                               child: Stack(children: [
-                                DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  color: AppResources.colorGray45,
-                                  radius: Radius.circular(
-                                      ResponsiveSize.calculateCornerRadius(
-                                          12, context)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        pickImage((String imagePath) {
-                                          selectedImagePath3 = imagePath;
-                                        });
-                                      },
-                                      child: Container(
-                                        width: ResponsiveSize.calculateWidth(
-                                            98, context),
-                                        height: ResponsiveSize.calculateHeight(
-                                            98, context),
-                                        child: selectedImagePath3.isEmpty
-                                            ? const Icon(
-                                                Icons.add,
-                                                color: AppResources.colorGray60,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius: BorderRadius
-                                                    .circular(ResponsiveSize
-                                                        .calculateCornerRadius(
-                                                            12, context)),
-                                                child: Image.file(
-                                                  File(selectedImagePath3),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    pickImage((String imagePath) {
+                                      selectedImagePath3 = imagePath;
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    color: AppResources.colorGray45,
+                                    radius: Radius.circular(
+                                        ResponsiveSize.calculateCornerRadius(
+                                            12, context)),
+                                    child: Container(
+                                      width: ResponsiveSize.calculateWidth(
+                                          98, context),
+                                      height: ResponsiveSize.calculateHeight(
+                                          98, context),
+                                      child: selectedImagePath3.isEmpty
+                                          ? const Icon(
+                                              Icons.add,
+                                              color: AppResources.colorGray60,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(ResponsiveSize
+                                                      .calculateCornerRadius(
+                                                          12, context)),
+                                              child: Image.file(
+                                                File(selectedImagePath3),
+                                                fit: BoxFit.cover,
                                               ),
-                                      )),
+                                            ),
+                                    ),
+                                  ),
                                 ),
                                 Positioned(
                                   bottom: 8,
@@ -490,39 +494,40 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                     ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
                               child: Stack(children: [
-                                DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  color: AppResources.colorGray45,
-                                  radius: Radius.circular(
-                                      ResponsiveSize.calculateCornerRadius(
-                                          12, context)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        pickImage((String imagePath) {
-                                          selectedImagePath4 = imagePath;
-                                        });
-                                      },
-                                      child: Container(
-                                        width: ResponsiveSize.calculateWidth(
-                                            98, context),
-                                        height: ResponsiveSize.calculateHeight(
-                                            98, context),
-                                        child: selectedImagePath4.isEmpty
-                                            ? const Icon(
-                                                Icons.add,
-                                                color: AppResources.colorGray60,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius: BorderRadius
-                                                    .circular(ResponsiveSize
-                                                        .calculateCornerRadius(
-                                                            12, context)),
-                                                child: Image.file(
-                                                  File(selectedImagePath4),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    pickImage((String imagePath) {
+                                      selectedImagePath4 = imagePath;
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    color: AppResources.colorGray45,
+                                    radius: Radius.circular(
+                                        ResponsiveSize.calculateCornerRadius(
+                                            12, context)),
+                                    child: Container(
+                                      width: ResponsiveSize.calculateWidth(
+                                          98, context),
+                                      height: ResponsiveSize.calculateHeight(
+                                          98, context),
+                                      child: selectedImagePath4.isEmpty
+                                          ? const Icon(
+                                              Icons.add,
+                                              color: AppResources.colorGray60,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(ResponsiveSize
+                                                      .calculateCornerRadius(
+                                                          12, context)),
+                                              child: Image.file(
+                                                File(selectedImagePath4),
+                                                fit: BoxFit.cover,
                                               ),
-                                      )),
+                                            ),
+                                    ),
+                                  ),
                                 ),
                                 Positioned(
                                   bottom: 8,
@@ -564,39 +569,40 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                     ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
                               child: Stack(children: [
-                                DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  color: AppResources.colorGray45,
-                                  radius: Radius.circular(
-                                      ResponsiveSize.calculateCornerRadius(
-                                          12, context)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        pickImage((String imagePath) {
-                                          selectedImagePath5 = imagePath;
-                                        });
-                                      },
-                                      child: Container(
-                                        width: ResponsiveSize.calculateWidth(
-                                            98, context),
-                                        height: ResponsiveSize.calculateHeight(
-                                            98, context),
-                                        child: selectedImagePath5.isEmpty
-                                            ? const Icon(
-                                                Icons.add,
-                                                color: AppResources.colorGray60,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius: BorderRadius
-                                                    .circular(ResponsiveSize
-                                                        .calculateCornerRadius(
-                                                            12, context)),
-                                                child: Image.file(
-                                                  File(selectedImagePath5),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    pickImage((String imagePath) {
+                                      selectedImagePath5 = imagePath;
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    color: AppResources.colorGray45,
+                                    radius: Radius.circular(
+                                        ResponsiveSize.calculateCornerRadius(
+                                            12, context)),
+                                    child: Container(
+                                      width: ResponsiveSize.calculateWidth(
+                                          98, context),
+                                      height: ResponsiveSize.calculateHeight(
+                                          98, context),
+                                      child: selectedImagePath5.isEmpty
+                                          ? const Icon(
+                                              Icons.add,
+                                              color: AppResources.colorGray60,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(ResponsiveSize
+                                                      .calculateCornerRadius(
+                                                          12, context)),
+                                              child: Image.file(
+                                                File(selectedImagePath5),
+                                                fit: BoxFit.cover,
                                               ),
-                                      )),
+                                            ),
+                                    ),
+                                  ),
                                 ),
                                 Positioned(
                                   bottom: 8,
