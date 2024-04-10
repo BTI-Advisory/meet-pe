@@ -172,7 +172,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             'Revenus estimés 82 €/pers',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                           ),
-                          const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits', iconData: Icons.info_outline,)
+                          const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
                         ],
                       ),
                     ),
@@ -187,7 +187,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                               'Réduction 30% enfants 2-12ans',
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
                             ),
-                            const PopupView(contentTitle: "Si tu coches cette case il y aura directement une remise de 30% qui s’appliquera pour les enfants.", iconData: Icons.info_outline,)
+                            const PopupView(contentTitle: "Si tu coches cette case il y aura directement une remise de 30% qui s’appliquera pour les enfants.")
                           ],
                         ),
                         Switch.adaptive(
@@ -212,7 +212,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                               'Prix Groupe Privé',
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
                             ),
-                            const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privée ou 1 personne.", iconData: Icons.info_outline,)
+                            const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privée ou 1 personne.")
                           ],
                         ),
                         Switch.adaptive(
@@ -344,7 +344,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                           'Revenus estimés 82 €/pers',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                         ),
-                        const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits', iconData: Icons.info_outline,)
+                        const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
                       ],
                     ),
                   ],

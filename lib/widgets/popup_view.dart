@@ -5,9 +5,8 @@ import '../resources/resources.dart';
 
 class PopupView extends StatelessWidget {
   final String contentTitle;
-  final IconData iconData;
 
-  const PopupView({super.key, required this.contentTitle, required this.iconData});
+  const PopupView({super.key, required this.contentTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class PopupView extends StatelessWidget {
           infoTextAlign: TextAlign.start,
           infoTextStyle: const TextStyle(
             color: Colors.white,
-            fontSize: 10,
+            fontSize: 14,
             fontFamily: 'Outfit',
             fontWeight: FontWeight.w400,
           ),
@@ -26,7 +25,7 @@ class PopupView extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
           contentBorderRadius: BorderRadius.circular(8)
       ),
-      child: Icon(iconData, size: 17),
+      child: const Icon(Icons.help_outline, size: 24),
     );
   }
 }

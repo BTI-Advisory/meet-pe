@@ -131,7 +131,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                 ?.copyWith(
                                     fontSize: 10, fontWeight: FontWeight.w400),
                           ),
-                          const PopupView(contentTitle: "Capture l'Action 💥 /  Montre l'Authenticité 🌟 / Explore la Diversité 🌈 / Joue avec la Lumière ☀️ et Engage tes futurs Participants 🎉 \n\nN’oublie jamais la way of life de Meet People lors du choix de tes photos 📸, du partage, des échanges et des sourires !\n ", iconData: Icons.help_outline,)
+                          const PopupView(contentTitle: "Capture l'Action 💥 /  Montre l'Authenticité 🌟 / Explore la Diversité 🌈 / Joue avec la Lumière ☀️ et Engage tes futurs Participants 🎉 \n\nN’oublie jamais la way of life de Meet People lors du choix de tes photos 📸, du partage, des échanges et des sourires !\n ",)
                         ]),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(8, context)),
