@@ -392,21 +392,14 @@ class _ItemState extends State<Item> {
           child: Center(
             child: Row(
               children: [
-                Icon(
-                  Icons.ac_unit,
-                  size: 10,
-                  color: widget.isSelected
-                      ? Colors.white
-                      : AppResources.colorGray100,
-                ),
-                /*Image.network(
+                Image.network(
                   widget.image,
                   width: 10,
                   height: 10,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,
-                ),*/
+                ),
                 SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
