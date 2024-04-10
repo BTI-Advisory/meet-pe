@@ -34,7 +34,8 @@ class _SignInPageState extends State<SignInPage>
             onValidated: bloc.login,
             onSuccess: () {
               bloc.saveCredentials();
-              return navigateTo(context, (_) => const MainGuidePage(), clearHistory: true);
+              return navigateTo(context, (_) => const MainGuidePage(),
+                  clearHistory: true);
             },
             builder: (context, validate) {
               bloc.setValidateForm(validate);
@@ -54,135 +55,184 @@ class _SignInPageState extends State<SignInPage>
                       ],
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 70),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Image.asset(
-                          'images/logo_color.png',
-                          width: 110,
-                          height: 101,
-                        ),
-                        SizedBox(height: 50),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 48.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Connection',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium,
-                                  ),
-                                  const SizedBox(
-                                    height: 42,
-                                  ),
-                                  Text(
-                                    widget.email,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    height: 1,
-                                    width: MediaQuery.of(context).size.width - 96,
-                                    color: AppResources.colorGray15,
-                                  ),
-                                  const SizedBox(
-                                    height: 26,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 96,
-                                    child: PasswordField(
-                                      //onFieldSubmitted: (value) => validate(),
-                                      controller: bloc.passwordController,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          validationMessage =
-                                              AppResources.validatorPassword(
-                                                  value);
-                                        });
-                                      },
+                  child: Stack(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 70),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset(
+                            'images/logo_color.png',
+                            width: 110,
+                            height: 101,
+                          ),
+                          SizedBox(height: 50),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 48.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Connection',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  if (validationMessage != null)
-                                    const Text(
-                                      'CHAMPS INVALIDE',
-                                      style: TextStyle(
-                                        color: Color(0xFFFF0000),
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0.14,
+                                    const SizedBox(
+                                      height: 42,
+                                    ),
+                                    Text(
+                                      widget.email,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              color: AppResources.colorDark),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      width: MediaQuery.of(context).size.width -
+                                          96,
+                                      color: AppResources.colorGray15,
+                                    ),
+                                    const SizedBox(
+                                      height: 26,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          96,
+                                      child: PasswordField(
+                                        //onFieldSubmitted: (value) => validate(),
+                                        controller: bloc.passwordController,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            validationMessage =
+                                                AppResources.validatorPassword(
+                                                    value);
+                                          });
+                                        },
                                       ),
                                     ),
-                                  const SizedBox(
-                                    height: 37,
-                                  ),
-                                 TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      'mot de passe oublié ?',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorGray30, decoration: TextDecoration.underline),
+                                    const SizedBox(
+                                      height: 7,
                                     ),
-                                  )
-                                ],
+                                    if (validationMessage != null)
+                                      const Text(
+                                        'CHAMPS INVALIDE',
+                                        style: TextStyle(
+                                          color: Color(0xFFFF0000),
+                                          fontSize: 10,
+                                          fontFamily: 'Outfit',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0.14,
+                                        ),
+                                      ),
+                                    const SizedBox(
+                                      height: 37,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'mot de passe oublié ?',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                                color: AppResources.colorGray30,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 44),
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 67, right: 67),
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 24, vertical: 10)),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        AppResources.colorVitamine),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
+                            ],
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 44),
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 67, right: 67),
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 24,
+                                                  vertical: 10)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              AppResources.colorVitamine),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  onPressed: validate,
-                                  child: Text(
-                                    'SE CONNECTER',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            color: AppResources.colorWhite),
+                                    onPressed: validate,
+                                    child: Text(
+                                      'SE CONNECTER',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              color: AppResources.colorWhite),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      top: 48,
+                      left: 28,
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(32, context),
+                        height: ResponsiveSize.calculateHeight(32, context),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                ResponsiveSize.calculateCornerRadius(
+                                    40, context)),
+                          ),
+                        ),
+                        child: FloatingActionButton(
+                            heroTag: "btn1",
+                            backgroundColor: AppResources.colorWhite,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              String.fromCharCode(
+                                  CupertinoIcons.back.codePoint),
+                              style: TextStyle(
+                                inherit: false,
+                                color: AppResources.colorVitamine,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: CupertinoIcons
+                                    .exclamationmark_circle.fontFamily,
+                                package: CupertinoIcons
+                                    .exclamationmark_circle.fontPackage,
+                              ),
+                            )),
+                      ),
+                    ),
+                  ]),
                 ),
               );
             }));
@@ -242,8 +292,7 @@ class SignInPageBloc with Disposable {
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
   Future<void> login() => AppService.instance
-  .login(usernameController.text, passwordController.text);
-
+      .login(usernameController.text, passwordController.text);
 
   @override
   void dispose() {

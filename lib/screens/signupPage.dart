@@ -36,8 +36,7 @@ class _SignUpPageState extends State<SignUpPage>
 
   void updateFormValidity() {
     setState(() {
-      isFormValid =
-          validationMessage == null && isChecked == true;
+      isFormValid = validationMessage == null && isChecked == true;
     });
   }
 
@@ -48,7 +47,8 @@ class _SignUpPageState extends State<SignUpPage>
             onValidated: bloc.register,
             onSuccess: () {
               bloc.saveCredentials();
-              return navigateTo(context, (_) => VerificationCodePage(email: widget.email),
+              return navigateTo(
+                  context, (_) => VerificationCodePage(email: widget.email),
                   clearHistory: true);
             },
             builder: (context, validate) {
@@ -69,123 +69,201 @@ class _SignUpPageState extends State<SignUpPage>
                       ],
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: ResponsiveSize.calculateHeight(70, context)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Image.asset(
-                          'images/logo_color.png',
-                          width: ResponsiveSize.calculateWidth(110, context),
-                          height: ResponsiveSize.calculateHeight(101, context),
-                        ),
-                        SizedBox(height: ResponsiveSize.calculateHeight(50, context)),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(40, context)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Crée ton compte',
-                                    style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                                  ),
-                                  SizedBox(
-                                    height: ResponsiveSize.calculateHeight(42, context),
-                                  ),
-                                  Text(
-                                    widget.email,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  ),
-                                  SizedBox(
-                                    height: ResponsiveSize.calculateHeight(8, context),
-                                  ),
-                                  Container(
-                                    height: 1,
-                                    width: MediaQuery.of(context).size.width - 96,
-                                    color: AppResources.colorGray15,
-                                  ),
-                                  SizedBox(
-                                    height: ResponsiveSize.calculateHeight(26, context),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 96,
-                                    child: PasswordField(
-                                      //onFieldSubmitted: (value) => validate(),
-                                      controller: bloc.passwordController,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          validationMessage = AppResources.validatorPassword(value);
-                                          updateFormValidity();
-                                        });
-                                      },
+                  child: Stack(children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: ResponsiveSize.calculateHeight(70, context)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset(
+                            'images/logo_color.png',
+                            width: ResponsiveSize.calculateWidth(110, context),
+                            height:
+                                ResponsiveSize.calculateHeight(101, context),
+                          ),
+                          SizedBox(
+                              height:
+                                  ResponsiveSize.calculateHeight(50, context)),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(
+                                        40, context)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Crée ton compte',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: ResponsiveSize.calculateHeight(7, context),
-                                  ),
-                                  if (validationMessage != null)
-                                    const Text(
-                                      'Ⓧ 6 caractères minimum',
-                                      style: TextStyle(
-                                        color: Color(0xFFFF0000),
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0.14,
-                                      ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          42, context),
                                     ),
-                                  SizedBox(height: ResponsiveSize.calculateHeight(54, context),),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          // Toggle the checkbox state on tap
+                                    Text(
+                                      widget.email,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              color: AppResources.colorDark),
+                                    ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          8, context),
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      width: MediaQuery.of(context).size.width -
+                                          96,
+                                      color: AppResources.colorGray15,
+                                    ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          26, context),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          96,
+                                      child: PasswordField(
+                                        //onFieldSubmitted: (value) => validate(),
+                                        controller: bloc.passwordController,
+                                        onChanged: (value) {
                                           setState(() {
-                                            isChecked = !isChecked;
-                                            _showErrorMessage = !_showErrorMessage;
+                                            validationMessage =
+                                                AppResources.validatorPassword(
+                                                    value);
                                             updateFormValidity();
                                           });
                                         },
-                                        child: Container(
-                                          width: 20,
-                                          height: 20,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: !_showErrorMessage
-                                                  ? Colors.red
-                                                  : Colors.black,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(4.0),
-                                            color: isChecked ? Colors.white : null,
-                                          ),
-                                          child: isChecked
-                                              ? Icon(
-                                            Icons.check,
-                                            size: 10.0,
-                                            color: Colors.black,
-                                          )
-                                              : null,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          7, context),
+                                    ),
+                                    if (validationMessage != null)
+                                      const Text(
+                                        'Ⓧ 6 caractères minimum',
+                                        style: TextStyle(
+                                          color: Color(0xFFFF0000),
+                                          fontSize: 10,
+                                          fontFamily: 'Outfit',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0.14,
                                         ),
                                       ),
-                                      SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text.rich(
-                                            TextSpan(
-                                              children: [
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          54, context),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            // Toggle the checkbox state on tap
+                                            setState(() {
+                                              isChecked = !isChecked;
+                                              _showErrorMessage =
+                                                  !_showErrorMessage;
+                                              updateFormValidity();
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: !_showErrorMessage
+                                                    ? Colors.red
+                                                    : Colors.black,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              color: isChecked
+                                                  ? Colors.white
+                                                  : null,
+                                            ),
+                                            child: isChecked
+                                                ? Icon(
+                                                    Icons.check,
+                                                    size: 10.0,
+                                                    color: Colors.black,
+                                                  )
+                                                : null,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            width:
+                                                ResponsiveSize.calculateWidth(
+                                                    12, context)),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  const TextSpan(
+                                                    text: 'J’accepte les ',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF979797),
+                                                      fontSize: 13,
+                                                      fontFamily: 'Outfit',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text:
+                                                        'Conditions Générales',
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFFF4C00),
+                                                      fontSize: 13,
+                                                      fontFamily: 'Outfit',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      height: 0,
+                                                    ),
+                                                    recognizer:
+                                                        TapGestureRecognizer()
+                                                          ..onTap = () {
+                                                            navigateTo(
+                                                                context,
+                                                                (_) => const WebViewContainer(
+                                                                    webUrl:
+                                                                        'https://youtube.com'));
+                                                          },
+                                                  ),
+                                                  const TextSpan(
+                                                    text: ' et ',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF979797),
+                                                      fontSize: 13,
+                                                      fontFamily: 'Outfit',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            Text.rich(
+                                              TextSpan(children: [
                                                 const TextSpan(
-                                                  text: 'J’accepte les ',
+                                                  text: ' la ',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
                                                     fontSize: 13,
@@ -195,23 +273,41 @@ class _SignUpPageState extends State<SignUpPage>
                                                   ),
                                                 ),
                                                 TextSpan(
-                                                  text: 'Conditions Générales',
+                                                  text:
+                                                      'Politique de Confidentialité',
                                                   style: const TextStyle(
                                                     color: Color(0xFFFF4C00),
                                                     fontSize: 13,
                                                     fontFamily: 'Outfit',
                                                     fontWeight: FontWeight.w500,
-                                                    decoration:
-                                                    TextDecoration.underline,
+                                                    decoration: TextDecoration
+                                                        .underline,
                                                     height: 0,
                                                   ),
-                                                  recognizer: TapGestureRecognizer()
-                                                    ..onTap = () {
-                                                      navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://youtube.com'));
-                                                    },
+                                                  recognizer:
+                                                      TapGestureRecognizer()
+                                                        ..onTap = () {
+                                                          navigateTo(
+                                                              context,
+                                                              (_) => const WebViewContainer(
+                                                                  webUrl:
+                                                                      'https://amazon.com'));
+                                                        },
                                                 ),
                                                 const TextSpan(
-                                                  text: ' et ',
+                                                  text: ' ',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF979797),
+                                                    fontSize: 13,
+                                                    fontFamily: 'Outfit',
+                                                    fontWeight: FontWeight.w500,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                                const TextSpan(
+                                                  text: 'Meetpe',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
                                                     fontSize: 13,
@@ -220,195 +316,196 @@ class _SignUpPageState extends State<SignUpPage>
                                                     height: 0,
                                                   ),
                                                 ),
-                                              ],
+                                              ]),
+                                              textAlign: TextAlign.start,
                                             ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          Text.rich(
-                                            TextSpan(children: [
-                                              const TextSpan(
-                                                text: ' la ',
-                                                style: TextStyle(
-                                                  color: Color(0xFF979797),
-                                                  fontSize: 13,
-                                                  fontFamily: 'Outfit',
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                'Politique de Confidentialité',
-                                                style: const TextStyle(
-                                                  color: Color(0xFFFF4C00),
-                                                  fontSize: 13,
-                                                  fontFamily: 'Outfit',
-                                                  fontWeight: FontWeight.w500,
-                                                  decoration:
-                                                  TextDecoration.underline,
-                                                  height: 0,
-                                                ),
-                                                recognizer: TapGestureRecognizer()
-                                                  ..onTap = () {
-                                                    navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://amazon.com'));
-                                                  },
-                                              ),
-                                              const TextSpan(
-                                                text: ' ',
-                                                style: TextStyle(
-                                                  color: Color(0xFF979797),
-                                                  fontSize: 13,
-                                                  fontFamily: 'Outfit',
-                                                  fontWeight: FontWeight.w500,
-                                                  decoration:
-                                                  TextDecoration.underline,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                              const TextSpan(
-                                                text: 'Meetpe',
-                                                style: TextStyle(
-                                                  color: Color(0xFF979797),
-                                                  fontSize: 13,
-                                                  fontFamily: 'Outfit',
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                            ]),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: ResponsiveSize.calculateHeight(17, context),),
-                                  if (!_showErrorMessage)
-                                    const Text(
-                                      'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
-                                      style: TextStyle(
-                                        color: Color(0xFFFF0000),
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0.14,
-                                      ),
-                                    ),
-
-                                  SizedBox(height: ResponsiveSize.calculateHeight(19, context),),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          // Toggle the checkbox state on tap
-                                          setState(() {
-                                            isCheckedNewsletter = !isCheckedNewsletter;
-                                          });
-                                        },
-                                        child: Container(
-                                          width: 20,
-                                          height: 20,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.black,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(4.0),
-                                            color: isCheckedNewsletter ? Colors.white : null,
-                                          ),
-                                          child: isCheckedNewsletter
-                                              ? Icon(
-                                            Icons.check,
-                                            size: 10.0,
-                                            color: Colors.black,
-                                          )
-                                              : null,
+                                          ],
                                         ),
-                                      ),
-                                      const SizedBox(width: 12),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          17, context),
+                                    ),
+                                    if (!_showErrorMessage)
                                       const Text(
-                                        'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
+                                        'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
                                         style: TextStyle(
-                                          color: Color(0xFF979797),
-                                          fontSize: 13,
+                                          color: Color(0xFFFF0000),
+                                          fontSize: 10,
                                           fontFamily: 'Outfit',
                                           fontWeight: FontWeight.w400,
-                                          height: 0,
+                                          height: 0.14,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 44),
-                              child: Container(
-                                width: ResponsiveSize.calculateWidth(241, context),
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all<EdgeInsets>(
-                                        EdgeInsets.symmetric(
-                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                                    backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                          (Set<MaterialState> states) {
-                                        if (states.contains(MaterialState.disabled)) {
-                                          return AppResources
-                                              .colorGray15; // Change to your desired grey color
-                                        }
-                                        return AppResources
-                                            .colorVitamine; // Your enabled color
-                                      },
+                                      ),
+                                    SizedBox(
+                                      height: ResponsiveSize.calculateHeight(
+                                          19, context),
                                     ),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            // Toggle the checkbox state on tap
+                                            setState(() {
+                                              isCheckedNewsletter =
+                                                  !isCheckedNewsletter;
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              color: isCheckedNewsletter
+                                                  ? Colors.white
+                                                  : null,
+                                            ),
+                                            child: isCheckedNewsletter
+                                                ? Icon(
+                                                    Icons.check,
+                                                    size: 10.0,
+                                                    color: Colors.black,
+                                                  )
+                                                : null,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        const Text(
+                                          'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
+                                          style: TextStyle(
+                                            color: Color(0xFF979797),
+                                            fontSize: 13,
+                                            fontFamily: 'Outfit',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 44),
+                                child: Container(
+                                  width: ResponsiveSize.calculateWidth(
+                                      241, context),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty
+                                          .all<EdgeInsets>(EdgeInsets.symmetric(
+                                              horizontal:
+                                                  ResponsiveSize.calculateWidth(
+                                                      24, context),
+                                              vertical: ResponsiveSize
+                                                  .calculateHeight(
+                                                      10, context))),
+                                      backgroundColor: MaterialStateProperty
+                                          .resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states.contains(
+                                              MaterialState.disabled)) {
+                                            return AppResources
+                                                .colorGray15; // Change to your desired grey color
+                                          }
+                                          return AppResources
+                                              .colorVitamine; // Your enabled color
+                                        },
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              ResponsiveSize
+                                                  .calculateCornerRadius(
+                                                      40, context)),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  //onPressed: isChecked ? validate : null,
-                                  /*onPressed: () {
-                                    // Toggle the visibility of the error message based on isChecked
-                                    if (!isChecked) {
-                                      setState(() {
-                                        _showErrorMessage = true;
-                                      });
-                                    } else {
-                                      // Perform the necessary action when the button is pressed
-                                      validate();
-                                    }
-                                  },*/
-                                  onPressed: isFormValid
-                                      ? () {
-                                    setState(() {
-                                      validate();
-                                    });
-                                  }
-                                      : null,
-                                  child: Text(
-                                    'CREER UN COMPTE',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(color: AppResources.colorWhite),
+                                    //onPressed: isChecked ? validate : null,
+                                    /*onPressed: () {
+                                      // Toggle the visibility of the error message based on isChecked
+                                      if (!isChecked) {
+                                        setState(() {
+                                          _showErrorMessage = true;
+                                        });
+                                      } else {
+                                        // Perform the necessary action when the button is pressed
+                                        validate();
+                                      }
+                                    },*/
+                                    onPressed: isFormValid
+                                        ? () {
+                                            setState(() {
+                                              validate();
+                                            });
+                                          }
+                                        : null,
+                                    child: Text(
+                                      'CREER UN COMPTE',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              color: AppResources.colorWhite),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      top: 48,
+                      left: 28,
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(32, context),
+                        height: ResponsiveSize.calculateHeight(32, context),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                ResponsiveSize.calculateCornerRadius(
+                                    40, context)),
+                          ),
+                        ),
+                        child: FloatingActionButton(
+                            heroTag: "btn1",
+                            backgroundColor: AppResources.colorWhite,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              String.fromCharCode(
+                                  CupertinoIcons.back.codePoint),
+                              style: TextStyle(
+                                inherit: false,
+                                color: AppResources.colorVitamine,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: CupertinoIcons
+                                    .exclamationmark_circle.fontFamily,
+                                package: CupertinoIcons
+                                    .exclamationmark_circle.fontPackage,
+                              ),
+                            )),
+                      ),
+                    ),
+                  ]),
                 ),
               );
             }));
@@ -438,9 +535,9 @@ class _DeveloperModeButtonState extends State<DeveloperModeButton> {
   int _toggleDevModeCount = 10;
   int _toggleDevModeCounter = 0;
   final CountdownTimer _toggleDevModeCoolDownTimer =
-  CountdownTimer(const Duration(seconds: 5));
+      CountdownTimer(const Duration(seconds: 5));
   final CountdownTimer _toggleDevModeCancelTimer =
-  CountdownTimer(const Duration(seconds: 5));
+      CountdownTimer(const Duration(seconds: 5));
 
   void onDeveloperModePressed(BuildContext context) {
     if (!_toggleDevModeCoolDownTimer.isElapsed) return;
@@ -493,7 +590,8 @@ class SignUpPageBloc with Disposable {
 
   Future<void> register() async {
     print('Login function called'); // Check if this is printed
-    await AppService.instance.register(usernameController.text, passwordController.text);
+    await AppService.instance
+        .register(usernameController.text, passwordController.text);
   }
 
   @override
