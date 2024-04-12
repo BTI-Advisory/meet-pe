@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
@@ -191,6 +192,9 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                         controller: _textEditingControllerDescr,
                         maxLines: null,
                         textInputAction: TextInputAction.newline,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(3000),
+                        ],
                         //textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.name,
                         style: Theme.of(context)
