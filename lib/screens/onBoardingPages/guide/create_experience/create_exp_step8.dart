@@ -234,7 +234,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Revenus estimés ${(valueSlider * 0.18).toStringAsFixed(2)} €/pers',
+                                'Revenus estimés ${(valueSlider * 0.82).toStringAsFixed(2)} €/pers',
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                               ),
                               const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
@@ -410,7 +410,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Revenus estimés ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.18).toStringAsFixed(2)} €/pers',
+                                    'Revenus estimés ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                   ),
                                   const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
