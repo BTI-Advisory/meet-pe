@@ -40,7 +40,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
           });
         }
       }
-      // Select the first item by default
+      // Select the last item by default
       if (myList.isNotEmpty) {
         setState(() {
           if (myMap['dernier_minute_reservation'] == null) {
@@ -53,6 +53,12 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
       // Handle error if fetching data fails
       print('Error: $error');
     }
+  }
+
+  void _onItemTap(int itemId) {
+    setState(() {
+      myMap['dernier_minute_reservation'] = {itemId};
+    });
   }
 
   @override
@@ -167,20 +173,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                     isSelected: myMap['dernier_minute_reservation'] != null
                                         ? myMap['dernier_minute_reservation']!.contains(item.id)
                                         : false,
-                                    onTap: () {
-                                      setState(() {
-                                        if (myMap['dernier_minute_reservation'] == null) {
-                                          myMap['dernier_minute_reservation'] =
-                                              Set<int>(); // Initialize if null
-                                        }
-
-                                        if (myMap['dernier_minute_reservation']!.contains(item.id)) {
-                                          myMap['dernier_minute_reservation']!.remove(item.id);
-                                        } else {
-                                          myMap['dernier_minute_reservation']!.add(item.id);
-                                        }
-                                      });
-                                    },
+                                    onTap: () => _onItemTap(item.id),
                                   );
                                 }).toList(),
                               ),
