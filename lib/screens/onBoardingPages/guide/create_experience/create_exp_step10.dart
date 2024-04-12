@@ -40,6 +40,15 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
           });
         }
       }
+      // Select the first item by default
+      if (myList.isNotEmpty) {
+        setState(() {
+          if (myMap['dernier_minute_reservation'] == null) {
+            myMap['dernier_minute_reservation'] = Set<int>();
+          }
+          myMap['dernier_minute_reservation']!.add(myList.last.id);
+        });
+      }
     } catch (error) {
       // Handle error if fetching data fails
       print('Error: $error');
