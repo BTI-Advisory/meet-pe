@@ -45,8 +45,8 @@ const _httpMethodDelete = 'DELETE';
 class ApiClient {
   //#region Vars
   /// API url
-  static const _authorityProd = '164.92.244.14';
-  static const _authorityDev = '164.92.244.14';
+  static const _authorityProd = 'rec1-meetpe.neway-esoft.com';
+  static const _authorityDev = 'rec1-meetpe.neway-esoft.com';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
@@ -429,7 +429,8 @@ class ApiClient {
     };
 
     //Todo: replace with _send function
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/getTableData/$url'), headers: headers);
+    final response = await http.get(_buildUri('api/getTableData/$url'), headers: headers);
+
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
@@ -478,7 +479,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-profile-guide'));
+    final request = http.MultipartRequest('POST', _buildUri('api/make-profile-guide'));
 
     // Add headers if provided
     if (headers != null) {
@@ -523,7 +524,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p1'));
+    final request = http.MultipartRequest('POST', _buildUri('api/make-experience-guide-p1'));
 
     // Add headers if provided
     if (headers != null) {
@@ -566,7 +567,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/make-experience-guide-p2'));
+    final request = http.MultipartRequest('POST', _buildUri('api/make-experience-guide-p2'));
 
     // Add headers if provided
     if (headers != null) {
@@ -642,17 +643,23 @@ class ApiClient {
     };
   }
 
+  String? _convertListToString(dynamic data) {
+    if (data is List<int> && data.isNotEmpty) {
+      return data.join(', ');
+    }
+    return null;
+  }
+
   /// Mark a convert a list in experience p2 profile
   Map<String, String> transformDataExperienceP2(Map<String, dynamic> initialData) {
     List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
     String avecCaString = avecCa.join(', ');
 
-    List<int> guidePersonnesPeuvesParticiper = List<int>.from(initialData['guide_personnes_peuves_participer']);
-    String guidePersonnesPeuvesParticiperString = guidePersonnesPeuvesParticiper.join(', ');
+    String? guidePersonnesPeuvesParticiperString = _convertListToString(initialData['guide_personnes_peuves_participer']);
 
     return {
       'et_avec_ça': avecCaString,
-      'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString,
+      'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString ?? '',
       'prix_par_voyageur': initialData['prix_par_voyageur'].toString(),
       'nombre_des_voyageur': initialData['nombre_des_voyageur'].toString(),
       'ville': initialData['ville'].toString(),
@@ -851,7 +858,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-piece-identite'));
+    final request = http.MultipartRequest('POST', _buildUri('api/update-piece-identite'));
 
     // Add headers if provided
     if (headers != null) {
@@ -893,7 +900,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-KBIS-file'));
+    final request = http.MultipartRequest('POST', _buildUri('api/update-KBIS-file'));
 
     // Add headers if provided
     if (headers != null) {
@@ -935,7 +942,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/add-other-document'));
+    final request = http.MultipartRequest('POST', _buildUri('api/add-other-document'));
 
     // Add headers if provided
     if (headers != null) {
@@ -1013,7 +1020,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-schedule-absence'), headers: headers);
+    final response = await http.get(_buildUri('api/get-schedule-absence'), headers: headers);
 
     if (response.statusCode == 200) {
       return parseScheduleEntries(response.body);
@@ -1031,7 +1038,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-schedule-availability'), headers: headers);
+    final response = await http.get(_buildUri('api/get-schedule-availability'), headers: headers);
 
     if (response.statusCode == 200) {
       return parseAvailabilityItem(response.body);
@@ -1096,7 +1103,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-archived-reservation'), headers: headers);
+    final response = await http.get(_buildUri('api/get-archived-reservation'), headers: headers);
 
     if (response.statusCode == 200) {
       return parseArchivedReservation(response.body);
@@ -1140,7 +1147,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-guide-reservation'), headers: headers);
+    final response = await http.get(_buildUri('api/get-guide-reservation'), headers: headers);
 
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);
@@ -1167,7 +1174,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    final response = await http.get(Uri.parse('http://164.92.244.14/api/get-guide-experiences'), headers: headers);
+    final response = await http.get(_buildUri('api/get-guide-experiences'), headers: headers);
 
     if (response.statusCode == 200) {
       return parseGuideExperiencesItem(response.body);
@@ -1284,7 +1291,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', Uri.parse('http://164.92.244.14/api/update-experience-image-principale'));
+    final request = http.MultipartRequest('POST', _buildUri('api/update-experience-image-principale'));
 
     // Add headers if provided
     if (headers != null) {
@@ -1414,7 +1421,8 @@ class ApiClient {
     };
 
     // Send request
-    await _send<Null>(_httpMethodPut, 'mobile/userMeetPe', bodyJson: data);
+    ///Todo Add this API
+    //await _send<Null>(_httpMethodPut, 'mobile/userMeetPe', bodyJson: data);
   }
 
   /// Get user card data
@@ -1593,7 +1601,7 @@ class ApiClient {
 
   //#region Generics
   Uri _buildUri(String path, [JsonObject? queryParameters]) =>
-      Uri.http(_authority, path, queryParameters);
+      Uri.https(_authority, path, queryParameters);
 
   /// Send a classic request
   Future<T?> _send<T>(
