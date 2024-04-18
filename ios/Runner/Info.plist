@@ -56,6 +56,8 @@
 	<string>We need your location for...</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need access to your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need access to your location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires Mic permission.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -84,7 +86,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSFaceIDUsageDescription</key>
-    <string>Pour s'authentifier à votre compte</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Pour s&apos;authentifier à votre compte</string>
 </dict>
 </plist>
