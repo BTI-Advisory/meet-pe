@@ -528,6 +528,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10,),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal:
