@@ -49,8 +49,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
 
   void updateFormValidity() {
     setState(() {
-      isFormValid =
-          _textEditingControllerDescription == null;
+      isFormValid = _textEditingControllerDescription == null;
     });
   }
 
@@ -59,363 +58,505 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
       isGuide = !isGuide;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: FutureBuilder<UserResponse>(
-        future: _userInfoFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final userInfo = snapshot.data!;
-            return SingleChildScrollView(
-              child: Container(
-                width: deviceSize.width,
-                height: deviceSize.height,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(20, context)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: ResponsiveSize.calculateHeight(46, context)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(5, context)),
-                        child: Text(
-                          'Profil',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(fontSize: 32, color: AppResources.colorDark),
-                        ),
+        body: FutureBuilder<UserResponse>(
+      future: _userInfoFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          final userInfo = snapshot.data!;
+          return SingleChildScrollView(
+            child: Container(
+              width: deviceSize.width,
+              height: deviceSize.height,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: ResponsiveSize.calculateWidth(20, context)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(46, context)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              ResponsiveSize.calculateWidth(5, context)),
+                      child: Text(
+                        'Profil',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(
+                                fontSize: 32, color: AppResources.colorDark),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet<void>(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                                  child: StatefulBuilder(
-                                    builder: (BuildContext context,
-                                        StateSetter setState) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height: 357,
-                                        color: AppResources.colorWhite,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 28),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              const SizedBox(height: 39),
-                                              Text(
-                                                'Mon Profil',
-                                                style: Theme.of(context).textTheme.headlineMedium,
-                                              ),
-                                              Column(
-                                                children: [
-                                                  TextFormField(
-                                                    controller: _textEditingControllerDescription,
-                                                    keyboardType: TextInputType.multiline,
-                                                    textInputAction: TextInputAction.newline,
-                                                    //textInputAction: TextInputAction.done,
-                                                    maxLines: null,
-                                                    style: Theme.of(context)
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(20, context)),
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Container(
+                                      width: double.infinity,
+                                      height: 357,
+                                      color: AppResources.colorWhite,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 28),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            const SizedBox(height: 39),
+                                            Text(
+                                              'Mon Profil',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                            ),
+                                            Column(
+                                              children: [
+                                                TextFormField(
+                                                  controller:
+                                                      _textEditingControllerDescription,
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  textInputAction:
+                                                      TextInputAction.newline,
+                                                  //textInputAction: TextInputAction.done,
+                                                  maxLines: null,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(
+                                                          color: AppResources
+                                                              .colorDark),
+                                                  decoration: InputDecoration(
+                                                    filled: false,
+                                                    hintText: 'A propos de moi',
+                                                    hintStyle: Theme.of(context)
                                                         .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(color: AppResources.colorDark),
-                                                    decoration: InputDecoration(
-                                                      filled: false,
-                                                      hintText: 'A propos de moi',
-                                                      hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                      contentPadding: EdgeInsets.only(
-                                                          top: ResponsiveSize.calculateHeight(20, context),
-                                                          bottom:
-                                                          ResponsiveSize.calculateHeight(10, context)),
-                                                      // Adjust padding
-                                                      suffix: SizedBox(
-                                                          height:
-                                                          ResponsiveSize.calculateHeight(10, context)),
-                                                      enabledBorder: const UnderlineInputBorder(
-                                                        borderSide:
-                                                        BorderSide(color: AppResources.colorGray15),
-                                                      ),
-                                                      focusedBorder: const UnderlineInputBorder(
-                                                        borderSide:
-                                                        BorderSide(color: AppResources.colorGray15),
-                                                      ),
-                                                      errorBorder: const UnderlineInputBorder(
-                                                        borderSide: BorderSide(color: Colors.red),
-                                                      ),
+                                                        .bodyMedium,
+                                                    contentPadding: EdgeInsets.only(
+                                                        top: ResponsiveSize
+                                                            .calculateHeight(
+                                                                20, context),
+                                                        bottom: ResponsiveSize
+                                                            .calculateHeight(
+                                                                10, context)),
+                                                    // Adjust padding
+                                                    suffix: SizedBox(
+                                                        height: ResponsiveSize
+                                                            .calculateHeight(
+                                                                10, context)),
+                                                    enabledBorder:
+                                                        const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: AppResources
+                                                              .colorGray15),
                                                     ),
-                                                    //onFieldSubmitted: (value) => validate(),
-                                                    validator: AppResources.validatorNotEmpty,
-                                                    //onSaved: (value) => bloc.name = value,
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        validationMessageDescription =
-                                                            AppResources.validatorNotEmpty(value);
-                                                        updateFormValidity();
-                                                      });
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 53),
-                                              Container(
-                                                width: ResponsiveSize.calculateWidth(319, context),
-                                                height: ResponsiveSize.calculateHeight(44, context),
-                                                child: TextButton(
-                                                  style: ButtonStyle(
-                                                    padding:
-                                                    MaterialStateProperty.all<EdgeInsets>(
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                    backgroundColor: MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                                    shape: MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                      RoundedRectangleBorder(
-                                                        side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                        borderRadius: BorderRadius.circular(40),
-                                                      ),
+                                                    focusedBorder:
+                                                        const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: AppResources
+                                                              .colorGray15),
+                                                    ),
+                                                    errorBorder:
+                                                        const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.red),
                                                     ),
                                                   ),
-                                                  child: Text(
-                                                    'ENREGISTRER',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(color: AppResources.colorDark),
-                                                  ),
-                                                  onPressed: () async {
-                                                    // Call the asynchronous operation and handle its completion
-                                                    AppService.api.updateDescription(_textEditingControllerDescription.text).then((_) {
-                                                      // Optionally, you can perform additional actions after the operation completes
-                                                      Navigator.pop(context);
-                                                    }).catchError((error) {
-                                                      // Handle any errors that occur during the asynchronous operation
-                                                      print('Error: $error');
-                                                      Navigator.pop(context);
-                                                      if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                                        showMessage(context, error.toString());
-                                                      }
-
+                                                  //onFieldSubmitted: (value) => validate(),
+                                                  validator: AppResources
+                                                      .validatorNotEmpty,
+                                                  //onSaved: (value) => bloc.name = value,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      validationMessageDescription =
+                                                          AppResources
+                                                              .validatorNotEmpty(
+                                                                  value);
+                                                      updateFormValidity();
                                                     });
                                                   },
                                                 ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 53),
+                                            Container(
+                                              width:
+                                                  ResponsiveSize.calculateWidth(
+                                                      319, context),
+                                              height: ResponsiveSize
+                                                  .calculateHeight(44, context),
+                                              child: TextButton(
+                                                style: ButtonStyle(
+                                                  padding: MaterialStateProperty.all<
+                                                          EdgeInsets>(
+                                                      EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              ResponsiveSize
+                                                                  .calculateWidth(
+                                                                      24,
+                                                                      context),
+                                                          vertical: ResponsiveSize
+                                                              .calculateHeight(
+                                                                  12,
+                                                                  context))),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.transparent),
+                                                  shape:
+                                                      MaterialStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                          width: 1,
+                                                          color: AppResources
+                                                              .colorDark),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'ENREGISTRER',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.copyWith(
+                                                          color: AppResources
+                                                              .colorDark),
+                                                ),
+                                                onPressed: () async {
+                                                  // Call the asynchronous operation and handle its completion
+                                                  AppService.api
+                                                      .updateDescription(
+                                                          _textEditingControllerDescription
+                                                              .text)
+                                                      .then((_) {
+                                                    // Optionally, you can perform additional actions after the operation completes
+                                                    Navigator.pop(context);
+                                                  }).catchError((error) {
+                                                    // Handle any errors that occur during the asynchronous operation
+                                                    print('Error: $error');
+                                                    Navigator.pop(context);
+                                                    if (error.toString() !=
+                                                        "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                      showMessage(context,
+                                                          error.toString());
+                                                    }
+                                                  });
+                                                },
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              }
-                          );
-                        },
-                        child: Container(
-                          width: ResponsiveSize.calculateWidth(336, context),
-                          height: ResponsiveSize.calculateHeight(163, context),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(8, context))),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: ResponsiveSize.calculateWidth(72, context),
-                                    height: ResponsiveSize.calculateHeight(72, context),
-                                    decoration: ShapeDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(userInfo.profilePath),
-                                        fit: BoxFit.cover,
                                       ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(162.50, context)),
-                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            });
+                      },
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(336, context),
+                        height: ResponsiveSize.calculateHeight(163, context),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  ResponsiveSize.calculateCornerRadius(
+                                      8, context))),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: ResponsiveSize.calculateWidth(
+                                      72, context),
+                                  height: ResponsiveSize.calculateHeight(
+                                      72, context),
+                                  decoration: ShapeDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(userInfo.profilePath),
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                  SizedBox(width: ResponsiveSize.calculateWidth(13, context),),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        userInfo.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall
-                                            ?.copyWith(color: AppResources.colorDark),
-                                      ),
-                                      SizedBox(width: ResponsiveSize.calculateHeight(6, context),),
-                                      Text(
-                                        'Modifier mon profil',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(fontSize: 12, color: AppResources.colorGray45),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: ResponsiveSize.calculateWidth(80, context),),
-                                  Image.asset('images/chevron_right.png', width: 27, height: 27, fit: BoxFit.fill),
-                                ],
-                              ),
-                              SizedBox(height: ResponsiveSize.calculateHeight(12, context)),
-                              Container(
-                                width: ResponsiveSize.calculateWidth(319, context),
-                                height: ResponsiveSize.calculateHeight(52, context),
-                                padding: const EdgeInsets.all(4),
-                                decoration: ShapeDecoration(
-                                  color: AppResources.colorGray5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          ResponsiveSize.calculateCornerRadius(
+                                              162.50, context)),
+                                    ),
                                   ),
                                 ),
-                                child: isGuide ? buildGuideUI() : buildVoyageurUI(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
-                      /// Messages Alerts
-                      Visibility(
-                        visible: (userInfo.hasUpdatedHesSchedule == false && userInfo.IBAN == null),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(8, context)),
-                          child: Container(
-                            height: ResponsiveSize.calculateHeight(85, context),
-                            padding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(12, context),
-                              left: ResponsiveSize.calculateWidth(12, context),
-                              right: ResponsiveSize.calculateWidth(12, context),
-                              bottom: ResponsiveSize.calculateHeight(16, context),
-                            ),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(width: 1, color: AppResources.colorVitamine),
-                                borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(8, context)),
-                              ),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset('images/info_icon.png'),
-                                SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+                                SizedBox(
+                                  width: ResponsiveSize.calculateWidth(
+                                      13, context),
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Vous avez plusieurs informations à compléter :\n',
+                                      userInfo.name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodySmall
-                                          ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorVitamine, height: 0.14),
+                                          .headlineSmall
+                                          ?.copyWith(
+                                              color: AppResources.colorDark),
                                     ),
-                                    Visibility(
-                                      visible: userInfo.hasUpdatedHesSchedule == false,
-                                      child: Text(
-                                        '   .   Renseigner vos disponibilités',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorVitamine, height: 0.14),
-                                      ),
+                                    SizedBox(
+                                      width: ResponsiveSize.calculateHeight(
+                                          6, context),
                                     ),
-                                    Visibility(
-                                      visible: userInfo.IBAN == null,
-                                      child: Text(
-                                        '   .   Renseigner votre RIB',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorVitamine, height: 0.14),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: userInfo.IBAN == null,
-                                      child: Text(
-                                        '   .   Renseigner votre moyen de paiement',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorVitamine, height: 0.14),
-                                      ),
+                                    Text(
+                                      'Modifier mon profil',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontSize: 12,
+                                              color: AppResources.colorGray45),
                                     ),
                                   ],
-                                )
+                                ),
+                                SizedBox(
+                                  width: ResponsiveSize.calculateWidth(
+                                      80, context),
+                                ),
+                                Image.asset('images/chevron_right.png',
+                                    width: 27, height: 27, fit: BoxFit.fill),
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(8.0, context)),
-                        child: Column(
-                          children: [
-                            sectionProfile('Mes disponibilités', Icons.calendar_month, () {
-                              navigateTo(context, (_) => const AvailabilitiesPage());
-                            }),
-                            sectionProfile('Mon compte', Icons.person, () {
-                              navigateTo(context, (_) => MyAccountPage(iBAN: userInfo.IBAN, email: userInfo.email));
-                            }),
-                            sectionProfile('Demandes archivées', Icons.bookmark, () {
-                              navigateTo(context, (_) => const ArchivedRequestsPage());
-                            }),
-                            sectionProfile('Notifications & newsletters', Icons.notifications, () {
-                              navigateTo(context, (_) => const NotificationsNewslettersPage());
-                            }),
-                            sectionProfile('Aide & assistance', Icons.contact_support, () {
-                              navigateTo(context, (_) => const HelpSupportPage());
-                            }),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(
+                                    12, context)),
+                            Container(
+                              width:
+                                  ResponsiveSize.calculateWidth(319, context),
+                              height:
+                                  ResponsiveSize.calculateHeight(52, context),
+                              padding: const EdgeInsets.all(4),
+                              decoration: ShapeDecoration(
+                                color: AppResources.colorGray5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      ResponsiveSize.calculateCornerRadius(
+                                          40, context)),
+                                ),
+                              ),
+                              child:
+                                  isGuide ? buildGuideUI() : buildVoyageurUI(),
+                            ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context)),
-                        child: TextButton(
-                          onPressed: AppService.instance.logOut,
-                          child: Text(
-                            'Se déconnecter',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorDark, decoration: TextDecoration.underline),
+                    ),
+                    SizedBox(
+                        height: ResponsiveSize.calculateHeight(24, context)),
+
+                    /// Messages Alerts
+                    Visibility(
+                      visible: (userInfo.hasUpdatedHesSchedule == false &&
+                          userInfo.IBAN == null),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                ResponsiveSize.calculateWidth(8, context)),
+                        child: Container(
+                          height: ResponsiveSize.calculateHeight(85, context),
+                          padding: EdgeInsets.only(
+                            top: ResponsiveSize.calculateHeight(12, context),
+                            left: ResponsiveSize.calculateWidth(12, context),
+                            right: ResponsiveSize.calculateWidth(12, context),
+                            bottom: ResponsiveSize.calculateHeight(16, context),
+                          ),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: AppResources.colorVitamine),
+                              borderRadius: BorderRadius.circular(
+                                  ResponsiveSize.calculateCornerRadius(
+                                      8, context)),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset('images/info_icon.png'),
+                              SizedBox(
+                                  width: ResponsiveSize.calculateWidth(
+                                      8, context)),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Vous avez plusieurs informations à compléter :\n',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppResources.colorVitamine,
+                                            height: 0.14),
+                                  ),
+                                  Visibility(
+                                    visible:
+                                        userInfo.hasUpdatedHesSchedule == false,
+                                    child: Text(
+                                      '   .   Renseigner vos disponibilités',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppResources.colorVitamine,
+                                              height: 0.14),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: userInfo.IBAN == null,
+                                    child: Text(
+                                      '   .   Renseigner votre RIB',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppResources.colorVitamine,
+                                              height: 0.14),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: userInfo.IBAN == null,
+                                    child: Text(
+                                      '   .   Renseigner votre moyen de paiement',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppResources.colorVitamine,
+                                              height: 0.14),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              ResponsiveSize.calculateWidth(8.0, context)),
+                      child: Column(
+                        children: [
+                          sectionProfile(
+                              'Mes disponibilités', Icons.calendar_month, () {
+                            navigateTo(
+                                context, (_) => const AvailabilitiesPage());
+                          }),
+                          sectionProfile('Mon compte', Icons.person, () {
+                            //navigateTo(context, (_) => MyAccountPage(iBAN: userInfo.IBAN, email: userInfo.email));
+                            Navigator.of(context)
+                                .push(
+                              MaterialPageRoute(
+                                  builder: (_) => MyAccountPage(
+                                      iBAN: userInfo.IBAN,
+                                      email: userInfo.email)),
+                            )
+                                .then((_) {
+                              // This code runs after returning from MyAccountPage
+                              _userInfoFuture = AppService.api
+                                  .getUserInfo(); // Refresh user info
+                              setState(
+                                  () {}); // Trigger a rebuild to reflect changes
+                            });
+                          }),
+                          sectionProfile('Demandes archivées', Icons.bookmark,
+                              () {
+                            navigateTo(
+                                context, (_) => const ArchivedRequestsPage());
+                          }),
+                          sectionProfile('Notifications & newsletters',
+                              Icons.notifications, () {
+                            navigateTo(context,
+                                (_) => const NotificationsNewslettersPage());
+                          }),
+                          sectionProfile(
+                              'Aide & assistance', Icons.contact_support, () {
+                            navigateTo(context, (_) => const HelpSupportPage());
+                          }),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              ResponsiveSize.calculateWidth(24, context)),
+                      child: TextButton(
+                        onPressed: AppService.instance.logOut,
+                        child: Text(
+                          'Se déconnecter',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppResources.colorDark,
+                                  decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            );
-          }
-        },
-      )
-    );
+            ),
+          );
+        }
+      },
+    ));
   }
 
-  Widget sectionProfile(String title, IconData icon, VoidCallback onTapCallback) {
+  Widget sectionProfile(
+      String title, IconData icon, VoidCallback onTapCallback) {
     return GestureDetector(
       onTap: onTapCallback,
       child: Column(
@@ -427,15 +568,22 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             children: [
               Row(
                 children: [
-                  Icon(icon, size: 16,),
+                  Icon(
+                    icon,
+                    size: 16,
+                  ),
                   SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppResources.colorDark),
                   )
                 ],
               ),
-              Image.asset('images/chevron_right.png', width: 27, height: 27, fit: BoxFit.fill),
+              Image.asset('images/chevron_right.png',
+                  width: 27, height: 27, fit: BoxFit.fill),
             ],
           ),
           SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
@@ -466,7 +614,10 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             child: Center(
               child: Text(
                 'Voyageur',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray45),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppResources.colorGray45),
               ),
             ),
           ),
@@ -480,7 +631,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
               color: AppResources.colorWhite,
               shape: RoundedRectangleBorder(
                 side: BorderSide(width: 2, color: AppResources.colorVitamine),
-                borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                borderRadius: BorderRadius.circular(
+                    ResponsiveSize.calculateCornerRadius(40, context)),
               ),
             ),
             child: Row(
@@ -491,7 +643,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                 SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
                 Text(
                   'Guide',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorVitamine, fontSize: 14),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppResources.colorVitamine, fontSize: 14),
                 ),
               ],
             ),
@@ -513,7 +666,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
               color: AppResources.colorWhite,
               shape: RoundedRectangleBorder(
                 side: BorderSide(width: 2, color: AppResources.colorVitamine),
-                borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                borderRadius: BorderRadius.circular(
+                    ResponsiveSize.calculateCornerRadius(40, context)),
               ),
             ),
             child: Row(
@@ -524,7 +678,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                 SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
                 Text(
                   'Voyageur',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorVitamine, fontSize: 14),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppResources.colorVitamine, fontSize: 14),
                 ),
               ],
             ),
@@ -538,7 +693,10 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             child: Center(
               child: Text(
                 'Guide',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray45),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppResources.colorGray45),
               ),
             ),
           ),
