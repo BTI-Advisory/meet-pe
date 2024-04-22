@@ -557,7 +557,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
 
   Widget sectionProfile(
       String title, IconData icon, VoidCallback onTapCallback) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTapCallback,
       child: Column(
         children: [
