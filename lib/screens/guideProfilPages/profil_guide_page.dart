@@ -248,6 +248,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                               .colorDark),
                                                 ),
                                                 onPressed: () async {
+                                                  showMessage(context, 'Un mot sur toi est enregistrée');
                                                   // Call the asynchronous operation and handle its completion
                                                   AppService.api
                                                       .updateDescription(

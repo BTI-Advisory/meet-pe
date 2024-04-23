@@ -392,16 +392,16 @@ class _ItemState extends State<Item> {
           child: Center(
             child: Row(
               children: [
-                ///Todo: remove the coment when the image became in server
-                /*Image.network(
+                Image.network(
                   widget.image,
+                  //'https://rec1-meetpe.neway-esoft.com/svgs/${widget.image}.png',
                   width: 10,
                   height: 10,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,
                 ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),*/
+                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
                   textAlign: TextAlign.center,

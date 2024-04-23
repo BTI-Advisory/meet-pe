@@ -283,6 +283,7 @@ class Item extends StatefulWidget {
 class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
+    print(widget.image);
     return GestureDetector(
       onTap: widget.onTap,
       child: IntrinsicWidth(
@@ -300,8 +301,7 @@ class _ItemState extends State<Item> {
           child: Center(
             child: Row(
               children: [
-                ///Todo: remove the coment when the image became in server
-                /*if(widget.image != '')
+                if(widget.image != '')
                 Image.network(
                   widget.image,
                   width: 16,
@@ -310,7 +310,7 @@ class _ItemState extends State<Item> {
                       ? Colors.white
                       : AppResources.colorGray100,
                 ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),*/
+                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
                   textAlign: TextAlign.center,
