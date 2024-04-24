@@ -73,48 +73,12 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Image.asset(
-                    'images/backgroundExp2.png',
-                    width: double.infinity,
-                    fit: BoxFit.fill,
-                    height: ResponsiveSize.calculateHeight(190, context),
-                  ),
-                  Positioned(
-                    top: 48,
-                    left: 28,
-                    child: Container(
-                      width: ResponsiveSize.calculateWidth(32, context),
-                      height: ResponsiveSize.calculateHeight(32, context),
-                      //padding: const EdgeInsets.all(10),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              ResponsiveSize.calculateCornerRadius(
-                                  40, context)),
-                        ),
-                      ),
-                      child: FloatingActionButton(
-                          backgroundColor: AppResources.colorWhite,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            String.fromCharCode(CupertinoIcons.back.codePoint),
-                            style: TextStyle(
-                              inherit: false,
-                              color: AppResources.colorVitamine,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: CupertinoIcons
-                                  .exclamationmark_circle.fontFamily,
-                              package: CupertinoIcons
-                                  .exclamationmark_circle.fontPackage,
-                            ),
-                          )),
-                    ),
-                  ),
-                ]),
+                Image.asset(
+                  'images/backgroundExp2.png',
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  height: ResponsiveSize.calculateHeight(190, context),
+                ),
                 SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 28.0),

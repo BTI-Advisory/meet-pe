@@ -96,49 +96,12 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(children: [
-                        Image.asset(
-                          'images/backgroundExp5.png',
-                          width: double.infinity,
-                          fit: BoxFit.fill,
-                          height: ResponsiveSize.calculateHeight(190, context),
-                        ),
-                        Positioned(
-                          top: 48,
-                          left: 28,
-                          child: Container(
-                            width: ResponsiveSize.calculateWidth(32, context),
-                            height: ResponsiveSize.calculateHeight(32, context),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    ResponsiveSize.calculateCornerRadius(
-                                        40, context)),
-                              ),
-                            ),
-                            child: FloatingActionButton(
-                                heroTag: "btn1",
-                                backgroundColor: AppResources.colorWhite,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  String.fromCharCode(
-                                      CupertinoIcons.back.codePoint),
-                                  style: TextStyle(
-                                    inherit: false,
-                                    color: AppResources.colorVitamine,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: CupertinoIcons
-                                        .exclamationmark_circle.fontFamily,
-                                    package: CupertinoIcons
-                                        .exclamationmark_circle.fontPackage,
-                                  ),
-                                )),
-                          ),
-                        ),
-                      ]),
+                      Image.asset(
+                        'images/backgroundExp5.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                        height: ResponsiveSize.calculateHeight(190, context),
+                      ),
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(40, context)),
                       Padding(

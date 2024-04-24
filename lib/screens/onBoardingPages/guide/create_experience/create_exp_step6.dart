@@ -103,35 +103,6 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    width:
-                                    ResponsiveSize.calculateWidth(24, context),
-                                    height:
-                                    ResponsiveSize.calculateHeight(24, context),
-                                    child: FloatingActionButton(
-                                      backgroundColor: AppResources.colorWhite,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        String.fromCharCode(
-                                            CupertinoIcons.back.codePoint),
-                                        style: TextStyle(
-                                          inherit: false,
-                                          color: AppResources.colorVitamine,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w900,
-                                          fontFamily: CupertinoIcons
-                                              .exclamationmark_circle.fontFamily,
-                                          package: CupertinoIcons
-                                              .exclamationmark_circle.fontPackage,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: ResponsiveSize.calculateWidth(
-                                          8, context)),
                                   Text(
                                     'Mode visualisation',
                                     style: Theme.of(context)
