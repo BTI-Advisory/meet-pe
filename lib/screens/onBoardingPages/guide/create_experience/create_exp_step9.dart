@@ -283,7 +283,6 @@ class Item extends StatefulWidget {
 class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
-    print(widget.image);
     return GestureDetector(
       onTap: widget.onTap,
       child: IntrinsicWidth(

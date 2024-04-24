@@ -32,7 +32,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
     _textEditingControllerPrice.addListener(_onTextChanged);
     _textEditingControllerPriceGroup = TextEditingController();
     _textEditingControllerPriceGroup.addListener(_onTextChanged);
-    _textEditingControllerPrice.text = valueSlider.toString();
+    _textEditingControllerPrice.text = valueSlider.toInt().toString();
   }
 
   @override
@@ -66,7 +66,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
     });
   }
 
-  void updateDuration(double value) {
+  void updatePrice(double value) {
     setState(() {
       valueSlider = value;
       //bloc.updateDuration(value); // Call the method to update duration in bloc
@@ -165,9 +165,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 52,
-                              height: 40,
+                            IntrinsicWidth(
                               child: TextFormField(
                                 controller: _textEditingControllerPrice,
                                 keyboardType: TextInputType.number,
@@ -199,7 +197,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   setState(() {
                                     double parsedValue = double.tryParse(value) ?? 15; // Default to min value if empty or not a number
                                     valueSlider = parsedValue.clamp(15, 500); // Ensure value stays within range
-                                    _textEditingControllerPriceGroup.text = valueSlider.toStringAsFixed(2);
+                                    //_textEditingControllerPrice.text = valueSlider.toStringAsFixed(2);
                                   });
                                 },
                                 validator: (value) {
@@ -212,7 +210,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             ),
                             Slider(
                               value: valueSlider,
-                              min: 0,
+                              min: 15,
                               max: 500,
                               divisions: 10,
                               label: '${valueSlider.round().toString()} €',
@@ -220,7 +218,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                 setState(() {
                                   valueSlider = value;
                                   _textEditingControllerPrice.text = value.round().toString();
-                                  updateDuration(value);
+                                  updatePrice(value);
                                 });
                               },
                             ),
@@ -234,7 +232,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Revenus estimés ${(valueSlider * 0.82).toStringAsFixed(2)} €/pers',
+                                'Revenus estimés ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                               ),
                               const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
@@ -361,9 +359,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                     'Prix Groupe Privé',
                                     style: Theme.of(context).textTheme.bodyMedium,
                                   ),
-                                  Container(
-                                    width: 52,
-                                    height: 40,
+                                  IntrinsicWidth(
                                     child: TextFormField(
                                       controller: _textEditingControllerPriceGroup,
                                       keyboardType: TextInputType.number,
@@ -459,7 +455,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             ),
                           ),
                           onPressed: () {
-                            if(valueSlider<15) {
+                            if(valueSlider<15 || (int.tryParse(_textEditingControllerPrice.text) ?? 15)<15) {
                               showMessage(context, 'Le prix doit minimum 15€');
                             } else {
                               widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
