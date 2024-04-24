@@ -242,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                                 context,
                                                                 (_) => const WebViewContainer(
                                                                     webUrl:
-                                                                        'https://youtube.com'));
+                                                                        'https://rec1-meetpe.neway-esoft.com/conditions-generales'));
                                                           },
                                                   ),
                                                   const TextSpan(
@@ -291,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                               context,
                                                               (_) => const WebViewContainer(
                                                                   webUrl:
-                                                                      'https://amazon.com'));
+                                                                      'https://rec1-meetpe.neway-esoft.com/privacy'));
                                                         },
                                                 ),
                                                 const TextSpan(
