@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://rec1-meetpe.neway-esoft.com/conditions-generales'));
+                              navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/conditions-generales'));
                             },
                           ),
                           const TextSpan(
@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://rec1-meetpe.neway-esoft.com/privacy'));
+                                navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/privacy'));
                               },
                           ),
                           const TextSpan(
