@@ -8,15 +8,19 @@ import 'package:table_calendar/table_calendar.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 
-class ExceptionalAbsences extends StatefulWidget {
-  const ExceptionalAbsences({super.key});
+class ModifyExceptionalAbsences extends StatefulWidget {
+  ModifyExceptionalAbsences({super.key, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour});
+  String firstFormatDate;
+  String lastFormatDate;
+  String startHour;
+  String endHour;
 
   @override
-  State<ExceptionalAbsences> createState() => _ExceptionalAbsencesState();
+  State<ModifyExceptionalAbsences> createState() => _ModifyExceptionalAbsencesState();
 }
 
-class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
-    with BlocProvider<ExceptionalAbsences, ExceptionalAbsencesBloc> {
+class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
+    with BlocProvider<ModifyExceptionalAbsences, ExceptionalAbsencesBloc> {
   @override
   initBloc() => ExceptionalAbsencesBloc();
 
@@ -31,6 +35,15 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
   String hourAvailableEnd = '';
 
   bool isRangeSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _rangeStart  = DateTime.parse(widget.firstFormatDate);
+    _rangeEnd  = DateTime.parse(widget.lastFormatDate);
+    hourAvailableStart = widget.startHour;
+    hourAvailableEnd = widget.endHour;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +76,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                               .textTheme
                               .bodyLarge
                               ?.copyWith(
-                                  fontSize: 12, color: const Color(0xFF979797)),
+                              fontSize: 12, color: const Color(0xFF979797)),
                         ),
                         const SizedBox(height: 31),
                         Container(
@@ -90,8 +103,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   .textTheme
                                   .bodyLarge!
                                   .copyWith(
-                                      color: AppResources.colorDark,
-                                      fontWeight: FontWeight.w700),
+                                  color: AppResources.colorDark,
+                                  fontWeight: FontWeight.w700),
                               formatButtonShowsNext: false,
                               formatButtonVisible: false,
                               titleCentered: true,
@@ -165,8 +178,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   .textTheme
                                   .headlineSmall!
                                   .copyWith(
-                                      fontSize: 14,
-                                      color: AppResources.colorVitamine),
+                                  fontSize: 14,
+                                  color: AppResources.colorVitamine),
                               rangeEndDecoration: BoxDecoration(
                                 color: AppResources.colorWhite,
                                 shape: BoxShape.circle,
@@ -179,8 +192,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   .textTheme
                                   .headlineSmall!
                                   .copyWith(
-                                      fontSize: 14,
-                                      color: AppResources.colorVitamine),
+                                  fontSize: 14,
+                                  color: AppResources.colorVitamine),
                               rangeHighlightColor: AppResources.colorVitamine
                                   .withOpacity(0x44 / 0xFF),
                             ),
@@ -216,13 +229,13 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                       showTitleActions: true,
                                       showSecondsColumn: false,
                                       onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                    setState(() {
-                                      hourAvailableStart = DateFormat('hh:mm:ss').format(date);
-                                    });
-                                  }, locale: LocaleType.fr);
+                                        print('change $date');
+                                      }, onConfirm: (date) {
+                                        print('confirm $date');
+                                        setState(() {
+                                          hourAvailableStart = DateFormat('hh:mm:ss').format(date);
+                                        });
+                                      }, locale: LocaleType.fr);
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,8 +258,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                               .textTheme
                                               .bodyLarge
                                               ?.copyWith(
-                                                  color:
-                                                      AppResources.colorDark),
+                                              color:
+                                              AppResources.colorDark),
                                         );
                                       },
                                     ),
@@ -292,8 +305,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                               .textTheme
                                               .bodyLarge
                                               ?.copyWith(
-                                                  color:
-                                                      AppResources.colorDark),
+                                              color:
+                                              AppResources.colorDark),
                                         );
                                       },
                                     ),
@@ -304,155 +317,114 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                       showTitleActions: true,
                                       showSecondsColumn: false,
                                       onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                    setState(() {
-                                      hourAvailableEnd = DateFormat('hh:mm:ss').format(date);
-                                    });
-                                  }, locale: LocaleType.fr);
+                                        print('change $date');
+                                      }, onConfirm: (date) {
+                                        print('confirm $date');
+                                        setState(() {
+                                          hourAvailableEnd = DateFormat('hh:mm:ss').format(date);
+                                        });
+                                      }, locale: LocaleType.fr);
                                 },
                               ),
                             )
                           ],
                         ),
                         const SizedBox(height: 47),
-                        isRangeSelected
-                            ? Row(
-                                children: [
-                                  Container(
-                                    width: 145,
-                                    height: 44,
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            EdgeInsets.symmetric(
-                                                horizontal: ResponsiveSize
-                                                    .calculateWidth(
-                                                        24, context),
-                                                vertical: ResponsiveSize
-                                                    .calculateHeight(
-                                                        12, context))),
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.transparent),
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                width: 1,
-                                                color: AppResources.colorDark),
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        'SUPPRIMER',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                                color: AppResources.colorDark),
-                                      ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 145,
+                              height: 44,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          horizontal: ResponsiveSize
+                                              .calculateWidth(
+                                              24, context),
+                                          vertical: ResponsiveSize
+                                              .calculateHeight(
+                                              12, context))),
+                                  backgroundColor:
+                                  MaterialStateProperty.all(
+                                      Colors.transparent),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          width: 1,
+                                          color: AppResources.colorDark),
+                                      borderRadius:
+                                      BorderRadius.circular(40),
                                     ),
                                   ),
-                                  const SizedBox(width: 29),
-                                  Container(
-                                    width: 145,
-                                    height: 44,
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            EdgeInsets.symmetric(
-                                                horizontal: ResponsiveSize
-                                                    .calculateWidth(
-                                                        24, context),
-                                                vertical: ResponsiveSize
-                                                    .calculateHeight(
-                                                        12, context))),
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.transparent),
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                width: 1,
-                                                color: AppResources.colorDark),
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        bloc.hourAvailableStart = hourAvailableStart;
-                                        bloc.hourAvailableEnd = hourAvailableEnd;
-                                        if(_rangeStart != null) {
-                                          bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
-                                        }
-                                        if(_rangeEnd != null) {
-                                          bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
-                                        }
-                                        validate();
-                                      },
-                                      child: Text(
-                                        'ENREGISTRER',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                                color: AppResources.colorDark),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            : Container(
-                                width:
-                                    ResponsiveSize.calculateWidth(319, context),
-                                height:
-                                    ResponsiveSize.calculateHeight(44, context),
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty
-                                        .all<EdgeInsets>(EdgeInsets.symmetric(
-                                            horizontal:
-                                                ResponsiveSize.calculateWidth(
-                                                    24, context),
-                                            vertical:
-                                                ResponsiveSize.calculateHeight(
-                                                    12, context))),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.transparent),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 1,
-                                            color: AppResources.colorDark),
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'ENREGISTRER',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            color: AppResources.colorDark),
-                                  ),
-                                  onPressed: () {
-                                    showMessage(context, 'Select date!');
-                                  },
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'SUPPRIMER',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                      color: AppResources.colorDark),
                                 ),
                               ),
+                            ),
+                            const SizedBox(width: 29),
+                            Container(
+                              width: 145,
+                              height: 44,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          horizontal: ResponsiveSize
+                                              .calculateWidth(
+                                              24, context),
+                                          vertical: ResponsiveSize
+                                              .calculateHeight(
+                                              12, context))),
+                                  backgroundColor:
+                                  MaterialStateProperty.all(
+                                      Colors.transparent),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          width: 1,
+                                          color: AppResources.colorDark),
+                                      borderRadius:
+                                      BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  bloc.hourAvailableStart = hourAvailableStart;
+                                  bloc.hourAvailableEnd = hourAvailableEnd;
+                                  if(_rangeStart != null) {
+                                    bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
+                                  }
+                                  if(_rangeEnd != null) {
+                                    bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
+                                  }
+                                  validate();
+                                },
+                                child: Text(
+                                  'ENREGISTRER',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                      color: AppResources.colorDark),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                         const SizedBox(height: 73),
                       ],
                     ),
@@ -475,7 +447,7 @@ class ExceptionalAbsencesBloc with Disposable {
   Future<bool> sendScheduleAbsence() async {
     // Create a TimeSlot object
     TimeSlot timeSlot =
-        TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
+    TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
 
     // Create a list of TimeSlot objects
     List<TimeSlot> times = [timeSlot];

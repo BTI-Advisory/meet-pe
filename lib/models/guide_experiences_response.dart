@@ -7,7 +7,7 @@ class GuideExperiencesResponse {
   final String dure;
   final String? prixParVoyageur;
   //final String? inclus;
-  final String? nombreDesVoyageurs;
+  final int? nombreDesVoyageurs;
   //final String? typeDesVoyageurs;
   final String? ville;
   final String? addresse;
@@ -61,7 +61,7 @@ class GuideExperiencesResponse {
       description: json?['description'] ?? '',
       dure: json?['dure'] ?? '',
       prixParVoyageur: json?['prix_par_voyageur'] ?? '',
-      nombreDesVoyageurs: json?['nombre_des_voyageur'] ?? '',
+      nombreDesVoyageurs: json?['nombre_des_voyageur'] ?? 0,
       ville: json?['ville'] ?? '',
       addresse: json?['addresse'] ?? '',
       codePostale: json?['code_postale'] ?? '',
