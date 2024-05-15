@@ -16,7 +16,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const EpAppBar(
-        title: 'Aide & Assistance',
+        title: 'FAQ & Assistance',
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -28,7 +28,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Aide',
+                    'FAQ',
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
