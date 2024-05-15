@@ -220,7 +220,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   }, onConfirm: (date) {
                                     print('confirm $date');
                                     setState(() {
-                                      hourAvailableStart = DateFormat('hh:mm:ss').format(date);
+                                      hourAvailableStart = DateFormat('HH:mm').format(date);
                                     });
                                   }, locale: LocaleType.fr);
                                 },
@@ -308,7 +308,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   }, onConfirm: (date) {
                                     print('confirm $date');
                                     setState(() {
-                                      hourAvailableEnd = DateFormat('hh:mm:ss').format(date);
+                                      hourAvailableEnd = DateFormat('HH:mm').format(date);
                                     });
                                   }, locale: LocaleType.fr);
                                 },

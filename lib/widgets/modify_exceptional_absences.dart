@@ -228,17 +228,20 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                               ),
                               child: GestureDetector(
                                 onTap: () {
-                                  /*DatePicker.showTimePicker(context,
-                                      showTitleActions: true,
-                                      showSecondsColumn: false,
-                                      onChanged: (date) {
-                                        print('change $date');
-                                      }, onConfirm: (date) {
-                                        print('confirm $date');
-                                        setState(() {
-                                          hourAvailableStart = DateFormat('hh:mm:ss').format(date);
-                                        });
-                                      }, locale: LocaleType.fr);*/
+                                  print('FJRFJRFJJRFJRJF HELLLLOO $_rangeEnd');
+                                  if(DateFormat('yyyy-MM-dd').format(_rangeEnd!) != '') {
+                                    DatePicker.showTimePicker(context,
+                                        showTitleActions: true,
+                                        showSecondsColumn: false,
+                                        onChanged: (date) {
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourAvailableStart = DateFormat('HH:mm:ss').format(date);
+                                          });
+                                        }, locale: LocaleType.fr);
+                                  }
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,17 +319,19 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   ],
                                 ),
                                 onTap: () {
-                                  /*DatePicker.showTimePicker(context,
-                                      showTitleActions: true,
-                                      showSecondsColumn: false,
-                                      onChanged: (date) {
-                                        print('change $date');
-                                      }, onConfirm: (date) {
-                                        print('confirm $date');
-                                        setState(() {
-                                          hourAvailableEnd = DateFormat('hh:mm:ss').format(date);
-                                        });
-                                      }, locale: LocaleType.fr);*/
+                                  if(DateFormat('yyyy-MM-dd').format(_rangeEnd!) != '') {
+                                    DatePicker.showTimePicker(context,
+                                        showTitleActions: true,
+                                        showSecondsColumn: false,
+                                        onChanged: (date) {
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourAvailableEnd = DateFormat('HH:mm:ss').format(date);
+                                          });
+                                        }, locale: LocaleType.fr);
+                                  }
                                 },
                               ),
                             )
