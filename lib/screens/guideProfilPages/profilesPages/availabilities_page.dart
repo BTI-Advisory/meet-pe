@@ -209,7 +209,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         ),
                         const SizedBox(height: 17),
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et par defaut toutes nos expériences sont disponibles en français',
+                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci le voyageur ne pourra pas réserver d’expérience.',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w500,
                               color: AppResources.colorGray30),
