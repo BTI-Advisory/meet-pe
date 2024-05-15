@@ -6,6 +6,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import '../../../widgets/modify_exceptional_absences.dart';
 
 class AvailabilitiesPage extends StatefulWidget {
   const AvailabilitiesPage({super.key});
@@ -244,13 +245,13 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                   final formattedStartDate = yearsFrenchFormat(startDate!);
                   final endDate = absence.dateTo;
                   final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+                  return listExceptionalAbsences(formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
                 } else {
                   final startDate = absence.day;
                   final formattedStartDate = yearsFrenchFormat(startDate!);
                   final endDate = absence.day;
                   final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(formattedStartDate, formattedEndDate);
+                  return listExceptionalAbsences(formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
                 }
               }).toList(),
             ),
@@ -260,38 +261,49 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     );
   }
 
-  Widget listExceptionalAbsences(String startDate, String endDate) {
-    return Column(
-      children: [
-        const SizedBox(height: 19),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 31),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Du $startDate au $endDate',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
-              ),
-              Image.asset('images/chevron_right.png',
-                  width: 27, height: 27, fit: BoxFit.fill),
-            ],
-          ),
-        ),
-        const SizedBox(height: 19),
-        Container(
-          width: 390,
-          decoration: const ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: 1,
-                strokeAlign: BorderSide.strokeAlignCenter,
-                color: AppResources.colorImputStroke,
-              ),
+  Widget listExceptionalAbsences(String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          builder: (BuildContext context) {
+            return ModifyExceptionalAbsences(firstFormatDate: startFormatDate, lastFormatDate: endFormatDate, startHour: startHour, endHour: endHour,);
+          },
+        );
+      },
+      child: Column(
+        children: [
+          const SizedBox(height: 19),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 31),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Du $startDate au $endDate',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
+                ),
+                Image.asset('images/chevron_right.png',
+                    width: 27, height: 27, fit: BoxFit.fill),
+              ],
             ),
           ),
-        )
-      ],
+          const SizedBox(height: 19),
+          Container(
+            width: 390,
+            decoration: const ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1,
+                  strokeAlign: BorderSide.strokeAlignCenter,
+                  color: AppResources.colorImputStroke,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -341,7 +341,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                           6, context),
                                     ),
                                     Text(
-                                      'Modifier mon profil',
+                                      'Un petit mot sur toi \npour nos voyageurs.',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

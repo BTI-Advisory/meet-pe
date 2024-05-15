@@ -24,7 +24,7 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       dure: json['dure'] as String,
       prixParVoyageur: json['prix_par_voyageur'] as String?,
       inclus: json['inclus'] as String?,
-      nombreDesVoyageur: json['nombre_des_voyageur'] as String?,
+      nombreDesVoyageur: json['nombre_des_voyageur'] as int?,
       typeDesVoyageur: json['type_des_voyageur'] as String?,
       ville: json['ville'] as String?,
       addresse: json['addresse'] as String?,
