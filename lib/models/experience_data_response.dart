@@ -39,7 +39,7 @@ class ExperienceDataResponse {
   @JsonKey(name: 'prix_par_voyageur')
   final String prixParVoyageur;
   @JsonKey(name: 'nombre_des_voyageur')
-  final String nombreDesVoyageur;
+  final int nombreDesVoyageur;
   @JsonKey(name: 'ville')
   final String ville;
   @JsonKey(name: 'addresse')
