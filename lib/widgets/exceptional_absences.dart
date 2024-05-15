@@ -391,15 +391,19 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                         ),
                                       ),
                                       onPressed: () {
-                                        bloc.hourAvailableStart = hourAvailableStart;
-                                        bloc.hourAvailableEnd = hourAvailableEnd;
-                                        if(_rangeStart != null) {
-                                          bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
+                                        if (_rangeStart!.isBefore(DateTime.now())) {
+                                          bloc.hourAvailableStart = hourAvailableStart;
+                                          bloc.hourAvailableEnd = hourAvailableEnd;
+                                          if(_rangeStart != null) {
+                                            bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
+                                          }
+                                          if(_rangeEnd != null) {
+                                            bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
+                                          }
+                                          validate();
+                                        } else {
+                                          showMessage(context, 'Error date select');
                                         }
-                                        if(_rangeEnd != null) {
-                                          bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
-                                        }
-                                        validate();
                                       },
                                       child: Text(
                                         'ENREGISTRER',
