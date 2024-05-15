@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:info_popup/info_popup.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/popup_view.dart';
 
 import '../../../../resources/resources.dart';
@@ -35,6 +37,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
   String selectedImagePath4 = '';
   String selectedImagePath5 = '';
   final List<dynamic> _imageList = [];
+  bool imageSize = false;
 
   Future<void> pickImage(ImagePathCallback callback) async {
     // Your logic to pick an image goes here.
@@ -44,18 +47,31 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      // Do something with the picked image (e.g., upload or process it)
-      //File imageFile = File(pickedFile.path);
-      // Add your logic here to handle the selected image
+      if((await pickedFile.readAsBytes()).lengthInBytes > 10485760) {
+        imageSize = false;
+        showMessage(context, 'La taille de photo ne doit pas passe 10 MB');
+      } else {
+        // Do something with the picked image (e.g., upload or process it)
+        //File imageFile = File(pickedFile.path);
+        // Add your logic here to handle the selected image
 
-      // For demonstration purposes, I'm using a static image path.
-      String imagePath = pickedFile?.path ?? '';
+        // For demonstration purposes, I'm using a static image path.
+        String imagePath = pickedFile?.path ?? '';
 
-      setState(() {
-        _imageList.add(imagePath);
-        callback(imagePath);
-      });
+        setState(() {
+          _imageList.add(imagePath);
+          imageSize = true;
+          callback(imagePath);
+        });
+      }
     }
+  }
+
+  String formatBytes(int bytes, int decimals) {
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + ' ' + suffixes[i];
   }
 
   @override
@@ -666,8 +682,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               ),
                             ),
                           ),
-                          onPressed: _imageList
-                                  .isNotEmpty // Only enable button if _imageList is not empty
+                          onPressed: (_imageList
+                                  .isNotEmpty && imageSize) // Only enable button if _imageList is not empty
                               ? () {
                                   navigateTo(
                                       context,
