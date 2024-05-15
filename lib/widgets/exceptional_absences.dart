@@ -58,7 +58,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et par defaut toutes nos expériences sont disponibles en français',
+                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci le voyageur ne pourra pas réserver d’expérience.',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge

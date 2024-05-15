@@ -71,7 +71,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et par defaut toutes nos expériences sont disponibles en français',
+                          'Absence exceptionnelle du ${AppResources.formatterDate.format(DateTime.parse(widget.firstFormatDate))} au ${AppResources.formatterDate.format(DateTime.parse(widget.lastFormatDate))}.',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -225,7 +225,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                               ),
                               child: GestureDetector(
                                 onTap: () {
-                                  DatePicker.showTimePicker(context,
+                                  /*DatePicker.showTimePicker(context,
                                       showTitleActions: true,
                                       showSecondsColumn: false,
                                       onChanged: (date) {
@@ -235,7 +235,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                         setState(() {
                                           hourAvailableStart = DateFormat('hh:mm:ss').format(date);
                                         });
-                                      }, locale: LocaleType.fr);
+                                      }, locale: LocaleType.fr);*/
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +313,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   ],
                                 ),
                                 onTap: () {
-                                  DatePicker.showTimePicker(context,
+                                  /*DatePicker.showTimePicker(context,
                                       showTitleActions: true,
                                       showSecondsColumn: false,
                                       onChanged: (date) {
@@ -323,7 +323,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                         setState(() {
                                           hourAvailableEnd = DateFormat('hh:mm:ss').format(date);
                                         });
-                                      }, locale: LocaleType.fr);
+                                      }, locale: LocaleType.fr);*/
                                 },
                               ),
                             )
