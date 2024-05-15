@@ -51,3 +51,27 @@ class Absence {
     'horraires': times.map((timeSlot) => timeSlot.toJson()).toList(),
   };
 }
+
+class ModifyAbsence {
+  int id;
+  String day;
+  String dayFrom;
+  String dayTo;
+  List<TimeSlot> times;
+
+  ModifyAbsence({
+    required this.id,
+    required this.day,
+    required this.dayFrom,
+    required this.dayTo,
+    required this.times,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'day': day,
+    'day_from': dayFrom,
+    'day_to': dayTo,
+    'horraires': times.map((timeSlot) => timeSlot.toJson()).toList(),
+  };
+}

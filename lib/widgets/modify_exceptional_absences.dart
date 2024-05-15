@@ -9,7 +9,8 @@ import '../resources/resources.dart';
 import '../services/app_service.dart';
 
 class ModifyExceptionalAbsences extends StatefulWidget {
-  ModifyExceptionalAbsences({super.key, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour});
+  ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour});
+  int id;
   String firstFormatDate;
   String lastFormatDate;
   String startHour;
@@ -33,6 +34,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
 
   String hourAvailableStart = '';
   String hourAvailableEnd = '';
+  int id = 0;
 
   bool isRangeSelected = false;
 
@@ -43,13 +45,14 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
     _rangeEnd  = DateTime.parse(widget.lastFormatDate);
     hourAvailableStart = widget.startHour;
     hourAvailableEnd = widget.endHour;
+    id = widget.id;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: bloc.updateScheduleAbsence,
           onSuccess: () async {
             Navigator.pop(context);
           },
@@ -360,8 +363,38 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                     ),
                                   ),
                                 ),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                                onPressed: () async {
+                                  // Show a confirmation dialog to the user
+                                  bool confirmDelete = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Confirmer la suppression"),
+                                        content: Text("Etes-vous sûr de vouloir supprimer cette absence exceptionnelle?"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false); // User canceled deletion
+                                            },
+                                            child: Text("ANNULER"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(true); // User confirmed deletion
+                                            },
+                                            child: Text("SUPPRIMER"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  // If user confirmed deletion, call deleteScheduleAbsence method
+                                  if (confirmDelete == true) {
+                                    bloc.id = id;
+                                    bool isDeleted = await bloc.deleteScheduleAbsence();
+                                    Navigator.pop(context);
+                                  }
                                 },
                                 child: Text(
                                   'SUPPRIMER',
@@ -403,6 +436,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   ),
                                 ),
                                 onPressed: () {
+                                  bloc.id = id;
                                   bloc.hourAvailableStart = hourAvailableStart;
                                   bloc.hourAvailableEnd = hourAvailableEnd;
                                   if(_rangeStart != null) {
@@ -438,13 +472,14 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
 }
 
 class ExceptionalAbsencesBloc with Disposable {
+  int id = 0;
   String hourAvailableStart = '00:00:00';
   String hourAvailableEnd = '23:59:59';
   String day = '';
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> sendScheduleAbsence() async {
+  Future<bool> updateScheduleAbsence() async {
     // Create a TimeSlot object
     TimeSlot timeSlot =
     TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
@@ -452,11 +487,12 @@ class ExceptionalAbsencesBloc with Disposable {
     // Create a list of TimeSlot objects
     List<TimeSlot> times = [timeSlot];
 
-    Absence absence = Absence(day: '', dayFrom: dayFrom, dayTo: dayTo, times: times);
+    ModifyAbsence absence = ModifyAbsence(id: id, day: '', dayFrom: dayFrom, dayTo: dayTo, times: times);
 
     if(dayTo == '') {
       // Create an Absence object
-      absence = Absence(
+      absence = ModifyAbsence(
+        id: id,
         day: dayFrom,
         dayFrom: '',
         dayTo: '',
@@ -464,7 +500,8 @@ class ExceptionalAbsencesBloc with Disposable {
       );
     } else {
       // Create an Absence object
-      absence = Absence(
+      absence = ModifyAbsence(
+        id: id,
         day: '',
         dayFrom: dayFrom,
         dayTo: dayTo,
@@ -477,7 +514,12 @@ class ExceptionalAbsencesBloc with Disposable {
     // Convert the Availability object to JSON
     Map<String, dynamic> json = absence.toJson();
 
-    bool isCreated = await AppService.api.sendScheduleAbsence(json);
+    bool isCreated = await AppService.api.updateScheduleAbsence(json);
+    return isCreated;
+  }
+
+  Future<bool> deleteScheduleAbsence() async {
+    bool isCreated = await AppService.api.deleteScheduleAbsence(id);
     return isCreated;
   }
 
