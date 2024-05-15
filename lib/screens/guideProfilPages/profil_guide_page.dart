@@ -523,7 +523,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                 (_) => const NotificationsNewslettersPage());
                           }),
                           sectionProfile(
-                              'Aide & assistance', Icons.contact_support, () {
+                              'FAQ & assistance', Icons.contact_support, () {
                             navigateTo(context, (_) => const HelpSupportPage());
                           }),
                         ],
