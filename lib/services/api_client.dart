@@ -1094,6 +1094,67 @@ class ApiClient {
     return isCreated;
   }
 
+  /// Mark a set update schedule absence
+  Future<bool> updateScheduleAbsence(Map<String, dynamic> absenceData) async {
+    bool isCreated = false;
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-schedule-absence',
+            bodyJson: absenceData);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'absence has been updated successfully') {
+      isCreated = true;
+    } else {
+      isCreated = false;
+    }
+
+    return isCreated;
+  }
+
+  /// Mark a set update schedule absence
+  Future<bool> deleteScheduleAbsence(int id) async {
+    bool isCreated = false;
+
+    // Build request content
+    final data = {
+      'id': id,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/delete-schedule-absence',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'absence has been deleted successfully') {
+      isCreated = true;
+    } else {
+      isCreated = false;
+    }
+
+    return isCreated;
+  }
+
   /// Mark a get archived reservation
   Future<List<ArchivedReservationResponse>> getArchivedReservation() async {
     final Map<String, String> headers = {

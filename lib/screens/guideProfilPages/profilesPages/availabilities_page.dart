@@ -245,13 +245,13 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                   final formattedStartDate = yearsFrenchFormat(startDate!);
                   final endDate = absence.dateTo;
                   final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
+                  return listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
                 } else {
                   final startDate = absence.day;
                   final formattedStartDate = yearsFrenchFormat(startDate!);
                   final endDate = absence.day;
                   final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
+                  return listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
                 }
               }).toList(),
             ),
@@ -261,14 +261,14 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     );
   }
 
-  Widget listExceptionalAbsences(String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
+  Widget listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
     return GestureDetector(
       onTap: () {
         showModalBottomSheet<void>(
           context: context,
           isScrollControlled: true,
           builder: (BuildContext context) {
-            return ModifyExceptionalAbsences(firstFormatDate: startFormatDate, lastFormatDate: endFormatDate, startHour: startHour, endHour: endHour,);
+            return ModifyExceptionalAbsences(id: id, firstFormatDate: startFormatDate, lastFormatDate: endFormatDate, startHour: startHour, endHour: endHour,);
           },
         );
       },
