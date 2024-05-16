@@ -1,16 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/message.dart';
 
+import '../../../models/user_response.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
+import '../../../widgets/web_view_container.dart';
 
 class MyAccountPage extends StatefulWidget {
-  const MyAccountPage({super.key, required this.iBAN, required this.email});
-  final String? iBAN;
-  final String email;
+  const MyAccountPage({super.key, required this.userInfo});
+  final UserResponse userInfo;
 
   @override
   State<MyAccountPage> createState() => _MyAccountPageState();
@@ -158,7 +161,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 32),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       showModalBottomSheet<void>(
                           context: context,
@@ -339,11 +342,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           }
                       );
                     },
-                    child: accountRowDefault('Nom & prénom', '', true)
+                    child: accountRowDefault('Nom & prénom', widget.userInfo.name, true)
                   ),
                   accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92', true),
-                  accountRowDefault('e-mail', widget.email, false),
-                  GestureDetector(
+                  accountRowDefault('e-mail', widget.userInfo.email, false),
+                  InkWell(
                       onTap: () {
                         showModalBottomSheet<void>(
                             context: context,
@@ -391,7 +394,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       ?.copyWith(color: AppResources.colorDark),
                                                   decoration: InputDecoration(
                                                     filled: false,
-                                                    hintText: 'Current mot de passe',
+                                                    hintText: 'Mot de passe actuel',
                                                     hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                     contentPadding: EdgeInsets.only(
                                                         top: ResponsiveSize.calculateHeight(20, context),
@@ -528,7 +531,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       },
                       child: accountRowDefault('mot de passe', '********', true),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       showModalBottomSheet<void>(
                           context: context,
@@ -753,9 +756,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           }
                       );
                     },
-                    child: accountRowDefault('adresse', '', true),
+                    child: accountRowDefault('adresse', widget.userInfo.rue, true),
                   ),
-                  accountRowDefault('sécurité & vie privée', '', true),
+                  InkWell(
+                    onTap: () {
+                      navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/privacy'));
+                    },
+                    child: accountRowDefault('sécurité & vie privée', '', true),
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     'Informations bancaires',
@@ -766,17 +774,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         fontSize: 20, color: AppResources.colorDark),
                   ),
                   const SizedBox(height: 17),
-                  Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppResources.colorGray30),
-                  ),
-                  const SizedBox(height: 17),
                 ],
               ),
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 showModalBottomSheet<void>(
                     context: context,
@@ -801,6 +802,39 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                     Text(
                                       'Informations bancaires',
                                       style: Theme.of(context).textTheme.headlineMedium,
+                                    ),
+                                    const SizedBox(height: 24),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Icon(Icons.lock, size: 17, color: AppResources.colorGray30,),
+                                        SizedBox(width: 4,),
+                                        Flexible(
+                                          child: Text(
+                                            'Pour recevoir tes paiements en toute sécurité, renseigne ici ton RIB 😃',
+                                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray, fontSize: 12),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Visibility(
+                                      visible: widget.userInfo.IBAN == null,
+                                      child: Container(
+                                        width: 73,
+                                        height: 21,
+                                        alignment: Alignment.center,
+                                        decoration: ShapeDecoration(
+                                          color: Color(0xFFFFECAB),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'à compléter',
+                                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                                        ),
+                                      ),
                                     ),
                                     Column(
                                       children: [
@@ -847,7 +881,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                             });
                                           },
                                         ),
-                                        const SizedBox(height: 40),
+                                        const SizedBox(height: 20),
                                         TextFormField(
                                           controller: _textEditingControllerBIC,
                                           keyboardType: TextInputType.name,
@@ -891,7 +925,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                             });
                                           },
                                         ),
-                                        const SizedBox(height: 40),
+                                        const SizedBox(height: 20),
                                         TextFormField(
                                           controller: _textEditingControllerNameTitulaire,
                                           keyboardType: TextInputType.name,
@@ -937,7 +971,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 53),
+                                    const SizedBox(height: 24),
                                     Container(
                                       width: ResponsiveSize.calculateWidth(319, context),
                                       height: ResponsiveSize.calculateHeight(44, context),
@@ -1005,7 +1039,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         Row(
                           children: [
                             Visibility(
-                              visible: widget.iBAN == null,
+                              visible: widget.userInfo.IBAN == null,
                               child: Container(
                                 width: 73,
                                 height: 21,
@@ -1090,13 +1124,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+                    'Renseigne ici les documents qui sont nécessaires au bon fonctionnement de ton activité.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 17),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         showModalBottomSheet<void>(
                             context: context,
@@ -1214,7 +1248,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       child: accountRowDefault('Ma pièce d’identité', '', true)
                   ),
                   const SizedBox(height: 17),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         showModalBottomSheet<void>(
                             context: context,
@@ -1332,7 +1366,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       child: accountRowDefault('Mon KBIS', '', true)
                   ),
                   const SizedBox(height: 17),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         showModalBottomSheet<void>(
                             context: context,
