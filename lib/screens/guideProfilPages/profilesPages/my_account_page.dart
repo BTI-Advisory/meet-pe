@@ -179,7 +179,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          const SizedBox(height: 39),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(Icons.close),
+                                              ),
+                                            ],
+                                          ),
                                           Text(
                                             'Nom & Prénom',
                                             style: Theme.of(context).textTheme.headlineMedium,
@@ -354,7 +364,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            const SizedBox(height: 39),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close),
+                                                ),
+                                              ],
+                                            ),
                                             Text(
                                               'Mot de passe',
                                               style: Theme.of(context).textTheme.headlineMedium,
@@ -529,7 +549,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          const SizedBox(height: 39),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(Icons.close),
+                                              ),
+                                            ],
+                                          ),
                                           Text(
                                             'Adresse',
                                             style: Theme.of(context).textTheme.headlineMedium,
@@ -1080,14 +1110,24 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                       StateSetter setState) {
                                     return Container(
                                       width: double.infinity,
-                                      height: 357,
+                                      height: 288,
                                       color: AppResources.colorWhite,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 28),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            const SizedBox(height: 39),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close),
+                                                ),
+                                              ],
+                                            ),
                                             Text(
                                               'Ma pièce d’identité',
                                               style: Theme.of(context).textTheme.headlineMedium,
@@ -1188,14 +1228,24 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                       StateSetter setState) {
                                     return Container(
                                       width: double.infinity,
-                                      height: 357,
+                                      height: 288,
                                       color: AppResources.colorWhite,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 28),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            const SizedBox(height: 39),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close),
+                                                ),
+                                              ],
+                                            ),
                                             Text(
                                               'Mon KBIS',
                                               style: Theme.of(context).textTheme.headlineMedium,
@@ -1296,14 +1346,24 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                       StateSetter setState) {
                                     return Container(
                                       width: double.infinity,
-                                      height: 557,
+                                      height: 379,
                                       color: AppResources.colorWhite,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 28),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            const SizedBox(height: 39),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close),
+                                                ),
+                                              ],
+                                            ),
                                             Text(
                                               'Autres documents',
                                               style: Theme.of(context).textTheme.headlineMedium,

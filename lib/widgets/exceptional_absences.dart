@@ -34,8 +34,9 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AsyncForm(
+    return Container(
+      color: Colors.white,
+      child: AsyncForm(
           onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
             Navigator.pop(context);
@@ -45,12 +46,22 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.close),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const SizedBox(height: 39),
                         Text(
                           'Absences exceptionnelles',
                           style: Theme.of(context)
@@ -192,7 +203,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                           'Horaires',
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
-                        const SizedBox(height: 44),
+                        const SizedBox(height: 24),
 
                         ///Select Hour
                         Row(
@@ -317,7 +328,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                             )
                           ],
                         ),
-                        const SizedBox(height: 47),
+                        const SizedBox(height: 27),
                         isRangeSelected
                             ? Row(
                                 children: [
@@ -458,7 +469,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   },
                                 ),
                               ),
-                        const SizedBox(height: 73),
+                        const SizedBox(height: 33),
                       ],
                     ),
                   ),

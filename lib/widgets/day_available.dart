@@ -8,6 +8,7 @@ import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
   const DayAvailable({super.key, required this.availabilityList});
+
   final AvailabilityListResponse availabilityList;
 
   @override
@@ -22,8 +23,8 @@ class _DayAvailableState extends State<DayAvailable> {
   String hourSecondAvailableEnd = '';
 
   String timeResult(List<ScheduleTime> times) {
-    if(times.isNotEmpty) {
-      if(times.length == 1) {
+    if (times.isNotEmpty) {
+      if (times.length == 1) {
         return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}';
       } else {
         return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}  /  ${times[1].from.substring(0, 5)}-${times[1].to.substring(0, 5)}';
@@ -46,8 +47,7 @@ class _DayAvailableState extends State<DayAvailable> {
                 context: context,
                 builder: (BuildContext context) {
                   return StatefulBuilder(
-                    builder: (BuildContext context,
-                        StateSetter setState) {
+                    builder: (BuildContext context, StateSetter setState) {
                       return Container(
                         width: double.infinity,
                         height: 452,
@@ -57,13 +57,26 @@ class _DayAvailableState extends State<DayAvailable> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              const SizedBox(height: 39),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(Icons.close),
+                                  ),
+                                ],
+                              ),
+                              //const SizedBox(height: 39),
                               Text(
                                 'Horaires',
-                                style: Theme.of(context).textTheme.headlineMedium,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Disponible de 9:00 à 18:00',
@@ -71,8 +84,8 @@ class _DayAvailableState extends State<DayAvailable> {
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff797979)),
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff797979)),
                                   ),
                                   StatefulBuilder(
                                     builder: (BuildContext context,
@@ -90,6 +103,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                   )
                                 ],
                               ),
+
                               ///Select Hour
                               Row(
                                 children: [
@@ -113,17 +127,18 @@ class _DayAvailableState extends State<DayAvailable> {
                                             showTitleActions: true,
                                             showSecondsColumn: false,
                                             onChanged: (date) {
-                                              print('change $date');
-                                            }, onConfirm: (date) {
-                                              print('confirm $date');
-                                              setState(() {
-                                                hourAvailableStart = '${date.hour}:${date.minute}';
-                                              });
-                                            }, locale: LocaleType.fr);
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourAvailableStart =
+                                                '${date.hour}:${date.minute}';
+                                          });
+                                        }, locale: LocaleType.fr);
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'De',
@@ -136,12 +151,20 @@ class _DayAvailableState extends State<DayAvailable> {
                                             builder: (BuildContext context,
                                                 StateSetter setState) {
                                               return Text(
-                                                hourAvailableStart != '' ? hourAvailableStart : '00:00',
+                                                hourAvailableStart != ''
+                                                    ? hourAvailableStart
+                                                    : '00:00',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge
                                                     ?.copyWith(
-                                                    color: hourAvailableStart != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                                        color:
+                                                            hourAvailableStart !=
+                                                                    ''
+                                                                ? AppResources
+                                                                    .colorDark
+                                                                : Color(
+                                                                    0x3F1D1D1D)),
                                               );
                                             },
                                           ),
@@ -150,6 +173,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                     ),
                                   ),
                                   const SizedBox(width: 8),
+
                                   ///Choose end time
                                   Container(
                                     width: 155.50,
@@ -167,7 +191,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                     child: GestureDetector(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'A',
@@ -180,12 +204,20 @@ class _DayAvailableState extends State<DayAvailable> {
                                             builder: (BuildContext context,
                                                 StateSetter setState) {
                                               return Text(
-                                                hourAvailableEnd != '' ? hourAvailableEnd : '23:59',
+                                                hourAvailableEnd != ''
+                                                    ? hourAvailableEnd
+                                                    : '23:59',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge
                                                     ?.copyWith(
-                                                    color: hourAvailableEnd != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                                        color:
+                                                            hourAvailableEnd !=
+                                                                    ''
+                                                                ? AppResources
+                                                                    .colorDark
+                                                                : Color(
+                                                                    0x3F1D1D1D)),
                                               );
                                             },
                                           ),
@@ -196,19 +228,21 @@ class _DayAvailableState extends State<DayAvailable> {
                                             showTitleActions: true,
                                             showSecondsColumn: false,
                                             onChanged: (date) {
-                                              print('change $date');
-                                            }, onConfirm: (date) {
-                                              print('confirm $date');
-                                              setState(() {
-                                                hourAvailableEnd = '${date.hour}:${date.minute}';
-                                              });
-                                            }, locale: LocaleType.fr);
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourAvailableEnd =
+                                                '${date.hour}:${date.minute}';
+                                          });
+                                        }, locale: LocaleType.fr);
                                       },
                                     ),
                                   )
                                 ],
                               ),
                               const SizedBox(height: 39),
+
                               ///Select Second Hour
                               Row(
                                 children: [
@@ -229,7 +263,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                     child: GestureDetector(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'De',
@@ -242,12 +276,20 @@ class _DayAvailableState extends State<DayAvailable> {
                                             builder: (BuildContext context,
                                                 StateSetter setState) {
                                               return Text(
-                                                hourSecondAvailableStart != '' ? hourSecondAvailableStart : '00:00',
+                                                hourSecondAvailableStart != ''
+                                                    ? hourSecondAvailableStart
+                                                    : '00:00',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge
                                                     ?.copyWith(
-                                                    color: hourSecondAvailableStart != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                                        color:
+                                                            hourSecondAvailableStart !=
+                                                                    ''
+                                                                ? AppResources
+                                                                    .colorDark
+                                                                : Color(
+                                                                    0x3F1D1D1D)),
                                               );
                                             },
                                           ),
@@ -258,17 +300,19 @@ class _DayAvailableState extends State<DayAvailable> {
                                             showTitleActions: true,
                                             showSecondsColumn: false,
                                             onChanged: (date) {
-                                              print('change $date');
-                                            }, onConfirm: (date) {
-                                              print('confirm $date');
-                                              setState(() {
-                                                hourSecondAvailableStart = '${date.hour}:${date.minute}';
-                                              });
-                                            }, locale: LocaleType.fr);
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourSecondAvailableStart =
+                                                '${date.hour}:${date.minute}';
+                                          });
+                                        }, locale: LocaleType.fr);
                                       },
                                     ),
                                   ),
                                   const SizedBox(width: 8),
+
                                   ///Choose end time
                                   Container(
                                     width: 155.50,
@@ -286,7 +330,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                     child: GestureDetector(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'A',
@@ -299,12 +343,20 @@ class _DayAvailableState extends State<DayAvailable> {
                                             builder: (BuildContext context,
                                                 StateSetter setState) {
                                               return Text(
-                                                hourSecondAvailableEnd != '' ? hourSecondAvailableEnd : '23:59',
+                                                hourSecondAvailableEnd != ''
+                                                    ? hourSecondAvailableEnd
+                                                    : '23:59',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge
                                                     ?.copyWith(
-                                                    color: hourSecondAvailableEnd != '' ? AppResources.colorDark : Color(0x3F1D1D1D)),
+                                                        color:
+                                                            hourSecondAvailableEnd !=
+                                                                    ''
+                                                                ? AppResources
+                                                                    .colorDark
+                                                                : Color(
+                                                                    0x3F1D1D1D)),
                                               );
                                             },
                                           ),
@@ -315,13 +367,14 @@ class _DayAvailableState extends State<DayAvailable> {
                                             showTitleActions: true,
                                             showSecondsColumn: false,
                                             onChanged: (date) {
-                                              print('change $date');
-                                            }, onConfirm: (date) {
-                                              print('confirm $date');
-                                              setState(() {
-                                                hourSecondAvailableEnd = '${date.hour}:${date.minute}';
-                                              });
-                                            }, locale: LocaleType.fr);
+                                          print('change $date');
+                                        }, onConfirm: (date) {
+                                          print('confirm $date');
+                                          setState(() {
+                                            hourSecondAvailableEnd =
+                                                '${date.hour}:${date.minute}';
+                                          });
+                                        }, locale: LocaleType.fr);
                                       },
                                     ),
                                   )
@@ -329,20 +382,28 @@ class _DayAvailableState extends State<DayAvailable> {
                               ),
                               const SizedBox(height: 47),
                               Container(
-                                width: ResponsiveSize.calculateWidth(319, context),
-                                height: ResponsiveSize.calculateHeight(44, context),
+                                width:
+                                    ResponsiveSize.calculateWidth(319, context),
+                                height:
+                                    ResponsiveSize.calculateHeight(44, context),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    padding:
-                                    MaterialStateProperty.all<EdgeInsets>(
-                                        EdgeInsets.symmetric(
-                                            horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                    padding: MaterialStateProperty
+                                        .all<EdgeInsets>(EdgeInsets.symmetric(
+                                            horizontal:
+                                                ResponsiveSize.calculateWidth(
+                                                    24, context),
+                                            vertical:
+                                                ResponsiveSize.calculateHeight(
+                                                    12, context))),
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.transparent),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        side: BorderSide(width: 1, color: AppResources.colorDark),
+                                        side: BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorDark),
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                     ),
@@ -352,7 +413,8 @@ class _DayAvailableState extends State<DayAvailable> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
-                                        ?.copyWith(color: AppResources.colorDark),
+                                        ?.copyWith(
+                                            color: AppResources.colorDark),
                                   ),
                                   onPressed: () async {
                                     // Create a TimeSlot object
@@ -361,11 +423,19 @@ class _DayAvailableState extends State<DayAvailable> {
                                     print('EHFEe 33 $hourSecondAvailableStart');
                                     print('EHFEe 44 $hourSecondAvailableEnd');
 
-                                    if(hourSecondAvailableStart != '' && hourSecondAvailableEnd != '') {
-                                      TimeSlot timeSlot1 = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
-                                      TimeSlot timeSlot2 = TimeSlot(from: hourSecondAvailableStart, to: hourSecondAvailableEnd);
+                                    if (hourSecondAvailableStart != '' &&
+                                        hourSecondAvailableEnd != '') {
+                                      TimeSlot timeSlot1 = TimeSlot(
+                                          from: hourAvailableStart,
+                                          to: hourAvailableEnd);
+                                      TimeSlot timeSlot2 = TimeSlot(
+                                          from: hourSecondAvailableStart,
+                                          to: hourSecondAvailableEnd);
                                       // Create a list of TimeSlot objects
-                                      List<TimeSlot> times = [timeSlot1, timeSlot2];
+                                      List<TimeSlot> times = [
+                                        timeSlot1,
+                                        timeSlot2
+                                      ];
                                       // Create an Availability object
                                       Availability availability = Availability(
                                         day: widget.availabilityList.day,
@@ -374,11 +444,18 @@ class _DayAvailableState extends State<DayAvailable> {
                                       );
 
                                       // Convert the Availability object to JSON
-                                      Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
+                                      Map<String, dynamic> json = {
+                                        'availabilities': [
+                                          availability.toJson()
+                                        ]
+                                      };
 
-                                      await AppService.api.sendScheduleAvailability(json);
+                                      await AppService.api
+                                          .sendScheduleAvailability(json);
                                     } else {
-                                      TimeSlot timeSlot = TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
+                                      TimeSlot timeSlot = TimeSlot(
+                                          from: hourAvailableStart,
+                                          to: hourAvailableEnd);
 
                                       // Create a list of TimeSlot objects
                                       List<TimeSlot> times = [timeSlot];
@@ -391,9 +468,14 @@ class _DayAvailableState extends State<DayAvailable> {
                                       );
 
                                       // Convert the Availability object to JSON
-                                      Map<String, dynamic> json = {'availabilities': [availability.toJson()]};
+                                      Map<String, dynamic> json = {
+                                        'availabilities': [
+                                          availability.toJson()
+                                        ]
+                                      };
 
-                                      await AppService.api.sendScheduleAvailability(json);
+                                      await AppService.api
+                                          .sendScheduleAvailability(json);
                                     }
 
                                     Navigator.pop(context);
@@ -426,11 +508,10 @@ class _DayAvailableState extends State<DayAvailable> {
                           ? '9:00-18:00'
                           : timeResult(widget.availabilityList.scheduleTimes),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: AppResources.colorDark,
-                      ),
-                    )
-                    ,
+                            fontWeight: FontWeight.w400,
+                            color: AppResources.colorDark,
+                          ),
+                    ),
                     Image.asset('images/chevron_right.png',
                         width: 27, height: 27, fit: BoxFit.fill),
                   ],
