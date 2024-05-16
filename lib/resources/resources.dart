@@ -22,6 +22,8 @@ class AppResources {
   static const colorGray15 = Color(0xFFDCDCDC);
   static const colorGray5 = Color(0xFFF3F3F3);
 
+  static const colorGray = Color(0xFF989898);
+
 
   // Padding
   static const paddingTitle = EdgeInsets.symmetric(horizontal: 35);

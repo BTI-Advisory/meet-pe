@@ -501,8 +501,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                 .push(
                               MaterialPageRoute(
                                   builder: (_) => MyAccountPage(
-                                      iBAN: userInfo.IBAN,
-                                      email: userInfo.email)),
+                                      userInfo: userInfo)),
                             )
                                 .then((_) {
                               // This code runs after returning from MyAccountPage
