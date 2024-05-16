@@ -29,6 +29,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
   @override
   void initState() {
     super.initState();
+    AppService.instance.updateDeviceData();
     _userInfoFuture = AppService.api.getUserInfo();
     _textEditingControllerDescription = TextEditingController();
     _textEditingControllerDescription.addListener(_onTextChanged);
