@@ -266,7 +266,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   }
 
   Widget listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         showModalBottomSheet<void>(
           context: context,
