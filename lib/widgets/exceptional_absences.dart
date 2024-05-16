@@ -39,6 +39,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
           onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
             Navigator.pop(context);
+            Navigator.pop(context);
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -392,6 +393,8 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                       ),
                                       onPressed: () {
                                         if (_rangeStart!.isBefore(DateTime.now())) {
+                                          showMessage(context, 'Error date select');
+                                        } else {
                                           bloc.hourAvailableStart = hourAvailableStart;
                                           bloc.hourAvailableEnd = hourAvailableEnd;
                                           if(_rangeStart != null) {
@@ -401,8 +404,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                             bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
                                           }
                                           validate();
-                                        } else {
-                                          showMessage(context, 'Error date select');
                                         }
                                       },
                                       child: Text(

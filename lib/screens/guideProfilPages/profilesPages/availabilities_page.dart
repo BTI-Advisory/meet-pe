@@ -67,6 +67,10 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     }
   }
 
+  void refreshData() {
+    fetchAbsenceData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +135,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  /*SizedBox(
                     height: isAvailable
                         ? ResponsiveSize.calculateHeight(0, context)
                         : ResponsiveSize.calculateHeight(15, context),
@@ -172,7 +176,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                     ),
                   ),
                   SizedBox(
-                      height: ResponsiveSize.calculateHeight(25, context)),
+                      height: ResponsiveSize.calculateHeight(25, context)),*/
                 ],
               ),
             ),
