@@ -62,13 +62,6 @@ class _DayAvailableState extends State<DayAvailable> {
                                 'Horaires',
                                 style: Theme.of(context).textTheme.headlineMedium,
                               ),
-                              Text(
-                                'Le prix moyen d’une expérience est de 55 €',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: AppResources.colorGray60),
-                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -403,6 +396,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                       await AppService.api.sendScheduleAvailability(json);
                                     }
 
+                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
                                 ),

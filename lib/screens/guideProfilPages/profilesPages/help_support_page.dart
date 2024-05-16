@@ -43,12 +43,10 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocHelp(),
-                  blocHelp(),
-                  blocHelp(),
-                  blocHelp(),
-                  blocHelp(),
-                  blocHelp(),
+                  blocHelp('FAQ Voyageurs'),
+                  blocHelp('FAQ Guides'),
+                  blocHelp('FAQ Photos'),
+                  blocHelp('Customer Expériences'),
                   const SizedBox(height: 15),
                   Text(
                     'Assistance',
@@ -66,8 +64,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocHelp(),
-                  blocHelp(),
+                  blocHelp('Nous contacter'),
                 ],
               ),
             ),
@@ -77,7 +74,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
     );
   }
 
-  Widget blocHelp() {
+  Widget blocHelp(String title) {
     return Column(
       children: [
         const SizedBox(height: 19),
@@ -85,7 +82,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Lorem',
+              title,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
             ),
             Image.asset('images/chevron_right.png',
