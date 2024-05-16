@@ -1474,16 +1474,16 @@ class ApiClient {
   }) async {
     // Build request content
     final data = {
-      'push_token': pushToken,
-      'construteur': deviceBrand,
-      'modele_smartphone': deviceModel,
-      'os_smartphone': deviceOsVersion,
-      if (appVersion != null) 'version_meet_pe': appVersion,
+      'fcm': pushToken,
+      'deviceBrand': deviceBrand,
+      'deviceModel': deviceModel,
+      'deviceOsVersion': deviceOsVersion,
+      if (appVersion != null) 'appVersion': appVersion,
     };
 
     // Send request
     ///Todo Add this API
-    //await _send<Null>(_httpMethodPut, 'mobile/userMeetPe', bodyJson: data);
+    await _send<Null>(_httpMethodPost, 'api/update-fcm', bodyJson: data);
   }
 
   /// Get user card data

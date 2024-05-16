@@ -114,7 +114,7 @@ class AppService {
     // TODO: Remove the comment when implementing Crashlytics and add API
     // Additional tasks
     await Future.wait([
-      _updateDeviceData(),
+      updateDeviceData(),
       //fetchUserData(),
     ]);
   }
@@ -127,7 +127,7 @@ class AppService {
     // TODO: Remove the comment when implementing Crashlytics and add API
     // Additional tasks
     await Future.wait([
-      _updateDeviceData(),
+      updateDeviceData(),
       //fetchUserData(),
     ]);
   }
@@ -140,12 +140,12 @@ class AppService {
     // TODO: Remove the comment when implementing Crashlytics and add API
     // Additional tasks
     await Future.wait([
-      _updateDeviceData(),
+      updateDeviceData(),
       //fetchUserData(),
     ]);
   }
 
-  Future<void> _updateDeviceData() async {
+  Future<void> updateDeviceData() async {
     try {
       // Init notifications
       final firebaseToken = await initFirebaseMessaging();    // OPTI don't send token if user refused permission
@@ -159,13 +159,15 @@ class AppService {
         deviceBrand: deviceInfo.brand,
         deviceModel: deviceInfo.model,
         deviceOsVersion: deviceInfo.osVersion,
-        appVersion: appVersion.value,
+        appVersion: 'v${(await PackageInfo.fromPlatform()).version}',
+        //appVersion: appVersion.value,
       );
     } catch(e, s) {
       // Just report
       reportError(e, s);
     }
   }
+
   ///Todo Update the user response
   Future<void> fetchUserData() async {
     // Fetch data
