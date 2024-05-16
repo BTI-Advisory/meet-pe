@@ -55,6 +55,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
           onValidated: bloc.updateScheduleAbsence,
           onSuccess: () async {
             Navigator.pop(context);
+            Navigator.pop(context);
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -399,6 +400,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                     bloc.id = id;
                                     bool isDeleted = await bloc.deleteScheduleAbsence();
                                     Navigator.pop(context);
+                                    Navigator.pop(context);
                                   }
                                 },
                                 child: Text(
@@ -442,6 +444,8 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                 ),
                                 onPressed: () {
                                   if (_rangeStart!.isBefore(DateTime.now())) {
+                                    showMessage(context, 'Error date select');
+                                  } else {
                                     bloc.id = id;
                                     bloc.hourAvailableStart = hourAvailableStart;
                                     bloc.hourAvailableEnd = hourAvailableEnd;
@@ -452,8 +456,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                       bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
                                     }
                                     validate();
-                                  } else {
-                                    showMessage(context, 'Error date select');
                                   }
                                 },
                                 child: Text(
