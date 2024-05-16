@@ -40,7 +40,7 @@ class _DayAvailableState extends State<DayAvailable> {
         const SizedBox(height: 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
-          child: GestureDetector(
+          child: InkWell(
             onTap: () {
               showModalBottomSheet<void>(
                 context: context,
