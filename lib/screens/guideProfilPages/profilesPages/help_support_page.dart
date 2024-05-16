@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../widgets/_widgets.dart';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import '../../../main.dart';
-import '../../../utils/message.dart';
+import '../../../widgets/web_view_container.dart';
 
 class HelpSupportPage extends StatefulWidget {
   const HelpSupportPage({super.key});
@@ -18,56 +13,6 @@ class HelpSupportPage extends StatefulWidget {
 }
 
 class _HelpSupportPageState extends State<HelpSupportPage> {
-  ///Todo: Delete this
-  Future<bool> askNotificationPermission() async {
-    final status = (await FirebaseMessaging.instance.requestPermission())
-        .authorizationStatus;
-    if (status == AuthorizationStatus.authorized) {
-      return true;
-    } else {
-      showMessage(App.navigatorContext,
-          'Permission refusée: notifications désactivées.',
-          isError: true);
-      return false;
-    }
-  }
-
-  static void onNotificationReceived(RemoteMessage message) {
-    // Log
-    if (!kReleaseMode) {
-      debugPrint(
-          'Notification received (title: ${message.notification?.title ?? '<Empty>'})');
-    }
-
-    // Process notification message
-    if (message.notification != null) {
-      showMessage(
-          App.navigatorContext,
-          [
-            message.notification?.title,
-            message.notification?.body,
-          ].toLines());
-    }
-  }
-
-  /// Init Firebase Messaging, and return token
-  Future<String> initFirebaseMessaging() async {
-    // If permission allowed
-    if (await askNotificationPermission()) {
-      // If the app is open and running in the foreground.
-      FirebaseMessaging.onMessageOpenedApp.listen(onNotificationReceived);
-
-      // If the app is closed, but still running in the background or fully terminated
-      FirebaseMessaging.onMessage.listen(onNotificationReceived);
-    }
-
-    // Get Firebase token
-    final token = await FirebaseMessaging.instance
-        .getToken(); // OPTI not used when init from MainBloc. + Don't fetch token if permission is denied
-    return token!;
-  }
-
-  ///Todo
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +44,10 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocHelp('FAQ Voyageurs'),
-                  blocHelp('FAQ Guides'),
-                  blocHelp('FAQ Photos'),
-                  blocHelp('Customer Expériences'),
+                  blocHelp('FAQ Voyageurs', 'https://meetpe.fr/FAQVoyageurs'),
+                  blocHelp('FAQ Guides', 'https://meetpe.fr/FAQGuides'),
+                  blocHelp('FAQ Photos', 'https://meetpe.fr/FAQPhotos'),
+                  blocHelp('Customer Expériences', 'https://meetpe.fr/Customer_Exp%C3%A9riences'),
                   const SizedBox(height: 15),
                   Text(
                     'Assistance',
@@ -119,7 +64,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocHelp('Nous contacter'),
+                  blocHelp('Nous contacter', 'https://meetpe.fr/privacy'),
                 ],
               ),
             ),
@@ -129,54 +74,10 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
     );
   }
 
-  Widget blocHelp(String title) {
+  Widget blocHelp(String title, String url) {
     return InkWell(
-      onTap: () async {
-        final firebaseToken = await initFirebaseMessaging();
-        showModalBottomSheet<void>(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) {
-            return Container(
-              width: double.infinity,
-              height: 452,
-              color: AppResources.colorWhite,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.close),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 39),
-                    Text(
-                      'Token notif: test back',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    Text(
-                      firebaseToken,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xff797979)),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+      onTap: () {
+        navigateTo(context, (_) => WebViewContainer(webUrl: url));
       },
       child: Column(
         children: [
