@@ -767,6 +767,31 @@ class ApiClient {
     IsFullAvailabilityResponse.fromJson(response!);
   }
 
+  /// Update phone number
+  Future<void> updatePhone(String phoneNumber) async {
+    final data = {
+      'phone_number': phoneNumber
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/update-phone-number',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    // Return data
+    IsFullAvailabilityResponse.fromJson(response!);
+  }
+
   /// Update password
   Future<void> updatePassword(String oldPassword, String newPassword) async {
     final data = {

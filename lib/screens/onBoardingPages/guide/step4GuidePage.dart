@@ -271,12 +271,12 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 ),
                                 textInputAction: TextInputAction.done,
                                 onFieldSubmitted: (value) => validate(),
-                                validator: AppResources.validatorNotEmpty,
+                                validator: AppResources.validatorPhoneNumber,
                                 onSaved: (value) => bloc.phone = value,
                                 onChanged: (value) {
                                   setState(() {
                                     validationMessagePhone =
-                                        AppResources.validatorNotEmpty(value);
+                                        AppResources.validatorPhoneNumber(value);
                                     updateFormValidity();
                                   });
                                 },
@@ -525,42 +525,6 @@ class Step4GuidePageBloc with Disposable {
 
   Step4GuidePageBloc(this.myMap);
 
-  /*Future<void> makeProfileGuide() async {
-    try {
-      // Insert name and phone into modifiedMap
-      if (name != null) {
-        modifiedMap['name'] = name!;
-      }
-      if (phone != null) {
-        modifiedMap['phone_number'] = phone!;
-      }
-      if (nameOfSociety != null && isCheck == true) {
-        modifiedMap['name_of_company'] = nameOfSociety ?? '';
-      }
-      if (siren != null && isCheck == true) {
-        modifiedMap['siren_number'] = siren ?? '';
-      }
-
-      // Convert sets to lists
-      myMap.forEach((key, value) {
-        modifiedMap[key] = value.toList();
-      });
-
-      print('ertertert modifiedMap ${modifiedMap!}');
-      print('ertertert name ${name!}');
-      print('ertertert phone ${phone!}');
-      print('ertertert isCheck ${isCheck!}');
-      print('ertertert nameOfSociety ${nameOfSociety!}');
-      print('ertertert siren ${siren!}');
-
-      // Perform the API call
-      await AppService.api.sendListGuide(modifiedMap, imagePath!);
-
-    } catch (error) {
-      // Handle the error appropriately
-      print("Error in make Profile Guide: $error");
-    }
-  }*/
   Future<void> makeProfileGuide() async {
     try {
       if (isCheck == false) {
