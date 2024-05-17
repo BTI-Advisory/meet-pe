@@ -289,3 +289,18 @@ String requestFrenchFormat(String date) {
   transformedDateString = transformedDateString.replaceFirst(transformedDateString.substring(0,1), transformedDateString.substring(0,1).toUpperCase());
   return transformedDateString;
 }
+
+String formatPhoneNumber(String phoneNumber) {
+  // Check if the phone number is at least 10 characters long
+  if (phoneNumber.length < 10) {
+    throw ArgumentError("Phone number must be at least 10 characters long");
+  }
+
+  // Extract the last two digits
+  String lastTwoDigits = phoneNumber.substring(phoneNumber.length - 2);
+
+  // Create the formatted string
+  String formattedNumber = 'xx xx xx xx $lastTwoDigits';
+
+  return formattedNumber;
+}

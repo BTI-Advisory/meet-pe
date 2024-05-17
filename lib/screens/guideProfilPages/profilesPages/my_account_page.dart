@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/utils/message.dart';
 
 import '../../../models/user_response.dart';
@@ -22,6 +23,7 @@ class MyAccountPage extends StatefulWidget {
 class _MyAccountPageState extends State<MyAccountPage> {
   late TextEditingController _textEditingControllerFirstName;
   late TextEditingController _textEditingControllerLastName;
+  late TextEditingController _textEditingControllerPhoneNumber;
   late TextEditingController _textEditingControllerCurrentPassword;
   late TextEditingController _textEditingControllerNewPassword;
   late TextEditingController _textEditingControllerIBAN;
@@ -32,6 +34,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late TextEditingController _textEditingControllerZip;
   String? validationMessageFirstName = '';
   String? validationMessageLastName = '';
+  String? validationMessagePhoneNumber = '';
   String? validationMessageCurrentPassword = '';
   String? validationMessageNewPassword = '';
   String? validationMessageIBAN = '';
@@ -53,6 +56,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerFirstName.addListener(_onTextChanged);
     _textEditingControllerLastName = TextEditingController();
     _textEditingControllerLastName.addListener(_onTextChanged);
+    _textEditingControllerPhoneNumber = TextEditingController();
+    _textEditingControllerPhoneNumber.addListener(_onTextChanged);
     _textEditingControllerCurrentPassword = TextEditingController();
     _textEditingControllerCurrentPassword.addListener(_onTextChanged);
     _textEditingControllerNewPassword = TextEditingController();
@@ -77,6 +82,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerFirstName.dispose();
     _textEditingControllerLastName.removeListener(_onTextChanged);
     _textEditingControllerLastName.dispose();
+    _textEditingControllerPhoneNumber.removeListener(_onTextChanged);
+    _textEditingControllerPhoneNumber.dispose();
     _textEditingControllerCurrentPassword.removeListener(_onTextChanged);
     _textEditingControllerCurrentPassword.dispose();
     _textEditingControllerNewPassword.removeListener(_onTextChanged);
@@ -320,9 +327,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                 AppService.api.updateName(_textEditingControllerFirstName.text, _textEditingControllerLastName.text).then((_) {
                                                   // Optionally, you can perform additional actions after the operation completes
                                                   Navigator.pop(context);
+                                                  Navigator.pop(context);
                                                 }).catchError((error) {
                                                   // Handle any errors that occur during the asynchronous operation
                                                   print('Error: $error');
+                                                  Navigator.pop(context);
                                                   Navigator.pop(context);
                                                   if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                     showMessage(context, error.toString());
@@ -344,7 +353,147 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     },
                     child: accountRowDefault('Nom & prénom', widget.userInfo.name, true)
                   ),
-                  accountRowDefault('Numéro de téléphone', '+xx xx xx xx xx 92', true),
+                  InkWell(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                                child: StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Container(
+                                      width: double.infinity,
+                                      height: 301,
+                                      color: AppResources.colorWhite,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              'Numéro de téléphone',
+                                              style: Theme.of(context).textTheme.headlineMedium,
+                                            ),
+                                            Column(
+                                              children: [
+                                                TextFormField(
+                                                  controller: _textEditingControllerPhoneNumber,
+                                                  keyboardType: TextInputType.phone,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(color: AppResources.colorDark),
+                                                  decoration: InputDecoration(
+                                                    filled: false,
+                                                    hintText: widget.userInfo.phoneNumber,
+                                                    hintStyle: Theme.of(context).textTheme.bodyMedium,
+                                                    contentPadding: EdgeInsets.only(
+                                                        top: ResponsiveSize.calculateHeight(20, context),
+                                                        bottom:
+                                                        ResponsiveSize.calculateHeight(10, context)),
+                                                    // Adjust padding
+                                                    suffix: SizedBox(
+                                                        height:
+                                                        ResponsiveSize.calculateHeight(10, context)),
+                                                    enabledBorder: const UnderlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: AppResources.colorGray15),
+                                                    ),
+                                                    focusedBorder: const UnderlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: AppResources.colorGray15),
+                                                    ),
+                                                    errorBorder: const UnderlineInputBorder(
+                                                      borderSide: BorderSide(color: Colors.red),
+                                                    ),
+                                                  ),
+                                                  textInputAction: TextInputAction.done,
+                                                  //onFieldSubmitted: (value) => validate(),
+                                                  validator: AppResources.validatorNotEmpty,
+                                                  //onSaved: (value) => bloc.name = value,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      validationMessagePhoneNumber =
+                                                          AppResources.validatorNotEmpty(value);
+                                                      updateFormValidity();
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 53),
+                                            Container(
+                                              width: ResponsiveSize.calculateWidth(319, context),
+                                              height: ResponsiveSize.calculateHeight(44, context),
+                                              child: TextButton(
+                                                style: ButtonStyle(
+                                                  padding:
+                                                  MaterialStateProperty.all<EdgeInsets>(
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                                                  backgroundColor: MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                                  shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                      side: BorderSide(width: 1, color: AppResources.colorDark),
+                                                      borderRadius: BorderRadius.circular(40),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'ENREGISTRER',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.copyWith(color: AppResources.colorDark),
+                                                ),
+                                                onPressed: () async {
+                                                  // Call the asynchronous operation and handle its completion
+                                                  AppService.api.updatePhone(_textEditingControllerPhoneNumber.text).then((_) {
+                                                    // Optionally, you can perform additional actions after the operation completes
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  }).catchError((error) {
+                                                    // Handle any errors that occur during the asynchronous operation
+                                                    print('Error: $error');
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
+                                                      showMessage(context, error.toString());
+                                                    }
+
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: accountRowDefault('Numéro de téléphone', formatPhoneNumber(widget.userInfo.phoneNumber), true),
+                  ),
                   accountRowDefault('e-mail', widget.userInfo.email, false),
                   InkWell(
                       onTap: () {
@@ -507,9 +656,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   AppService.api.updatePassword(_textEditingControllerCurrentPassword.text, _textEditingControllerNewPassword.text).then((_) {
                                                     // Optionally, you can perform additional actions after the operation completes
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                   }).catchError((error) {
                                                     // Handle any errors that occur during the asynchronous operation
                                                     print('Error: $error');
+                                                    Navigator.pop(context);
                                                     Navigator.pop(context);
                                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                       showMessage(context, error.toString());
@@ -734,14 +885,15 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                 AppService.api.updateAddressInfo(_textEditingControllerRue.text, _textEditingControllerVille.text, _textEditingControllerZip.text).then((_) {
                                                   // Optionally, you can perform additional actions after the operation completes
                                                   Navigator.pop(context);
+                                                  Navigator.pop(context);
                                                 }).catchError((error) {
                                                   // Handle any errors that occur during the asynchronous operation
                                                   print('Error: $error');
                                                   Navigator.pop(context);
+                                                  Navigator.pop(context);
                                                   if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                     showMessage(context, error.toString());
                                                   }
-
                                                 });
                                               },
                                             ),
@@ -1003,9 +1155,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                           AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text).then((_) {
                                             // Optionally, you can perform additional actions after the operation completes
                                             Navigator.pop(context);
+                                            Navigator.pop(context);
                                           }).catchError((error) {
                                             // Handle any errors that occur during the asynchronous operation
                                             print('Error: $error');
+                                            Navigator.pop(context);
                                             Navigator.pop(context);
                                             if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                               showMessage(context, error.toString());
@@ -1064,48 +1218,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     ),
                   ),
                   const SizedBox(height: 19),
-                  /*Container(
-                    width: 390,
-                    decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1,
-                          strokeAlign: BorderSide.strokeAlignCenter,
-                          color: AppResources.colorImputStroke,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Informations de paiement',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                        ),
-                        Image.asset('images/chevron_right.png',
-                            width: 27, height: 27, fit: BoxFit.fill),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                    child: Row(
-                      children: [
-                        Image.asset('images/bank_logo.png'),
-                        const SizedBox(width: 21),
-                        Text(
-                          'xxxx xxxx xxxx 792',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
-                        )
-                      ],
-                    )
-                  ),
-                  const SizedBox(height: 42),*/
                 ],
               ),
             ),
@@ -1223,9 +1335,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   AppService.api.sendIdCard(selectedImagePath,).then((_) {
                                                     // Optionally, you can perform additional actions after the operation completes
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                   }).catchError((error) {
                                                     // Handle any errors that occur during the asynchronous operation
                                                     print('Error: $error');
+                                                    Navigator.pop(context);
                                                     Navigator.pop(context);
                                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                       showMessage(context, error.toString());
@@ -1341,14 +1455,15 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   AppService.api.sendKbisFile(selectedImagePath,).then((_) {
                                                     // Optionally, you can perform additional actions after the operation completes
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                   }).catchError((error) {
                                                     // Handle any errors that occur during the asynchronous operation
                                                     print('Error: $error');
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                       showMessage(context, error.toString());
                                                     }
-
                                                   });
                                                 },
                                               ),
@@ -1505,14 +1620,15 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   AppService.api.sendOtherDocument(_selectedCategory, selectedImagePath,).then((_) {
                                                     // Optionally, you can perform additional actions after the operation completes
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                   }).catchError((error) {
                                                     // Handle any errors that occur during the asynchronous operation
                                                     print('Error: $error');
                                                     Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                                                       showMessage(context, error.toString());
                                                     }
-
                                                   });
                                                 },
                                               ),
