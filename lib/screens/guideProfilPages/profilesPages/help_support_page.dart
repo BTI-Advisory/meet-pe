@@ -163,7 +163,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                       StateSetter setState) {
                     return Container(
                       width: double.infinity,
-                      height: 469,
+                      height: 459,
                       color: AppResources.colorWhite,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -186,7 +186,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             const SizedBox(height: 40,),
-                            GestureDetector(
+                            InkWell(
                               onTap: () {
                                 setState(() {
                                   _isDropdownOpened = !_isDropdownOpened;
@@ -211,7 +211,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   ),
                                   if (_isDropdownOpened)
                                     Container(
-                                      height: 200, // Adjust height according to your content
+                                      height: 100, // Adjust height according to your content
                                       color: Colors.grey[200], // Example background color
                                       child: ListView.builder(
                                         itemCount: _categories.length,
