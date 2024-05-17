@@ -127,14 +127,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
       // Do something with the picked image (e.g., upload or process it)
       //File imageFile = File(pickedFile.path);
       // Add your logic here to handle the selected image
+      setState(() {
+        selectedImagePath = pickedFile.name; // Or image.path if you need the full path
+      });
     }
     // For demonstration purposes, I'm using a static image path.
-    String imagePath = pickedFile?.path ?? '';
+    /*String imagePath = pickedFile?.path ?? '';
 
     setState(() {
       selectedImagePath = imagePath;
       updateFormValidity();
-    });
+    });*/
   }
 
   @override
@@ -1282,7 +1285,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
                                                       const SizedBox(width: 8),
                                                       Text(
-                                                        'Ajouter un document',
+                                                          selectedImagePath.isEmpty ? 'Ajouter un document' : selectedImagePath,
                                                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                                                       )
                                                     ],
