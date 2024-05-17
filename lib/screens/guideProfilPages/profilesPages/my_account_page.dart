@@ -160,14 +160,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ?.copyWith(
                         fontSize: 20, color: AppResources.colorDark),
                   ),
-                  const SizedBox(height: 17),
-                  Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppResources.colorGray30),
-                  ),
-                  const SizedBox(height: 32),
                   InkWell(
                     onTap: () {
                       showModalBottomSheet<void>(
