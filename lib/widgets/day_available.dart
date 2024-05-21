@@ -109,7 +109,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                 children: [
                                   ///Choose start time
                                   Container(
-                                    width: 155.50,
+                                    width: ResponsiveSize.calculateWidth(155.5, context),
                                     height: 52,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 6),
@@ -121,7 +121,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    child: GestureDetector(
+                                    child: InkWell(
                                       onTap: () {
                                         DatePicker.showTimePicker(context,
                                             showTitleActions: true,
@@ -172,11 +172,10 @@ class _DayAvailableState extends State<DayAvailable> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-
+                                  SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
                                   ///Choose end time
                                   Container(
-                                    width: 155.50,
+                                    width: ResponsiveSize.calculateWidth(155.5, context),
                                     height: 52,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 6),
@@ -188,7 +187,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    child: GestureDetector(
+                                    child: InkWell(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -248,7 +247,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                 children: [
                                   ///Choose start time
                                   Container(
-                                    width: 155.50,
+                                    width: ResponsiveSize.calculateWidth(155.5, context),
                                     height: 52,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 6),
@@ -260,7 +259,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    child: GestureDetector(
+                                    child: InkWell(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -311,11 +310,11 @@ class _DayAvailableState extends State<DayAvailable> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
 
                                   ///Choose end time
                                   Container(
-                                    width: 155.50,
+                                    width: ResponsiveSize.calculateWidth(155.5, context),
                                     height: 52,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 6),
@@ -327,7 +326,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    child: GestureDetector(
+                                    child: InkWell(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

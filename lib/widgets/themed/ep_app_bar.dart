@@ -23,32 +23,33 @@ class EpAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         height: preferredSize.height,
         padding: AppResources.paddingPage.copyWith(
-            left: showBackButton ? 0 : null, top: 0, bottom: 0, right: 5),
-        child: Row(
+            left: 0, top: 0, bottom: 0, right: 5),
+        child: Stack(
           children: [
             // Back button
             if (showBackButton)
-              backButtonColor == null
-                  ? const BackButton()
-                  : BackButton(color: backButtonColor),
-            
-            SizedBox(width: ResponsiveSize.calculateWidth(75, context),),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: BackButton(color: backButtonColor),
+              ),
 
             // Title
             if (title != null)
-              Expanded(
+              Center(
                 child: Text(
                   title!,
                   style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-              )
-            else
-              const Spacer(),
-
-            // Actions
-            ...actions,
+              ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
           ],
         ),
       ),

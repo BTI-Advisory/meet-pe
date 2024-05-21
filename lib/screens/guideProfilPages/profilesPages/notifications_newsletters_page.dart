@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/utils/_utils.dart';
 
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
@@ -62,6 +63,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
 
     // Call the API method to send notification settings
     await AppService.api.sendNotificationSettings(notificationSettings);
+    showMessage(context, 'Nous avons pris en compte tes modifications');
   }
 
   @override
