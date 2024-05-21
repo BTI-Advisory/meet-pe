@@ -210,7 +210,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                           children: [
                             ///Choose start time
                             Container(
-                              width: 155.50,
+                              width: ResponsiveSize.calculateWidth(155.5, context),
                               height: 52,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 6),
@@ -222,7 +222,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: GestureDetector(
+                              child: InkWell(
                                 onTap: () {
                                   DatePicker.showTimePicker(context,
                                       showTitleActions: true,
@@ -266,11 +266,11 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: ResponsiveSize.calculateWidth(8, context),),
 
                             ///Choose end time
                             Container(
-                              width: 155.50,
+                              width: ResponsiveSize.calculateWidth(155.5, context),
                               height: 52,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 6),
@@ -282,7 +282,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: GestureDetector(
+                              child: InkWell(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -333,19 +333,10 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                             ? Row(
                                 children: [
                                   Container(
-                                    width: 145,
+                                    width: ResponsiveSize.calculateWidth(145, context),
                                     height: 44,
                                     child: TextButton(
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            EdgeInsets.symmetric(
-                                                horizontal: ResponsiveSize
-                                                    .calculateWidth(
-                                                        24, context),
-                                                vertical: ResponsiveSize
-                                                    .calculateHeight(
-                                                        12, context))),
                                         backgroundColor:
                                             MaterialStateProperty.all(
                                                 Colors.transparent),
@@ -373,21 +364,12 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 29),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(29, context),),
                                   Container(
-                                    width: 145,
+                                    width: ResponsiveSize.calculateWidth(145, context),
                                     height: 44,
                                     child: TextButton(
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            EdgeInsets.symmetric(
-                                                horizontal: ResponsiveSize
-                                                    .calculateWidth(
-                                                        24, context),
-                                                vertical: ResponsiveSize
-                                                    .calculateHeight(
-                                                        12, context))),
                                         backgroundColor:
                                             MaterialStateProperty.all(
                                                 Colors.transparent),

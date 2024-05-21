@@ -73,7 +73,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+                    'Ici découvre les réponses à toutes les questions les plus cool et les plus fréquemment posées 🤜🏼🤛🏼',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
@@ -306,13 +306,13 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   // Call the asynchronous operation and handle its completion
                                   AppService.api.sendFeedBack(_selectedCategory, _textEditingControllerFeedBack.text,).then((_) {
                                     // Optionally, you can perform additional actions after the operation completes
-                                    showMessage(context, 'Ton message est bien envoyer.');
+                                    showMessage(context, 'Ton message est bien envoyé');
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   }).catchError((error) {
                                     // Handle any errors that occur during the asynchronous operation
                                     print('Error: $error');
-                                    showMessage(context, 'Ton message est bien envoyer.');
+                                    showMessage(context, 'Ton message est bien envoyé');
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {

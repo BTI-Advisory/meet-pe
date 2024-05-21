@@ -938,7 +938,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               StateSetter setState) {
                             return Container(
                               width: double.infinity,
-                              height: 432,
+                              height: 452,
                               color: AppResources.colorWhite,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -994,7 +994,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                               ?.copyWith(color: AppResources.colorDark),
                                           decoration: InputDecoration(
                                             filled: false,
-                                            hintText: 'IBAN',
+                                            hintText: widget.userInfo.IBAN ?? 'IBAN',
                                             hintStyle: Theme.of(context).textTheme.bodyMedium,
                                             contentPadding: EdgeInsets.only(
                                                 top: ResponsiveSize.calculateHeight(20, context),
@@ -1038,7 +1038,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                               ?.copyWith(color: AppResources.colorDark),
                                           decoration: InputDecoration(
                                             filled: false,
-                                            hintText: 'BIC',
+                                            hintText: widget.userInfo.BIC ?? 'BIC',
                                             hintStyle: Theme.of(context).textTheme.bodyMedium,
                                             contentPadding: EdgeInsets.only(
                                                 top: ResponsiveSize.calculateHeight(20, context),
@@ -1082,7 +1082,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                               ?.copyWith(color: AppResources.colorDark),
                                           decoration: InputDecoration(
                                             filled: false,
-                                            hintText: 'Nom du titulaire du compte',
+                                            hintText: widget.userInfo.nomDuTitulaire ?? 'Nom du titulaire du compte',
                                             hintStyle: Theme.of(context).textTheme.bodyMedium,
                                             contentPadding: EdgeInsets.only(
                                                 top: ResponsiveSize.calculateHeight(20, context),
