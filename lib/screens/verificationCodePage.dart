@@ -34,12 +34,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
         body: AsyncForm(
             onValidated: bloc.verifyCode,
             onSuccess: () async {
-              bool isVerified = await bloc.verifyCode();
-              if (isVerified) {
-                return navigateTo(context, (_) => WelcomePage());
-              } else {
-                showMessage(context, 'Erreur code');
-              }
+              return navigateTo(context, (_) => const WelcomePage());
             },
             builder: (context, validate) {
               return Container(
