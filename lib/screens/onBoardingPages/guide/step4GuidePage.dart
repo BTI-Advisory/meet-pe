@@ -11,6 +11,9 @@ import '../../../utils/responsive_size.dart';
 import '../../../widgets/async_form.dart';
 import 'loadingGuidePage.dart';
 
+// Define the callback function type
+typedef ImagePathCallback = void Function(String);
+
 class Step4GuidePage extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
@@ -46,13 +49,14 @@ class _Step4GuidePageState extends State<Step4GuidePage>
   String? validationMessageSiren = '';
   bool isFormValid = false;
   bool isChecked = false;
+  bool imageSize = false;
 
   double calculateProgress() {
     return widget.currentStep / widget.totalSteps;
   }
 
   // Assume this is your function to pick an image.
-  Future<void> pickImage() async {
+  Future<void> pickImage(ImagePathCallback callback) async {
     // Your logic to pick an image goes here.
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
@@ -60,18 +64,26 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      // Do something with the picked image (e.g., upload or process it)
-      //File imageFile = File(pickedFile.path);
-      // Add your logic here to handle the selected image
-    }
-    // For demonstration purposes, I'm using a static image path.
-    String imagePath = pickedFile?.path ?? '';
+      if((await pickedFile.readAsBytes()).lengthInBytes > 10485760) {
+        imageSize = false;
+        showMessage(context, 'La taille de photo ne doit pas passe 10 MB');
+      } else {
+        // Do something with the picked image (e.g., upload or process it)
+        //File imageFile = File(pickedFile.path);
+        // Add your logic here to handle the selected image
 
-    setState(() {
-      selectedImagePath = imagePath;
-      bloc.imagePath = imagePath;
-      updateFormValidity();
-    });
+        // For demonstration purposes, I'm using a static image path.
+        String imagePath = pickedFile?.path ?? '';
+
+        setState(() {
+          imageSize = true;
+          selectedImagePath = imagePath;
+          bloc.imagePath = imagePath;
+          updateFormValidity();
+          callback(imagePath);
+        });
+      }
+    }
   }
 
   ///Chat gpt
@@ -176,7 +188,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   child: FloatingActionButton(
                                     backgroundColor: AppResources.colorVitamine,
                                     onPressed: () {
-                                      pickImage();
+                                      pickImage((String imagePath) {
+                                        selectedImagePath = imagePath;
+                                      });
                                     },
                                     child: Icon(Icons.add, color: Colors.white),
                                   ),
