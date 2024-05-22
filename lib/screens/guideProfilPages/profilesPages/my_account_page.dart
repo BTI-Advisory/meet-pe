@@ -12,6 +12,9 @@ import '../../../utils/utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 import '../../../widgets/web_view_container.dart';
 
+// Define the callback function type
+typedef ImagePathCallback = void Function(String);
+
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({super.key, required this.userInfo});
   final UserResponse userInfo;
@@ -48,6 +51,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
   bool _isDropdownOpened = false;
   List<String> _categories = ['Permis', 'Licence professionnelle', 'Assurance'];
   String _selectedCategory = 'Catégorie du document';
+
+  bool imageSize = false;
 
   @override
   void initState() {
@@ -116,7 +121,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     });
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(ImagePathCallback callback) async {
     // Your logic to pick an image goes here.
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
@@ -124,20 +129,26 @@ class _MyAccountPageState extends State<MyAccountPage> {
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      // Do something with the picked image (e.g., upload or process it)
-      //File imageFile = File(pickedFile.path);
-      // Add your logic here to handle the selected image
-      setState(() {
-        selectedImagePath = pickedFile.name; // Or image.path if you need the full path
-      });
-    }
-    // For demonstration purposes, I'm using a static image path.
-    /*String imagePath = pickedFile?.path ?? '';
+      print('HELLOOO BAHA ${(await pickedFile.readAsBytes()).lengthInBytes}');
+      if((await pickedFile.readAsBytes()).lengthInBytes > 10485760) {
+        imageSize = false;
+        showMessage(context, 'La taille de photo ne doit pas passe 10 MB');
+      } else {
+        // Do something with the picked image (e.g., upload or process it)
+        //File imageFile = File(pickedFile.path);
+        // Add your logic here to handle the selected image
 
-    setState(() {
-      selectedImagePath = imagePath;
-      updateFormValidity();
-    });*/
+        // For demonstration purposes, I'm using a static image path.
+        String imagePath = pickedFile?.path ?? '';
+
+        setState(() {
+          imageSize = true;
+          selectedImagePath = imagePath;
+          updateFormValidity();
+          callback(imagePath);
+        });
+      }
+    }
   }
 
   @override
@@ -1276,7 +1287,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                             const SizedBox(height: 39),
                                             GestureDetector(
                                               onTap: () {
-                                                pickImage();
+                                                pickImage((String imagePath) {
+                                                  selectedImagePath = imagePath;
+                                                });
                                               },
                                               child: Column(
                                                 children: [
@@ -1396,7 +1409,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                             const SizedBox(height: 39),
                                             GestureDetector(
                                               onTap: () {
-                                                pickImage();
+                                                pickImage((String imagePath) {
+                                                  selectedImagePath = imagePath;
+                                                });
                                               },
                                               child: Column(
                                                 children: [
@@ -1561,7 +1576,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                             const SizedBox(height: 53,),
                                             GestureDetector(
                                               onTap: () {
-                                                pickImage();
+                                                pickImage((String imagePath) {
+                                                  selectedImagePath = imagePath;
+                                                });
                                               },
                                               child: Column(
                                                 children: [
