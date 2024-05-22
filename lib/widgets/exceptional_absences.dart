@@ -32,6 +32,10 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
 
   bool isRangeSelected = false;
 
+  void _onAbsenceAdded() {
+    Navigator.pop(context, true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,8 +43,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
       child: AsyncForm(
           onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
-            Navigator.pop(context);
-            Navigator.pop(context);
+            _onAbsenceAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(

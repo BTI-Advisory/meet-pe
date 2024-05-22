@@ -55,6 +55,21 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     }
   }
 
+  void _toggleAvailability(bool value) async {
+    setState(() {
+      isAvailable = value;
+    });
+
+    try {
+      await AppService.api.sendFullAvailable(value);
+    } catch (e) {
+      print('Error updating availability: $e');
+      setState(() {
+        isAvailable = !value;
+      });
+    }
+  }
+
   Future<void> fetchAbsenceData() async {
     try {
       final entries = await AppService.api.getAbsenceList();
@@ -67,7 +82,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     }
   }
 
-  void refreshData() {
+  void _onAbsenceModified() {
     fetchAbsenceData();
   }
 
@@ -118,65 +133,10 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                       Switch.adaptive(
                         value: isAvailable,
                         activeColor: AppResources.colorVitamine,
-                        onChanged: (bool value) {
-                          // Update the state immediately without awaiting the async operation
-                          setState(() {
-                            isAvailable = value;
-                          });
-
-                          // Call the asynchronous operation and handle its completion
-                          AppService.api.sendFullAvailable(value).then((_) {
-                            // Optionally, you can perform additional actions after the operation completes
-                          }).catchError((error) {
-                            // Handle any errors that occur during the asynchronous operation
-                            print('Error: $error');
-                          });
-                        },
+                        onChanged: _toggleAvailability,
                       )
                     ],
                   ),
-                  /*SizedBox(
-                    height: isAvailable
-                        ? ResponsiveSize.calculateHeight(0, context)
-                        : ResponsiveSize.calculateHeight(15, context),
-                  ),
-                  Visibility(
-                    visible: !isAvailable,
-                    child: Container(
-                      width: 321,
-                      height: 60,
-                      decoration: ShapeDecoration(
-                        color: Colors.white.withOpacity(0.12999999523162842),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 1, color: AppResources.colorVitamine),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            //Image.asset('images/info_icon.png'),
-                            const Icon(Icons.info_outline,
-                                size: 24, color: AppResources.colorVitamine),
-                            SizedBox(
-                                width: ResponsiveSize.calculateWidth(
-                                    10, context)),
-                            Text(
-                              'Tes disponibilités s’appliquent à toutes tes \nexpériences.',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppResources.colorVitamine),
-                            ),
-                          ]),
-                    ),
-                  ),
-                  SizedBox(
-                      height: ResponsiveSize.calculateHeight(25, context)),*/
                 ],
               ),
             ),
@@ -222,14 +182,18 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      showModalBottomSheet<void>(
+                    onPressed: () async {
+                      final result = await showModalBottomSheet<bool>(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return const ExceptionalAbsences();
+                          return ExceptionalAbsences();
                         },
                       );
+
+                      if (result == true) {
+                        fetchAbsenceData();
+                      }
                     },
                     child: Text(
                       'Ajouter une abscence',
@@ -244,19 +208,12 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
             ),
             Column(
               children: absenceList.map((absence) {
-                if(absence.day == null) {
-                  final startDate = absence.dateFrom;
-                  final formattedStartDate = yearsFrenchFormat(startDate!);
-                  final endDate = absence.dateTo;
-                  final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
-                } else {
-                  final startDate = absence.day;
-                  final formattedStartDate = yearsFrenchFormat(startDate!);
-                  final endDate = absence.day;
-                  final formattedEndDate = yearsFrenchFormat(endDate!);
-                  return listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
-                }
+                final startDate = absence.day ?? absence.dateFrom!;
+                final endDate = absence.day ?? absence.dateTo!;
+                final formattedStartDate = yearsFrenchFormat(startDate);
+                final formattedEndDate = yearsFrenchFormat(endDate);
+
+                return _listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
               }).toList(),
             ),
           ],
@@ -265,16 +222,27 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     );
   }
 
-  Widget listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
+  Widget _listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
     return InkWell(
-      onTap: () {
-        showModalBottomSheet<void>(
+      onTap: () async {
+        bool? modified = await showModalBottomSheet<bool>(
           context: context,
           isScrollControlled: true,
           builder: (BuildContext context) {
-            return ModifyExceptionalAbsences(id: id, firstFormatDate: startFormatDate, lastFormatDate: endFormatDate, startHour: startHour, endHour: endHour,);
+            return ModifyExceptionalAbsences(
+              id: id,
+              firstFormatDate: startFormatDate,
+              lastFormatDate: endFormatDate,
+              startHour: startHour,
+              endHour: endHour,
+              onAbsenceModified: _onAbsenceModified,
+            );
           },
         );
+
+        if (modified == true) {
+          fetchAbsenceData();
+        }
       },
       child: Column(
         children: [
@@ -288,8 +256,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                   'Du $startDate au $endDate',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
                 ),
-                Image.asset('images/chevron_right.png',
-                    width: 27, height: 27, fit: BoxFit.fill),
+                Icon(Icons.chevron_right, size: 27, color: AppResources.colorVitamine),
               ],
             ),
           ),
@@ -305,7 +272,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

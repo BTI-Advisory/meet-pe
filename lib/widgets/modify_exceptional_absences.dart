@@ -9,12 +9,13 @@ import '../resources/resources.dart';
 import '../services/app_service.dart';
 
 class ModifyExceptionalAbsences extends StatefulWidget {
-  ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour});
+  ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour, required this.onAbsenceModified});
   int id;
   String firstFormatDate;
   String lastFormatDate;
   String startHour;
   String endHour;
+  final VoidCallback onAbsenceModified;
 
   @override
   State<ModifyExceptionalAbsences> createState() => _ModifyExceptionalAbsencesState();
@@ -55,7 +56,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
       child: AsyncForm(
           onValidated: bloc.updateScheduleAbsence,
           onSuccess: () async {
-            Navigator.pop(context);
+            widget.onAbsenceModified();
             Navigator.pop(context);
           },
           builder: (context, validate) {
@@ -409,7 +410,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   if (confirmDelete == true) {
                                     bloc.id = id;
                                     bool isDeleted = await bloc.deleteScheduleAbsence();
-                                    Navigator.pop(context);
+                                    widget.onAbsenceModified();
                                     Navigator.pop(context);
                                   }
                                 },
