@@ -7,9 +7,10 @@ import '../resources/resources.dart';
 import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
-  const DayAvailable({super.key, required this.availabilityList});
+  const DayAvailable({super.key, required this.availabilityList, required this.onAvailabilityModified});
 
   final AvailabilityListResponse availabilityList;
+  final VoidCallback onAvailabilityModified;
 
   @override
   State<DayAvailable> createState() => _DayAvailableState();
@@ -416,12 +417,6 @@ class _DayAvailableState extends State<DayAvailable> {
                                             color: AppResources.colorDark),
                                   ),
                                   onPressed: () async {
-                                    // Create a TimeSlot object
-                                    print('EHFEe 11 $hourAvailableStart');
-                                    print('EHFEe 22 $hourAvailableEnd');
-                                    print('EHFEe 33 $hourSecondAvailableStart');
-                                    print('EHFEe 44 $hourSecondAvailableEnd');
-
                                     if (hourSecondAvailableStart != '' &&
                                         hourSecondAvailableEnd != '') {
                                       TimeSlot timeSlot1 = TimeSlot(
@@ -477,7 +472,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                           .sendScheduleAvailability(json);
                                     }
 
-                                    Navigator.pop(context);
+                                    widget.onAvailabilityModified();
                                     Navigator.pop(context);
                                   },
                                 ),

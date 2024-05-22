@@ -86,6 +86,10 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     fetchAbsenceData();
   }
 
+  void _onAvailabilityModified() {
+    fetchAvailabilityData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +148,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
               visible: !isAvailable,
               child: Column(
                 children: availabilityList.map((item) {
-                  return DayAvailable(availabilityList: item);
+                  return DayAvailable(availabilityList: item, onAvailabilityModified: _onAvailabilityModified,);
                 }).toList(),
               ),
             ),
