@@ -1781,6 +1781,8 @@ class ApiClient {
 
       // Unauthorized
       else if (e is EpHttpResponseException && e.statusCode == 401) {
+        ///Todo Remove this when backend add refresh token
+        AppService.instance.logOut;
         // If allowed, try get new accessToken and retry
         if (enableAutoRetryOnUnauthorized) {
           // Clear access token
@@ -1790,7 +1792,8 @@ class ApiClient {
           if (hasRefreshToken) {
             // Refresh token
             try {
-              await _refreshAccessToken();
+              ///Todo Remove comment when backend add refresh token
+              //await _refreshAccessToken();
             } catch (e) {
               // If any error occurs during refresh, consider as an UnauthorizedException
               throw const UnauthorizedException();
