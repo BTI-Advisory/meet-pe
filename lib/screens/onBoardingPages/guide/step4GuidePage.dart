@@ -64,9 +64,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 10485760) {
+      print('FJRHRFHRFH ${(await pickedFile.readAsBytes()).lengthInBytes}');
+      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
         imageSize = false;
-        showMessage(context, 'La taille de photo ne doit pas passe 10 MB');
+        showMessage(context, 'La taille de photo ne doit pas passe 8 MB');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);
@@ -111,9 +112,13 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.makeProfileGuide,
-          onSuccess: () {
-            return navigateTo(context, (_) => LoadingGuidePage());
+          onValidated: () async {
+            bool success = await bloc.makeProfileGuide();
+            if (success) {
+              navigateTo(context, (_) => LoadingGuidePage());
+            } else {
+              showMessage(context, 'Failed to upload the image. Please try again.');
+            }
           },
           builder: (BuildContext context, void Function() validate) {
             return SingleChildScrollView(
@@ -539,7 +544,7 @@ class Step4GuidePageBloc with Disposable {
 
   Step4GuidePageBloc(this.myMap);
 
-  Future<void> makeProfileGuide() async {
+  Future<bool> makeProfileGuide() async {
     try {
       if (isCheck == false) {
         // Only send data if isChecked is false
@@ -549,7 +554,12 @@ class Step4GuidePageBloc with Disposable {
         myMap.forEach((key, value) {
           modifiedMap[key] = value.toList();
         });
-        await AppService.api.sendListGuide(modifiedMap, imagePath!);
+        final response = await AppService.api.sendListGuide(modifiedMap, imagePath!);
+        if (response == true) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         // Send all data if isChecked is true
         if (name != null && phone != null && nameOfSociety != null && siren != null) {
@@ -565,15 +575,22 @@ class Step4GuidePageBloc with Disposable {
           });
 
           // Perform the API call
-          await AppService.api.sendListGuide(modifiedMap, imagePath!);
+          final response = await AppService.api.sendListGuide(modifiedMap, imagePath!);
+          if (response == true) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
           // Handle incomplete data when isChecked is true
           print('Incomplete data: Some fields are missing.');
+          return false;
         }
       }
     } catch (error) {
       // Handle the error appropriately
       print("Error in make Profile Guide: $error");
+      return false;
     }
   }
 
@@ -583,3 +600,4 @@ class Step4GuidePageBloc with Disposable {
     super.dispose();
   }
 }
+

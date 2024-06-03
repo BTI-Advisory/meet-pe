@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:info_popup/info_popup.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/popup_view.dart';
 
@@ -47,9 +46,9 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 10485760) {
+      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
         imageSize = false;
-        showMessage(context, 'La taille de photo ne doit pas passe 10 MB');
+        showMessage(context, 'La taille de photo ne doit pas passe 8 MB');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);
