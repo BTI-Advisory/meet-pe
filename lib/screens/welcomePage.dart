@@ -155,7 +155,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: ResponsiveSize.calculateHeight(38, context),),
+                        //SizedBox(height: ResponsiveSize.calculateHeight(38, context),),
                       ],
                     ),
                   ],

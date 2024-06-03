@@ -155,7 +155,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                       TextFormField(
                         controller: _textEditingControllerDescr,
                         maxLines: null,
-                        textInputAction: TextInputAction.newline,
+                        textInputAction: TextInputAction.done,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(3000),
                         ],

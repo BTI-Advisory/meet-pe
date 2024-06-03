@@ -17,7 +17,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
     super.initState();
     // Initialize the WebViewController with JavaScript enabled
     controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setJavaScriptMode(JavaScriptMode.disabled)
       //..setDebuggingEnabled(true)  // Enable debugging
       ..loadRequest(Uri.parse(widget.webUrl));
   }

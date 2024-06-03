@@ -510,7 +510,9 @@ class ApiClient {
       isVerified = true;
       return isVerified;
     } else {
-      throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
+      isVerified = false;
+      return isVerified;
+      //throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
     }
   }
 
