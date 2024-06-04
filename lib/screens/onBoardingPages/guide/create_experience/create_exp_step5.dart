@@ -48,7 +48,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
     if (pickedFile != null) {
       if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
         imageSize = false;
-        showMessage(context, 'La taille de photo ne doit pas passe 8 MB');
+        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);

@@ -875,7 +875,7 @@ class ApiClient {
   }
 
   /// Mark a Upload ID Card
-  Future<bool> sendIdCard(String filePath) async {
+  Future<bool> sendIdCard(String cardIDRecto, String cardIDVerso) async {
     bool isVerified = false;
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
@@ -892,13 +892,21 @@ class ApiClient {
       request.headers.addAll(headers);
     }
 
-    // Add image file if provided
-    if (filePath != null) {
-      // Create a File object from the provided file path
-      final imageFile = File(filePath);
+    // Create File objects from the provided file paths
+    final imageFileRecto = File(cardIDRecto);
+    final imageFileVerso = File(cardIDVerso);
 
-      request.files.add(http.MultipartFile.fromBytes('piece_identite', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    // Ensure the files exist
+    if (!imageFileRecto.existsSync()) {
+      throw Exception('The recto file does not exist at the provided path');
     }
+    if (!imageFileVerso.existsSync()) {
+      throw Exception('The verso file does not exist at the provided path');
+    }
+
+    // Add image files to the request
+    request.files.add(http.MultipartFile.fromBytes('piece_identite', File(imageFileRecto!.path).readAsBytesSync(),filename: imageFileRecto!.path));
+    request.files.add(http.MultipartFile.fromBytes('piece_d_identite_verso', File(imageFileVerso!.path).readAsBytesSync(),filename: imageFileVerso!.path));
 
     // Send the request
     final streamedResponse = await request.send();
@@ -910,10 +918,10 @@ class ApiClient {
     if (response.statusCode == 200) {
       // Parse JSON response
       isVerified = true;
-      return isVerified;
     } else {
       throw Exception('Failed to send identity card: ${response.reasonPhrase}');
     }
+    return isVerified;
   }
 
   /// Mark a Upload KBIS
