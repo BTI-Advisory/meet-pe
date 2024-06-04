@@ -64,10 +64,9 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             .gallery); // Use source: ImageSource.camera for taking a new picture
 
     if (pickedFile != null) {
-      print('FJRHRFHRFH ${(await pickedFile.readAsBytes()).lengthInBytes}');
       if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
         imageSize = false;
-        showMessage(context, 'La taille de photo ne doit pas passe 8 MB');
+        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);
@@ -87,7 +86,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
     }
   }
 
-  ///Chat gpt
   void updateFormValidity() {
     setState(() {
       if (isChecked) {
@@ -117,7 +115,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             if (success) {
               navigateTo(context, (_) => LoadingGuidePage());
             } else {
-              showMessage(context, 'Failed to upload the image. Please try again.');
+              showMessage(context, "Échec du téléchargement de l'image. Veuillez réessayer.");
             }
           },
           builder: (BuildContext context, void Function() validate) {
