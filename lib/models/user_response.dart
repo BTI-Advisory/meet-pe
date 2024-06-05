@@ -24,6 +24,9 @@ class UserResponse {
     required this.userType,
     required this.sirenNumber,
     required this.hasUpdatedHesSchedule,
+    required this.pieceIdentite,
+    required this.kbisFile,
+    required this.otherDocument,
   });
 
   /// Short live token, used to access API.
@@ -65,6 +68,12 @@ class UserResponse {
   final String? sirenNumber;
   @JsonKey(name: 'has_updated_hes_schedule')
   final bool hasUpdatedHesSchedule;
+  @JsonKey(name: 'piece_d_identite')
+  final String? pieceIdentite;
+  @JsonKey(name: 'KBIS_file')
+  final String? kbisFile;
+  @JsonKey(name: 'document_path')
+  final String? otherDocument;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>
       _$UserResponseFromJson(json);

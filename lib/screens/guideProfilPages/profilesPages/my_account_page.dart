@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/_utils.dart';
 
@@ -1179,39 +1180,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Informations de compte bancaire',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                        ),
-                        Row(
-                          children: [
-                            Visibility(
-                              visible: widget.userInfo.IBAN == null,
-                              child: Container(
-                                width: 73,
-                                height: 21,
-                                alignment: Alignment.center,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFFFFECAB),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Text(
-                                  'à compléter',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
-                                ),
-                              ),
-                            ),
-                            Image.asset('images/chevron_right.png',
-                                width: 27, height: 27, fit: BoxFit.fill),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: accountRowToComplete('Informations de compte bancaire', widget.userInfo.IBAN, false),
                   ),
                   const SizedBox(height: 19),
                 ],
@@ -1257,7 +1226,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             }
                         );
                       },
-                      child: accountRowDefault('Ma pièce d’identité', '', true)
+                      child: accountRowToComplete('Ma pièce d’identité', widget.userInfo.pieceIdentite, false)
                   ),
                   const SizedBox(height: 17),
                   InkWell(
@@ -1279,7 +1248,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             }
                         );
                       },
-                      child: accountRowDefault('Mon KBIS', '', true)
+                      child: accountRowToComplete('Mon KBIS', widget.userInfo.kbisFile, false)
                   ),
                   const SizedBox(height: 17),
                   InkWell(
@@ -1301,7 +1270,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             }
                         );
                       },
-                      child: accountRowDefault('Autres documents', '', true)
+                      child: accountRowToComplete('Autres documents', widget.userInfo.otherDocument, true)
                   ),
                   const SizedBox(height: 17),
                 ],
@@ -1346,6 +1315,78 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   child: Image.asset('images/chevron_right.png',
                       width: 27, height: 27, fit: BoxFit.fill),
                 ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 19),
+        Container(
+          width: 390,
+          decoration: const ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                strokeAlign: BorderSide.strokeAlignCenter,
+                color: AppResources.colorImputStroke,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget accountRowToComplete(String name, String? info, bool tooltip) {
+    return Column(
+      children: [
+        const SizedBox(height: 19),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                ),
+                Visibility(
+                  visible: tooltip,
+                  child: const PopupView(contentTitle: "Ici tu vas pouvoir nous transmettre tous les documents spécifiques liés à la pratique de ton expérience: \nPermis bateaux, moto, voitures, ou d’avion de chasse 😜 🚀\nTes licences \nTes assurances")
+                ),
+              ]
+            ),
+            Row(
+              children: [
+                Visibility(
+                  visible: info == null,
+                  child: Container(
+                    width: 73,
+                    height: 21,
+                    alignment: Alignment.center,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFFFECAB),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'à compléter',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                    ),
+                  ),
+                ),
+                if (info != null)
+                  Row(
+                    children: [
+                      SvgPicture.asset('images/icon_done.svg'),
+                      const SizedBox(width: 20,)
+                    ],
+                  ),
+
+                Image.asset('images/chevron_right.png',
+                    width: 27, height: 27, fit: BoxFit.fill),
               ],
             ),
           ],
