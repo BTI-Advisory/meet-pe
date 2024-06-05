@@ -88,7 +88,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+                      'Retrouve ici toutes les demandes pour tes expériences. Crée, modifie et gère tes expériences facilement ici.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppResources.colorGray30),

@@ -195,12 +195,12 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
                   AppService.api.sendOtherDocument(_selectedCategory, otherDocument,).then((_) {
                     // Optionally, you can perform additional actions after the operation completes
                     Navigator.pop(context);
-                    showMessage(context, 'Autres documents est bien transferé');
+                    showMessage(context, 'Autres documents ✅');
                   }).catchError((error) {
                     // Handle any errors that occur during the asynchronous operation
                     print('Error: $error');
                     Navigator.pop(context);
-                    showMessage(context, 'Autres documents est bien transferé');
+                    showMessage(context, 'Autres documents ✅');
                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                       showMessage(context, error.toString());
                     }
