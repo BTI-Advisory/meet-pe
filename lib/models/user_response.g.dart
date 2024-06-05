@@ -26,4 +26,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       userType: json['user_type'] as String?,
       sirenNumber: json['siren_number'] as String?,
       hasUpdatedHesSchedule: json['has_updated_hes_schedule'] as bool,
+      pieceIdentite: json['piece_d_identite'] as String?,
+      kbisFile: json['KBIS_file'] as String?,
+      otherDocument: json['other_documents'][0]['document_path'] as String?,
     );
