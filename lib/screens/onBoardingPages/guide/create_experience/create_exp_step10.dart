@@ -108,7 +108,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                       .bodyLarge
                                       ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
                                 ),
-                                const PopupView(contentTitle: "Tips Meet People : plus tu encourageras de « l’instant Booking » en réduisant ce timing plus tu auras l’occasion de remplir ton expérience 💪🏼")
+                                const PopupView(contentTitle: "Tips : plus tu encourageras de « l’instant Booking » en réduisant ce timing plus tu auras l’occasion de remplir ton expérience 💪🏼")
                               ],
                             ),
                             SizedBox(

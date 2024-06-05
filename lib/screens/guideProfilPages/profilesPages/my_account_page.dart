@@ -43,9 +43,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String? validationMessageZip = '';
   bool isFormValid = false;
   String selectedImagePath = '';
-  bool _isDropdownOpened = false;
-  List<String> _categories = ['Permis', 'Licence professionnelle', 'Assurance'];
-  String _selectedCategory = 'Catégorie du document';
 
   bool imageSize = false;
 
@@ -155,7 +152,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: ResponsiveSize.calculateWidth(31, context)),
+                  horizontal: ResponsiveSize.calculateWidth(26, context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1275,106 +1272,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 child: StatefulBuilder(
                                   builder: (BuildContext context,
                                       StateSetter setState) {
-                                    return Container(
-                                      width: double.infinity,
-                                      height: 288,
-                                      color: AppResources.colorWhite,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 28),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(Icons.close),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              'Mon KBIS',
-                                              style: Theme.of(context).textTheme.headlineMedium,
-                                            ),
-                                            const SizedBox(height: 39),
-                                            GestureDetector(
-                                              onTap: () {
-                                                pickImage((String imagePath) {
-                                                  selectedImagePath = imagePath;
-                                                });
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        'Ajouter un document',
-                                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                  Container(
-                                                    height: 1,
-                                                    color: AppResources.colorGray15,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(height: 53),
-                                            Container(
-                                              width: ResponsiveSize.calculateWidth(319, context),
-                                              height: ResponsiveSize.calculateHeight(44, context),
-                                              child: TextButton(
-                                                style: ButtonStyle(
-                                                  padding:
-                                                  MaterialStateProperty.all<EdgeInsets>(
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                  backgroundColor: MaterialStateProperty.all(
-                                                      Colors.transparent),
-                                                  shape: MaterialStateProperty.all<
-                                                      RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                      side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                      borderRadius: BorderRadius.circular(40),
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  'ENREGISTRER',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.copyWith(color: AppResources.colorDark),
-                                                ),
-                                                onPressed: () async {
-                                                  // Call the asynchronous operation and handle its completion
-                                                  AppService.api.sendKbisFile(selectedImagePath,).then((_) {
-                                                    // Optionally, you can perform additional actions after the operation completes
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                  }).catchError((error) {
-                                                    // Handle any errors that occur during the asynchronous operation
-                                                    print('Error: $error');
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                                      showMessage(context, error.toString());
-                                                    }
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                    return KbisWidget();
                                   },
                                 ),
                               );
@@ -1396,152 +1294,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 child: StatefulBuilder(
                                   builder: (BuildContext context,
                                       StateSetter setState) {
-                                    return Container(
-                                      width: double.infinity,
-                                      height: 379,
-                                      color: AppResources.colorWhite,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 28),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(Icons.close),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              'Autres documents',
-                                              style: Theme.of(context).textTheme.headlineMedium,
-                                            ),
-                                            const SizedBox(height: 39),
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _isDropdownOpened = !_isDropdownOpened;
-                                                });
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        _selectedCategory,
-                                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                                                      ),
-                                                      Icon(Icons.keyboard_arrow_down, size: 24, color: Color(0xFF1C1B1F)),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                  Container(
-                                                    height: 1,
-                                                    color: AppResources.colorGray15,
-                                                  ),
-                                                  if (_isDropdownOpened)
-                                                    Container(
-                                                      height: 200, // Adjust height according to your content
-                                                      color: Colors.grey[200], // Example background color
-                                                      child: ListView.builder(
-                                                        itemCount: _categories.length,
-                                                        itemBuilder: (BuildContext context, int index) {
-                                                          return ListTile(
-                                                            title: Text(_categories[index]),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                _selectedCategory = _categories[index];
-                                                                _isDropdownOpened = false;
-                                                              });
-                                                            },
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(height: 53,),
-                                            GestureDetector(
-                                              onTap: () {
-                                                pickImage((String imagePath) {
-                                                  selectedImagePath = imagePath;
-                                                });
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        'Ajouter un document',
-                                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                  Container(
-                                                    height: 1,
-                                                    color: AppResources.colorGray15,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(height: 53),
-                                            Container(
-                                              width: ResponsiveSize.calculateWidth(319, context),
-                                              height: ResponsiveSize.calculateHeight(44, context),
-                                              child: TextButton(
-                                                style: ButtonStyle(
-                                                  padding:
-                                                  MaterialStateProperty.all<EdgeInsets>(
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                  backgroundColor: MaterialStateProperty.all(
-                                                      Colors.transparent),
-                                                  shape: MaterialStateProperty.all<
-                                                      RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                      side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                      borderRadius: BorderRadius.circular(40),
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  'ENREGISTRER',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.copyWith(color: AppResources.colorDark),
-                                                ),
-                                                onPressed: () async {
-                                                  // Call the asynchronous operation and handle its completion
-                                                  AppService.api.sendOtherDocument(_selectedCategory, selectedImagePath,).then((_) {
-                                                    // Optionally, you can perform additional actions after the operation completes
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                  }).catchError((error) {
-                                                    // Handle any errors that occur during the asynchronous operation
-                                                    print('Error: $error');
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                                      showMessage(context, error.toString());
-                                                    }
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                    return OtherDocumentWidget();
                                   },
                                 ),
                               );

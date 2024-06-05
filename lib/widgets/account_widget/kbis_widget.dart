@@ -10,20 +10,18 @@ import '../../utils/responsive_size.dart';
 import 'package:path/path.dart' as path;
 
 // Define the callback function type
-typedef ImagePathCallback = void Function(String);
+typedef KbisPathCallback = void Function(String);
 
-class IdCardWidget extends StatefulWidget {
+class KbisWidget extends StatefulWidget {
   @override
-  _IdCardWidgetState createState() => _IdCardWidgetState();
+  _KbisWidgetState createState() => _KbisWidgetState();
 }
 
-class _IdCardWidgetState extends State<IdCardWidget> {
-  String cardIDRecto = '';
-  String cardIDVerso = '';
-  String cardIDRectoName = '';
-  String cardIDVersoName = '';
+class _KbisWidgetState extends State<KbisWidget> {
+  String kbis = '';
+  String kbisName = '';
 
-  Future<void> pickImage(ImagePathCallback callback, ImagePathCallback callbackName) async {
+  Future<void> pickImage(KbisPathCallback callback, KbisPathCallback callbackName) async {
     // Your logic to pick an image goes here.
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
@@ -54,7 +52,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 378,
+      height: 288,
       color: AppResources.colorWhite,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -73,7 +71,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
               ],
             ),
             Text(
-              'Ma pièce d’identité',
+              'Mon KBIS',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 39),
@@ -81,11 +79,11 @@ class _IdCardWidgetState extends State<IdCardWidget> {
               onTap: () {
                 pickImage((String imagePath) {
                   setState(() {
-                    cardIDRecto = imagePath;
+                    kbis = imagePath;
                   });
                 }, (String filename) {
                   setState(() {
-                    cardIDRectoName = filename;
+                    kbisName = filename;
                   });
                 });
               },
@@ -97,66 +95,21 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          cardIDRectoName.isEmpty
-                              ? 'Ajouter une pièce d’identité recto'
-                              : cardIDRectoName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorGray60),
+                          kbisName.isEmpty
+                              ? 'Ajouter un document'
+                              : kbisName,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
-                      ),
+                      )
                     ],
                   ),
                   const SizedBox(height: 8),
                   Container(
                     height: 1,
                     color: AppResources.colorGray15,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 53),
-            GestureDetector(
-              onTap: () {
-                pickImage((String imagePath) {
-                  setState(() {
-                    cardIDVerso = imagePath;
-                  });
-                }, (String filename) {
-                  setState(() {
-                    cardIDVersoName = filename;
-                  });
-                });
-              },
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.add, size: 24, color: Color(0xFF1C1B1F)),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          cardIDVersoName.isEmpty
-                              ? 'Ajouter une pièce d’identité verso'
-                              : cardIDVersoName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorGray60),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    height: 1,
-                    color: AppResources.colorGray15,
-                  ),
+                  )
                 ],
               ),
             ),
@@ -166,14 +119,14 @@ class _IdCardWidgetState extends State<IdCardWidget> {
               height: ResponsiveSize.calculateHeight(44, context),
               child: TextButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                      horizontal: ResponsiveSize.calculateWidth(24, context),
-                      vertical: ResponsiveSize.calculateHeight(12, context),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  padding:
+                  MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.symmetric(
+                          horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
+                  backgroundColor: MaterialStateProperty.all(
+                      Colors.transparent),
+                  shape: MaterialStateProperty.all<
+                      RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       side: BorderSide(width: 1, color: AppResources.colorDark),
                       borderRadius: BorderRadius.circular(40),
@@ -189,17 +142,16 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                 ),
                 onPressed: () async {
                   // Call the asynchronous operation and handle its completion
-                  AppService.api.sendIdCard(cardIDRecto, cardIDVerso).then((_) {
+                  AppService.api.sendKbisFile(kbis,).then((_) {
                     // Optionally, you can perform additional actions after the operation completes
                     Navigator.pop(context);
-                    showMessage(context, "Canon ta photo d'identité 🤩 Nous l'avons bien prise en compte !");
+                    showMessage(context, 'KBIS est bien transferé');
                   }).catchError((error) {
                     // Handle any errors that occur during the asynchronous operation
                     print('Error: $error');
                     Navigator.pop(context);
-                    showMessage(context, "Canon ta photo d'identité 🤩 Nous l'avons bien prise en compte !");
-                    if (error.toString() !=
-                        "type 'Null' is not a subtype of type 'bool' in type cast") {
+                    showMessage(context, 'KBIS est bien transferé');
+                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                       showMessage(context, error.toString());
                     }
                   });

@@ -12,3 +12,5 @@ export 'request_card_experience.dart';
 export 'my_card_experience.dart';
 export 'web_view_container.dart';
 export 'account_widget/id_card_widget.dart';
+export 'account_widget/kbis_widget.dart';
+export 'account_widget/other_document_widget.dart';
