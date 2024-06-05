@@ -145,12 +145,12 @@ class _KbisWidgetState extends State<KbisWidget> {
                   AppService.api.sendKbisFile(kbis,).then((_) {
                     // Optionally, you can perform additional actions after the operation completes
                     Navigator.pop(context);
-                    showMessage(context, 'KBIS est bien transferé');
+                    showMessage(context, 'KBIS ✅');
                   }).catchError((error) {
                     // Handle any errors that occur during the asynchronous operation
                     print('Error: $error');
                     Navigator.pop(context);
-                    showMessage(context, 'KBIS est bien transferé');
+                    showMessage(context, 'KBIS ✅');
                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
                       showMessage(context, error.toString());
                     }

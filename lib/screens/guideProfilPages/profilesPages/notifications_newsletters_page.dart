@@ -91,7 +91,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+                    'Reçois des notifications lorsqu’un voyageur réserve, annule ou modifie une expérience.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
@@ -119,13 +119,6 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   }),
                   const SizedBox(height: 23),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppResources.colorGray30),
-                  ),
-                  const SizedBox(height: 70),
-                  Text(
                     'Notifications  Meetpe',
                     style: Theme.of(context)
                         .textTheme
@@ -135,7 +128,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+                    'Reçois des nouveautés sur l’actualité de Meetpe, toutes les dernières expériences et des conseils de voyage.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),

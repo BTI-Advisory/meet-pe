@@ -456,7 +456,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   visible: selectedImagePath ==
                                       'images/avatar_placeholder.png',
                                   child: Text(
-                                    'Veuillez ajouter une photo de profil \nafin d’accéder à la prochaine étape.',
+                                    'Ajoute une photo de profil \nafin d’accéder à la prochaine étape.',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall

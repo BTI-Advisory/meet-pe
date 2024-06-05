@@ -106,7 +106,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           height: ResponsiveSize.calculateHeight(40, context)),
                       TextFormField(
                         controller: _textEditingControllerName,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -160,7 +160,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                           LengthLimitingTextInputFormatter(3000),
                         ],
                         //textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
