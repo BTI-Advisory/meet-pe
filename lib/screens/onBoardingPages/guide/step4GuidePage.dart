@@ -190,8 +190,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                   ),
                                   child: FloatingActionButton(
                                     backgroundColor: AppResources.colorVitamine,
-                                    onPressed: () {
-                                      pickImage((String imagePath) {
+                                    onPressed: () async {
+                                      await pickImage((String imagePath) {
                                         selectedImagePath = imagePath;
                                       });
                                     },

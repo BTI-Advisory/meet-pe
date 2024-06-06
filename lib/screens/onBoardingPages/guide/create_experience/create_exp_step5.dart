@@ -135,8 +135,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             Stack(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    pickImage((String imagePath) {
+                                  onTap: () async {
+                                    await pickImage((String imagePath) {
                                       selectedImagePathPrincipal = imagePath;
                                     });
                                   },
@@ -217,8 +217,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         heroTag: "btn2",
                                         backgroundColor:
                                             AppResources.colorWhite,
-                                        onPressed: () {
-                                          pickImage((String imagePath) {
+                                        onPressed: () async {
+                                          await pickImage((String imagePath) {
                                             selectedImagePathPrincipal =
                                                 imagePath;
                                           });
@@ -239,8 +239,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                 children: [
                                   Stack(children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        pickImage((String imagePath) {
+                                      onTap: () async {
+                                        await pickImage((String imagePath) {
                                           selectedImagePath1 = imagePath;
                                         });
                                       },
@@ -299,8 +299,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             heroTag: "btn3",
                                             backgroundColor:
                                                 AppResources.colorWhite,
-                                            onPressed: () {
-                                              pickImage((String imagePath) {
+                                            onPressed: () async {
+                                              await pickImage((String imagePath) {
                                                 selectedImagePath1 = imagePath;
                                               });
                                             },
@@ -316,8 +316,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           10, context)),
                                   Stack(children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        pickImage((String imagePath) {
+                                      onTap: () async {
+                                        await pickImage((String imagePath) {
                                           selectedImagePath2 = imagePath;
                                         });
                                       },
@@ -376,8 +376,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             heroTag: "btn4",
                                             backgroundColor:
                                                 AppResources.colorWhite,
-                                            onPressed: () {
-                                              pickImage((String imagePath) {
+                                            onPressed: () async {
+                                              await pickImage((String imagePath) {
                                                 selectedImagePath2 = imagePath;
                                               });
                                             },
@@ -401,8 +401,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             Expanded(
                               child: Stack(children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    pickImage((String imagePath) {
+                                  onTap: () async {
+                                    await pickImage((String imagePath) {
                                       selectedImagePath3 = imagePath;
                                     });
                                   },
@@ -457,8 +457,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         heroTag: "btn5",
                                         backgroundColor:
                                             AppResources.colorWhite,
-                                        onPressed: () {
-                                          pickImage((String imagePath) {
+                                        onPressed: () async {
+                                          await pickImage((String imagePath) {
                                             selectedImagePath3 = imagePath;
                                           });
                                         },
@@ -476,8 +476,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             Expanded(
                               child: Stack(children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    pickImage((String imagePath) {
+                                  onTap: () async {
+                                    await pickImage((String imagePath) {
                                       selectedImagePath4 = imagePath;
                                     });
                                   },
@@ -532,8 +532,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         heroTag: "btn6",
                                         backgroundColor:
                                             AppResources.colorWhite,
-                                        onPressed: () {
-                                          pickImage((String imagePath) {
+                                        onPressed: () async {
+                                          await pickImage((String imagePath) {
                                             selectedImagePath4 = imagePath;
                                           });
                                         },
@@ -551,8 +551,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             Expanded(
                               child: Stack(children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    pickImage((String imagePath) {
+                                  onTap: () async {
+                                    await pickImage((String imagePath) {
                                       selectedImagePath5 = imagePath;
                                     });
                                   },
@@ -607,8 +607,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         heroTag: "btn7",
                                         backgroundColor:
                                             AppResources.colorWhite,
-                                        onPressed: () {
-                                          pickImage((String imagePath) {
+                                        onPressed: () async {
+                                          await pickImage((String imagePath) {
                                             selectedImagePath5 = imagePath;
                                           });
                                         },

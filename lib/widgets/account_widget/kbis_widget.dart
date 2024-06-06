@@ -77,8 +77,8 @@ class _KbisWidgetState extends State<KbisWidget> {
             ),
             const SizedBox(height: 39),
             GestureDetector(
-              onTap: () {
-                pickImage((String imagePath) {
+              onTap: () async {
+                await pickImage((String imagePath) {
                   setState(() {
                     kbis = imagePath;
                   });
