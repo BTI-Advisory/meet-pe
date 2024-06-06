@@ -497,12 +497,11 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                 context, (_) => const AvailabilitiesPage());
                           }),
                           sectionProfile('Mon compte', Icons.person, () {
-                            //navigateTo(context, (_) => MyAccountPage(iBAN: userInfo.IBAN, email: userInfo.email));
+                            //navigateTo(context, (_) => MyAccountPage());
                             Navigator.of(context)
                                 .push(
                               MaterialPageRoute(
-                                  builder: (_) => MyAccountPage(
-                                      userInfo: userInfo)),
+                                  builder: (_) => const MyAccountPage()),
                             )
                                 .then((_) {
                               // This code runs after returning from MyAccountPage

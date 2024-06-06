@@ -744,7 +744,7 @@ class ApiClient {
   }
 
   /// Update Name
-  Future<void> updateName(String firstName, String lastName) async {
+  Future<bool> updateName(String firstName, String lastName) async {
     final data = {
       'nom': lastName,
       'prenom': firstName
@@ -764,13 +764,15 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'user information has been updated') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Update phone number
-  Future<void> updatePhone(String phoneNumber) async {
+  Future<bool> updatePhone(String phoneNumber) async {
     final data = {
       'phone_number': phoneNumber
     };
@@ -789,13 +791,15 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'user information has been updated') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Update password
-  Future<void> updatePassword(String oldPassword, String newPassword) async {
+  Future<bool> updatePassword(String oldPassword, String newPassword) async {
     final data = {
       'current_password': oldPassword,
       'new_password': newPassword
@@ -815,13 +819,15 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'user information has been updated') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Update bank info
-  Future<void> updateBankInfo(String iban, String bic, String name) async {
+  Future<bool> updateBankInfo(String iban, String bic, String name) async {
     final data = {
       'IBAN': iban,
       'BIC': bic,
@@ -842,13 +848,15 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'user information has been updated') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Update address info
-  Future<void> updateAddressInfo(String rue, String ville, String zip) async {
+  Future<bool> updateAddressInfo(String rue, String ville, String zip) async {
     final data = {
       'rue': rue,
       'ville': ville,
@@ -869,9 +877,11 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'user information has been updated') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Mark a Upload ID Card
