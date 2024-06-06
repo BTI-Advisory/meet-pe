@@ -70,7 +70,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          //return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Problème de connexion avec le serveur, veuillez réessayer ultérieurement'));
         } else {
           final userInfo = snapshot.data!;
           return SingleChildScrollView(

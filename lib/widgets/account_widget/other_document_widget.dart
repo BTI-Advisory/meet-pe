@@ -127,8 +127,8 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
             ),
             const SizedBox(height: 53,),
             GestureDetector(
-              onTap: () {
-                pickImage((String imagePath) {
+              onTap: () async {
+                await pickImage((String imagePath) {
                   setState(() {
                     otherDocument = imagePath;
                   });

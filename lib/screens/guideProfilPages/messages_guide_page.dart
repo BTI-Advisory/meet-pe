@@ -28,6 +28,15 @@ class _MessagesGuidePageState extends State<MessagesGuidePage> {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
             ),
           ),
+          TextButton(
+            onPressed: () async {
+              AppService.instance.logOut;
+            },
+            child: Text(
+                'Se déconnecter',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
+            ),
+          ),
         ],
       ),
     );

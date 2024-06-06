@@ -79,8 +79,8 @@ class _IdCardWidgetState extends State<IdCardWidget> {
             ),
             const SizedBox(height: 39),
             GestureDetector(
-              onTap: () {
-                pickImage((String imagePath) {
+              onTap: () async {
+                await pickImage((String imagePath) {
                   setState(() {
                     cardIDRecto = imagePath;
                   });
@@ -121,8 +121,8 @@ class _IdCardWidgetState extends State<IdCardWidget> {
             ),
             const SizedBox(height: 53),
             GestureDetector(
-              onTap: () {
-                pickImage((String imagePath) {
+              onTap: () async {
+                await pickImage((String imagePath) {
                   setState(() {
                     cardIDVerso = imagePath;
                   });

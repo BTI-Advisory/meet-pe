@@ -72,9 +72,28 @@ class UserResponse {
   final String? pieceIdentite;
   @JsonKey(name: 'KBIS_file')
   final String? kbisFile;
-  @JsonKey(name: 'document_path')
-  final String? otherDocument;
+  final List<OtherDocument>? otherDocument;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>
       _$UserResponseFromJson(json);
+}
+
+@JsonSerializable()
+class OtherDocument {
+  final int id;
+  @JsonKey(name: 'user_id')
+  final int userId;
+  @JsonKey(name: 'document_title')
+  final String documentTitle;
+  @JsonKey(name: 'document_path')
+  final String documentPath;
+
+  OtherDocument({
+    required this.id,
+    required this.userId,
+    required this.documentTitle,
+    required this.documentPath,
+  });
+
+  factory OtherDocument.fromJson(Map<String, dynamic> json) => _$OtherDocumentFromJson(json);
 }
