@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../resources/resources.dart';
@@ -13,6 +11,9 @@ import 'package:path/path.dart' as path;
 typedef KbisPathCallback = void Function(String);
 
 class KbisWidget extends StatefulWidget {
+  const KbisWidget({super.key, required this.onFetchUserInfo});
+  final VoidCallback onFetchUserInfo;
+
   @override
   _KbisWidgetState createState() => _KbisWidgetState();
 }
@@ -141,20 +142,16 @@ class _KbisWidgetState extends State<KbisWidget> {
                       ?.copyWith(color: AppResources.colorDark),
                 ),
                 onPressed: () async {
-                  // Call the asynchronous operation and handle its completion
-                  AppService.api.sendKbisFile(kbis,).then((_) {
-                    // Optionally, you can perform additional actions after the operation completes
+                  final result = AppService.api.sendKbisFile(kbis);
+                  if (await result) {
                     Navigator.pop(context);
                     showMessage(context, 'KBIS ✅');
-                  }).catchError((error) {
-                    // Handle any errors that occur during the asynchronous operation
-                    print('Error: $error');
+                    await Future.delayed(const Duration(seconds: 3));
+                    widget.onFetchUserInfo();
+                  } else {
                     Navigator.pop(context);
-                    showMessage(context, 'KBIS ✅');
-                    if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                      showMessage(context, error.toString());
-                    }
-                  });
+                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                  }
                 },
               ),
             ),

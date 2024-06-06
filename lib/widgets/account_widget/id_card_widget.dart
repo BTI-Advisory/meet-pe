@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../resources/resources.dart';
@@ -13,6 +11,9 @@ import 'package:path/path.dart' as path;
 typedef ImagePathCallback = void Function(String);
 
 class IdCardWidget extends StatefulWidget {
+  const IdCardWidget({super.key, required this.onFetchUserInfo});
+  final VoidCallback onFetchUserInfo;
+
   @override
   _IdCardWidgetState createState() => _IdCardWidgetState();
 }
@@ -188,21 +189,16 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                       ?.copyWith(color: AppResources.colorDark),
                 ),
                 onPressed: () async {
-                  // Call the asynchronous operation and handle its completion
-                  AppService.api.sendIdCard(cardIDRecto, cardIDVerso).then((_) {
-                    // Optionally, you can perform additional actions after the operation completes
+                  final result = AppService.api.sendIdCard(cardIDRecto, cardIDVerso);
+                  if (await result) {
                     Navigator.pop(context);
                     showMessage(context, "Canon ta photo d'identité 🤩 Nous l'avons bien prise en compte !");
-                  }).catchError((error) {
-                    // Handle any errors that occur during the asynchronous operation
-                    print('Error: $error');
+                    await Future.delayed(const Duration(seconds: 3));
+                    widget.onFetchUserInfo();
+                  } else {
                     Navigator.pop(context);
-                    showMessage(context, "Canon ta photo d'identité 🤩 Nous l'avons bien prise en compte !");
-                    if (error.toString() !=
-                        "type 'Null' is not a subtype of type 'bool' in type cast") {
-                      showMessage(context, error.toString());
-                    }
-                  });
+                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                  }
                 },
               ),
             ),
