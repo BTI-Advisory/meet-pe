@@ -52,7 +52,7 @@ Future<void> showMessage(BuildContext context, String message,
             content: Text(
               message,
               textAlign: TextAlign.center,
-              style: context.textTheme.bodyText1
+              style: context.textTheme.bodyLarge
                   ?.copyWith(color: backgroundColor?.foregroundTextColor),
             ),
             primaryAction: details == null
@@ -60,7 +60,7 @@ Future<void> showMessage(BuildContext context, String message,
                 : TextButton(
               child: Text(
                 'Détails',
-                style: context.textTheme.caption
+                style: context.textTheme.bodySmall
                     ?.copyWith(color: Colors.white),
               ),
               onPressed: () {

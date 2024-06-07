@@ -75,7 +75,7 @@ class _SignInPageState extends State<SignInPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Connection',
+                                      'Connexion',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium,

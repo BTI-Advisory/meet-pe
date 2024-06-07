@@ -12,11 +12,12 @@ import '../../../../utils/utils.dart';
 import 'create_exp_step5.dart';
 
 class CreateExpStep4 extends StatefulWidget {
-  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.audioPath});
+  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.about, required this.audioPath});
 
   Map<String, Set<Object>> myMap = {};
   final String name;
   final String description;
+  final String about;
   final String audioPath;
 
   @override
@@ -28,7 +29,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   final idExperience = 0;
 
   @override
-  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, valueSlider, widget.audioPath, idExperience);
+  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.about, valueSlider, widget.audioPath, idExperience);
 
   void updateDuration(double value) {
     setState(() {
@@ -168,6 +169,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
 class CreateExpStep4Bloc with Disposable {
   String? name;
   String? description;
+  String? about;
   double duration;
   String? audioPath;
   int? idExperience;
@@ -176,12 +178,13 @@ class CreateExpStep4Bloc with Disposable {
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.duration, this.audioPath, this.idExperience);
+  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.about, this.duration, this.audioPath, this.idExperience);
 
   Future<void> makeExperienceGuide1() async {
     try {
       modifiedMap['nom'] = name!;
       modifiedMap['description'] = description!;
+      modifiedMap['about_guide'] = about!;
       modifiedMap['dure'] = duration.toInt();
 
       // Convert sets to lists

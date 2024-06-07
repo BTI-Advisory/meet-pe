@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/audio_player.dart';
@@ -24,11 +25,36 @@ class CreateExpStep3 extends StatefulWidget {
 class _CreateExpStep3State extends State<CreateExpStep3> {
   bool showPlayer = false;
   String? audioPath;
+  late TextEditingController _textEditingControllerAbout;
+  String? validationMessageAbout = '';
+  bool isFormValid = false;
 
   @override
   void initState() {
-    showPlayer = false;
     super.initState();
+    showPlayer = false;
+    _textEditingControllerAbout = TextEditingController();
+    _textEditingControllerAbout.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    _textEditingControllerAbout.removeListener(_onTextChanged);
+    _textEditingControllerAbout.dispose();
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
+
+  void updateFormValidity() {
+    setState(() {
+      isFormValid =
+          validationMessageAbout == null;
+    });
   }
 
   @override
@@ -79,24 +105,8 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(40, context)),
-                    Text(
-                      widget.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: AppResources.colorDark),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: AppResources.colorGray15,
-                    ),
-                    SizedBox(
-                        height: ResponsiveSize.calculateHeight(40, context)),
-                    Container(
+                    ///Todo add Audio Feature
+                    /*Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.symmetric(
                           horizontal:
@@ -132,6 +142,57 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                                 });
                               },
                             ),
+                    ),*/
+                    TextFormField(
+                      controller: _textEditingControllerAbout,
+                      maxLines: null,
+                      textInputAction: TextInputAction.done,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(3000),
+                      ],
+                      //textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppResources.colorDark),
+                      decoration: InputDecoration(
+                        filled: false,
+                        hintText: 'A propos de moi',
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        contentPadding: EdgeInsets.only(
+                          top: ResponsiveSize.calculateHeight(20, context),
+                          bottom: ResponsiveSize.calculateHeight(10, context),
+                        ),
+                        // Adjust padding
+                        suffix: SizedBox(
+                            height:
+                            ResponsiveSize.calculateHeight(10, context)),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide:
+                          BorderSide(color: AppResources.colorGray15),
+                        ),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide:
+                          BorderSide(color: AppResources.colorGray15),
+                        ),
+                        errorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                        focusedErrorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                      ),
+                      //onFieldSubmitted: (value) => validate(),
+                      validator: AppResources.validatorNotEmpty,
+                      //onSaved: (value) => bloc.name = value,
+                      onChanged: (value) {
+                        setState(() {
+                          validationMessageAbout =
+                              AppResources.validatorNotEmpty(value);
+                          updateFormValidity();
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -173,9 +234,14 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description, audioPath: audioPath ?? '',));
-                        },
+                        onPressed: isFormValid
+                            ? () {
+                          setState(() {
+                            // Proceed to the next step
+                            navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description, about: _textEditingControllerAbout.text, audioPath: audioPath ?? '',));
+                          });
+                        }
+                            : null,
                         child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
