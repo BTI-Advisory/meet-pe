@@ -549,8 +549,6 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
-    print('FRJFJRFJRF 1111 ${response.statusCode}');
-    print('FRJFJRFJRF 1111 ${response.body}');
 
     // Handle response
     if (response.statusCode == 200) {
@@ -602,8 +600,6 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
-    print('FRJFJRFJRF ${response.statusCode}');
-    print('FRJFJRFJRF ${response.body}');
 
     // Handle response
     if (response.statusCode == 200) {
