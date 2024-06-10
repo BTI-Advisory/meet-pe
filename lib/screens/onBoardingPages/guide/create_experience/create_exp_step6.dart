@@ -173,14 +173,15 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                         ),
                       ),
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(27, context)),
+                    ///Todo Remove comment when audio back
+                    /*SizedBox(height: ResponsiveSize.calculateHeight(27, context)),
                     Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.symmetric(
                           horizontal: ResponsiveSize.calculateWidth(22, context)),
                       width: double.infinity,
                       child: Image.asset('images/play-wave.png'),
-                    ),
+                    ),*/
                     SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(319, context),

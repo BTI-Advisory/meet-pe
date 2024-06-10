@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/utils/_utils.dart';
+import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
-import '../../../utils/responsive_size.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
 
 class NotificationsNewslettersPage extends StatefulWidget {
@@ -99,7 +99,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   const SizedBox(height: 30),
                   activeNotification('Email', isEmailResAvailable, (bool value) {
                     setState(() {
-                      isEmailResAvailable = value;
+                      //isEmailResAvailable = value;
                     });
                   }),
                   activeNotification('App notifications', isAppNotificationResAvailable, (bool value) {
@@ -136,7 +136,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   const SizedBox(height: 30),
                   activeNotification('Email', isEmailAvailable, (bool value) {
                     setState(() {
-                      isEmailAvailable = value;
+                      //isEmailAvailable = value;
                     });
                   }),
                   activeNotification('App notifications', isAppNotificationAvailable, (bool value) {

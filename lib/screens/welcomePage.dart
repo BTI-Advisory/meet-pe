@@ -2,20 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import 'package:meet_pe/utils/responsive_size.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../services/secure_storage_service.dart';
-import '../utils/utils.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+  const WelcomePage({super.key, required this.fromCode});
+
+  final bool fromCode;
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(widget.fromCode == false) {
+      displayInfo();
+    }
+  }
+
+  Future<void> displayInfo() async {
+    await Future.delayed(const Duration(seconds: 1));
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Center(child: Text('Information')),
+        content: const Text(
+            'Et oui, même pour Meet People alors que notre mission est de rendre ce monde encore plus merveilleux grâce à toi cela nous arrive de nous perdre dans tes SPAM ! Mais avec un bon Tcheck de ta part nous serons plus fort que le côté obscur de la force 💪🏼'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(

@@ -9,6 +9,7 @@ class ExperienceDataResponse {
     required this.title,
     required this.description,
     required this.dure,
+    required this.aboutGuide,
     required this.prixParVoyageur,
     required this.nombreDesVoyageur,
     required this.ville,
@@ -36,6 +37,8 @@ class ExperienceDataResponse {
   final String description;
   @JsonKey(name: 'dure')
   final String dure;
+  @JsonKey(name: 'about_guide')
+  final String aboutGuide;
   @JsonKey(name: 'prix_par_voyageur')
   final String prixParVoyageur;
   @JsonKey(name: 'nombre_des_voyageur')

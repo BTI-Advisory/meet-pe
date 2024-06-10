@@ -768,7 +768,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               SizedBox(
                                 width: 319,
                                 child: Text(
-                                  experienceData.descriptionGuide ?? '',
+                                  experienceData.aboutGuide ?? '',
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                                 ),
                               ),
