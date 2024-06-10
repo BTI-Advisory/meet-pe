@@ -13,6 +13,7 @@ ExperienceDataResponse _$ExperienceDataResponseFromJson(
       title: json['title'] as String,
       description: json['description'] as String,
       dure: json['dure'] as String,
+      aboutGuide: json['about_guide'] as String,
       prixParVoyageur: json['prix_par_voyageur'] as String,
       nombreDesVoyageur: json['nombre_des_voyageur'] as int,
       ville: json['ville'] as String,

@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                                 navigateTo(context, (_) => const MainGuidePage());
                               }
                             } else {
-                              navigateTo(context, (_) => const WelcomePage());
+                              navigateTo(context, (_) => const WelcomePage(fromCode: false));
                             }
                           });
                         }
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                   navigateTo(context, (_) => const MainGuidePage());
                                 }
                               } else {
-                                navigateTo(context, (_) => const WelcomePage());
+                                navigateTo(context, (_) => const WelcomePage(fromCode: false));
                               }
                             });
                           }
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                                 navigateTo(context, (_) => const MainGuidePage());
                               }
                             } else {
-                              navigateTo(context, (_) => const WelcomePage());
+                              navigateTo(context, (_) => const WelcomePage(fromCode: false));
                             }
                           });
                         }

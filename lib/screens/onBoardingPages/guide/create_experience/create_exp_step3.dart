@@ -94,13 +94,13 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(8, context)),
                     Text(
-                      'Description de l’expérience',
+                      'A propos de toi',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(16, context)),
                     Text(
-                      "Envie de te démarquer ? Appuie sur le bouton et fais-nous découvrir ton univers 🎙️ C'est une opportunité unique de partager ta passion ou quelque chose sur toi et créer une connexion avec nos voyageurs. Fais entendre ta voix et rends ton expérience encore plus mémorable ✨",
+                      "C'est le moment idéal pour donner une touche personnelle à ton profil. Partage nous quelque chose de spécial sur toi. Tu es la star de notre équipe, c’est à toi 🎙️",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
