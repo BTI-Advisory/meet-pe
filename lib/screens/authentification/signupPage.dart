@@ -2,17 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:meet_pe/screens/verificationCodePage.dart';
-import 'package:meet_pe/utils/responsive_size.dart';
+import 'package:meet_pe/screens/authentification/verificationCodePage.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:rxdart/rxdart.dart';
-import '../resources/resources.dart';
-import '../services/app_service.dart';
-import '../services/secure_storage_service.dart';
-import '../services/storage_service.dart';
-import '../utils/_utils.dart';
-import '../utils/countdown_timer.dart';
-import '../widgets/web_view_container.dart';
+import '../../resources/resources.dart';
+import '../../services/app_service.dart';
+import '../../services/secure_storage_service.dart';
+import '../../utils/_utils.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.email});

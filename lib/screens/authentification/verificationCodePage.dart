@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:meet_pe/screens/welcomePage.dart';
+import 'package:meet_pe/screens/authentification/welcomePage.dart';
 
-import '../resources/resources.dart';
-import '../services/app_service.dart';
-import '../utils/_utils.dart';
-import '../widgets/_widgets.dart';
+import '../../resources/resources.dart';
+import '../../services/app_service.dart';
+import '../../utils/_utils.dart';
+import '../../widgets/_widgets.dart';
 
 class VerificationCodePage extends StatefulWidget {
   final String email;

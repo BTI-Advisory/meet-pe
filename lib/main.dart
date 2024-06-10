@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
-import 'package:meet_pe/screens/launch_screen.dart';
+import 'package:meet_pe/screens/authentification/launch_screen.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
 import 'package:meet_pe/utils/utils.dart';

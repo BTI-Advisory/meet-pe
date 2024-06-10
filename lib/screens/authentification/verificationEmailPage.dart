@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_pe/screens/signinPage.dart';
-import 'package:meet_pe/screens/signupPage.dart';
+import 'package:meet_pe/screens/authentification/signinPage.dart';
+import 'package:meet_pe/screens/authentification/signupPage.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
-import '../resources/resources.dart';
-import '../services/app_service.dart';
-import '../utils/utils.dart';
+import '../../resources/resources.dart';
+import '../../services/app_service.dart';
 
 class VerificationEmailPage extends StatefulWidget {
   const VerificationEmailPage({super.key});

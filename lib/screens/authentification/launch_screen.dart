@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
-import '../services/secure_storage_service.dart';
-import '../utils/utils.dart';
-import 'homePage.dart';
+import '../../services/secure_storage_service.dart';
+import '../../utils/utils.dart';
+import '../homePage.dart';
 import 'introMovePage.dart';
 
 class LaunchScreen extends StatefulWidget {

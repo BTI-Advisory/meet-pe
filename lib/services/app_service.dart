@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../screens/loginPage.dart';
+import '../screens/authentification/loginPage.dart';
 import 'api_client.dart';
 import 'device_info_service.dart';
 import 'storage_service.dart';
