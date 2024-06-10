@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:meet_pe/screens/authentification/forgotPassword/verif_email_forgot_password.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:rxdart/rxdart.dart';
-import '../resources/resources.dart';
-import '../services/app_service.dart';
-import '../services/secure_storage_service.dart';
-import '../services/storage_service.dart';
-import '../utils/_utils.dart';
-import '../widgets/async_form.dart';
-import '../widgets/password_field.dart';
+import '../../resources/resources.dart';
+import '../../services/app_service.dart';
+import '../../services/secure_storage_service.dart';
+import '../../services/storage_service.dart';
+import '../../utils/_utils.dart';
+import '../../widgets/async_form.dart';
+import '../../widgets/password_field.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key, required this.email});
@@ -136,7 +137,9 @@ class _SignInPageState extends State<SignInPage>
                                       height: 37,
                                     ),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        navigateTo(context, (_) => VerifEmailForgotPassword(email: widget.email));
+                                      },
                                       child: Text(
                                         'mot de passe oublié ?',
                                         style: Theme.of(context)

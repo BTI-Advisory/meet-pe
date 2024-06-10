@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../resources/resources.dart';
-import '../utils/responsive_size.dart';
-import '../utils/utils.dart';
+import '../../resources/resources.dart';
+import '../../utils/responsive_size.dart';
+import '../../utils/utils.dart';
 import 'loginPage.dart';
 
 class IntroMovePage extends StatefulWidget {

@@ -34,7 +34,7 @@ import '../models/absence_list_response.dart';
 import '../models/user_response.dart';
 import '../models/user_social_response.dart';
 import '../models/verify_code.dart';
-import '../screens/loginPage.dart';
+import '../screens/authentification/loginPage.dart';
 
 const _httpMethodGet = 'GET';
 const _httpMethodPost = 'POST';

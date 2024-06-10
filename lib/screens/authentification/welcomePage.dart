@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import '../resources/resources.dart';
-import '../services/app_service.dart';
-import '../services/secure_storage_service.dart';
+import '../../resources/resources.dart';
+import '../../services/app_service.dart';
+import '../../services/secure_storage_service.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key, required this.fromCode});

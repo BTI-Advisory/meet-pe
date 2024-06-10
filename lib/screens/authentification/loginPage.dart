@@ -1,24 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/verificationEmailPage.dart';
-import 'package:meet_pe/screens/welcomePage.dart';
+import 'package:meet_pe/screens/authentification/verificationEmailPage.dart';
+import 'package:meet_pe/screens/authentification/welcomePage.dart';
 import 'package:meet_pe/services/app_service.dart';
-import 'package:meet_pe/utils/message.dart';
 import 'package:meet_pe/widgets/web_view_container.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../services/secure_storage_service.dart';
-import '../utils/responsive_size.dart';
-import '../utils/utils.dart';
+import '../../services/secure_storage_service.dart';
+import '../../utils/_utils.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meet_pe/firebase_options.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import 'guideProfilPages/main_guide_page.dart';
-import 'homePage.dart';
+import '../guideProfilPages/main_guide_page.dart';
+import '../homePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

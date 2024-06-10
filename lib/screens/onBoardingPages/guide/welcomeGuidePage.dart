@@ -36,16 +36,16 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                 margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
                 child: Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: double.infinity,
                       child: Text(
                         'PRÊT \nPOUR \nDEVENIR \nUN SUPER \nGUIDE ?',
                         style: TextStyle(
                           color: AppResources.colorBeigeLight,
-                          fontSize: 52,
+                          fontSize: ResponsiveSize.calculateTextSize(40, context),
                           fontFamily: 'Rammetto One',
                           fontWeight: FontWeight.w400,
-                          height: 1.0,
+                          height: ResponsiveSize.calculateHeight(1.4, context),
                         ),
                       ),
                     ),
@@ -54,7 +54,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                       width: double.infinity,
                       child: Text(
                         'Ta ville n’a aucun secret pour toi, tu connais des pépites qui sortent des sentiers battus et tu aimes faire découvrir tes passions ? \n \nRejoins la communauté de guides Meet Pe et partage des moments uniques avec des voyageurs curieux du monde entier !\n',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: 1.5),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: ResponsiveSize.calculateHeight(1.4, context)),
                       ),
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(40, context),),
