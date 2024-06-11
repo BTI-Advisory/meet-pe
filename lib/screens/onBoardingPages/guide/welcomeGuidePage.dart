@@ -45,7 +45,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                           fontSize: ResponsiveSize.calculateTextSize(40, context),
                           fontFamily: 'Rammetto One',
                           fontWeight: FontWeight.w400,
-                          height: ResponsiveSize.calculateHeight(1.4, context),
+                          height: ResponsiveSize.calculateHeight(1.0, context),
                         ),
                       ),
                     ),
@@ -57,7 +57,6 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: ResponsiveSize.calculateHeight(1.4, context)),
                       ),
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(40, context),),
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,
@@ -92,7 +91,6 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),

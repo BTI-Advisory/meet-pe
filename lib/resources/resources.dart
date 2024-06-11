@@ -87,7 +87,7 @@ class AppResources {
   static String? validatorSiren(String? value) =>
       value == null || value.length != 9 ? 'Ⓧ 9 caractères obligatoire' : null;
   static String? validatorPhoneNumber(String? value) =>
-      value == null || value.length != 10 ? 'Ⓧ 9 caractères obligatoire' : null;
+      value == null || value.length != 10 ? 'Ⓧ 10 caractères obligatoire' : null;
 
   // String
   static const textFormMandatory = 'Ⓧ Obligatoire';
