@@ -51,7 +51,7 @@ class ApiClient {
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
 
-  static const _apiKeyProd = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
+    static const _apiKeyProd = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
   static const _apiKeyDev = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
 
   static String get _apiKey =>
@@ -658,6 +658,9 @@ class ApiClient {
     List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
     String avecCaString = avecCa.join(', ');
 
+    List<int> dernierMinuteReservation = List<int>.from(initialData['dernier_minute_reservation']);
+    String dernierMinuteReservationString = dernierMinuteReservation.join(', ');
+
     String? guidePersonnesPeuvesParticiperString = _convertListToString(initialData['guide_personnes_peuves_participer']);
 
     return {
@@ -674,7 +677,7 @@ class ApiClient {
       'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
       'price_group_prive': initialData['price_group_prive'].toString(),
       'max_number_of_persons': initialData['max_number_of_persons'].toString(),
-      'dernier_minute_reservation': initialData['dernier_minute_reservation'].toString(),
+      'dernier_minute_reservation': dernierMinuteReservationString,
     };
   }
 
