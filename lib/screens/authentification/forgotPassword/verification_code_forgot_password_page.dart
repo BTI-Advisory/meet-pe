@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:meet_pe/screens/authentification/forgotPassword/change_password_page.dart';
+import 'package:meet_pe/screens/authentification/signinPage.dart';
 import 'package:meet_pe/screens/authentification/welcomePage.dart';
 
 import '../../../services/app_service.dart';
@@ -57,7 +59,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
       body: AsyncForm(
           onValidated: bloc.verifyCode,
           onSuccess: () async {
-            return navigateTo(context, (_) => const WelcomePage(fromCode: true));
+            return navigateTo(context, (_) => ChangePasswordPage(email: widget.email));
           },
           builder: (context, validate) {
             return Container(
@@ -208,7 +210,7 @@ class VerificationCodeForgotPasswordBloc with Disposable {
   }
 
   Future<bool> resendCode(String email) async {
-    bool isResend = await AppService.api.resendCode(email!);
+    bool isResend = await true;
     return isResend;
   }
 }
