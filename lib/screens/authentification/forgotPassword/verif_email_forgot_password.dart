@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/authentification/forgotPassword/verification_code_forgot_password_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../resources/resources.dart';
@@ -28,7 +29,7 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
         body: AsyncForm(
             //onValidated: bloc.login,
             onSuccess: () {
-              return navigateTo(context, (_) => const MainGuidePage(),
+              return navigateTo(context, (_) => VerificationCodeForgotPasswordPage(email: widget.email),
                   clearHistory: true);
             },
             builder: (context, validate) {
