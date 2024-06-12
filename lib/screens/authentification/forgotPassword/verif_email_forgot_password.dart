@@ -27,7 +27,7 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
   Widget build(BuildContext context) {
     return Scaffold(
         body: AsyncForm(
-            //onValidated: bloc.login,
+            onValidated: bloc.getForgotPasswordValidateCode,
             onSuccess: () {
               return navigateTo(context, (_) => VerificationCodeForgotPasswordPage(email: widget.email),
                   clearHistory: true);
@@ -207,8 +207,7 @@ class VerifEmailForgotPasswordBloc with Disposable {
 
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
-  //Future<void> login() => AppService.instance
-      //.login(usernameController.text);
+  Future<void> getForgotPasswordValidateCode() => AppService.api.sendCodeValidation(email);
 
   @override
   void dispose() {

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_pe/screens/authentification/forgotPassword/verif_email_forgot_password.dart';
 import 'package:meet_pe/screens/authentification/signinPage.dart';
-import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
@@ -29,7 +27,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
   Widget build(BuildContext context) {
     return Scaffold(
         body: AsyncForm(
-            onValidated: bloc.login,
+            onValidated: bloc.updateForgotPassword,
             onSuccess: () {
               return navigateTo(context, (_) => SignInPage(email: widget.email),
                   clearHistory: true);
@@ -86,6 +84,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                       child: PasswordField(
                                         //onFieldSubmitted: (value) => validate(),
                                         controller: bloc.passwordController,
+                                        hint: 'Nouveau mot de passe',
                                         onChanged: (value) {
                                           setState(() {
                                             validationMessage =
@@ -104,6 +103,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                       child: PasswordField(
                                         //onFieldSubmitted: (value) => validate(),
                                         controller: bloc.confirmationPasswordController,
+                                        hint: 'confirmation du mot de passe',
                                         onChanged: (value) {
                                           setState(() {
                                             validationMessage =
@@ -127,24 +127,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                           height: 0.14,
                                         ),
                                       ),
-                                    const SizedBox(
-                                      height: 37,
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        navigateTo(context, (_) => VerifEmailForgotPassword(email: widget.email));
-                                      },
-                                      child: Text(
-                                        'mot de passe oublié ?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                            color: AppResources.colorGray30,
-                                            decoration:
-                                            TextDecoration.underline),
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
@@ -179,7 +161,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                     ),
                                     onPressed: validate,
                                     child: Text(
-                                      'SE CONNECTER',
+                                      'ENREGISTRER',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge
@@ -250,8 +232,9 @@ class ChangePasswordPageBloc with Disposable {
 
   BehaviorSubject<String> get appVersion => AppService.instance.appVersion;
 
-  Future<void> login() => AppService.instance
-      .login(passwordController.text, confirmationPasswordController.text);
+  Future<void> updateForgotPassword() async {
+    AppService.api.updateForgotPassword(passwordController.text, confirmationPasswordController.text);
+  }
 
   @override
   void dispose() {

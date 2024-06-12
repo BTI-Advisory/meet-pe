@@ -38,5 +38,10 @@ class SecureStorageService {
   static Future<String?> readIsVerified() => _storage.read(key: _isVerifiedKey);
   static Future<void> deleteIsVerified() => _storage.delete(key: _isVerifiedKey);
 
+  static const _forgotPasswordTokenKey = 'token';
+  static Future<void> saveForgotPasswordToken(String value) => _storage.write(key: _forgotPasswordTokenKey, value: value);
+  static Future<String?> readForgotPasswordToken() => _storage.read(key: _forgotPasswordTokenKey);
+  static Future<void> deleteForgotPasswordToken() => _storage.delete(key: _forgotPasswordTokenKey);
+
   static Future<void> deleteAll() => _storage.deleteAll();
 }

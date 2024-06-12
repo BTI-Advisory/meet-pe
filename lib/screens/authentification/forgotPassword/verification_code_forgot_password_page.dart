@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:meet_pe/screens/authentification/forgotPassword/change_password_page.dart';
-import 'package:meet_pe/screens/authentification/signinPage.dart';
-import 'package:meet_pe/screens/authentification/welcomePage.dart';
 
 import '../../../services/app_service.dart';
 import '../../../resources/resources.dart';
@@ -204,9 +202,8 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
 class VerificationCodeForgotPasswordBloc with Disposable {
   String? code;
 
-  Future<bool> verifyCode() async {
-    bool isVerified = await AppService.api.verifyCode(code!);
-    return isVerified;
+  Future<void> verifyCode() async {
+    AppService.api.getForgotPasswordValidateCode(code!);
   }
 
   Future<bool> resendCode(String email) async {

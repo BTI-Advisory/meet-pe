@@ -29,11 +29,14 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 import '../models/availability_list_response.dart';
+import '../models/code_validation_response.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
+import '../models/update_forgot_password_response.dart';
 import '../models/user_response.dart';
 import '../models/user_social_response.dart';
 import '../models/verify_code.dart';
+import '../models/verify_code_forgot_password_response.dart';
 import '../screens/authentification/loginPage.dart';
 
 const _httpMethodGet = 'GET';
@@ -84,6 +87,9 @@ class ApiClient {
 
   /// Very short life token needed to use authenticated API request.
   String? _accessToken;
+
+  /// Very short life token needed to use authenticated API request for forgot password.
+  String? _forgotPasswordToken;
 
   /// Log user in, and return user id
   Future<void> login(String email, String password) async {
@@ -418,6 +424,80 @@ class ApiClient {
     }
 
     return isSet;
+  }
+
+  /// Mark a send code validation
+  Future<CodeValidationResponse> sendCodeValidation(String email) async {
+    // Build request content
+    final data = {
+      'email': email,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/send-code-validation',
+            bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    _forgotPasswordToken = CodeValidationResponse.fromJson(response!).token;
+    SecureStorageService.saveForgotPasswordToken(_forgotPasswordToken!);
+    return CodeValidationResponse.fromJson(response!);
+  }
+
+  /// Get ForgotPassword Token
+  Future<void> getForgotPasswordValidateCode(String otpCode) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'api-key': '$_apiKey', // Include your authorization header
+      'Authorization': 'Bearer ${await SecureStorageService.readForgotPasswordToken()}' ?? 'none',
+    };
+
+    // Build request content
+    final Map<String, dynamic> data = {
+      'otp_code': otpCode,
+    };
+
+    final response = await http.post(_buildUri('api/validate-code-validation'), headers: headers, body: json.encode(data));
+
+    if (response.statusCode == 200) {
+      final dynamic jsonResponse = json.decode(response.body);
+      return jsonResponse.map((json) => VerifyCodeForgotPasswordResponse.fromJson(json));
+    } else {
+      throw Exception('Failed to get code verification');
+    }
+  }
+
+  /// Update ForgotPassword
+  Future<void> updateForgotPassword(String password, String newPassword) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'api-key': '$_apiKey', // Include your authorization header
+      'Authorization': 'Bearer ${await SecureStorageService.readForgotPasswordToken()}' ?? 'none',
+    };
+
+    // Build request content
+    final Map<String, dynamic> data = {
+      'current_password': password,
+      'new_password': newPassword,
+    };
+
+    final response = await http.post(_buildUri('api/change-password'), headers: headers, body: json.encode(data));
+
+    if (response.statusCode == 200) {
+      final dynamic jsonResponse = json.decode(response.body);
+      return jsonResponse.map((json) => UpdateForgotPasswordResponse.fromJson(json));
+    } else {
+      throw Exception('Failed to update password');
+    }
   }
 
   /// Get list of item in every step
