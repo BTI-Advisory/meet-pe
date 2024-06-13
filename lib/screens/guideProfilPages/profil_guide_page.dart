@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/user_response.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/archived_requests_page.dart';
@@ -7,10 +10,13 @@ import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/my_account_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
+
+typedef ImagePathCallback = void Function(String);
 
 class ProfileGuidePage extends StatefulWidget {
   const ProfileGuidePage({super.key});
@@ -25,6 +31,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
   late TextEditingController _textEditingControllerDescription;
   String? validationMessageDescription = '';
   bool isFormValid = false;
+  String? selectedImagePath;
 
   @override
   void initState() {
@@ -60,6 +67,34 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     });
   }
 
+  // Function to pick an image.
+  Future<void> pickImage(ImagePathCallback callback) async {
+    // Your logic to pick an image goes here.
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        source: ImageSource
+            .gallery); // Use source: ImageSource.camera for taking a new picture
+
+    if (pickedFile != null) {
+      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
+      } else {
+        // Do something with the picked image (e.g., upload or process it)
+        //File imageFile = File(pickedFile.path);
+        // Add your logic here to handle the selected image
+
+        // For demonstration purposes, I'm using a static image path.
+        String imagePath = pickedFile?.path ?? '';
+
+        setState(() {
+          selectedImagePath = imagePath;
+          updateFormValidity();
+          callback(imagePath);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -74,6 +109,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
           return Center(child: Text('Problème de connexion avec le serveur, veuillez réessayer ultérieurement'));
         } else {
           final userInfo = snapshot.data!;
+          final initialImagePath = selectedImagePath ?? userInfo.profilePath ?? 'images/avatar_placeholder.png';
           return SingleChildScrollView(
             child: Container(
               width: deviceSize.width,
@@ -135,71 +171,55 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                             ),
                                             Column(
                                               children: [
-                                                TextFormField(
-                                                  controller:
-                                                      _textEditingControllerDescription,
-                                                  keyboardType:
-                                                      TextInputType.multiline,
-                                                  textInputAction:
-                                                      TextInputAction.newline,
-                                                  //textInputAction: TextInputAction.done,
-                                                  maxLines: null,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                          color: AppResources
-                                                              .colorDark),
-                                                  decoration: InputDecoration(
-                                                    filled: false,
-                                                    hintText: 'A propos de moi',
-                                                    hintStyle: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium,
-                                                    contentPadding: EdgeInsets.only(
-                                                        top: ResponsiveSize
-                                                            .calculateHeight(
-                                                                20, context),
-                                                        bottom: ResponsiveSize
-                                                            .calculateHeight(
-                                                                10, context)),
-                                                    // Adjust padding
-                                                    suffix: SizedBox(
-                                                        height: ResponsiveSize
-                                                            .calculateHeight(
-                                                                10, context)),
-                                                    enabledBorder:
-                                                        const UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: AppResources
-                                                              .colorGray15),
+                                                Stack(
+                                                  children: [
+                                                    Container(
+                                                      width: ResponsiveSize.calculateWidth(168, context),
+                                                      height: ResponsiveSize.calculateHeight(168, context),
+                                                      child: WidgetMask(
+                                                        blendMode: BlendMode.srcATop,
+                                                        childSaveLayer: true,
+                                                        mask: selectedImagePath != null
+                                                            ? Image.file(
+                                                          File(selectedImagePath!),
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                            : Image.network(
+                                                          initialImagePath,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        child: Image.asset(
+                                                          'images/image_frame.png',
+                                                        ),
+                                                      ),
                                                     ),
-                                                    focusedBorder:
-                                                        const UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: AppResources
-                                                              .colorGray15),
+                                                    Positioned(
+                                                      bottom: 0,
+                                                      right: 0,
+                                                      child: Container(
+                                                        width: ResponsiveSize.calculateWidth(44, context),
+                                                        height: ResponsiveSize.calculateHeight(44, context),
+                                                        padding: const EdgeInsets.all(4),
+                                                        decoration: ShapeDecoration(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                                                          ),
+                                                        ),
+                                                        child: FloatingActionButton(
+                                                          backgroundColor: AppResources.colorVitamine,
+                                                          onPressed: () async {
+                                                            await pickImage((String imagePath) {
+                                                              setState(() {
+                                                                selectedImagePath = imagePath;
+                                                              });
+                                                            });
+                                                          },
+                                                          child: Icon(Icons.add, color: Colors.white),
+                                                        ),
+                                                      ),
                                                     ),
-                                                    errorBorder:
-                                                        const UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.red),
-                                                    ),
-                                                  ),
-                                                  //onFieldSubmitted: (value) => validate(),
-                                                  validator: AppResources
-                                                      .validatorNotEmpty,
-                                                  //onSaved: (value) => bloc.name = value,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      validationMessageDescription =
-                                                          AppResources
-                                                              .validatorNotEmpty(
-                                                                  value);
-                                                      updateFormValidity();
-                                                    });
-                                                  },
-                                                ),
+                                                  ],
+                                                )
                                               ],
                                             ),
                                             const SizedBox(height: 53),
@@ -250,25 +270,19 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                               .colorDark),
                                                 ),
                                                 onPressed: () async {
-                                                  showMessage(context, 'Ton petit mot sera bien diffusé dans ton expérience');
-                                                  // Call the asynchronous operation and handle its completion
-                                                  AppService.api
-                                                      .updateDescription(
-                                                          _textEditingControllerDescription
-                                                              .text)
-                                                      .then((_) {
-                                                    // Optionally, you can perform additional actions after the operation completes
+                                                  final result = AppService.api.updatePhoto(selectedImagePath!);
+                                                  if (await result) {
                                                     Navigator.pop(context);
-                                                  }).catchError((error) {
-                                                    // Handle any errors that occur during the asynchronous operation
-                                                    print('Error: $error');
+                                                    showMessage(context, 'Photo ✅');
+                                                    await Future.delayed(const Duration(seconds: 1));
+                                                    setState(() {
+                                                      _userInfoFuture = AppService.api.getUserInfo();
+                                                    });
+                                                    //widget.onFetchUserInfo();
+                                                  } else {
                                                     Navigator.pop(context);
-                                                    if (error.toString() !=
-                                                        "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                                      showMessage(context,
-                                                          error.toString());
-                                                    }
-                                                  });
+                                                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                  }
                                                 },
                                               ),
                                             ),
@@ -279,7 +293,13 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   },
                                 ),
                               );
-                            });
+                            })
+                            .whenComplete(() {
+                          // Refresh the state when the modal is dismissed
+                          setState(() {
+                            _userInfoFuture = AppService.api.getUserInfo();
+                          });
+                        });;
                       },
                       child: Container(
                         width: ResponsiveSize.calculateWidth(336, context),
