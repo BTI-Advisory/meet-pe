@@ -1141,29 +1141,48 @@ class ApiClient {
     };
   }
 
-  /// Update Description
-  Future<void> updateDescription(String description) async {
-    final data = {
-      'description': description,
+  /// Mark a update photo
+  Future<bool> updatePhoto(String filePath) async {
+    bool isVerified = false;
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
     };
 
-    // Send request
-    final response = await () async {
-      try {
-        return await _send<JsonObject>(_httpMethodPost, 'api/update-description',
-            bodyJson: data);
-      } catch (e) {
-        // Catch wrong user quality error
-        if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException(
-              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
-        }
-        rethrow;
-      }
-    }();
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', _buildUri('api/update-profile-photo'));
 
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add image file if provided
+    if (filePath != null) {
+      // Create a File object from the provided file path
+      final imageFile = File(filePath);
+
+      request.files.add(http.MultipartFile.fromBytes('profile_path', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+    print('URURURURUR ${response.statusCode}');
+    print('URURURURUR ${response.body}');
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      throw Exception('Failed to update photo file: ${response.reasonPhrase}');
+    }
   }
 
   /// Get list absence
