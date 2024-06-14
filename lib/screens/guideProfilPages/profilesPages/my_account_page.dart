@@ -136,7 +136,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     if (pickedFile != null) {
       if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
         imageSize = false;
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
+        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);

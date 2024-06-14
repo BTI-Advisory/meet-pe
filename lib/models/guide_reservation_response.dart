@@ -10,8 +10,9 @@ class GuideReservationResponse {
   final int guidId;
   final String createdAt;
   final String updatedAt;
-  //final String dure;
+  final String? dure; // Make this optional to handle null values
   final String status;
+  final int experienceId; // Add missing field
   final Voyageur voyageur;
   final Experience experience;
 
@@ -25,8 +26,9 @@ class GuideReservationResponse {
     required this.guidId,
     required this.createdAt,
     required this.updatedAt,
-    //required this.dure,
+    this.dure, // Optional field
     required this.status,
+    required this.experienceId, // New field
     required this.voyageur,
     required this.experience
   });
@@ -47,8 +49,9 @@ class GuideReservationResponse {
       guidId: json['guid_id'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      //dure: json['dure'],
+      dure: json['dure'], // Nullable
       status: json['status'],
+      experienceId: json['experience_id'], // New field
       voyageur: voyageur,
       experience: experience,
     );
@@ -59,21 +62,12 @@ class Voyageur {
   final int id;
   final String name;
   final String email;
-  //final String emailVerifiedAt;
   final String createdAt;
   final String updatedAt;
   final String otpCode;
-  //final String userType;
   final String profilePath;
-  //final String sirenNumber;
   final String phoneNumber;
   final bool isFullAvailable;
-  /*final String iBAN;
-  final String bIC;
-  final String nomDuTitulaire;
-  final String rue;
-  final String codePostal;
-  final String ville;*/
   final bool isVerified;
   final int numberOfExperiences;
 
@@ -81,21 +75,12 @@ class Voyageur {
     required this.id,
     required this.name,
     required this.email,
-    //required this.emailVerifiedAt,
     required this.createdAt,
     required this.updatedAt,
     required this.otpCode,
-    //required this.userType,
     required this.profilePath,
-    //required this.sirenNumber,
     required this.phoneNumber,
     required this.isFullAvailable,
-    /*required this.iBAN,
-    required this.bIC,
-    required this.nomDuTitulaire,
-    required this.rue,
-    required this.codePostal,
-    required this.ville,*/
     required this.isVerified,
     required this.numberOfExperiences,
   });
@@ -105,21 +90,12 @@ class Voyageur {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      //emailVerifiedAt: json['email_verified_at'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       otpCode: json['otp_code'],
-      //userType: json['user_type'],
       profilePath: json['profile_path'],
-      //sirenNumber: json['siren_number'],
       phoneNumber: json['phone_number'],
       isFullAvailable: json['is_full_available'],
-      /*iBAN: json['IBAN'],
-      bIC: json['BIC'],
-      nomDuTitulaire: json['nom_du_titulaire'],
-      rue: json['rue'],
-      codePostal: json['code_postal'],
-      ville: json['ville'],*/
       isVerified: json['is_verified'],
       numberOfExperiences: json['number_of_experiences'],
     );
@@ -130,17 +106,14 @@ class Experience {
   final int id;
   final String title;
   final String description;
-  final String dure;
+  final String? dure; // Make this optional to handle null values
   final String prixParVoyageur;
-  //final String inclus;
-  final String nombreDesVoyageur;
-  //final String typeDesVoyageur;
+  final int nombreDesVoyageur; // Corrected type
   final String ville;
   final String addresse;
   final String codePostal;
   final String createdAt;
   final String updatedAt;
-  //final String audioFile;
   final int userId;
   final String status;
   final String country;
@@ -148,24 +121,19 @@ class Experience {
   final String guidePersonnesPeuvesParticiper;
   final String etAvecCa;
   final bool isOnline;
-  //final String lang;
-  //final String lat;
 
   Experience({
     required this.id,
     required this.title,
     required this.description,
-    required this.dure,
+    this.dure, // Optional field
     required this.prixParVoyageur,
-    //required this.inclus,
-    required this.nombreDesVoyageur,
-    //required this.typeDesVoyageur,
+    required this.nombreDesVoyageur, // Corrected type
     required this.ville,
     required this.addresse,
     required this.codePostal,
     required this.createdAt,
     required this.updatedAt,
-    //required this.audioFile,
     required this.userId,
     required this.status,
     required this.country,
@@ -173,8 +141,6 @@ class Experience {
     required this.guidePersonnesPeuvesParticiper,
     required this.etAvecCa,
     required this.isOnline,
-    //required this.lang,
-    //required this.lat,
   });
 
   factory Experience.fromJson(Map<String, dynamic> json) {
@@ -182,17 +148,14 @@ class Experience {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      dure: json['dure'],
+      dure: json['dure'], // Nullable
       prixParVoyageur: json['prix_par_voyageur'],
-      //inclus: json['inclus'],
-      nombreDesVoyageur: json['nombre_des_voyageur'],
-      //typeDesVoyageur: json['type_des_voyageur'],
+      nombreDesVoyageur: json['nombre_des_voyageur'], // Corrected type
       ville: json['ville'],
       addresse: json['addresse'],
       codePostal: json['code_postale'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      //audioFile: json['audio_file'],
       userId: json['user_id'],
       status: json['status'],
       country: json['country'],
@@ -200,8 +163,6 @@ class Experience {
       guidePersonnesPeuvesParticiper: json['guide_personnes_peuves_participer'],
       etAvecCa: json['et_avec_ça'],
       isOnline: json['is_online'],
-      //lang: json['lang'],
-      //lat: json['lat'],
     );
   }
 }

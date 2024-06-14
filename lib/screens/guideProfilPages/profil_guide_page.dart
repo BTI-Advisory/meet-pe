@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/user_response.dart';
 import 'package:meet_pe/resources/_resources.dart';
@@ -77,7 +78,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
 
     if (pickedFile != null) {
       if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
+        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
       } else {
         // Do something with the picked image (e.g., upload or process it)
         //File imageFile = File(pickedFile.path);
@@ -436,7 +437,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset('images/info_icon.png'),
+                              SvgPicture.asset('images/info_icon.svg'),
                               SizedBox(
                                   width: ResponsiveSize.calculateWidth(
                                       8, context)),
@@ -446,7 +447,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Vous avez plusieurs informations à compléter :\n',
+                                    'Tu as plusieurs informations à compléter :\n',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -460,7 +461,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                     visible:
                                         userInfo.hasUpdatedHesSchedule == false,
                                     child: Text(
-                                      '   .   Renseigner vos disponibilités',
+                                      '   .   Renseigne tes disponibilités',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall
@@ -474,7 +475,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   Visibility(
                                     visible: userInfo.IBAN == null,
                                     child: Text(
-                                      '   .   Renseigner votre RIB',
+                                      '   .   Renseigne ton RIB',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall
@@ -488,7 +489,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   Visibility(
                                     visible: userInfo.IBAN == null,
                                     child: Text(
-                                      '   .   Renseigner votre moyen de paiement',
+                                      '   .   Renseigne tes infos (Mon compte)',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall

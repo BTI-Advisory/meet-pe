@@ -303,7 +303,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                   ),
                                                 ),
                                                 const TextSpan(
-                                                  text: 'Meetpe',
+                                                  text: 'Meet People',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
                                                     fontSize: 13,
@@ -375,7 +375,7 @@ class _SignUpPageState extends State<SignUpPage>
                                         ),
                                         const SizedBox(width: 12),
                                         const Text(
-                                          'J’accepte de recevoir les dernières\n nouveautés Meetpe (nouvelles expériences,\n tips et newsletter)',
+                                          'J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles expériences,\n tips et newsletter)',
                                           style: TextStyle(
                                             color: Color(0xFF979797),
                                             fontSize: 13,

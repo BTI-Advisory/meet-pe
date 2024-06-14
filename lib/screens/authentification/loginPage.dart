@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                           ),
                           const TextSpan(
-                            text: ' Meetpe',
+                            text: ' Meet People',
                             style: TextStyle(
                               color: Color(0xFF979797),
                               fontSize: 14,
