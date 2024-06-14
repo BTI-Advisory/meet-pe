@@ -1348,7 +1348,7 @@ class ApiClient {
   }
 
   /// Update reservation status
-  Future<void> updateReservationStatus(int reservationId, String status) async {
+  Future<bool> updateReservationStatus(int reservationId, String status) async {
     final data = {
       'reservation_id': reservationId,
       'status': status,
@@ -1370,7 +1370,12 @@ class ApiClient {
     }();
 
     // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
+    VerifyCode.fromJson(response!);
+    if (VerifyCode.fromJson(response!).verified == 'operation done') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Get list guide reservation

@@ -38,7 +38,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
       builder: (BuildContext context) => AlertDialog(
         title: const Center(child: Text('Information')),
         content: const Text(
-            'Et oui, même pour Meet People alors que notre mission est de rendre ce monde encore plus merveilleux grâce à toi cela nous arrive de nous perdre dans tes SPAM ! Mais avec un bon Tcheck de ta part nous serons plus fort que le côté obscur de la force 💪🏼'),
+            'Et oui, même pour Meet People alors que notre mission est de rendre ce monde encore plus merveilleux grâce à toi cela nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part nous serons plus fort que le côté obscur de la force 💪🏼'),
         actions: <Widget>[
           TextButton(
             onPressed: () {

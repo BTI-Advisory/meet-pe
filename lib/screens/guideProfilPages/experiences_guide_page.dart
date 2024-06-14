@@ -23,6 +23,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = false; // Track if it's currently "Request" or "Experience"
   List<GuideReservationResponse> reservationList = [];
   List<GuideExperiencesResponse> experiencesList = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -64,6 +65,30 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
     } catch (e) {
       // Handle error
       print('Error fetching experiences list: $e');
+    }
+  }
+
+  Future<void> _updateReservationStatus(int reservationId, String status) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final bool result = await AppService.api.updateReservationStatus(reservationId, status);
+      if (result) {
+        await fetchGuideReservationData(); // Refresh the data list after a successful update
+        Navigator.pop(context, true);
+      } else {
+        print('Update failed');
+        Navigator.pop(context, false);
+      }
+    } catch (e) {
+      print('Error updating reservation status: $e');
+      Navigator.pop(context, false);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -111,7 +136,12 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) => _buildPopupDialog(context, reservationList[index]),
-                              );
+                              ).then((value) {
+                                if (value == true) {
+                                  // Refresh the data if changes were made
+                                  fetchGuideReservationData();
+                                }
+                              });
                             },
                             child: RequestCard(guideReservationResponse: reservationList[index],),
                           ),
@@ -245,237 +275,211 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
 
   Widget _buildPopupDialog(BuildContext context, GuideReservationResponse reservation) {
     return AlertDialog(
-      contentPadding: EdgeInsets.zero,
-      insetPadding: EdgeInsets.symmetric(horizontal: 0),
-      backgroundColor: AppResources.colorWhite,
-      content: SizedBox(
-        width: 329,
-        height: 420,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 19),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 21),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        contentPadding: EdgeInsets.zero,
+        insetPadding: EdgeInsets.symmetric(horizontal: 0),
+        backgroundColor: AppResources.colorWhite,
+        content: SizedBox(
+            width: 329,
+            height: 420,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 19),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 21),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              ClipOval(
+                                  child: Image.network(reservation.voyageur.profilePath, width: 75, height: 75, fit: BoxFit.cover)
+                              ),
+                              SizedBox(width: ResponsiveSize.calculateWidth(19, context)),
+                              Text(
+                                  reservation.voyageur.name,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(Icons.close, size: 20, color: AppResources.colorGray30),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 21),
                       Row(
                         children: [
-                          ClipOval(
-                              child: Image.network(reservation.voyageur.profilePath, width: 75, height: 75, fit: BoxFit.cover)
-                          ),
-                          SizedBox(width: ResponsiveSize.calculateWidth(19, context)),
-                          Text(
-                              reservation.voyageur.name,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(Icons.close, size: 20, color: AppResources.colorGray30),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 21),
-                  Row(
-                    children: [
-                      Visibility(
-                        visible: reservation.voyageur.isVerified,
-                        child: Container(
-                          height: ResponsiveSize.calculateHeight(
-                              28, context),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                              ResponsiveSize.calculateWidth(
-                                  12, context)),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(ResponsiveSize
-                                    .calculateCornerRadius(
-                                    20, context))),
-                            border: Border.all(
-                                color: AppResources.colorDark),
-                          ),
-                          child: Center(
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                    'images/icon_verified.png', color: AppResources.colorDark),
-                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                Text(
-                                  'Vérifié',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                    color: AppResources
-                                        .colorDark,
-                                    fontSize: 12,
-                                  ),
+                          Visibility(
+                            visible: reservation.voyageur.isVerified,
+                            child: Container(
+                              height: ResponsiveSize.calculateHeight(
+                                  28, context),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                  ResponsiveSize.calculateWidth(
+                                      12, context)),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(ResponsiveSize
+                                        .calculateCornerRadius(
+                                        20, context))),
+                                border: Border.all(
+                                    color: AppResources.colorDark),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                        'images/icon_verified.png', color: AppResources.colorDark),
+                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                    Text(
+                                      'Vérifié',
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                        color: AppResources
+                                            .colorDark,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Visibility(
-                          visible: reservation.voyageur.isVerified,
-                          child: SizedBox(width: ResponsiveSize.calculateWidth(41, context))
-                      ),
-                      Text(
-                        'expériences vécues',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                      ),
-                      SizedBox(width: ResponsiveSize.calculateWidth(5, context)),
-                      Text(
-                        reservation.voyageur.numberOfExperiences.toString(),
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Expérience réservée le ${yearsFrenchFormat(reservation.createdAt)}',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    reservation.experience.title,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark, fontSize: 14),
-                  ),
-                  const SizedBox(height: 23),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Nombre de voyageurs',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
-                      ),
-                      Text(
-                        reservation.nombreDesVoyageurs.toString(),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Créneau réservé',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
-                      ),
-                      Text(
-                        requestFrenchFormat(reservation.dateTime),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: AppResources.colorImputStroke,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Visibility(
-                visible: reservation.status != 'Acceptée',
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        print('Accepted');
-                        // Call the asynchronous operation and handle its completion
-                        AppService.api.updateReservationStatus(reservation.id, 'Acceptée').then((_) {
-                          // Optionally, you can perform additional actions after the operation completes
-                          Navigator.pop(context);
-                        }).catchError((error) {
-                          // Handle any errors that occur during the asynchronous operation
-                          print('Error: $error');
-                          Navigator.pop(context);
-                          if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                            showMessage(context, error.toString());
-                          }
-
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.check, size: 24,),
-                          const SizedBox(height: 4),
+                          Visibility(
+                              visible: reservation.voyageur.isVerified,
+                              child: SizedBox(width: ResponsiveSize.calculateWidth(41, context))
+                          ),
                           Text(
-                            'Accepter',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
+                            'expériences vécues',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                          ),
+                          SizedBox(width: ResponsiveSize.calculateWidth(5, context)),
+                          Text(
+                            reservation.voyageur.numberOfExperiences.toString(),
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                           )
                         ],
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Expérience réservée le ${yearsFrenchFormat(reservation.createdAt)}',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                      ),
+                      const SizedBox(height: 14),
+                      Text(
+                        reservation.experience.title,
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark, fontSize: 14),
+                      ),
+                      const SizedBox(height: 23),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Nombre de voyageurs',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                          ),
+                          Text(
+                            reservation.nombreDesVoyageurs.toString(),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Créneau réservé',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                          ),
+                          Text(
+                            requestFrenchFormat(reservation.dateTime),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                        color: AppResources.colorImputStroke,
                       ),
                     ),
-                    const SizedBox(width: 19),
-                    GestureDetector(
-                      onTap: () async {
-                        print('Refuser');
-                        // Call the asynchronous operation and handle its completion
-                        AppService.api.updateReservationStatus(reservation.id, 'Refusée').then((_) {
-                          // Optionally, you can perform additional actions after the operation completes
-                          Navigator.pop(context);
-                        }).catchError((error) {
-                          // Handle any errors that occur during the asynchronous operation
-                          print('Error: $error');
-                          Navigator.pop(context);
-                          if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                            showMessage(context, error.toString());
-                          }
-
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.close, size: 24,),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Refuser',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      )
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Visibility(
+                    visible: reservation.status != 'Acceptée',
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await _updateReservationStatus(reservation.id, 'Acceptée');
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.check, size: 24,),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Accepter',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: AppResources.colorDark),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 19),
+                        GestureDetector(
+                          onTap: () async {
+                            await _updateReservationStatus(reservation.id, 'Refusée');
+                          },
+                          child: Column(
+                            children: [
+                              const Icon(Icons.close, size: 24,),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Refuser',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: AppResources.colorDark),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            )
+        )
     );
   }
 }

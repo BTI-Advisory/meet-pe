@@ -93,20 +93,6 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
                                       96,
                                   color: AppResources.colorGray15,
                                 ),
-                                const SizedBox(
-                                  height: 29,
-                                ),
-                                Text(
-                                  'Clique sur le lien dans l’e-mail que tu viens de recevoir pour changer ton mot de passe.',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppResources.colorGray30,
-                                      ),
-                                )
                               ],
                             ),
                           ),
@@ -139,7 +125,7 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
                                     ),
                                     onPressed: validate,
                                     child: Text(
-                                      'RENVOYER UN MAIL',
+                                      'ENVOYER MON CODE',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

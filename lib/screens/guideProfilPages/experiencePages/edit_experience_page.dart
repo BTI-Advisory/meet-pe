@@ -24,7 +24,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   late TextEditingController _textEditingControllerDescription;
   String? validationMessageDescription = '';
   bool isFormValid = false;
-  double valueSlider = 30;
+  double valueSlider = 15;
   late Future<ExperienceDataResponse> _experienceDataFuture;
   String selectedImagePath = 'images/imageTest.png';
   bool updateOnline = false;
@@ -359,8 +359,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                                     const SizedBox(height: 57),
                                                                     Slider(
                                                                       value: valueSlider,
-                                                                      min: 30,
-                                                                      max: 500,
+                                                                      min: 15,
+                                                                      max: 2000,
                                                                       divisions: 10,
                                                                       label: '${valueSlider.round().toString()} €',
                                                                       onChanged: (double value) {
