@@ -3,19 +3,43 @@ import 'package:flutter/material.dart';
 import '../models/guide_reservation_response.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
-import '../utils/message.dart';
 import '../utils/utils.dart';
 
 class RequestCard extends StatefulWidget {
-  //const RequestCard({Key? key}) : super(key: key);
-  RequestCard({super.key, required this.guideReservationResponse});
   final GuideReservationResponse guideReservationResponse;
+  final Function onUpdateStatus;
+
+  RequestCard({
+    super.key,
+    required this.guideReservationResponse,
+    required this.onUpdateStatus,
+  });
 
   @override
   _RequestCardState createState() => _RequestCardState();
 }
 
 class _RequestCardState extends State<RequestCard> {
+  bool isLoading = false; // To show loading indicator if needed
+
+  Future<void> _updateStatus(String newStatus) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      bool result = await AppService.api.updateReservationStatus(widget.guideReservationResponse.id, newStatus);
+      if (result) {
+        widget.onUpdateStatus(); // Notify the parent about the change
+      }
+    } catch (e) {
+      print('Error updating reservation status: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,25 +105,14 @@ class _RequestCardState extends State<RequestCard> {
                         child: Row(
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                print('Accepted');
-                                // Call the asynchronous operation and handle its completion
-                                AppService.api.updateReservationStatus(widget.guideReservationResponse.id, 'Acceptée').then((_) {
-                                  // Optionally, you can perform additional actions after the operation completes
-                                  Navigator.pop(context);
-                                }).catchError((error) {
-                                  // Handle any errors that occur during the asynchronous operation
-                                  print('Error: $error');
-                                  Navigator.pop(context);
-                                  if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                    showMessage(context, error.toString());
-                                  }
-
-                                });
+                              onTap: () async {
+                                await _updateStatus('Acceptée'); // Update status asynchronously
                               },
                               child: Column(
                                 children: [
-                                  Icon(Icons.check, size: 24,),
+                                  isLoading
+                                      ? CircularProgressIndicator() // Show loading indicator
+                                      : Icon(Icons.check, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
                                     'Accepter',
@@ -113,25 +126,14 @@ class _RequestCardState extends State<RequestCard> {
                             ),
                             const SizedBox(width: 19),
                             GestureDetector(
-                              onTap: () {
-                                print('Refuser');
-                                // Call the asynchronous operation and handle its completion
-                                AppService.api.updateReservationStatus(widget.guideReservationResponse.experience.id, 'Refusée').then((_) {
-                                  // Optionally, you can perform additional actions after the operation completes
-                                  Navigator.pop(context);
-                                }).catchError((error) {
-                                  // Handle any errors that occur during the asynchronous operation
-                                  print('Error: $error');
-                                  Navigator.pop(context);
-                                  if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
-                                    showMessage(context, error.toString());
-                                  }
-
-                                });
+                              onTap: () async {
+                                await _updateStatus('Refusée'); // Update status asynchronously
                               },
                               child: Column(
                                 children: [
-                                  Icon(Icons.close, size: 24,),
+                                  isLoading
+                                      ? CircularProgressIndicator() // Show loading indicator
+                                      : Icon(Icons.close, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
                                     'Refuser',
@@ -184,7 +186,7 @@ class _RequestCardState extends State<RequestCard> {
                     ),
                     child: Center(
                       child: Text(
-                        'New',
+                          'New',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium

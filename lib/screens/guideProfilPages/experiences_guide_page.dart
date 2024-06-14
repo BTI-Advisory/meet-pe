@@ -44,9 +44,6 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
       setState(() {
         reservationList = response;
       });
-      for (var item in reservationList) {
-        //print(item.voyageur);
-      }
     } catch (e) {
       // Handle error
       print('Error fetching reservation list: $e');
@@ -59,13 +56,14 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
       setState(() {
         experiencesList = response;
       });
-      for (var item in experiencesList) {
-        //print(item.status);
-      }
     } catch (e) {
       // Handle error
       print('Error fetching experiences list: $e');
     }
+  }
+
+  Future<void> _updateReservation() async {
+    await fetchGuideReservationData(); // Refresh the data list
   }
 
   Future<void> _updateReservationStatus(int reservationId, String status) async {
@@ -143,7 +141,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                 }
                               });
                             },
-                            child: RequestCard(guideReservationResponse: reservationList[index],),
+                            child: RequestCard(guideReservationResponse: reservationList[index], onUpdateStatus: _updateReservation),
                           ),
                         ),
                       )

@@ -1388,6 +1388,8 @@ class ApiClient {
     };
 
     final response = await http.get(_buildUri('api/get-guide-reservation'), headers: headers);
+    print('JFRJFJRJFJRF ${response.statusCode}');
+    print('JFRJFJRJFJRF ${response.body}');
 
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);
