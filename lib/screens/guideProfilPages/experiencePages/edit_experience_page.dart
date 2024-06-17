@@ -187,13 +187,14 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             children: [
                               Container(
                                 width: ResponsiveSize.calculateWidth(375, context),
-                                height: 576,
+                                height: ResponsiveSize.calculateHeight(576, context),
                                 child: Stack(
                                   children: [
                                     /// Image principal
                                     Positioned(
                                       left: -36,
                                       top: 0,
+                                      bottom: 0,
                                       child: Container(
                                         width: ResponsiveSize.calculateWidth(
                                             427, context),
@@ -206,6 +207,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     Positioned(
                                       left: 0,
                                       top: 60,
+                                      bottom: 0,
                                       child: Container(
                                         width: ResponsiveSize.calculateWidth(
                                             375, context),

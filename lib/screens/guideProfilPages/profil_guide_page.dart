@@ -324,59 +324,44 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: ResponsiveSize.calculateWidth(
-                                      72, context),
-                                  height: ResponsiveSize.calculateHeight(
-                                      72, context),
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(userInfo.profilePath),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          ResponsiveSize.calculateCornerRadius(
-                                              162.50, context)),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: ResponsiveSize.calculateWidth(
-                                      13, context),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
+                                    Container(
+                                      width: ResponsiveSize.calculateWidth(
+                                          72, context),
+                                      height: ResponsiveSize.calculateHeight(
+                                          72, context),
+                                      decoration: ShapeDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(userInfo.profilePath),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              ResponsiveSize.calculateCornerRadius(
+                                                  162.50, context)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: ResponsiveSize.calculateWidth(
+                                          13, context),
+                                    ),
                                     Text(
                                       userInfo.name,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall
                                           ?.copyWith(
-                                              color: AppResources.colorDark),
-                                    ),
-                                    SizedBox(
-                                      width: ResponsiveSize.calculateHeight(
-                                          6, context),
-                                    ),
-                                    Text(
-                                      'Un petit mot sur toi \npour nos voyageurs.',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontSize: 12,
-                                              color: AppResources.colorGray45),
+                                          color: AppResources.colorDark),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  width: ResponsiveSize.calculateWidth(
-                                      80, context),
                                 ),
                                 Image.asset('images/chevron_right.png',
                                     width: 27, height: 27, fit: BoxFit.fill),
