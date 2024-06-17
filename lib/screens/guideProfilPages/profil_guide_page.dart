@@ -175,8 +175,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                 Stack(
                                                   children: [
                                                     Container(
-                                                      width: ResponsiveSize.calculateWidth(168, context),
-                                                      height: ResponsiveSize.calculateHeight(168, context),
+                                                      width: ResponsiveSize.calculateWidth(144, context),
+                                                      height: ResponsiveSize.calculateHeight(140, context),
                                                       child: WidgetMask(
                                                         blendMode: BlendMode.srcATop,
                                                         childSaveLayer: true,
@@ -198,8 +198,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                       bottom: 0,
                                                       right: 0,
                                                       child: Container(
-                                                        width: ResponsiveSize.calculateWidth(44, context),
-                                                        height: ResponsiveSize.calculateHeight(44, context),
+                                                        width: ResponsiveSize.calculateWidth(34, context),
+                                                        height: ResponsiveSize.calculateHeight(34, context),
                                                         padding: const EdgeInsets.all(4),
                                                         decoration: ShapeDecoration(
                                                           shape: RoundedRectangleBorder(

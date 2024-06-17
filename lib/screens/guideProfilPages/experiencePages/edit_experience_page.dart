@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
+import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../../resources/resources.dart';
@@ -616,123 +618,16 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             Positioned(
                               top: 0,
                               right: 0,
-                              child: editButton(onTap: () {
-                                print('Edit description');
-                                showModalBottomSheet<void>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: StatefulBuilder(
-                                          builder: (BuildContext context,
-                                              StateSetter setState) {
-                                            return Container(
-                                              width: double.infinity,
-                                              height: 432,
-                                              color: AppResources.colorWhite,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 28),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    const SizedBox(height: 39),
-                                                    Text(
-                                                      'Description de l’experience',
-                                                      style: Theme.of(context).textTheme.headlineMedium,
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        TextFormField(
-                                                          controller: _textEditingControllerDescription,
-                                                          keyboardType: TextInputType.multiline,
-                                                          textInputAction: TextInputAction.newline,
-                                                          //textInputAction: TextInputAction.done,
-                                                          maxLines: null,
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodyMedium
-                                                              ?.copyWith(color: AppResources.colorDark),
-                                                          decoration: InputDecoration(
-                                                            filled: false,
-                                                            hintText: 'Description',
-                                                            hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                            contentPadding: EdgeInsets.only(
-                                                                top: ResponsiveSize.calculateHeight(20, context),
-                                                                bottom:
-                                                                ResponsiveSize.calculateHeight(10, context)),
-                                                            // Adjust padding
-                                                            suffix: SizedBox(
-                                                                height:
-                                                                ResponsiveSize.calculateHeight(10, context)),
-                                                            enabledBorder: const UnderlineInputBorder(
-                                                              borderSide:
-                                                              BorderSide(color: AppResources.colorGray15),
-                                                            ),
-                                                            focusedBorder: const UnderlineInputBorder(
-                                                              borderSide:
-                                                              BorderSide(color: AppResources.colorGray15),
-                                                            ),
-                                                            errorBorder: const UnderlineInputBorder(
-                                                              borderSide: BorderSide(color: Colors.red),
-                                                            ),
-                                                          ),
-                                                          //onFieldSubmitted: (value) => validate(),
-                                                          validator: AppResources.validatorNotEmpty,
-                                                          //onSaved: (value) => bloc.name = value,
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              validationMessageDescription =
-                                                                  AppResources.validatorNotEmpty(value);
-                                                              updateFormValidity();
-                                                            });
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 53),
-                                                    Container(
-                                                      width: ResponsiveSize.calculateWidth(319, context),
-                                                      height: ResponsiveSize.calculateHeight(44, context),
-                                                      child: TextButton(
-                                                        style: ButtonStyle(
-                                                          padding:
-                                                          MaterialStateProperty.all<EdgeInsets>(
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                          backgroundColor: MaterialStateProperty.all(
-                                                              Colors.transparent),
-                                                          shape: MaterialStateProperty.all<
-                                                              RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(
-                                                              side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                              borderRadius: BorderRadius.circular(40),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        child: Text(
-                                                          'ENREGISTRER',
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodyLarge
-                                                              ?.copyWith(color: AppResources.colorDark),
-                                                        ),
-                                                        onPressed: () async {
-                                                          updateDescription = true;
-                                                          Navigator.pop(context);
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    }
+                              child: editButton(onTap: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => EditDescriptionPage()),
                                 );
+                                if (result != null) {
+                                  setState(() {
+                                    print('Return description $result');
+                                  });
+                                }
                               }),
                             )
                           ],
