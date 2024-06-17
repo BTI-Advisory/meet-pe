@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
+import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -662,12 +663,32 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 ),
                               ),
                               const SizedBox(height: 12),
-                              SizedBox(
-                                width: 319,
-                                child: Text(
-                                  experienceData.aboutGuide ?? '',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                                ),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  SizedBox(
+                                    width: 319,
+                                    child: Text(
+                                      experienceData.aboutGuide ?? '',
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: editButton(onTap: () async {
+                                      final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const EditAboutPage()),
+                                      );
+                                      if (result != null) {
+                                        setState(() {
+                                          print('Return about $result');
+                                        });
+                                      }
+                                    }),
+                                  )
+                                ]
                               ),
                             ],
                           ),
