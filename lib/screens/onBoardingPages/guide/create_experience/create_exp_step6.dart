@@ -54,6 +54,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                 Positioned(
                                   left: -36,
                                   top: 0,
+                                  bottom: 0,
                                   child: Container(
                                     width:
                                     ResponsiveSize.calculateWidth(427, context),
@@ -68,6 +69,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                 Positioned(
                                   left: 0,
                                   top: 60,
+                                  bottom: 0,
                                   child: Container(
                                     width:
                                     ResponsiveSize.calculateWidth(375, context),
