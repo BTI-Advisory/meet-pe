@@ -11,6 +11,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
+import 'edit_price_page.dart';
 
 class EditExperiencePage extends StatefulWidget {
   const EditExperiencePage({super.key, required this.experienceId, required this.isOnline, required this.price});
@@ -335,106 +336,17 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                             Positioned(
                                               top: -18,
                                               right: 10,
-                                              child: editButton(onTap: () {
+                                              child: editButton(onTap: () async {
                                                 print('Edit price');
-                                                showModalBottomSheet<void>(
-                                                    context: context,
-                                                    isScrollControlled: true,
-                                                    builder: (BuildContext context) {
-                                                      return Padding(
-                                                        padding: EdgeInsets.only(
-                                                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                        child: StatefulBuilder(
-                                                          builder: (BuildContext context,
-                                                              StateSetter setState) {
-                                                            return Container(
-                                                              width: double.infinity,
-                                                              height: 357,
-                                                              color: AppResources.colorWhite,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 28),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    const SizedBox(height: 39),
-                                                                    Text(
-                                                                      'Prix de l’experience',
-                                                                      style: Theme.of(context).textTheme.headlineMedium,
-                                                                    ),
-                                                                    const SizedBox(height: 57),
-                                                                    Slider(
-                                                                      value: valueSlider,
-                                                                      min: 15,
-                                                                      max: 2000,
-                                                                      divisions: 10,
-                                                                      label: '${valueSlider.round().toString()} €',
-                                                                      onChanged: (double value) {
-                                                                        setState(() {
-                                                                          valueSlider = value;
-                                                                          updatePrice(value);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                    SizedBox(
-                                                                        height: ResponsiveSize.calculateHeight(33, context)),
-                                                                    Container(
-                                                                      width: double.infinity,
-                                                                      child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Prix conseillé dans cette catégorie',
-                                                                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
-                                                                          ),
-                                                                          Text(
-                                                                            ' 30 €',
-                                                                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorDark),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(height: 53),
-                                                                    Container(
-                                                                      width: ResponsiveSize.calculateWidth(319, context),
-                                                                      height: ResponsiveSize.calculateHeight(44, context),
-                                                                      child: TextButton(
-                                                                        style: ButtonStyle(
-                                                                          padding:
-                                                                          MaterialStateProperty.all<EdgeInsets>(
-                                                                              EdgeInsets.symmetric(
-                                                                                  horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                                          backgroundColor: MaterialStateProperty.all(
-                                                                              Colors.transparent),
-                                                                          shape: MaterialStateProperty.all<
-                                                                              RoundedRectangleBorder>(
-                                                                            RoundedRectangleBorder(
-                                                                              side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                                              borderRadius: BorderRadius.circular(40),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        child: Text(
-                                                                          'ENREGISTRER',
-                                                                          style: Theme.of(context)
-                                                                              .textTheme
-                                                                              .bodyLarge
-                                                                              ?.copyWith(color: AppResources.colorDark),
-                                                                        ),
-                                                                        onPressed: () async {
-                                                                          updatePrices = true;
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      );
-                                                    }
+                                                final result = await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const EditPricePage()),
                                                 );
+                                                if (result != null) {
+                                                  setState(() {
+                                                    print('Return about $result');
+                                                  });
+                                                }
                                               }),
                                             )
                                           ],
