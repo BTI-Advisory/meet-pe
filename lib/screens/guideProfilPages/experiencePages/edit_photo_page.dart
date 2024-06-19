@@ -1,34 +1,25 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meet_pe/utils/_utils.dart';
-import 'package:meet_pe/widgets/popup_view.dart';
-
-import '../../../../resources/resources.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
-import 'create_exp_step6.dart';
+import '../../../utils/_utils.dart';
+import '../../../resources/resources.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
 
-class CreateExpStep5 extends StatefulWidget {
-  CreateExpStep5({super.key, required this.name, required this.description, required this.idExperience});
-
-  final String name;
-  final String description;
-  final int idExperience;
+class EditPhotoPage extends StatefulWidget {
+  const EditPhotoPage({super.key});
 
   @override
-  State<CreateExpStep5> createState() => _CreateExpStep5State();
+  State<EditPhotoPage> createState() => _EditPhotoPageState();
 }
 
-class _CreateExpStep5State extends State<CreateExpStep5> {
+class _EditPhotoPageState extends State<EditPhotoPage> {
+
   String selectedImagePathPrincipal = '';
   String selectedImagePath1 = '';
   String selectedImagePath2 = '';
@@ -37,6 +28,11 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
   String selectedImagePath5 = '';
   final List<dynamic> _imageList = [];
   bool imageSize = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> pickImage(ImagePathCallback callback) async {
     // Your logic to pick an image goes here.
@@ -74,41 +70,42 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppResources.colorGray5, AppResources.colorWhite],
+            colors: [Color(0xFFF3F3F3), Colors.white],
+            stops: [0.0, 1.0],
           ),
         ),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                'images/backgroundExp4.png',
-                width: double.infinity,
-                fit: BoxFit.fill,
-                height: ResponsiveSize.calculateHeight(190, context),
-              ),
-              SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: ResponsiveSize.calculateWidth(28, context)),
+        child: Stack(
+          children: <Widget>[
+            // Main content with scroll capability
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Étape 4 sur 9',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                    fontSize: 10, fontWeight: FontWeight.w400),
-                          ),
-                          const PopupView(contentTitle: "Capture l'Action 💥 /  Montre l'Authenticité 🌟 / Explore la Diversité 🌈 / Joue avec la Lumière ☀️ et Engage tes futurs Participants 🎉 \n\nN’oublie jamais la way of life de Meet People lors du choix de tes photos 📸, du partage, des échanges et des sourires !\n ",)
-                        ]),
+                  children: <Widget>[
+                    const SizedBox(height: 48),
                     SizedBox(
-                        height: ResponsiveSize.calculateHeight(8, context)),
+                      width: ResponsiveSize.calculateWidth(24, context),
+                      height: ResponsiveSize.calculateHeight(24, context),
+                      child: FloatingActionButton(
+                        backgroundColor: AppResources.colorWhite,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          String.fromCharCode(CupertinoIcons.back.codePoint),
+                          style: TextStyle(
+                            inherit: false,
+                            color: AppResources.colorVitamine,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: CupertinoIcons.exclamationmark_circle.fontFamily,
+                            package: CupertinoIcons.exclamationmark_circle.fontPackage,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 80),
                     Text(
                       'Photos de l’expérience',
                       style: Theme.of(context).textTheme.headlineMedium,
@@ -145,45 +142,45 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         height: ResponsiveSize.calculateHeight(
                                             206, context),
                                         child: selectedImagePathPrincipal
-                                                .isEmpty
+                                            .isEmpty
                                             ? Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.add,
-                                                    color: AppResources
-                                                        .colorGray60,
-                                                  ),
-                                                  Text(
-                                                    'Photo principale',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                            color: AppResources
-                                                                .colorGray60),
-                                                  ),
-                                                  Text(
-                                                    'Fais nous ton plus beau \nsourire 😉',
-                                                    textAlign: TextAlign.center,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium,
-                                                  ),
-                                                ],
-                                              )
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.add,
+                                              color: AppResources
+                                                  .colorGray60,
+                                            ),
+                                            Text(
+                                              'Photo principale',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                  color: AppResources
+                                                      .colorGray60),
+                                            ),
+                                            Text(
+                                              'Fais nous ton plus beau \nsourire 😉',
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                            ),
+                                          ],
+                                        )
                                             : ClipRRect(
-                                                borderRadius: BorderRadius
-                                                    .circular(ResponsiveSize
-                                                        .calculateCornerRadius(
-                                                            12, context)),
-                                                child: Image.file(
-                                                  File(
-                                                      selectedImagePathPrincipal),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              )),
+                                          borderRadius: BorderRadius
+                                              .circular(ResponsiveSize
+                                              .calculateCornerRadius(
+                                              12, context)),
+                                          child: Image.file(
+                                            File(
+                                                selectedImagePathPrincipal),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )),
                                   ),
                                 ),
                                 Positioned(
@@ -191,7 +188,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                   right: 14,
                                   child: Visibility(
                                     visible:
-                                        selectedImagePathPrincipal.isNotEmpty,
+                                    selectedImagePathPrincipal.isNotEmpty,
                                     child: Container(
                                       width: ResponsiveSize.calculateWidth(
                                           24, context),
@@ -203,13 +200,13 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           borderRadius: BorderRadius.circular(
                                               ResponsiveSize
                                                   .calculateCornerRadius(
-                                                      40, context)),
+                                                  40, context)),
                                         ),
                                       ),
                                       child: FloatingActionButton(
                                         heroTag: "btn2",
                                         backgroundColor:
-                                            AppResources.colorWhite,
+                                        AppResources.colorWhite,
                                         onPressed: () async {
                                           await pickImage((String imagePath) {
                                             selectedImagePathPrincipal =
@@ -217,7 +214,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           });
                                         },
                                         child:
-                                            Image.asset('images/pen_icon.png'),
+                                        Image.asset('images/pen_icon.png'),
                                       ),
                                     ),
                                   ),
@@ -226,7 +223,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             ),
                             SizedBox(
                                 width:
-                                    ResponsiveSize.calculateWidth(14, context)),
+                                ResponsiveSize.calculateWidth(14, context)),
                             Expanded(
                               child: Column(
                                 children: [
@@ -245,27 +242,27 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                                 12, context)),
                                         child: Container(
                                           width:
-                                              ResponsiveSize.calculateWidth(
-                                                  98, context),
+                                          ResponsiveSize.calculateWidth(
+                                              98, context),
                                           height:
-                                              ResponsiveSize.calculateHeight(
-                                                  98, context),
+                                          ResponsiveSize.calculateHeight(
+                                              98, context),
                                           child: selectedImagePath1.isEmpty
                                               ? const Icon(
-                                                  Icons.add,
-                                                  color: AppResources
-                                                      .colorGray60,
-                                                )
+                                            Icons.add,
+                                            color: AppResources
+                                                .colorGray60,
+                                          )
                                               : ClipRRect(
-                                                  borderRadius: BorderRadius
-                                                      .circular(ResponsiveSize
-                                                          .calculateCornerRadius(
-                                                              12, context)),
-                                                  child: Image.file(
-                                                    File(selectedImagePath1),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                            borderRadius: BorderRadius
+                                                .circular(ResponsiveSize
+                                                .calculateCornerRadius(
+                                                12, context)),
+                                            child: Image.file(
+                                              File(selectedImagePath1),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -278,20 +275,20 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
                                           height:
-                                              ResponsiveSize.calculateHeight(
-                                                  24, context),
+                                          ResponsiveSize.calculateHeight(
+                                              24, context),
                                           decoration: ShapeDecoration(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius
                                                   .circular(ResponsiveSize
-                                                      .calculateCornerRadius(
-                                                          40, context)),
+                                                  .calculateCornerRadius(
+                                                  40, context)),
                                             ),
                                           ),
                                           child: FloatingActionButton(
                                             heroTag: "btn3",
                                             backgroundColor:
-                                                AppResources.colorWhite,
+                                            AppResources.colorWhite,
                                             onPressed: () async {
                                               await pickImage((String imagePath) {
                                                 selectedImagePath1 = imagePath;
@@ -322,27 +319,27 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                                 12, context)),
                                         child: Container(
                                           width:
-                                              ResponsiveSize.calculateWidth(
-                                                  98, context),
+                                          ResponsiveSize.calculateWidth(
+                                              98, context),
                                           height:
-                                              ResponsiveSize.calculateHeight(
-                                                  98, context),
+                                          ResponsiveSize.calculateHeight(
+                                              98, context),
                                           child: selectedImagePath2.isEmpty
                                               ? const Icon(
-                                                  Icons.add,
-                                                  color: AppResources
-                                                      .colorGray60,
-                                                )
+                                            Icons.add,
+                                            color: AppResources
+                                                .colorGray60,
+                                          )
                                               : ClipRRect(
-                                                  borderRadius: BorderRadius
-                                                      .circular(ResponsiveSize
-                                                          .calculateCornerRadius(
-                                                              12, context)),
-                                                  child: Image.file(
-                                                    File(selectedImagePath2),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                            borderRadius: BorderRadius
+                                                .circular(ResponsiveSize
+                                                .calculateCornerRadius(
+                                                12, context)),
+                                            child: Image.file(
+                                              File(selectedImagePath2),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -355,20 +352,20 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
                                           height:
-                                              ResponsiveSize.calculateHeight(
-                                                  24, context),
+                                          ResponsiveSize.calculateHeight(
+                                              24, context),
                                           decoration: ShapeDecoration(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius
                                                   .circular(ResponsiveSize
-                                                      .calculateCornerRadius(
-                                                          40, context)),
+                                                  .calculateCornerRadius(
+                                                  40, context)),
                                             ),
                                           ),
                                           child: FloatingActionButton(
                                             heroTag: "btn4",
                                             backgroundColor:
-                                                AppResources.colorWhite,
+                                            AppResources.colorWhite,
                                             onPressed: () async {
                                               await pickImage((String imagePath) {
                                                 selectedImagePath2 = imagePath;
@@ -388,7 +385,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                         ),
                         SizedBox(
                             height:
-                                ResponsiveSize.calculateHeight(14, context)),
+                            ResponsiveSize.calculateHeight(14, context)),
                         Row(
                           children: [
                             Expanded(
@@ -412,19 +409,19 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           98, context),
                                       child: selectedImagePath3.isEmpty
                                           ? const Icon(
-                                              Icons.add,
-                                              color: AppResources.colorGray60,
-                                            )
+                                        Icons.add,
+                                        color: AppResources.colorGray60,
+                                      )
                                           : ClipRRect(
-                                              borderRadius: BorderRadius
-                                                  .circular(ResponsiveSize
-                                                      .calculateCornerRadius(
-                                                          12, context)),
-                                              child: Image.file(
-                                                File(selectedImagePath3),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                        borderRadius: BorderRadius
+                                            .circular(ResponsiveSize
+                                            .calculateCornerRadius(
+                                            12, context)),
+                                        child: Image.file(
+                                          File(selectedImagePath3),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -443,20 +440,20 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           borderRadius: BorderRadius.circular(
                                               ResponsiveSize
                                                   .calculateCornerRadius(
-                                                      40, context)),
+                                                  40, context)),
                                         ),
                                       ),
                                       child: FloatingActionButton(
                                         heroTag: "btn5",
                                         backgroundColor:
-                                            AppResources.colorWhite,
+                                        AppResources.colorWhite,
                                         onPressed: () async {
                                           await pickImage((String imagePath) {
                                             selectedImagePath3 = imagePath;
                                           });
                                         },
                                         child:
-                                            Image.asset('images/pen_icon.png'),
+                                        Image.asset('images/pen_icon.png'),
                                       ),
                                     ),
                                   ),
@@ -465,7 +462,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             ),
                             SizedBox(
                                 width:
-                                    ResponsiveSize.calculateWidth(12, context)),
+                                ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
                               child: Stack(children: [
                                 GestureDetector(
@@ -487,19 +484,19 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           98, context),
                                       child: selectedImagePath4.isEmpty
                                           ? const Icon(
-                                              Icons.add,
-                                              color: AppResources.colorGray60,
-                                            )
+                                        Icons.add,
+                                        color: AppResources.colorGray60,
+                                      )
                                           : ClipRRect(
-                                              borderRadius: BorderRadius
-                                                  .circular(ResponsiveSize
-                                                      .calculateCornerRadius(
-                                                          12, context)),
-                                              child: Image.file(
-                                                File(selectedImagePath4),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                        borderRadius: BorderRadius
+                                            .circular(ResponsiveSize
+                                            .calculateCornerRadius(
+                                            12, context)),
+                                        child: Image.file(
+                                          File(selectedImagePath4),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -518,20 +515,20 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           borderRadius: BorderRadius.circular(
                                               ResponsiveSize
                                                   .calculateCornerRadius(
-                                                      40, context)),
+                                                  40, context)),
                                         ),
                                       ),
                                       child: FloatingActionButton(
                                         heroTag: "btn6",
                                         backgroundColor:
-                                            AppResources.colorWhite,
+                                        AppResources.colorWhite,
                                         onPressed: () async {
                                           await pickImage((String imagePath) {
                                             selectedImagePath4 = imagePath;
                                           });
                                         },
                                         child:
-                                            Image.asset('images/pen_icon.png'),
+                                        Image.asset('images/pen_icon.png'),
                                       ),
                                     ),
                                   ),
@@ -540,7 +537,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             ),
                             SizedBox(
                                 width:
-                                    ResponsiveSize.calculateWidth(12, context)),
+                                ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
                               child: Stack(children: [
                                 GestureDetector(
@@ -562,19 +559,19 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           98, context),
                                       child: selectedImagePath5.isEmpty
                                           ? const Icon(
-                                              Icons.add,
-                                              color: AppResources.colorGray60,
-                                            )
+                                        Icons.add,
+                                        color: AppResources.colorGray60,
+                                      )
                                           : ClipRRect(
-                                              borderRadius: BorderRadius
-                                                  .circular(ResponsiveSize
-                                                      .calculateCornerRadius(
-                                                          12, context)),
-                                              child: Image.file(
-                                                File(selectedImagePath5),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                        borderRadius: BorderRadius
+                                            .circular(ResponsiveSize
+                                            .calculateCornerRadius(
+                                            12, context)),
+                                        child: Image.file(
+                                          File(selectedImagePath5),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -593,20 +590,20 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                           borderRadius: BorderRadius.circular(
                                               ResponsiveSize
                                                   .calculateCornerRadius(
-                                                      40, context)),
+                                                  40, context)),
                                         ),
                                       ),
                                       child: FloatingActionButton(
                                         heroTag: "btn7",
                                         backgroundColor:
-                                            AppResources.colorWhite,
+                                        AppResources.colorWhite,
                                         onPressed: () async {
                                           await pickImage((String imagePath) {
                                             selectedImagePath5 = imagePath;
                                           });
                                         },
                                         child:
-                                            Image.asset('images/pen_icon.png'),
+                                        Image.asset('images/pen_icon.png'),
                                       ),
                                     ),
                                   ),
@@ -616,87 +613,45 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           ],
                         )
                       ],
-                    ),
+                    ), // Additional space to account for button
                   ],
                 ),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ResponsiveSize.calculateHeight(40, context),
-                        left: ResponsiveSize.calculateWidth(28, context),
-                      ),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'ENREGISTRER',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: AppResources.colorGray45),
+            ),
+            // Bottom button
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 20), // Add some bottom margin for padding
+                child: SizedBox(
+                  width: ResponsiveSize.calculateWidth(319, context),
+                  height: ResponsiveSize.calculateHeight(44, context),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.symmetric(
+                              horizontal: ResponsiveSize.calculateWidth(24, context),
+                              vertical: ResponsiveSize.calculateHeight(12, context))),
+                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: AppResources.colorDark),
+                          borderRadius: BorderRadius.circular(40),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ResponsiveSize.calculateHeight(40, context),
-                        right: ResponsiveSize.calculateWidth(28, context),
-                      ),
-                      child: Container(
-                        width: ResponsiveSize.calculateWidth(151, context),
-                        height: ResponsiveSize.calculateHeight(44, context),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateHeight(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        10, context))),
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return AppResources
-                                      .colorGray15; // Change to your desired grey color
-                                }
-                                return AppResources
-                                    .colorVitamine; // Your enabled color
-                              },
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                          ),
-                          onPressed: (_imageList
-                                  .isNotEmpty && imageSize) // Only enable button if _imageList is not empty
-                              ? () {
-                                  navigateTo(
-                                      context,
-                                      (_) => CreateExpStep6(
-                                          photo: selectedImagePathPrincipal,
-                                          imageArray: _imageList,
-                                          idExperience: widget.idExperience,
-                                          name: widget.name,
-                                          description: widget.description,
-                                      ));
-                                }
-                              : null, // Disable button if _imageList is empty
-                          child: Image.asset('images/arrowLongRight.png'),
-                        ),
-                      ),
+                    child: Text(
+                      'ENREGISTRER',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                     ),
-                  ],
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

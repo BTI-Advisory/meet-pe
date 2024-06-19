@@ -11,6 +11,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
+import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
 
 class EditExperiencePage extends StatefulWidget {
@@ -233,10 +234,17 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     Positioned(
                                       top: 280,
                                       right: 28,
-                                      child: editButton(onTap: () {
+                                      child: editButton(onTap: () async {
                                         print('Edit image');
-                                        pickImage();
-                                        updatePhoto = true;
+                                        final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const EditPhotoPage()),
+                                        );
+                                        if (result != null) {
+                                          setState(() {
+                                            print('Return about $result');
+                                          });
+                                        }
                                       }),
                                     ),
                                   ],
