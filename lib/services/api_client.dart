@@ -454,7 +454,7 @@ class ApiClient {
   }
 
   /// Get ForgotPassword Token
-  Future<void> getForgotPasswordValidateCode(String otpCode) async {
+  Future<bool> getForgotPasswordValidateCode(String otpCode) async {
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
       'api-key': '$_apiKey', // Include your authorization header
@@ -469,10 +469,47 @@ class ApiClient {
     final response = await http.post(_buildUri('api/validate-code-validation'), headers: headers, body: json.encode(data));
 
     if (response.statusCode == 200) {
-      final dynamic jsonResponse = json.decode(response.body);
-      return jsonResponse.map((json) => VerifyCodeForgotPasswordResponse.fromJson(json));
+      if(VerifyCodeForgotPasswordResponse.fromJson(json.decode(response.body)).msg == 'Verified') {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       throw Exception('Failed to get code verification');
+    }
+  }
+
+  /// Mark a resend code
+  Future<bool> resendCodeForgotPassword(String email) async {
+    final Map<String, String> headers = {};
+    headers.addAll({
+      HttpHeaders.acceptHeader: contentTypeJson,
+      'api-key': _apiKey,
+      'Authorization': 'Bearer ${await SecureStorageService.readForgotPasswordToken()}' ?? 'none',
+    });
+
+    final data = {
+      'email': email,
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/resend-code-auth', bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+
+    if (VerifyCode.fromJson(response!).verified == 'code has been sended successfully') {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -1388,8 +1425,6 @@ class ApiClient {
     };
 
     final response = await http.get(_buildUri('api/get-guide-reservation'), headers: headers);
-    print('JFRJFJRJFJRF ${response.statusCode}');
-    print('JFRJFJRJFJRF ${response.body}');
 
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);

@@ -55,9 +55,13 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.verifyCode,
+          //onValidated: () => bloc.verifyCode(),
           onSuccess: () async {
-            return navigateTo(context, (_) => ChangePasswordPage(email: widget.email));
+            if (await bloc.verifyCode() == true) {
+              return navigateTo(context, (_) => ChangePasswordPage(email: widget.email));
+            } else {
+              showMessage(context, 'Verifiez le code!');
+            }
           },
           builder: (context, validate) {
             return Container(
@@ -202,12 +206,13 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
 class VerificationCodeForgotPasswordBloc with Disposable {
   String? code;
 
-  Future<void> verifyCode() async {
-    AppService.api.getForgotPasswordValidateCode(code!);
+  Future<bool> verifyCode() async {
+    bool isVerified = await AppService.api.getForgotPasswordValidateCode(code!);
+    return isVerified;
   }
 
   Future<bool> resendCode(String email) async {
-    bool isResend = await true;
+    bool isResend = await AppService.api.resendCode(email!);
     return isResend;
   }
 }
