@@ -72,6 +72,7 @@ class UserResponse {
   final String? pieceIdentite;
   @JsonKey(name: 'KBIS_file')
   final String? kbisFile;
+  @JsonKey(name: 'other_documents')
   final List<OtherDocument>? otherDocument;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>

@@ -28,7 +28,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       hasUpdatedHesSchedule: json['has_updated_hes_schedule'] as bool,
       pieceIdentite: json['piece_d_identite'] as String?,
       kbisFile: json['KBIS_file'] as String?,
-      otherDocument: (json['otherDocument'] as List<dynamic>?)
+      otherDocument: (json['other_documents'] as List<dynamic>?)
           ?.map((e) => OtherDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

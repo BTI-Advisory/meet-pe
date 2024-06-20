@@ -499,11 +499,11 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                       child: Column(
                         children: [
                           sectionProfile(
-                              'Mes disponibilités', Icons.calendar_month, () {
+                              'Mes disponibilités', Icons.calendar_month, userInfo.hasUpdatedHesSchedule, () {
                             navigateTo(
                                 context, (_) => const AvailabilitiesPage());
                           }),
-                          sectionProfile('Mon compte', Icons.person, () {
+                          sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
                             //navigateTo(context, (_) => MyAccountPage());
                             Navigator.of(context)
                                 .push(
@@ -518,18 +518,18 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   () {}); // Trigger a rebuild to reflect changes
                             });
                           }),
-                          sectionProfile('Demandes archivées', Icons.bookmark,
+                          sectionProfile('Demandes archivées', Icons.bookmark, true,
                               () {
                             navigateTo(
                                 context, (_) => const ArchivedRequestsPage());
                           }),
                           sectionProfile('Notifications & newsletters',
-                              Icons.notifications, () {
+                              Icons.notifications, true, () {
                             navigateTo(context,
                                 (_) => const NotificationsNewslettersPage());
                           }),
                           sectionProfile(
-                              'FAQ & assistance', Icons.contact_support, () {
+                              'FAQ & assistance', Icons.contact_support, true, () {
                             navigateTo(context, (_) => const HelpSupportPage());
                           }),
                         ],
@@ -564,7 +564,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
   }
 
   Widget sectionProfile(
-      String title, IconData icon, VoidCallback onTapCallback) {
+      String title, IconData icon, bool completed, VoidCallback onTapCallback) {
     return InkWell(
       onTap: onTapCallback,
       child: Column(
@@ -590,8 +590,30 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                   )
                 ],
               ),
-              Image.asset('images/chevron_right.png',
-                  width: 27, height: 27, fit: BoxFit.fill),
+              Row(
+                children: [
+                  Visibility(
+                    visible: completed == false,
+                    child: Container(
+                      width: 73,
+                      height: 21,
+                      alignment: Alignment.center,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFFFECAB),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'à compléter',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
+                      ),
+                    ),
+                  ),
+                  Image.asset('images/chevron_right.png',
+                      width: 27, height: 27, fit: BoxFit.fill),
+                ],
+              ),
             ],
           ),
           SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
