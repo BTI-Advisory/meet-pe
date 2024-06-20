@@ -1276,7 +1276,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Autres documents', userInfo.otherDocument?[0].documentPath, true)
+                            child: accountRowToComplete('Autres documents', userInfo.otherDocument?[0].documentTitle, true)
                         ),
                         const SizedBox(height: 17),
                       ],
