@@ -645,7 +645,29 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      // Create a map and add only non-null entries.
+                      Map<String, String?> resultMap = {};
+
+                      // Check each field and add it to the map if it's not null.
+                      if (selectedImagePathPrincipal != '') {
+                        resultMap['image_principale'] = selectedImagePathPrincipal;
+                      }
+                      if (selectedImagePath1 != '') {
+                        resultMap['image_0'] = selectedImagePath1;
+                      }
+                      if (selectedImagePath2 != '') {
+                        resultMap['image_1'] = selectedImagePath2;
+                      }
+                      if (selectedImagePath3 != '') {
+                        resultMap['image_2'] = selectedImagePath3;
+                      }
+                      if (selectedImagePath4 != '') {
+                        resultMap['image_3'] = selectedImagePath4;
+                      }
+                      if (selectedImagePath5 != '') {
+                        resultMap['image_4'] = selectedImagePath5;
+                      }
+                      Navigator.pop(context, resultMap);
                     },
                   ),
                 ),

@@ -30,6 +30,7 @@ import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../models/availability_list_response.dart';
 import '../models/code_validation_response.dart';
+import '../models/modify_experience_data_model.dart';
 import '../models/register_response.dart';
 import '../models/absence_list_response.dart';
 import '../models/update_forgot_password_response.dart';
@@ -1506,6 +1507,72 @@ class ApiClient {
       }
     }();
   }
+
+  /// Mark a update experience
+  Future<void> updateDataExperience(ModifyExperienceDataModel data) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', _buildUri('api/update-experience'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    // Add non-null fields
+    if (data.experienceId != null) request.fields['experience_id'] = data.experienceId.toString();
+    if (data.description != null) request.fields['description'] = data.description!;
+    if (data.aboutGuide != null) request.fields['about_guide'] = data.aboutGuide!;
+
+    if (data.prixParVoyageur != null) request.fields['prix_par_voyageur'] = data.prixParVoyageur.toString();
+    if (data.priceGroupPrive != null) request.fields['price_group_prive'] = data.priceGroupPrive.toString();
+    if (data.numberVoyageur != null) request.fields['max_number_of_persons'] = data.numberVoyageur.toString();
+    if (data.discountKidsBetween2And12 != null) request.fields['discount_kids_between_2_and_12'] = data.discountKidsBetween2And12.toString();
+    if (data.title != null) request.fields['title'] = data.title!;
+
+    // Helper function to add image if path is valid
+    Future<void> addImage(String field, String? imagePath) async {
+      if (imagePath != null && imagePath.isNotEmpty) {
+        final imageFile = File(imagePath);
+        if (await imageFile.exists()) {
+          request.files.add(await http.MultipartFile.fromPath(field, imagePath));
+        } else {
+          print('File not found at path: $imagePath');
+        }
+      }
+    }
+
+    // Add images
+    await addImage('image_principale', data.imagePrincipale);
+    await addImage('image_0', data.image1);
+    await addImage('image_1', data.image2);
+    await addImage('image_2', data.image3);
+    await addImage('image_3', data.image4);
+    await addImage('image_4', data.image5);
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      //return true;
+      print('Upload successful!');
+    } else {
+      throw Exception('Failed to send update experience: ${response.reasonPhrase}');
+    }
+  }
+
 
   /// Mark a update experience description
   Future<void> updateExperienceDescription(int experienceID, String description) async {

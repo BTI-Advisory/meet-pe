@@ -93,9 +93,14 @@ class _RequestCardState extends State<RequestCard> {
                                 .headlineSmall
                                 ?.copyWith(fontSize: 14, color: AppResources.colorDark),
                           ),
-                          Text(
-                            widget.guideReservationResponse.experience.title,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              widget.guideReservationResponse.experience.title,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
                         ],
                       ),
