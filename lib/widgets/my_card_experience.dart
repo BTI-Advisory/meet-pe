@@ -54,12 +54,17 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.guideExperiencesResponse.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                      SizedBox(
+                        width: 176,
+                        child: Text(
+                          widget.guideExperiencesResponse.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
                       ),
                       Visibility(
                         visible: widget.guideExperiencesResponse.status == 'en ligne',

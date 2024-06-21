@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
 import 'package:widget_mask/widget_mask.dart';
 
+import '../../../models/modify_experience_data_model.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
@@ -26,51 +25,17 @@ class EditExperiencePage extends StatefulWidget {
 
 class _EditExperiencePageState extends State<EditExperiencePage> {
   bool onLine = true;
-  late TextEditingController _textEditingControllerDescription;
-  String? validationMessageDescription = '';
-  bool isFormValid = false;
-  double valueSlider = 15;
   late Future<ExperienceDataResponse> _experienceDataFuture;
   String selectedImagePath = 'images/imageTest.png';
   bool updateOnline = false;
-  bool updateDescription = false;
   bool updatePhoto = false;
-  bool updatePrices = false;
+  ModifyExperienceDataModel data = ModifyExperienceDataModel();
 
   @override
   void initState() {
     super.initState();
     _experienceDataFuture = AppService.api.getExperienceDetail(widget.experienceId);
     onLine = widget.isOnline;
-    valueSlider = widget.price;
-    _textEditingControllerDescription = TextEditingController();
-    _textEditingControllerDescription.addListener(_onTextChanged);
-  }
-
-  @override
-  void dispose() {
-    _textEditingControllerDescription.removeListener(_onTextChanged);
-    _textEditingControllerDescription.dispose();
-  }
-
-  void _onTextChanged() {
-    setState(() {
-      //_showButton = _textEditingControllerName.text.isEmpty;
-    });
-  }
-
-  void updateFormValidity() {
-    setState(() {
-      isFormValid =
-          validationMessageDescription == null;
-    });
-  }
-
-  void updatePrice(double value) {
-    setState(() {
-      valueSlider = value;
-      //bloc.updateDuration(value); // Call the method to update duration in bloc
-    });
   }
 
   Future<void> _updateExperienceOnline(int experienceID, bool isOnline) async {
@@ -82,33 +47,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     }
   }
 
-  Future<void> _updateExperienceDescription(int experienceID, String description) async {
-    try {
-      final update = await AppService.api.updateExperienceDescription(experienceID, description);
-    } catch (e) {
-      // Handle error
-      print('Error update exp description: $e');
-    }
-  }
-
-  Future<void> _updateExperiencePrice(int experienceID, int price) async {
-    try {
-      final update = await AppService.api.updateExperiencePrice(experienceID, price);
-    } catch (e) {
-      // Handle error
-      print('Error update exp price: $e');
-    }
-  }
-
-  Future<void> _updateExperienceImage(int experienceID, String pathImage) async {
-    try {
-      final update = await AppService.api.updateExperienceImage(experienceID, pathImage);
-    } catch (e) {
-      // Handle error
-      print('Error update exp image: $e');
-    }
-  }
-
   Future<void> _deleteExperience(int experienceID) async {
     try {
       final delete = await AppService.api.deleteExperience(experienceID);
@@ -116,26 +54,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       // Handle error
       print('Error update exp image: $e');
     }
-  }
-
-  Future<void> pickImage() async {
-    // Your logic to pick an image goes here.
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        source: ImageSource
-            .gallery); // Use source: ImageSource.camera for taking a new picture
-
-    if (pickedFile != null) {
-      // Do something with the picked image (e.g., upload or process it)
-      //File imageFile = File(pickedFile.path);
-      // Add your logic here to handle the selected image
-    }
-    // For demonstration purposes, I'm using a static image path.
-    String imagePath = pickedFile?.path ?? '';
-
-    setState(() {
-      selectedImagePath = imagePath;
-    });
   }
 
   @override
@@ -242,7 +160,25 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         );
                                         if (result != null) {
                                           setState(() {
-                                            print('Return about $result');
+                                            if (result.containsKey('image_principale')) {
+                                              data.imagePrincipale = result['image_principale'];
+                                            }
+                                            if (result.containsKey('image_0')) {
+                                              data.image1 = result['image_0'];
+                                            }
+                                            if (result.containsKey('image_1')) {
+                                              data.image2 = result['image_1'];
+                                            }
+                                            if (result.containsKey('image_2')) {
+                                              data.image3 = result['image_2'];
+                                            }
+                                            if (result.containsKey('image_3')) {
+                                              data.image4 = result['image_3'];
+                                            }
+                                            if (result.containsKey('image_4')) {
+                                              data.image5 = result['image_4'];
+                                            }
+                                            print('Return photo $result');
                                           });
                                         }
                                       }),
@@ -330,7 +266,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  '${valueSlider.toInt()}€/pers',
+                                                  '${widget.price.toInt()}€/pers',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge
@@ -352,7 +288,18 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                 );
                                                 if (result != null) {
                                                   setState(() {
-                                                    print('Return about $result');
+                                                    if (result.containsKey('prix_par_voyageur')) {
+                                                      data.prixParVoyageur = result['prix_par_voyageur'] as int?;
+                                                    }
+                                                    if (result.containsKey('discount_kids_between_2_and_12')) {
+                                                      data.discountKidsBetween2And12 = result['discount_kids_between_2_and_12'];
+                                                    }
+                                                    if (result.containsKey('max_number_of_persons')) {
+                                                      data.numberVoyageur = result['max_number_of_persons'];
+                                                    }
+                                                    if (result.containsKey('price_group_prive')) {
+                                                      data.priceGroupPrive = result['price_group_prive'];
+                                                    }
                                                   });
                                                 }
                                               }),
@@ -546,6 +493,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 );
                                 if (result != null) {
                                   setState(() {
+                                    data.description = result;
                                     print('Return description $result');
                                   });
                                 }
@@ -603,6 +551,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       );
                                       if (result != null) {
                                         setState(() {
+                                          data.aboutGuide = result;
                                           print('Return about $result');
                                         });
                                       }
@@ -690,19 +639,10 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              if(updateDescription) {
-                                _updateExperienceDescription(widget.experienceId, _textEditingControllerDescription.text);
-                              }
-                              if(updateOnline) {
-                                _updateExperienceOnline(widget.experienceId, onLine);
-                              }
-                              if(updatePrices) {
-                                _updateExperiencePrice(widget.experienceId, valueSlider.toInt());
-                              }
-                              if(updatePhoto) {
-                                _updateExperienceImage(widget.experienceId, selectedImagePath);
-                              }
+                            onPressed: () async {
+                              data.experienceId = widget.experienceId;
+                              data.title = 'Le Paris de Maria en deux lignes ';
+                              await AppService.api.updateDataExperience(data);
                               Navigator.maybePop(context);
                             },
                             child: Text(

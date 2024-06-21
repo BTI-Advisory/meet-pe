@@ -406,7 +406,35 @@ class _EditPricePageState extends State<EditPricePage> {
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                     ),
                     onPressed: () {
-                      Navigator.pop(context, _textEditingControllerPrice.text);
+                      if(!isGroupeAvailable) {
+                        if(isKidsAvailable) {
+                          Navigator.pop(context, {
+                            'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
+                            'discount_kids_between_2_and_12': 1,
+                          });
+                        } else {
+                          Navigator.pop(context, {
+                            'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
+                            'discount_kids_between_2_and_12': 0,
+                          });
+                        }
+                      } else {
+                        if(isKidsAvailable) {
+                          Navigator.pop(context, {
+                            'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
+                            'discount_kids_between_2_and_12': 1,
+                            'max_number_of_persons': _counter,
+                            'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
+                          });
+                        } else {
+                          Navigator.pop(context, {
+                            'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
+                            'discount_kids_between_2_and_12': 0,
+                            'max_number_of_persons': _counter,
+                            'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
+                          });
+                        }
+                      }
                     },
                   ),
                 ),
