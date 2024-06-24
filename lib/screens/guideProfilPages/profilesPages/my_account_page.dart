@@ -169,6 +169,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final userInfo = snapshot.data!;
+            String documentTitle = '';
+
+            if (userInfo.otherDocument != null && userInfo.otherDocument!.isNotEmpty) {
+              documentTitle = userInfo.otherDocument![0].documentTitle ?? 'No Title Available';
+            }
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -1276,7 +1281,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Autres documents', userInfo.otherDocument?[0].documentTitle, true)
+                            child: accountRowToComplete('Autres documents', documentTitle, true)
                         ),
                         const SizedBox(height: 17),
                       ],
@@ -1369,7 +1374,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             Row(
               children: [
                 Visibility(
-                  visible: info == null,
+                  visible: info == null || info == '',
                   child: Container(
                     width: 73,
                     height: 21,
@@ -1386,7 +1391,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     ),
                   ),
                 ),
-                if (info != null)
+                if (info != null && info != '')
                   Row(
                     children: [
                       SvgPicture.asset('images/icon_done.svg'),
