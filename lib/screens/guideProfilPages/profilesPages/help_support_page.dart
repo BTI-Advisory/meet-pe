@@ -234,7 +234,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                             const SizedBox(height: 20,),
                             TextFormField(
                               controller: _textEditingControllerFeedBack,
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium

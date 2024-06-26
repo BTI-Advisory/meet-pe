@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
@@ -14,10 +13,9 @@ import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
 
 class EditExperiencePage extends StatefulWidget {
-  const EditExperiencePage({super.key, required this.experienceId, required this.isOnline, required this.price});
+  const EditExperiencePage({super.key, required this.experienceId, required this.isOnline});
   final int experienceId;
   final bool isOnline;
-  final double price;
 
   @override
   State<EditExperiencePage> createState() => _EditExperiencePageState();
@@ -266,7 +264,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  '${widget.price.toInt()}€/pers',
+                                                  '${experienceData.prixParVoyageur}€/pers',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge

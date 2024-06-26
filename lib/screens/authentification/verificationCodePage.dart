@@ -54,9 +54,13 @@ class _VerificationCodePageState extends State<VerificationCodePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.verifyCode,
+          //onValidated: bloc.verifyCode,
           onSuccess: () async {
-            return navigateTo(context, (_) => const WelcomePage(fromCode: true));
+            if (await bloc.verifyCode() == true) {
+              return navigateTo(context, (_) => const WelcomePage(fromCode: true));
+            } else {
+              showMessage(context, 'Verifiez le code!');
+            }
           },
           builder: (context, validate) {
             return Container(

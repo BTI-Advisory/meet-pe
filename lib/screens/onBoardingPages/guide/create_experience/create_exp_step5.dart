@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/popup_view.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../utils/responsive_size.dart';
@@ -38,31 +39,57 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
   final List<dynamic> _imageList = [];
   bool imageSize = false;
 
-  Future<void> pickImage(ImagePathCallback callback) async {
-    // Your logic to pick an image goes here.
+  Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        source: ImageSource
-            .gallery); // Use source: ImageSource.camera for taking a new picture
 
-    if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-        imageSize = false;
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
-      } else {
-        // Do something with the picked image (e.g., upload or process it)
-        //File imageFile = File(pickedFile.path);
-        // Add your logic here to handle the selected image
+    // Request permissions for photos and access only photos added in future
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.photos,
+      Permission.photosAddOnly,
+    ].request();
 
-        // For demonstration purposes, I'm using a static image path.
-        String imagePath = pickedFile?.path ?? '';
+    // Check the status of the photos permission
+    if (statuses[Permission.photos]!.isDenied) {
+      // Permission was denied, so request again
+      statuses[Permission.photos] = await Permission.photos.request();
 
-        setState(() {
-          _imageList.add(imagePath);
-          imageSize = true;
-          callback(imagePath);
-        });
+      if (statuses[Permission.photos]!.isDenied) {
+        showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+        return;
       }
+    }
+
+    if (statuses[Permission.photos]!.isPermanentlyDenied) {
+      showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+      // Optionally, you could navigate the user to the app settings:
+      // openAppSettings();
+      return;
+    }
+
+    if (statuses[Permission.photos]!.isGranted) {
+      // If permission is granted, proceed to pick the image
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        // Check the size of the picked image
+        if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+        } else {
+          // Process the image
+          String imagePath = pickedFile.path;
+
+          // Update the UI and invoke the callback
+          setState(() {
+            _imageList.add(imagePath);
+            imageSize = true;
+            callback(imagePath);
+          });
+        }
+      } else {
+        showMessage(context, 'Aucune image sélectionnée.');
+      }
+    } else {
+      showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
     }
   }
 
@@ -129,8 +156,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePathPrincipal = imagePath;
+                                    await pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        selectedImagePathPrincipal = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -211,9 +240,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePathPrincipal =
-                                                imagePath;
+                                          await pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              selectedImagePathPrincipal = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -233,8 +263,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                   Stack(children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        await pickImage((String imagePath) {
-                                          selectedImagePath1 = imagePath;
+                                        await pickImageFromGallery(context, (imagePath) {
+                                          setState(() {
+                                            selectedImagePath1 = imagePath;
+                                          });
                                         });
                                       },
                                       child: DottedBorder(
@@ -293,8 +325,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             backgroundColor:
                                                 AppResources.colorWhite,
                                             onPressed: () async {
-                                              await pickImage((String imagePath) {
-                                                selectedImagePath1 = imagePath;
+                                              await pickImageFromGallery(context, (imagePath) {
+                                                setState(() {
+                                                  selectedImagePath1 = imagePath;
+                                                });
                                               });
                                             },
                                             child: Image.asset(
@@ -310,8 +344,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                   Stack(children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        await pickImage((String imagePath) {
-                                          selectedImagePath2 = imagePath;
+                                        pickImageFromGallery(context, (imagePath) {
+                                          setState(() {
+                                            selectedImagePath2 = imagePath;
+                                          });
                                         });
                                       },
                                       child: DottedBorder(
@@ -370,8 +406,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                             backgroundColor:
                                                 AppResources.colorWhite,
                                             onPressed: () async {
-                                              await pickImage((String imagePath) {
-                                                selectedImagePath2 = imagePath;
+                                              pickImageFromGallery(context, (imagePath) {
+                                                setState(() {
+                                                  selectedImagePath2 = imagePath;
+                                                });
                                               });
                                             },
                                             child: Image.asset(
@@ -395,8 +433,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath3 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        selectedImagePath3 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -451,8 +491,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath3 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              selectedImagePath3 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -470,8 +512,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath4 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        selectedImagePath4 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -526,8 +570,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath4 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              selectedImagePath4 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -545,8 +591,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath5 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        selectedImagePath5 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -601,8 +649,10 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                         backgroundColor:
                                             AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath5 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              selectedImagePath5 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
