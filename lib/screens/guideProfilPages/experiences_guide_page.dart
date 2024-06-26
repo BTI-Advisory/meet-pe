@@ -150,7 +150,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           experiencesList.length,
                               (index) => GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline, price: double.parse(experiencesList[index].prixParVoyageur ?? '0'))),).then((res) => fetchGuideExperiencesData());
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline)),).then((res) => fetchGuideExperiencesData());
                                   //navigateTo(context, (_) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline, price: double.parse(experiencesList[index].prixParVoyageur ?? '0')));
                                 },
                                 child: MyCardExperience(guideExperiencesResponse: experiencesList[index],),

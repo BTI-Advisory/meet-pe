@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/_utils.dart';
 
 import '../../../models/user_response.dart';
@@ -123,34 +122,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     } catch (e) {
       // Handle error
       print('Error fetching user info: $e');
-    }
-  }
-
-  Future<void> pickImage(ImagePathCallback callback) async {
-    // Your logic to pick an image goes here.
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        source: ImageSource
-            .gallery); // Use source: ImageSource.camera for taking a new picture
-
-    if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-        imageSize = false;
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
-      } else {
-        // Do something with the picked image (e.g., upload or process it)
-        //File imageFile = File(pickedFile.path);
-        // Add your logic here to handle the selected image
-
-        // For demonstration purposes, I'm using a static image path.
-        String imagePath = pickedFile?.path ?? '';
-
-        setState(() {
-          imageSize = true;
-          updateFormValidity();
-          callback(imagePath);
-        });
-      }
     }
   }
 

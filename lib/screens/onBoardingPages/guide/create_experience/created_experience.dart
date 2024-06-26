@@ -21,7 +21,7 @@ class _CreatedExperienceState extends State<CreatedExperience> with TickerProvid
       /// [AnimationController]s can be created with `vsync: this` because of
       /// [TickerProviderStateMixin].
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 4),
     )..addListener(() {
       setState(() {});
     });

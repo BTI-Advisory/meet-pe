@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../utils/_utils.dart';
 import '../../../resources/resources.dart';
 
@@ -34,31 +34,53 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
     super.initState();
   }
 
-  Future<void> pickImage(ImagePathCallback callback) async {
-    // Your logic to pick an image goes here.
+  Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        source: ImageSource
-            .gallery); // Use source: ImageSource.camera for taking a new picture
 
-    if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-        imageSize = false;
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
-      } else {
-        // Do something with the picked image (e.g., upload or process it)
-        //File imageFile = File(pickedFile.path);
-        // Add your logic here to handle the selected image
+    // Request permissions for photos and access only photos added in future
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.photos,
+      Permission.photosAddOnly,
+    ].request();
 
-        // For demonstration purposes, I'm using a static image path.
-        String imagePath = pickedFile?.path ?? '';
+    // Check the status of the photos permission
+    if (statuses[Permission.photos]!.isDenied) {
+      // Permission was denied, so request again
+      statuses[Permission.photos] = await Permission.photos.request();
 
-        setState(() {
-          _imageList.add(imagePath);
-          imageSize = true;
-          callback(imagePath);
-        });
+      if (statuses[Permission.photos]!.isDenied) {
+        showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+        return;
       }
+    }
+
+    if (statuses[Permission.photos]!.isPermanentlyDenied) {
+      showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+      // Optionally, you could navigate the user to the app settings:
+      // openAppSettings();
+      return;
+    }
+
+    if (statuses[Permission.photos]!.isGranted) {
+      // If permission is granted, proceed to pick the image
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        // Check the size of the picked image
+        if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+        } else {
+          // Process the image
+          String imagePath = pickedFile.path;
+
+          // Update the UI and invoke the callback
+          callback(imagePath);
+        }
+      } else {
+        showMessage(context, 'Aucune image sélectionnée.');
+      }
+    } else {
+      showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
     }
   }
 
@@ -126,8 +148,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePathPrincipal = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                        selectedImagePathPrincipal = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -208,9 +233,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                         backgroundColor:
                                         AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePathPrincipal =
-                                                imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                              selectedImagePathPrincipal = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -230,8 +257,12 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   Stack(children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        await pickImage((String imagePath) {
-                                          selectedImagePath1 = imagePath;
+                                        print('1111111');
+                                        pickImageFromGallery(context, (imagePath) {
+                                          setState(() {
+                                            _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                            selectedImagePathPrincipal = imagePath;
+                                          });
                                         });
                                       },
                                       child: DottedBorder(
@@ -290,8 +321,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             backgroundColor:
                                             AppResources.colorWhite,
                                             onPressed: () async {
-                                              await pickImage((String imagePath) {
-                                                selectedImagePath1 = imagePath;
+                                              pickImageFromGallery(context, (imagePath) {
+                                                setState(() {
+                                                  _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                                  selectedImagePath1 = imagePath;
+                                                });
                                               });
                                             },
                                             child: Image.asset(
@@ -307,8 +341,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   Stack(children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        await pickImage((String imagePath) {
-                                          selectedImagePath2 = imagePath;
+                                        pickImageFromGallery(context, (imagePath) {
+                                          setState(() {
+                                            _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                            selectedImagePath2 = imagePath;
+                                          });
                                         });
                                       },
                                       child: DottedBorder(
@@ -367,8 +404,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             backgroundColor:
                                             AppResources.colorWhite,
                                             onPressed: () async {
-                                              await pickImage((String imagePath) {
-                                                selectedImagePath2 = imagePath;
+                                              pickImageFromGallery(context, (imagePath) {
+                                                setState(() {
+                                                  _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                                  selectedImagePath2 = imagePath;
+                                                });
                                               });
                                             },
                                             child: Image.asset(
@@ -392,8 +432,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath3 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                        selectedImagePath3 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -448,8 +491,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                         backgroundColor:
                                         AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath3 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                              selectedImagePath3 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -467,8 +513,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath4 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                        selectedImagePath4 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -523,8 +572,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                         backgroundColor:
                                         AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath4 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                              selectedImagePath4 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
@@ -542,8 +594,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                               child: Stack(children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    await pickImage((String imagePath) {
-                                      selectedImagePath5 = imagePath;
+                                    pickImageFromGallery(context, (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                        selectedImagePath5 = imagePath;
+                                      });
                                     });
                                   },
                                   child: DottedBorder(
@@ -598,8 +653,11 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                         backgroundColor:
                                         AppResources.colorWhite,
                                         onPressed: () async {
-                                          await pickImage((String imagePath) {
-                                            selectedImagePath5 = imagePath;
+                                          pickImageFromGallery(context, (imagePath) {
+                                            setState(() {
+                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                              selectedImagePath5 = imagePath;
+                                            });
                                           });
                                         },
                                         child:
