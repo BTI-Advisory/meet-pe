@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
+import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/secure_storage_service.dart';
@@ -36,16 +37,20 @@ class _LaunchScreenState extends State<LaunchScreen>
   }
 
   void redirectionState() async {
-    print('SDJFSJDFJ ${await SecureStorageService.readAccessToken()}');
-    print('SDJFSJDFJ ${await SecureStorageService.readRole()}');
-    //if (await SecureStorageService.readAccessToken() != null && await SecureStorageService.readIsVerified() == 'true') {
+    print('readAccessToken ${await SecureStorageService.readAccessToken()}');
+    print('readRole ${await SecureStorageService.readRole()}');
+    print('readCompleted ${await SecureStorageService.readCompleted()}');
     if (await SecureStorageService.readAccessToken() != null) {
-      if (await SecureStorageService.readRole() == '1') {
-        controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
-      } else if (await SecureStorageService.readRole() == '2')  {
-        controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+      if (await SecureStorageService.readCompleted() == 'true') {
+        if (await SecureStorageService.readRole() == '1') {
+          controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
+        } else if (await SecureStorageService.readRole() == '2')  {
+          controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+        } else {
+          controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+        }
       } else {
-        controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+        controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
       }
     } else {
       controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));

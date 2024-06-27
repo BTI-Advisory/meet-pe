@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import '../../../resources/resources.dart';
+import '../../../services/secure_storage_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import '../../guideProfilPages/main_guide_page.dart';
@@ -13,6 +14,11 @@ class LoadingGuidePage extends StatefulWidget {
 }
 
 class _LoadingGuidePageState extends State<LoadingGuidePage> {
+  @override
+  void initState() {
+    super.initState();
+    SecureStorageService.saveCompleted('true');
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -313,7 +313,7 @@ class ApiClient {
     // Send request
     final response = await () async {
       try {
-        return await _send<JsonObject>(_httpMethodGet, 'fi');
+        return await _send<JsonObject>(_httpMethodGet, 'api/user');
       } catch (e) {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {
@@ -1718,6 +1718,7 @@ class ApiClient {
       unawaited(SecureStorageService.deleteRefreshToken());
       ///Todo Remove when refresh token is ready
       unawaited(SecureStorageService.deleteAccessToken());
+      unawaited(SecureStorageService.deleteCompleted());
 
       // Delete user data
       unawaited(StorageService.deleteAll(butAnalyticsEnabled: true));
