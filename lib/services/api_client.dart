@@ -313,7 +313,7 @@ class ApiClient {
     // Send request
     final response = await () async {
       try {
-        return await _send<JsonObject>(_httpMethodGet, 'api/user');
+        return await _send<JsonObject>(_httpMethodGet, 'fi');
       } catch (e) {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {
@@ -718,6 +718,8 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
+    print('82348723847 ${response.statusCode}');
+    print('82348723847 ${response.body}');
 
     // Handle response
     if (response.statusCode == 200) {
