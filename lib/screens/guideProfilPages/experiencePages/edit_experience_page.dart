@@ -639,7 +639,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             ),
                             onPressed: () async {
                               data.experienceId = widget.experienceId;
-                              data.title = 'Le Paris de Maria en deux lignes ';
+                              //data.title = 'Le Paris de Maria en deux lignes ';
                               await AppService.api.updateDataExperience(data);
                               Navigator.maybePop(context);
                             },

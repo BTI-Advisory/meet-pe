@@ -378,7 +378,7 @@ class _SignUpPageState extends State<SignUpPage>
                                           'J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles expériences,\n tips et newsletter)',
                                           style: TextStyle(
                                             color: Color(0xFF979797),
-                                            fontSize: 13,
+                                            fontSize: 12,
                                             fontFamily: 'Outfit',
                                             fontWeight: FontWeight.w400,
                                             height: 0,

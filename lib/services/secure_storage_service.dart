@@ -43,5 +43,10 @@ class SecureStorageService {
   static Future<String?> readForgotPasswordToken() => _storage.read(key: _forgotPasswordTokenKey);
   static Future<void> deleteForgotPasswordToken() => _storage.delete(key: _forgotPasswordTokenKey);
 
+  static const _isCompletedKey = 'completed';
+  static Future<void> saveCompleted(String value) => _storage.write(key: _isCompletedKey, value: value);
+  static Future<String?> readCompleted() => _storage.read(key: _isCompletedKey);
+  static Future<void> deleteCompleted() => _storage.delete(key: _isCompletedKey);
+
   static Future<void> deleteAll() => _storage.deleteAll();
 }
