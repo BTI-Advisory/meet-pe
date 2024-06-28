@@ -115,13 +115,11 @@ class _Step4GuidePageState extends State<Step4GuidePage>
       if (isChecked) {
         isFormValid = validationMessageName == null &&
             validationMessagePhone == null &&
-            selectedImagePath != 'images/avatar_placeholder.png' &&
             validationMessageEse == null &&
             validationMessageSiren == null;
       } else {
         isFormValid = validationMessageName == null &&
-            validationMessagePhone == null &&
-            selectedImagePath != 'images/avatar_placeholder.png';
+            validationMessagePhone == null;
       }
     });
   }
@@ -478,21 +476,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Visibility(
-                                  visible: selectedImagePath ==
-                                      'images/avatar_placeholder.png',
-                                  child: Text(
-                                    'Ajoute une photo de profil \nafin d’accéder à la prochaine étape.',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                        color: AppResources.colorVitamine,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
                                 Container(
                                   width: ResponsiveSize.calculateWidth(183, context),
                                   height: ResponsiveSize.calculateHeight(44, context),
@@ -578,7 +561,7 @@ class Step4GuidePageBloc with Disposable {
         myMap.forEach((key, value) {
           modifiedMap[key] = value.toList();
         });
-        final response = await AppService.api.sendListGuide(modifiedMap, imagePath!);
+        final response = await AppService.api.sendListGuide(modifiedMap, imagePath?.isNotEmpty == true ? imagePath! : null);
         if (response == true) {
           return true;
         } else {
@@ -599,7 +582,7 @@ class Step4GuidePageBloc with Disposable {
           });
 
           // Perform the API call
-          final response = await AppService.api.sendListGuide(modifiedMap, imagePath!);
+          final response = await AppService.api.sendListGuide(modifiedMap, imagePath?.isNotEmpty == true ? imagePath! : null);
           if (response == true) {
             return true;
           } else {

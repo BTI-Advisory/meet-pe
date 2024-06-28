@@ -80,7 +80,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
 
           // Update the UI and invoke the callback
           setState(() {
-            _imageList.add(imagePath);
+            //_imageList.add(imagePath);
             imageSize = true;
             callback(imagePath);
           });
@@ -724,9 +724,25 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                               ),
                             ),
                           ),
-                          onPressed: (_imageList
-                                  .isNotEmpty && imageSize) // Only enable button if _imageList is not empty
+                          onPressed: (selectedImagePathPrincipal != '' && imageSize) // Only enable button if _imageList is not empty
                               ? () {
+                            _imageList.clear();
+                            _imageList.add(selectedImagePathPrincipal);
+                            if(selectedImagePath1 != '') {
+                              _imageList.add(selectedImagePath1);
+                            }
+                            if(selectedImagePath2 != '') {
+                              _imageList.add(selectedImagePath2);
+                            }
+                            if(selectedImagePath3 != '') {
+                              _imageList.add(selectedImagePath3);
+                            }
+                            if(selectedImagePath4 != '') {
+                              _imageList.add(selectedImagePath4);
+                            }
+                            if(selectedImagePath5 != '') {
+                              _imageList.add(selectedImagePath5);
+                            }
                                   navigateTo(
                                       context,
                                       (_) => CreateExpStep6(

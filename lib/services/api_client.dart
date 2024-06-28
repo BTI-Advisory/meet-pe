@@ -587,7 +587,7 @@ class ApiClient {
   }
 
   /// Mark a Send list of choice Guide
-  Future<bool> sendListGuide(Map<String, dynamic> listChoice, String imageFilePath) async {
+  Future<bool> sendListGuide(Map<String, dynamic> listChoice, String? imageFilePath) async {
     bool isVerified = false;
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
@@ -608,12 +608,22 @@ class ApiClient {
     Map<String, String> outputData = transformDataGuide(listChoice);
     request.fields.addAll(outputData);
 
-    // Add audio file if provided
-    if (imageFilePath != null) {
+    // Check if the imageFilePath is provided and not empty
+    if (imageFilePath != null && imageFilePath.isNotEmpty) {
       // Create a File object from the provided file path
       final imageFile = File(imageFilePath);
 
-      request.files.add(http.MultipartFile.fromBytes('image', File(imageFile!.path).readAsBytesSync(),filename: imageFile!.path));
+      if (imageFile.existsSync()) {
+        request.files.add(
+            http.MultipartFile.fromBytes(
+              'image',
+              imageFile.readAsBytesSync(),
+              filename: imageFile.path.split('/').last,
+            )
+        );
+      } else {
+        print("Image file not found at the given path.");
+      }
     }
 
     // Send the request
