@@ -120,7 +120,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         width: ResponsiveSize.calculateWidth(
                                             427, context),
                                         height: 592,
-                                        child: updatePhoto ? Image.asset(selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover)
+                                        child: updatePhoto ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover)
                                       ),
                                     ),
 
@@ -160,6 +160,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                           setState(() {
                                             if (result.containsKey('image_principale')) {
                                               data.imagePrincipale = result['image_principale'];
+                                              updatePhoto = true;
                                             }
                                             if (result.containsKey('image_0')) {
                                               data.image1 = result['image_0'];
@@ -264,7 +265,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  '${experienceData.prixParVoyageur}€/pers',
+                                                  '${data.prixParVoyageur ?? experienceData.prixParVoyageur}€/pers',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge
@@ -471,7 +472,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               child: Opacity(
                                 opacity: 0.50,
                                 child: Text(
-                                  experienceData.description,
+                                  data.description ?? experienceData.description,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -535,7 +536,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   SizedBox(
                                     width: 319,
                                     child: Text(
-                                      experienceData.aboutGuide ?? '',
+                                      data.aboutGuide ?? experienceData.aboutGuide,
                                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                                     ),
                                   ),

@@ -5,7 +5,6 @@ import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
-import '../../utils/message.dart';
 import '../../utils/responsive_size.dart';
 import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
@@ -150,8 +149,15 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           experiencesList.length,
                               (index) => GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline)),).then((res) => fetchGuideExperiencesData());
-                                  //navigateTo(context, (_) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline, price: double.parse(experiencesList[index].prixParVoyageur ?? '0')));
+                                  Navigator.of(context)
+                                      .push(
+                                    MaterialPageRoute(
+                                        builder: (_) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline)),
+                                  )
+                                      .then((_) async {
+                                    experiencesList = await AppService.api.getGuideExperiencesList();
+                                    setState(() {});
+                                  });
                                 },
                                 child: MyCardExperience(guideExperiencesResponse: experiencesList[index],),
                               ),
