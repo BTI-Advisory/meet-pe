@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
@@ -8,7 +9,7 @@ import '../../../models/modify_experience_data_model.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
-import '../../../widgets/themed/ep_app_bar.dart';
+import '../../../widgets/_widgets.dart';
 import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
 
@@ -561,7 +562,45 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 54),
+                        const SizedBox(height: 34),
+                        StaggeredGrid.count(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          children: [
+                            if (updatePhoto ? data.image1 != null : experienceData.image0 != null)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto ? Image.asset(data.image1 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image0?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto ? data.image2 != null : experienceData.image1 != null)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto ? Image.asset(data.image2 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image1?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto ? data.image3 != null : experienceData.image2 != null)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto ? Image.asset(data.image3 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image2?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto ? data.image4 != null : experienceData.image3 != null)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto ? Image.asset(data.image4 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image3?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto ? data.image5 != null : experienceData.image4 != null)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto ? Image.asset(data.image5 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image4?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 70),
                       ],
                     ),
                   ),

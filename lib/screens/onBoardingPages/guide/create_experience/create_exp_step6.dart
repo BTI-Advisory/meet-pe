@@ -231,12 +231,6 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                             mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[4], fit: BoxFit.cover),
                           ),
-                        if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 6)
-                          StaggeredGridTile.count(
-                            crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[5], fit: BoxFit.cover),
-                          ),
                       ],
                     )
                   ],

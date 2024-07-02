@@ -727,7 +727,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                           onPressed: (selectedImagePathPrincipal != '' && imageSize) // Only enable button if _imageList is not empty
                               ? () {
                             _imageList.clear();
-                            _imageList.add(selectedImagePathPrincipal);
                             if(selectedImagePath1 != '') {
                               _imageList.add(selectedImagePath1);
                             }
