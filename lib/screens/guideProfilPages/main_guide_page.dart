@@ -12,7 +12,9 @@ import '../../widgets/_widgets.dart';
 import 'messages_guide_page.dart';
 
 class MainGuidePage extends StatefulWidget {
-  const MainGuidePage({Key? key}) : super(key: key);
+  MainGuidePage({super.key, required this.initialPage});
+
+  var initialPage = 2;
 
   @override
   State<MainGuidePage> createState() => _MainGuidePageState();
@@ -28,7 +30,7 @@ class _MainGuidePageState extends State<MainGuidePage>
     return Scaffold(
       body: EpTabbedPage.bottomBar(
         pageController: bloc.pageController,
-        initialPage: 2,
+        initialPage: widget.initialPage,
         pages: [
           const EpTabbedPageItem(Icons.backpack, ExperiencesGuidePage()),
           EpTabbedPageItem(FontAwesomeIcons.envelope, const MessagesGuidePage(),

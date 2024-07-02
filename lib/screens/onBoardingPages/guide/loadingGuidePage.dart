@@ -75,7 +75,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                           ),
                         ),
                         onPressed: (){
-                          navigateTo(context, (_) => const MainGuidePage());
+                          navigateTo(context, (_) => MainGuidePage(initialPage: 2,));
                         },
                         child: Text(
                           'PARCOURIR L’APPLICATION',

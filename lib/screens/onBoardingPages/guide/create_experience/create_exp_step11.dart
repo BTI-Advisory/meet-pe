@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import 'created_experience.dart';
 
 class CreateExpStep11 extends StatefulWidget {
@@ -356,13 +355,22 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                               widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
                               widget.sendListMap['country'] = _textEditingControllerCountry.text;
                             });
-                            final response = await AppService.api.makeExperienceGuide2(widget.sendListMap);
-                            if(response.experience.id != null) {
-                              navigateTo(context, (_) => CreatedExperience());
+                            try {
+                              final response = await AppService.api.createExperienceGuide(widget.sendListMap);
+                              if(response.experience.id != null) {
+                                navigateTo(context, (_) => CreatedExperience());
+                              }
+                            } catch (error) {
+                              // Handle the error and navigate to MainPage
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Une erreur est survenue. Veuillez réessayer.')),
+                              );
+                              navigateTo(context, (_) => MainGuidePage(initialPage: 0,));
+                            } finally {
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
-                            setState(() {
-                              isLoading = false;
-                            });
                           }
                               : null,
                           child: isLoading

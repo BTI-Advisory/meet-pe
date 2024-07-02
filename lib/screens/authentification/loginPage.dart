@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                               if (await SecureStorageService.readRole() == '1') {
                                 navigateTo(context, (_) => const HomePage());
                               } else {
-                                navigateTo(context, (_) => const MainGuidePage());
+                                navigateTo(context, (_) => MainGuidePage(initialPage: 2));
                               }
                             } else {
                               navigateTo(context, (_) => const WelcomePage(fromCode: false));
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if (await SecureStorageService.readRole() == '1') {
                                   navigateTo(context, (_) => const HomePage());
                                 } else {
-                                  navigateTo(context, (_) => const MainGuidePage());
+                                  navigateTo(context, (_) => MainGuidePage(initialPage: 2));
                                 }
                               } else {
                                 navigateTo(context, (_) => const WelcomePage(fromCode: false));
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                               if (await SecureStorageService.readRole() == '1') {
                                 navigateTo(context, (_) => const HomePage());
                               } else if (await SecureStorageService.readRole() == '2') {
-                                navigateTo(context, (_) => const MainGuidePage());
+                                navigateTo(context, (_) => MainGuidePage(initialPage: 2));
                               }
                             } else {
                               navigateTo(context, (_) => const WelcomePage(fromCode: false));

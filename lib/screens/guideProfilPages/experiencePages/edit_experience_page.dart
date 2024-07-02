@@ -642,7 +642,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             ),
                             onPressed: () {
                               _deleteExperience(widget.experienceId);
-                              Navigator.pop(context);
+                              Navigator.maybePop(context);
                             },
                             child: Text(
                               'SUPPRIMER',

@@ -45,7 +45,7 @@ class _LaunchScreenState extends State<LaunchScreen>
         if (await SecureStorageService.readRole() == '1') {
           controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
         } else if (await SecureStorageService.readRole() == '2')  {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+          controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 2)));
         } else {
           controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
         }
