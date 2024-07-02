@@ -27,7 +27,12 @@ class ExperienceDataResponse {
     required this.guideIsPro,
     required this.descriptionGuide,
     required this.nameGuide,
-    required this.photoPrincipal});
+    required this.photoPrincipal,
+    this.image0,
+    this.image1,
+    this.image2,
+    this.image3,
+    this.image4});
 
   @JsonKey(name: 'id')
   final int id;
@@ -75,6 +80,16 @@ class ExperienceDataResponse {
   final String nameGuide;
   @JsonKey(name: 'photoprincipal')
   final PhotoPrincipal photoPrincipal;
+  @JsonKey(name: 'image_0')
+  final PhotoPrincipal? image0;
+  @JsonKey(name: 'image_1')
+  final PhotoPrincipal? image1;
+  @JsonKey(name: 'image_2')
+  final PhotoPrincipal? image2;
+  @JsonKey(name: 'image_3')
+  final PhotoPrincipal? image3;
+  @JsonKey(name: 'image_4')
+  final PhotoPrincipal? image4;
 
   factory ExperienceDataResponse.fromJson(Map<String, dynamic> json) =>
       _$ExperienceDataResponseFromJson(json);

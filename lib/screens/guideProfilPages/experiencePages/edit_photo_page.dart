@@ -257,11 +257,10 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   Stack(children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        print('1111111');
                                         pickImageFromGallery(context, (imagePath) {
                                           setState(() {
                                             _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                            selectedImagePathPrincipal = imagePath;
+                                            selectedImagePath1 = imagePath;
                                           });
                                         });
                                       },

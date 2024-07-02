@@ -39,6 +39,21 @@ ExperienceDataResponse _$ExperienceDataResponseFromJson(
       nameGuide: json['nom_of_guide'] as String,
       photoPrincipal: PhotoPrincipal.fromJson(
           json['photoprincipal'] as Map<String, dynamic>),
+      image0: json['image_0'] == null
+          ? null
+          : PhotoPrincipal.fromJson(json['image_0'] as Map<String, dynamic>),
+      image1: json['image_1'] == null
+          ? null
+          : PhotoPrincipal.fromJson(json['image_1'] as Map<String, dynamic>),
+      image2: json['image_2'] == null
+          ? null
+          : PhotoPrincipal.fromJson(json['image_2'] as Map<String, dynamic>),
+      image3: json['image_3'] == null
+          ? null
+          : PhotoPrincipal.fromJson(json['image_3'] as Map<String, dynamic>),
+      image4: json['image_4'] == null
+          ? null
+          : PhotoPrincipal.fromJson(json['image_4'] as Map<String, dynamic>),
     );
 
 PhotoPrincipal _$PhotoPrincipalFromJson(Map<String, dynamic> json) =>
