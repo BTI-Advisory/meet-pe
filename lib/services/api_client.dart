@@ -644,8 +644,8 @@ class ApiClient {
     }
   }
 
-  /// Mark a Make experience Guide P1
-  Future<MakeExprP1Response> makeExperienceGuide1(Map<String, dynamic> listChoice, {String? audioFilePath}) async {
+  /// Mark a Create experience Guide
+  Future<MakeExprP1Response> createExperienceGuide(Map<String, dynamic> listChoice) async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -654,7 +654,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', _buildUri('api/make-experience-guide-p1'));
+    final request = http.MultipartRequest('POST', _buildUri('api/make-experience-global'));
 
     // Add headers if provided
     if (headers != null) {
@@ -662,50 +662,7 @@ class ApiClient {
     }
 
     // Add JSON data
-    Map<String, String> outputData = transformData(listChoice);
-    request.fields.addAll(outputData);
-
-    // Add audio file if provided
-    if (audioFilePath != null && audioFilePath != '') {
-      // Create a File object from the provided file path
-      final audioFile = File(audioFilePath);
-      request.files.add(await http.MultipartFile.fromPath('audio', audioFile.path));
-    }
-
-    // Send the request
-    final streamedResponse = await request.send();
-
-    // Get response
-    final response = await http.Response.fromStream(streamedResponse);
-
-    // Handle response
-    if (response.statusCode == 200) {
-      // Parse JSON response
-      return MakeExprP1Response.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to make experience guide P1: ${response.reasonPhrase}');
-    }
-  }
-
-  /// Mark a Make experience Guide P2
-  Future<MakeExprP1Response> makeExperienceGuide2(Map<String, dynamic> listChoice) async {
-    final Map<String, String> headers = {
-      'Content-Type': 'multipart/form-data',
-      'Accept': 'application/json',
-      'api-key': '$_apiKey',
-      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
-    };
-
-    // Create a multi-part request
-    final request = http.MultipartRequest('POST', _buildUri('api/make-experience-guide-p2'));
-
-    // Add headers if provided
-    if (headers != null) {
-      request.headers.addAll(headers);
-    }
-
-    // Add JSON data
-    Map<String, String> outputData = transformDataExperienceP2(listChoice);
+    Map<String, String> outputData = transformDataExperience(listChoice);
     request.fields.addAll(outputData);
 
     // Add image file if provided
@@ -728,29 +685,50 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
-    print('82348723847 ${response.statusCode}');
-    print('82348723847 ${response.body}');
+    print('Final ${response.statusCode}');
+    print('Final ${response.body}');
 
     // Handle response
     if (response.statusCode == 200) {
       // Parse JSON response
       return MakeExprP1Response.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to make experience guide P2: ${response.reasonPhrase}');
+      throw Exception('Failed to create experience guide: ${response.reasonPhrase}');
     }
   }
 
-  /// Mark a convert a list
-  Map<String, String> transformData(Map<String, dynamic> initialData) {
+  /// Mark a convert a list in guide profile
+  Map<String, String> transformDataExperience(Map<String, dynamic> initialData) {
     List<int> categories = List<int>.from(initialData['categorie']);
     String categoriesString = categories.join(', ');
+    List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
+    String avecCaString = avecCa.join(', ');
+
+    List<int> dernierMinuteReservation = List<int>.from(initialData['dernier_minute_reservation']);
+    String dernierMinuteReservationString = dernierMinuteReservation.join(', ');
+
+    String? guidePersonnesPeuvesParticiperString = _convertListToString(initialData['guide_personnes_peuves_participer']);
 
     return {
       'categorie': categoriesString,
-      'nom': initialData['nom'].replaceAll(' ', ' '), // Replace spaces with qsd
-      'description': initialData['description'].replaceAll(' ', ' '), // Replace spaces with qsd
+      'nom': initialData['nom'].replaceAll(' ', ' '),
+      'description': initialData['description'].replaceAll(' ', ' '),
       'about_guide': initialData['about_guide'].toString(),
-      'dure': initialData['dure'].toString() // Convert to string
+      'dure': initialData['dure'].toString(),
+      'et_avec_ça': avecCaString,
+      'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString ?? '',
+      'prix_par_voyageur': initialData['prix_par_voyageur'].toString(),
+      'nombre_des_voyageur': initialData['nombre_des_voyageur'].toString(),
+      'ville': initialData['ville'].toString(),
+      'addresse': initialData['addresse'].toString(),
+      'code_postale': initialData['code_postale'].toString(),
+      'country': initialData['country'].toString(),
+      'experience_id': initialData['experience_id'].toString(),
+      'support_group_prive': initialData['support_group_prive'].toString(),
+      'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
+      'price_group_prive': initialData['price_group_prive'].toString(),
+      'max_number_of_persons': initialData['max_number_of_persons'].toString(),
+      'dernier_minute_reservation': dernierMinuteReservationString,
     };
   }
 
@@ -781,34 +759,6 @@ class ApiClient {
       return data.join(', ');
     }
     return null;
-  }
-
-  /// Mark a convert a list in experience p2 profile
-  Map<String, String> transformDataExperienceP2(Map<String, dynamic> initialData) {
-    List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
-    String avecCaString = avecCa.join(', ');
-
-    List<int> dernierMinuteReservation = List<int>.from(initialData['dernier_minute_reservation']);
-    String dernierMinuteReservationString = dernierMinuteReservation.join(', ');
-
-    String? guidePersonnesPeuvesParticiperString = _convertListToString(initialData['guide_personnes_peuves_participer']);
-
-    return {
-      'et_avec_ça': avecCaString,
-      'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString ?? '',
-      'prix_par_voyageur': initialData['prix_par_voyageur'].toString(),
-      'nombre_des_voyageur': initialData['nombre_des_voyageur'].toString(),
-      'ville': initialData['ville'].toString(),
-      'addresse': initialData['addresse'].toString(),
-      'code_postale': initialData['code_postale'].toString(),
-      'country': initialData['country'].toString(),
-      'experience_id': initialData['experience_id'].toString(),
-      'support_group_prive': initialData['support_group_prive'].toString(),
-      'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
-      'price_group_prive': initialData['price_group_prive'].toString(),
-      'max_number_of_persons': initialData['max_number_of_persons'].toString(),
-      'dernier_minute_reservation': dernierMinuteReservationString,
-    };
   }
 
   /// Mark a set notification settings

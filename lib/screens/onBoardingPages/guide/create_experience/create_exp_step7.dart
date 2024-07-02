@@ -1,23 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import 'create_exp_step8.dart';
 
 class CreateExpStep7 extends StatefulWidget {
-  const CreateExpStep7(
+  CreateExpStep7(
       {super.key,
       required this.photo,
       required this.imageArray,
-      required this.idExperience});
+      required this.infoMap});
 
   final String photo;
   final List<dynamic> imageArray;
-  final int idExperience;
+  Map<String, dynamic> infoMap = {};
 
   @override
   State<CreateExpStep7> createState() => _CreateExpStep7State();
@@ -286,6 +284,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                   ),
                                 ),
                                 onPressed: () async {
+                                  sendListMap = widget.infoMap;
                                   sendListMap['nombre_des_voyageur'] = _counter;
                                   // Convert sets to lists
                                   myMap.forEach((key, value) {
@@ -294,8 +293,6 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                   sendListMap['image_principale'] =
                                       widget.photo;
                                   sendListMap['images'] = widget.imageArray;
-                                  sendListMap['experience_id'] =
-                                      widget.idExperience;
                                   navigateTo(
                                       context,
                                       (_) => CreateExpStep8(

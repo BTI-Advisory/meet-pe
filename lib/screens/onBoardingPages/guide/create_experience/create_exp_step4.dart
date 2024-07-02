@@ -1,14 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../services/app_service.dart';
-import '../../../../utils/abstracts/bloc_provider.dart';
-import '../../../../utils/abstracts/disposable.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
 import 'create_exp_step5.dart';
 
 class CreateExpStep4 extends StatefulWidget {
@@ -44,7 +38,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
       body: AsyncForm(
         onValidated: bloc.makeExperienceGuide1,
         onSuccess: () {
-          return navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, idExperience: bloc.idExperience!));
+          return navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
         },
         builder: (BuildContext context, void Function() validate) {
           return Container(
@@ -193,8 +187,7 @@ class CreateExpStep4Bloc with Disposable {
       });
 
       // Perform the API call
-      final response = await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
-      idExperience = response.experience.id;
+      //final response = await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
 
     } catch (error) {
       // Handle the error appropriately

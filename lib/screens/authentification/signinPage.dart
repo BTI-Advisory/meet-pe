@@ -36,7 +36,7 @@ class _SignInPageState extends State<SignInPage>
             onSuccess: () {
               bloc.saveCredentials();
               SecureStorageService.saveCompleted('true');
-              return navigateTo(context, (_) => const MainGuidePage(),
+              return navigateTo(context, (_) => MainGuidePage(initialPage: 2),
                   clearHistory: true);
             },
             builder: (context, validate) {

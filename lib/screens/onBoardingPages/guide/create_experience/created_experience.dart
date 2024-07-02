@@ -26,7 +26,7 @@ class _CreatedExperienceState extends State<CreatedExperience> with TickerProvid
       setState(() {});
     });
     //controller.repeat(reverse: true);
-    controller.forward().whenComplete(() => navigateTo(context, (_) => const MainGuidePage()));
+    controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 0,)));
     super.initState();
   }
 

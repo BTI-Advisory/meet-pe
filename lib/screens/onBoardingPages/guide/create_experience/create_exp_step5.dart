@@ -1,29 +1,24 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/popup_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
 import 'create_exp_step6.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
 
 class CreateExpStep5 extends StatefulWidget {
-  CreateExpStep5({super.key, required this.name, required this.description, required this.idExperience});
+  CreateExpStep5({super.key, required this.name, required this.description, required this.infoMap});
 
   final String name;
   final String description;
-  final int idExperience;
+  Map<String, dynamic> infoMap = {};
 
   @override
   State<CreateExpStep5> createState() => _CreateExpStep5State();
@@ -747,7 +742,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                                       (_) => CreateExpStep6(
                                           photo: selectedImagePathPrincipal,
                                           imageArray: _imageList,
-                                          idExperience: widget.idExperience,
+                                          infoMap: widget.infoMap,
                                           name: widget.name,
                                           description: widget.description,
                                       ));
