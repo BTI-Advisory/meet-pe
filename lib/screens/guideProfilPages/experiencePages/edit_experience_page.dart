@@ -27,7 +27,12 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   late Future<ExperienceDataResponse> _experienceDataFuture;
   String selectedImagePath = 'images/imageTest.png';
   bool updateOnline = false;
-  bool updatePhoto = false;
+  bool updatePhotoPrincipal = false;
+  bool updatePhoto1 = false;
+  bool updatePhoto2 = false;
+  bool updatePhoto3 = false;
+  bool updatePhoto4 = false;
+  bool updatePhoto5= false;
   ModifyExperienceDataModel data = ModifyExperienceDataModel();
 
   @override
@@ -121,7 +126,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         width: ResponsiveSize.calculateWidth(
                                             427, context),
                                         height: 592,
-                                        child: updatePhoto ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover)
+                                        child: updatePhotoPrincipal ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.photoPrincipal.photoUrl, fit: BoxFit.cover)
                                       ),
                                     ),
 
@@ -155,28 +160,41 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         print('Edit image');
                                         final result = await Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => const EditPhotoPage()),
+                                          MaterialPageRoute(
+                                              builder: (context) => EditPhotoPage(
+                                                imagePrincipal: experienceData.photoPrincipal.photoUrl,
+                                                image1: experienceData.image0?.photoUrl ?? '',
+                                                image2: experienceData.image1?.photoUrl ?? '',
+                                                image3: experienceData.image2?.photoUrl ?? '',
+                                                image4: experienceData.image3?.photoUrl ?? '',
+                                                image5: experienceData.image4?.photoUrl ?? '',)
+                                          ),
                                         );
                                         if (result != null) {
                                           setState(() {
                                             if (result.containsKey('image_principale')) {
                                               data.imagePrincipale = result['image_principale'];
-                                              updatePhoto = true;
+                                              updatePhotoPrincipal = true;
                                             }
                                             if (result.containsKey('image_0')) {
                                               data.image1 = result['image_0'];
+                                              updatePhoto1 = true;
                                             }
                                             if (result.containsKey('image_1')) {
                                               data.image2 = result['image_1'];
+                                              updatePhoto2 = true;
                                             }
                                             if (result.containsKey('image_2')) {
                                               data.image3 = result['image_2'];
+                                              updatePhoto3 = true;
                                             }
                                             if (result.containsKey('image_3')) {
                                               data.image4 = result['image_3'];
+                                              updatePhoto4 = true;
                                             }
                                             if (result.containsKey('image_4')) {
                                               data.image5 = result['image_4'];
+                                              updatePhoto5 = true;
                                             }
                                             print('Return photo $result');
                                           });
@@ -563,7 +581,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           ),
                         ),
                         const SizedBox(height: 34),
-                        StaggeredGrid.count(
+                        /*StaggeredGrid.count(
                           crossAxisCount: 4,
                           mainAxisSpacing: 4,
                           crossAxisSpacing: 4,
@@ -597,6 +615,53 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 crossAxisCellCount: 4,
                                 mainAxisCellCount: 2,
                                 child: updatePhoto ? Image.asset(data.image5 ?? selectedImagePath, fit: BoxFit.cover) : Image.network(experienceData.image4?.photoUrl ?? '', fit: BoxFit.cover),
+                              ),
+                          ],
+                        ),*/
+                        StaggeredGrid.count(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          children: [
+                            if (updatePhoto1 ? data.image1 != null : (experienceData.image0?.photoUrl ?? '').isNotEmpty)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto1
+                                    ? Image.asset(data.image1 ?? selectedImagePath, fit: BoxFit.cover)
+                                    : Image.network(experienceData.image0!.photoUrl, fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto2 ? data.image2 != null : (experienceData.image1?.photoUrl ?? '').isNotEmpty)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto2
+                                    ? Image.asset(data.image2 ?? selectedImagePath, fit: BoxFit.cover)
+                                    : Image.network(experienceData.image1!.photoUrl, fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto3 ? data.image3 != null : (experienceData.image2?.photoUrl ?? '').isNotEmpty)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto3
+                                    ? Image.asset(data.image3 ?? selectedImagePath, fit: BoxFit.cover)
+                                    : Image.network(experienceData.image2!.photoUrl, fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto4 ? data.image4 != null : (experienceData.image3?.photoUrl ?? '').isNotEmpty)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto4
+                                    ? Image.asset(data.image4 ?? selectedImagePath, fit: BoxFit.cover)
+                                    : Image.network(experienceData.image3!.photoUrl, fit: BoxFit.cover),
+                              ),
+                            if (updatePhoto5 ? data.image5 != null : (experienceData.image4?.photoUrl ?? '').isNotEmpty)
+                              StaggeredGridTile.count(
+                                crossAxisCellCount: 4,
+                                mainAxisCellCount: 2,
+                                child: updatePhoto5
+                                    ? Image.asset(data.image5 ?? selectedImagePath, fit: BoxFit.cover)
+                                    : Image.network(experienceData.image4!.photoUrl, fit: BoxFit.cover),
                               ),
                           ],
                         ),
