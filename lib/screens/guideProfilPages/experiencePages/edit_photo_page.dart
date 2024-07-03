@@ -12,7 +12,14 @@ import '../../../resources/resources.dart';
 typedef ImagePathCallback = void Function(String);
 
 class EditPhotoPage extends StatefulWidget {
-  const EditPhotoPage({super.key});
+  const EditPhotoPage({super.key, required this.imagePrincipal, required this.image1, required this.image2, required this.image3, required this.image4, required this.image5});
+
+  final String imagePrincipal;
+  final String image1;
+  final String image2;
+  final String image3;
+  final String image4;
+  final String image5;
 
   @override
   State<EditPhotoPage> createState() => _EditPhotoPageState();
@@ -28,6 +35,12 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
   String selectedImagePath5 = '';
   final List<dynamic> _imageList = [];
   bool imageSize = false;
+
+  bool updatePhoto1 = false;
+  bool updatePhoto2 = false;
+  bool updatePhoto3 = false;
+  bool updatePhoto4 = false;
+  bool updatePhoto5= false;
 
   @override
   void initState() {
@@ -166,35 +179,8 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             206, context),
                                         height: ResponsiveSize.calculateHeight(
                                             206, context),
-                                        child: selectedImagePathPrincipal
-                                            .isEmpty
-                                            ? Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.add,
-                                              color: AppResources
-                                                  .colorGray60,
-                                            ),
-                                            Text(
-                                              'Photo principale',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                  color: AppResources
-                                                      .colorGray60),
-                                            ),
-                                            Text(
-                                              'Fais nous ton plus beau \nsourire 😉',
-                                              textAlign: TextAlign.center,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                            ),
-                                          ],
-                                        )
+                                        child: selectedImagePathPrincipal.isEmpty
+                                            ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.imagePrincipal, fit: BoxFit.cover))
                                             : ClipRRect(
                                           borderRadius: BorderRadius
                                               .circular(ResponsiveSize
@@ -211,38 +197,34 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                 Positioned(
                                   bottom: 15,
                                   right: 14,
-                                  child: Visibility(
-                                    visible:
-                                    selectedImagePathPrincipal.isNotEmpty,
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          24, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          24, context),
-                                      //padding: const EdgeInsets.all(10),
-                                      decoration: ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                        ),
+                                  child: Container(
+                                    width: ResponsiveSize.calculateWidth(
+                                        24, context),
+                                    height: ResponsiveSize.calculateHeight(
+                                        24, context),
+                                    //padding: const EdgeInsets.all(10),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            ResponsiveSize
+                                                .calculateCornerRadius(
+                                                40, context)),
                                       ),
-                                      child: FloatingActionButton(
-                                        heroTag: "btn2",
-                                        backgroundColor:
-                                        AppResources.colorWhite,
-                                        onPressed: () async {
-                                          pickImageFromGallery(context, (imagePath) {
-                                            setState(() {
-                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                              selectedImagePathPrincipal = imagePath;
-                                            });
+                                    ),
+                                    child: FloatingActionButton(
+                                      heroTag: "btn2",
+                                      backgroundColor:
+                                      AppResources.colorWhite,
+                                      onPressed: () async {
+                                        pickImageFromGallery(context, (imagePath) {
+                                          setState(() {
+                                            _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
+                                            selectedImagePathPrincipal = imagePath;
                                           });
-                                        },
-                                        child:
-                                        Image.asset('images/pen_icon.png'),
-                                      ),
+                                        });
+                                      },
+                                      child:
+                                      Image.asset('images/pen_icon.png'),
                                     ),
                                   ),
                                 ),
@@ -261,6 +243,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           setState(() {
                                             _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                             selectedImagePath1 = imagePath;
+                                            updatePhoto1 = true;
                                           });
                                         });
                                       },
@@ -277,22 +260,19 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           height:
                                           ResponsiveSize.calculateHeight(
                                               98, context),
-                                          child: selectedImagePath1.isEmpty
-                                              ? const Icon(
-                                            Icons.add,
-                                            color: AppResources
-                                                .colorGray60,
+                                          child: Builder (
+                                            builder: (context) {
+                                              if (updatePhoto1 == false) {
+                                                if (widget.image1.isNotEmpty) {
+                                                  return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image1, fit: BoxFit.cover));
+                                                } else {
+                                                  return const Icon(Icons.add, color: AppResources.colorGray60);
+                                                }
+                                              } else {
+                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath1), fit: BoxFit.cover));
+                                              }
+                                            }
                                           )
-                                              : ClipRRect(
-                                            borderRadius: BorderRadius
-                                                .circular(ResponsiveSize
-                                                .calculateCornerRadius(
-                                                12, context)),
-                                            child: Image.file(
-                                              File(selectedImagePath1),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
                                         ),
                                       ),
                                     ),
@@ -300,7 +280,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       bottom: 8,
                                       right: 7,
                                       child: Visibility(
-                                        visible: selectedImagePath1.isNotEmpty,
+                                        visible: widget.image1 != '' || selectedImagePath1.isNotEmpty,
                                         child: Container(
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
@@ -324,6 +304,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                                 setState(() {
                                                   _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                                   selectedImagePath1 = imagePath;
+                                                  updatePhoto1 = true;
                                                 });
                                               });
                                             },
@@ -360,22 +341,19 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           height:
                                           ResponsiveSize.calculateHeight(
                                               98, context),
-                                          child: selectedImagePath2.isEmpty
-                                              ? const Icon(
-                                            Icons.add,
-                                            color: AppResources
-                                                .colorGray60,
+                                          child: Builder (
+                                              builder: (context) {
+                                                if (updatePhoto2 == false) {
+                                                  if (widget.image2.isNotEmpty) {
+                                                    return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image2, fit: BoxFit.cover));
+                                                  } else {
+                                                    return const Icon(Icons.add, color: AppResources.colorGray60);
+                                                  }
+                                                } else {
+                                                  return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath2), fit: BoxFit.cover));
+                                                }
+                                              }
                                           )
-                                              : ClipRRect(
-                                            borderRadius: BorderRadius
-                                                .circular(ResponsiveSize
-                                                .calculateCornerRadius(
-                                                12, context)),
-                                            child: Image.file(
-                                              File(selectedImagePath2),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
                                         ),
                                       ),
                                     ),
@@ -383,7 +361,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       bottom: 8,
                                       right: 7,
                                       child: Visibility(
-                                        visible: selectedImagePath2.isNotEmpty,
+                                        visible: widget.image2 != '' || selectedImagePath2.isNotEmpty,
                                         child: Container(
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
@@ -407,6 +385,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                                 setState(() {
                                                   _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                                   selectedImagePath2 = imagePath;
+                                                  updatePhoto2 = true;
                                                 });
                                               });
                                             },
@@ -449,21 +428,19 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           98, context),
                                       height: ResponsiveSize.calculateHeight(
                                           98, context),
-                                      child: selectedImagePath3.isEmpty
-                                          ? const Icon(
-                                        Icons.add,
-                                        color: AppResources.colorGray60,
+                                      child: Builder (
+                                          builder: (context) {
+                                            if (updatePhoto3 == false) {
+                                              if (widget.image3.isNotEmpty) {
+                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image3, fit: BoxFit.cover));
+                                              } else {
+                                                return const Icon(Icons.add, color: AppResources.colorGray60);
+                                              }
+                                            } else {
+                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath3), fit: BoxFit.cover));
+                                            }
+                                          }
                                       )
-                                          : ClipRRect(
-                                        borderRadius: BorderRadius
-                                            .circular(ResponsiveSize
-                                            .calculateCornerRadius(
-                                            12, context)),
-                                        child: Image.file(
-                                          File(selectedImagePath3),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -471,7 +448,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   bottom: 8,
                                   right: 7,
                                   child: Visibility(
-                                    visible: selectedImagePath3.isNotEmpty,
+                                    visible: widget.image3 != '' || selectedImagePath3.isNotEmpty,
                                     child: Container(
                                       width: ResponsiveSize.calculateWidth(
                                           24, context),
@@ -494,6 +471,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             setState(() {
                                               _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                               selectedImagePath3 = imagePath;
+                                              updatePhoto3 = true;
                                             });
                                           });
                                         },
@@ -530,21 +508,19 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           98, context),
                                       height: ResponsiveSize.calculateHeight(
                                           98, context),
-                                      child: selectedImagePath4.isEmpty
-                                          ? const Icon(
-                                        Icons.add,
-                                        color: AppResources.colorGray60,
+                                      child: Builder (
+                                          builder: (context) {
+                                            if (updatePhoto4 == false) {
+                                              if (widget.image4.isNotEmpty) {
+                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image4, fit: BoxFit.cover));
+                                              } else {
+                                                return const Icon(Icons.add, color: AppResources.colorGray60);
+                                              }
+                                            } else {
+                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath4), fit: BoxFit.cover));
+                                            }
+                                          }
                                       )
-                                          : ClipRRect(
-                                        borderRadius: BorderRadius
-                                            .circular(ResponsiveSize
-                                            .calculateCornerRadius(
-                                            12, context)),
-                                        child: Image.file(
-                                          File(selectedImagePath4),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -552,7 +528,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   bottom: 8,
                                   right: 7,
                                   child: Visibility(
-                                    visible: selectedImagePath4.isNotEmpty,
+                                    visible: widget.image4 != '' || selectedImagePath4.isNotEmpty,
                                     child: Container(
                                       width: ResponsiveSize.calculateWidth(
                                           24, context),
@@ -575,6 +551,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             setState(() {
                                               _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                               selectedImagePath4 = imagePath;
+                                              updatePhoto4 = true;
                                             });
                                           });
                                         },
@@ -611,21 +588,19 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           98, context),
                                       height: ResponsiveSize.calculateHeight(
                                           98, context),
-                                      child: selectedImagePath5.isEmpty
-                                          ? const Icon(
-                                        Icons.add,
-                                        color: AppResources.colorGray60,
+                                      child: Builder (
+                                          builder: (context) {
+                                            if (updatePhoto5 == false) {
+                                              if (widget.image5.isNotEmpty) {
+                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image5, fit: BoxFit.cover));
+                                              } else {
+                                                return const Icon(Icons.add, color: AppResources.colorGray60);
+                                              }
+                                            } else {
+                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath5), fit: BoxFit.cover));
+                                            }
+                                          }
                                       )
-                                          : ClipRRect(
-                                        borderRadius: BorderRadius
-                                            .circular(ResponsiveSize
-                                            .calculateCornerRadius(
-                                            12, context)),
-                                        child: Image.file(
-                                          File(selectedImagePath5),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -633,7 +608,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                   bottom: 8,
                                   right: 7,
                                   child: Visibility(
-                                    visible: selectedImagePath5.isNotEmpty,
+                                    visible: widget.image5 != '' || selectedImagePath5.isNotEmpty,
                                     child: Container(
                                       width: ResponsiveSize.calculateWidth(
                                           24, context),
@@ -656,6 +631,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             setState(() {
                                               _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                               selectedImagePath5 = imagePath;
+                                              updatePhoto5 = true;
                                             });
                                           });
                                         },
