@@ -103,6 +103,21 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                             )
                           ],
                         ),
+                      if(widget.guideExperiencesResponse.status == 'autre_document')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.file_copy, size: 17, color: AppResources.colorVitamine),
+                            const SizedBox(width: 5),
+                            Text(
+                              'Autres documents nécessaires',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorVitamine),
+                            )
+                          ],
+                        ),
                       if(widget.guideExperiencesResponse.status == 'en ligne')
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

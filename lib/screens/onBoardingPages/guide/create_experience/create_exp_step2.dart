@@ -57,216 +57,221 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: deviceSize.width,
-          height: deviceSize.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [AppResources.colorGray5, AppResources.colorWhite],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            width: deviceSize.width,
+            height: deviceSize.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppResources.colorGray5, AppResources.colorWhite],
+              ),
             ),
-          ),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'images/backgroundExp2.png',
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  height: ResponsiveSize.calculateHeight(190, context),
-                ),
-                SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Étape 2 sur 9',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: 10, fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(8, context)),
-                      Text(
-                        'Description de l’expérience',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      Text(
-                        'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerName,
-                        keyboardType: TextInputType.text,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'Titre de ton expérience',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                                  ResponsiveSize.calculateHeight(10, context)),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                                  ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        textInputAction: TextInputAction.done,
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageNameExp =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerDescr,
-                        maxLines: null,
-                        textInputAction: TextInputAction.done,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(3000),
-                        ],
-                        //textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'La petite description',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                            top: ResponsiveSize.calculateHeight(20, context),
-                            bottom: ResponsiveSize.calculateHeight(10, context),
-                          ),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                                  ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageDescExp =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
-                      ),
-                    ],
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'images/backgroundExp2.png',
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    height: ResponsiveSize.calculateHeight(190, context),
                   ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: ResponsiveSize.calculateHeight(44, context),
-                          right: ResponsiveSize.calculateWidth(28, context)),
-                      child: Container(
-                        width: ResponsiveSize.calculateWidth(151, context),
-                        height: ResponsiveSize.calculateHeight(44, context),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateHeight(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        10, context))),
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return AppResources
-                                      .colorGray15; // Change to your desired grey color
-                                }
-                                return AppResources
-                                    .colorVitamine; // Your enabled color
-                              },
+                  SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Étape 2 sur 9',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontSize: 10, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(8, context)),
+                        Text(
+                          'Description de l’expérience',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(16, context)),
+                        Text(
+                          'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(40, context)),
+                        TextFormField(
+                          controller: _textEditingControllerName,
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: AppResources.colorDark),
+                          decoration: InputDecoration(
+                            filled: false,
+                            hintText: 'Titre de ton expérience',
+                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            contentPadding: EdgeInsets.only(
+                                top: ResponsiveSize.calculateHeight(20, context),
+                                bottom:
+                                    ResponsiveSize.calculateHeight(10, context)),
+                            // Adjust padding
+                            suffix: SizedBox(
+                                height:
+                                    ResponsiveSize.calculateHeight(10, context)),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppResources.colorGray15),
                             ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppResources.colorGray15),
+                            ),
+                            errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          textInputAction: TextInputAction.done,
+                          //onFieldSubmitted: (value) => validate(),
+                          validator: AppResources.validatorNotEmpty,
+                          //onSaved: (value) => bloc.name = value,
+                          onChanged: (value) {
+                            setState(() {
+                              validationMessageNameExp =
+                                  AppResources.validatorNotEmpty(value);
+                              updateFormValidity();
+                            });
+                          },
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(40, context)),
+                        TextFormField(
+                          controller: _textEditingControllerDescr,
+                          maxLines: null,
+                          textInputAction: TextInputAction.newline,
+                          keyboardType: TextInputType.multiline,
+                          textCapitalization: TextCapitalization.sentences,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(3000),
+                          ],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: AppResources.colorDark),
+                          decoration: InputDecoration(
+                            filled: false,
+                            hintText: 'La petite description',
+                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            contentPadding: EdgeInsets.only(
+                              top: ResponsiveSize.calculateHeight(20, context),
+                              bottom: ResponsiveSize.calculateHeight(10, context),
+                            ),
+                            // Adjust padding
+                            suffix: SizedBox(
+                                height:
+                                    ResponsiveSize.calculateHeight(10, context)),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppResources.colorGray15),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppResources.colorGray15),
+                            ),
+                            errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          //onFieldSubmitted: (value) => validate(),
+                          validator: AppResources.validatorNotEmpty,
+                          //onSaved: (value) => bloc.name = value,
+                          onChanged: (value) {
+                            setState(() {
+                              validationMessageDescExp =
+                                  AppResources.validatorNotEmpty(value);
+                              updateFormValidity();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: ResponsiveSize.calculateHeight(44, context),
+                            right: ResponsiveSize.calculateWidth(28, context)),
+                        child: Container(
+                          width: ResponsiveSize.calculateWidth(151, context),
+                          height: ResponsiveSize.calculateHeight(44, context),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  EdgeInsets.symmetric(
+                                      horizontal: ResponsiveSize.calculateHeight(
+                                          24, context),
+                                      vertical: ResponsiveSize.calculateHeight(
+                                          10, context))),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.disabled)) {
+                                    return AppResources
+                                        .colorGray15; // Change to your desired grey color
+                                  }
+                                  return AppResources
+                                      .colorVitamine; // Your enabled color
+                                },
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                               ),
                             ),
-                          ),
-                          onPressed: isFormValid
-                              ? () {
-                                  setState(() {
+                            onPressed: isFormValid
+                                ? () {
+                                    setState(() {
 
-                                    // Proceed to the next step
-                                    navigateTo(
-                                        context,
-                                        (_) => CreateExpStep3(
-                                              myMap: widget.myMap,
-                                              name: _textEditingControllerName
-                                                  .text,
-                                              description:
-                                                  _textEditingControllerDescr
-                                                      .text,
-                                            ));
-                                  });
-                                }
-                              : null,
-                          child: Image.asset('images/arrowLongRight.png'),
+                                      // Proceed to the next step
+                                      navigateTo(
+                                          context,
+                                          (_) => CreateExpStep3(
+                                                myMap: widget.myMap,
+                                                name: _textEditingControllerName
+                                                    .text,
+                                                description:
+                                                    _textEditingControllerDescr
+                                                        .text,
+                                              ));
+                                    });
+                                  }
+                                : null,
+                            child: Image.asset('images/arrowLongRight.png'),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

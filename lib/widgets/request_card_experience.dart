@@ -46,12 +46,19 @@ class _RequestCardState extends State<RequestCard> {
     return Column(
       children: [
         Stack(
+          clipBehavior: Clip.none,
           children: [
             Container(
               margin: const EdgeInsets.only(top: 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: (widget.guideReservationResponse.status == 'Pending') ? AppResources.colorVitamine : AppResources.colorWhite,
+                      width: 1,
+                    ),
+                ),
                 shadows: const [
                   BoxShadow(
                     color: Color(0x1E000000),
@@ -157,6 +164,7 @@ class _RequestCardState extends State<RequestCard> {
                         visible: (widget.guideReservationResponse.status == 'Acceptée'),
                         child: Row(
                           children: [
+                            const SizedBox(width: 40),
                             const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
                             const SizedBox(width: 8),
                             Text(
@@ -176,9 +184,9 @@ class _RequestCardState extends State<RequestCard> {
               ),
             ),
             Visibility(
-              visible: (widget.guideReservationResponse.status == 'En attente'),
+              visible: (widget.guideReservationResponse.status == 'Pending'),
               child: Positioned(
-                  top: 0,
+                  top: -5,
                   left: 63,
                   child: Container(
                     width: 43,
