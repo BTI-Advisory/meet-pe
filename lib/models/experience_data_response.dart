@@ -8,26 +8,26 @@ class ExperienceDataResponse {
     required this.id,
     required this.title,
     required this.description,
-    required this.dure,
+    required this.duration,
     required this.aboutGuide,
-    required this.prixParVoyageur,
-    required this.nombreDesVoyageur,
-    required this.ville,
-    required this.addresse,
-    required this.codePostale,
+    required this.pricePerTraveler,
+    required this.numberOfTravelers,
+    required this.city,
+    required this.address,
+    required this.postalCode,
     required this.createdAt,
     required this.updatedAt,
     required this.userId,
     required this.status,
     required this.country,
-    required this.categorie,
-    required this.guidePersonnesPeuvesParticiper,
+    required this.categories,
+    this.guideParticipants,
     required this.etAvecCa,
     required this.isOnline,
-    required this.guideIsPro,
-    required this.descriptionGuide,
-    required this.nameGuide,
-    required this.photoPrincipal,
+    required this.isProfessionalGuide,
+    required this.guideDescription,
+    required this.guideName,
+    required this.mainPhoto,
     this.image0,
     this.image1,
     this.image2,
@@ -41,19 +41,19 @@ class ExperienceDataResponse {
   @JsonKey(name: 'description')
   final String description;
   @JsonKey(name: 'dure')
-  final String dure;
+  final String duration;
   @JsonKey(name: 'about_guide')
   final String aboutGuide;
   @JsonKey(name: 'prix_par_voyageur')
-  final String prixParVoyageur;
+  final String pricePerTraveler;
   @JsonKey(name: 'nombre_des_voyageur')
-  final int nombreDesVoyageur;
+  final int numberOfTravelers;
   @JsonKey(name: 'ville')
-  final String ville;
+  final String city;
   @JsonKey(name: 'addresse')
-  final String addresse;
+  final String address;
   @JsonKey(name: 'code_postale')
-  final String codePostale;
+  final String postalCode;
   @JsonKey(name: 'created_at')
   final String createdAt;
   @JsonKey(name: 'updated_at')
@@ -65,21 +65,21 @@ class ExperienceDataResponse {
   @JsonKey(name: 'country')
   final String country;
   @JsonKey(name: 'categorie')
-  final List<String> categorie;
+  final List<String> categories;
   @JsonKey(name: 'guide_personnes_peuves_participer')
-  final List<String> guidePersonnesPeuvesParticiper;
+  final List<String?>? guideParticipants;
   @JsonKey(name: 'et_avec_ça')
   final List<String> etAvecCa;
   @JsonKey(name: 'is_online')
   final bool isOnline;
   @JsonKey(name: 'guide_is_pro')
-  final bool guideIsPro;
+  final bool isProfessionalGuide;
   @JsonKey(name: 'description_guide')
-  final String? descriptionGuide;
+  final String? guideDescription;
   @JsonKey(name: 'nom_of_guide')
-  final String nameGuide;
+  final String guideName;
   @JsonKey(name: 'photoprincipal')
-  final PhotoPrincipal photoPrincipal;
+  final PhotoPrincipal mainPhoto;
   @JsonKey(name: 'image_0')
   final PhotoPrincipal? image0;
   @JsonKey(name: 'image_1')

@@ -12,32 +12,32 @@ ExperienceDataResponse _$ExperienceDataResponseFromJson(
       id: json['id'] as int,
       title: json['title'] as String,
       description: json['description'] as String,
-      dure: json['dure'] as String,
+      duration: json['dure'] as String,
       aboutGuide: json['about_guide'] as String,
-      prixParVoyageur: json['prix_par_voyageur'] as String,
-      nombreDesVoyageur: json['nombre_des_voyageur'] as int,
-      ville: json['ville'] as String,
-      addresse: json['addresse'] as String,
-      codePostale: json['code_postale'] as String,
+      pricePerTraveler: json['prix_par_voyageur'] as String,
+      numberOfTravelers: json['nombre_des_voyageur'] as int,
+      city: json['ville'] as String,
+      address: json['addresse'] as String,
+      postalCode: json['code_postale'] as String,
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
       userId: json['user_id'] as int,
       status: json['status'] as String,
       country: json['country'] as String,
-      categorie:
+      categories:
           (json['categorie'] as List<dynamic>).map((e) => e as String).toList(),
-      guidePersonnesPeuvesParticiper:
-          (json['guide_personnes_peuves_participer'] as List<dynamic>)
-              .map((e) => e as String)
+      guideParticipants:
+          (json['guide_personnes_peuves_participer'] as List<dynamic>?)
+              ?.map((e) => e as String?)
               .toList(),
       etAvecCa: (json['et_avec_ça'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
       isOnline: json['is_online'] as bool,
-      guideIsPro: json['guide_is_pro'] as bool,
-      descriptionGuide: json['description_guide'] as String?,
-      nameGuide: json['nom_of_guide'] as String,
-      photoPrincipal: PhotoPrincipal.fromJson(
+      isProfessionalGuide: json['guide_is_pro'] as bool,
+      guideDescription: json['description_guide'] as String?,
+      guideName: json['nom_of_guide'] as String,
+      mainPhoto: PhotoPrincipal.fromJson(
           json['photoprincipal'] as Map<String, dynamic>),
       image0: json['image_0'] == null
           ? null
