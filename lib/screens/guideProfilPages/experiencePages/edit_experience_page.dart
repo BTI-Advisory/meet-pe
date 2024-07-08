@@ -239,9 +239,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                             width: ResponsiveSize.calculateWidth(
                                                 11, context)),
                                         Container(
-                                          width: ResponsiveSize.calculateWidth(
-                                              85, context),
                                           height: 28,
+                                          padding: const EdgeInsets.symmetric(horizontal: 14),
                                           decoration: ShapeDecoration(
                                             color: AppResources.colorVitamine,
                                             shape: RoundedRectangleBorder(
@@ -415,7 +414,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                             ),
                                           ),
                                         ),
-                                        if(experienceData.isProfessionalGuide)
+                                        ///Todo remove comment when avis is ready
+                                        /*if(experienceData.isProfessionalGuide)
                                         SizedBox(
                                             width: ResponsiveSize.calculateWidth(
                                                 8, context)),
@@ -458,7 +458,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ),*/
                                       ],
                                     )
                                   ],
