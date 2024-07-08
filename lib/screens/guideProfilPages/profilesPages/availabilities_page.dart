@@ -20,6 +20,9 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   List<AbsenceListResponse> absenceList = [];
   List<AvailabilityListResponse> availabilityList = [];
 
+  // Initialize the ScrollController
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -90,6 +93,19 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     fetchAvailabilityData();
   }
 
+  // Scroll to the end of the page
+  void _scrollToEnd() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +113,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
         title: 'Mes disponibilités',
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             Padding(
@@ -197,6 +214,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
 
                       if (result == true) {
                         fetchAbsenceData();
+                        _scrollToEnd();
                       }
                     },
                     child: Text(
@@ -220,6 +238,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 return _listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
               }).toList(),
             ),
+            const SizedBox(height: 50,)
           ],
         ),
       ),
