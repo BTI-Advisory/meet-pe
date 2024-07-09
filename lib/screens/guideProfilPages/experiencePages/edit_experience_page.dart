@@ -63,9 +63,10 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: EpAppBar(
+      appBar: const EpAppBar(
         title: 'Mode Edition',
-        actions: [
+        ///Todo: Remove comment and const
+        /*actions: [
           Text(
               onLine ? 'En ligne' : 'Hors ligne',
               style: Theme.of(context)
@@ -82,7 +83,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
               });
             },
           )
-        ],
+        ],*/
       ),
       body: FutureBuilder<ExperienceDataResponse>(
         future: _experienceDataFuture,
