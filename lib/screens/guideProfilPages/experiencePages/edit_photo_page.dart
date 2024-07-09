@@ -345,6 +345,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                           setState(() {
                                             _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                             selectedImagePath2 = imagePath;
+                                            updatePhoto2 = true;
                                           });
                                         });
                                       },
@@ -434,6 +435,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       setState(() {
                                         _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                         selectedImagePath3 = imagePath;
+                                        updatePhoto3 = true;
                                       });
                                     });
                                   },
@@ -514,6 +516,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       setState(() {
                                         _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                         selectedImagePath4 = imagePath;
+                                        updatePhoto4 = true;
                                       });
                                     });
                                   },
@@ -594,6 +597,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       setState(() {
                                         _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
                                         selectedImagePath5 = imagePath;
+                                        updatePhoto5 = true;
                                       });
                                     });
                                   },
