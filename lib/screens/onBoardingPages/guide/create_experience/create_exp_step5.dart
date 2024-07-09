@@ -37,31 +37,57 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
   Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
     final picker = ImagePicker();
 
-    // Request permissions for photos and access only photos added in future
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.photos,
-      Permission.photosAddOnly,
-    ].request();
+    if (Platform.isIOS) {
+      // Request permissions for photos and access only photos added in future
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.photos,
+        Permission.photosAddOnly,
+      ].request();
 
-    // Check the status of the photos permission
-    if (statuses[Permission.photos]!.isDenied) {
-      // Permission was denied, so request again
-      statuses[Permission.photos] = await Permission.photos.request();
-
+      // Check the status of the photos permission
       if (statuses[Permission.photos]!.isDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+        // Permission was denied, so request again
+        statuses[Permission.photos] = await Permission.photos.request();
+
+        if (statuses[Permission.photos]!.isDenied) {
+          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          return;
+        }
+      }
+
+      if (statuses[Permission.photos]!.isPermanentlyDenied) {
+        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        // Optionally, you could navigate the user to the app settings:
+        // openAppSettings();
         return;
       }
-    }
 
-    if (statuses[Permission.photos]!.isPermanentlyDenied) {
-      showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
-      // Optionally, you could navigate the user to the app settings:
-      // openAppSettings();
-      return;
-    }
+      if (statuses[Permission.photos]!.isGranted) {
+        // If permission is granted, proceed to pick the image
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (statuses[Permission.photos]!.isGranted) {
+        if (pickedFile != null) {
+          // Check the size of the picked image
+          if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          } else {
+            // Process the image
+            String imagePath = pickedFile.path;
+
+            // Update the UI and invoke the callback
+            setState(() {
+              //_imageList.add(imagePath);
+              imageSize = true;
+              callback(imagePath);
+            });
+          }
+        } else {
+          showMessage(context, 'Aucune image sélectionnée.');
+        }
+      } else {
+        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+      }
+    } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -83,8 +109,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
       } else {
         showMessage(context, 'Aucune image sélectionnée.');
       }
-    } else {
-      showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
     }
   }
 

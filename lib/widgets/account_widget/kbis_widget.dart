@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
@@ -23,28 +26,75 @@ class _KbisWidgetState extends State<KbisWidget> {
   String kbisName = '';
 
   Future<void> pickImage(KbisPathCallback callback, KbisPathCallback callbackName) async {
-    // Your logic to pick an image goes here.
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        source: ImageSource
-            .gallery); // Use source: ImageSource.camera for taking a new picture
 
-    if (pickedFile != null) {
-      if((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-        showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp, 🙏🏻 Tu es le meilleur');
+    if (Platform.isIOS) {
+      // Request permissions for photos and access only photos added in future
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.photos,
+        Permission.photosAddOnly,
+      ].request();
+
+      // Check the status of the photos permission
+      if (statuses[Permission.photos]!.isDenied) {
+        // Permission was denied, so request again
+        statuses[Permission.photos] = await Permission.photos.request();
+
+        if (statuses[Permission.photos]!.isDenied) {
+          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          return;
+        }
+      }
+
+      if (statuses[Permission.photos]!.isPermanentlyDenied) {
+        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        // Optionally, you could navigate the user to the app settings:
+        // openAppSettings();
+        return;
+      }
+
+      if (statuses[Permission.photos]!.isGranted) {
+        // If permission is granted, proceed to pick the image
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+        if (pickedFile != null) {
+          // Check the size of the picked image
+          if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          } else {
+            String imagePath = pickedFile?.path ?? '';
+            String filename = path.basename(pickedFile.path);
+
+            setState(() {
+              callback(imagePath);
+              callbackName(filename);
+            });
+          }
+        } else {
+          showMessage(context, 'Aucune image sélectionnée.');
+        }
       } else {
-        // Do something with the picked image (e.g., upload or process it)
-        //File imageFile = File(pickedFile.path);
-        // Add your logic here to handle the selected image
+        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+      }
+    } else if (Platform.isAndroid) {
+      // If permission is granted, proceed to pick the image
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-        // For demonstration purposes, I'm using a static image path.
-        String imagePath = pickedFile?.path ?? '';
-        String filename = path.basename(pickedFile.path);
+      if (pickedFile != null) {
+        // Check the size of the picked image
+        if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
+          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+        } else {
+          String imagePath = pickedFile?.path ?? '';
+          String filename = path.basename(pickedFile.path);
 
-        setState(() {
-          callback(imagePath);
-          callbackName(filename);
-        });
+          setState(() {
+            callback(imagePath);
+            callbackName(filename);
+          });
+        }
+      } else {
+        showMessage(context, 'Aucune image sélectionnée.');
       }
     }
   }
