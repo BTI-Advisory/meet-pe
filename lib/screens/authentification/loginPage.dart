@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
     final OAuthCredential facebookAuthCredential =
-    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
@@ -127,7 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                         } catch(e) {}
                       },
                   ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
+                  ///Todo: when fix facebook response with flutter
+                  /*SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
                   TextButton(
                     child: Align(
                       alignment: Alignment.center,
@@ -152,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       } catch(e) {}
                     },
-                  ),
+                  ),*/
                   SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(325, context),

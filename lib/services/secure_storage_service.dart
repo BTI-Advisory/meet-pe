@@ -1,7 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SecureStorageService {
   static const _storage = FlutterSecureStorage();
+  static const _installFlagKey = 'installFlag';
 
   static const _refreshTokenKey = 'refreshToken';
   static Future<void> saveRefreshToken(String value) => _storage.write(key: _refreshTokenKey, value: value);
@@ -49,4 +51,18 @@ class SecureStorageService {
   static Future<void> deleteCompleted() => _storage.delete(key: _isCompletedKey);
 
   static Future<void> deleteAll() => _storage.deleteAll();
+
+  static Future<void> _clearSecureStorage() async {
+    await _storage.deleteAll();
+  }
+
+  static Future<void> initialize() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFreshInstall = prefs.getBool(_installFlagKey) ?? true;
+
+    if (isFreshInstall) {
+      await _clearSecureStorage();
+      await prefs.setBool(_installFlagKey, false);
+    }
+  }
 }

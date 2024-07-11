@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/authentification/launch_screen.dart';
 import 'package:meet_pe/services/app_service.dart';
+import 'package:meet_pe/services/secure_storage_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
 import 'package:meet_pe/utils/utils.dart';
 import 'package:meet_pe/widgets/value_stream_builder.dart';
@@ -19,6 +20,7 @@ import 'firebase_options.dart';
 void main() async {
   // Init Flutter
   WidgetsFlutterBinding.ensureInitialized();
+  await SecureStorageService.initialize();
 
   // Override default debugPrint
   debugPrint = (message, {wrapWidth}) {
