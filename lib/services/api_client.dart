@@ -1678,6 +1678,12 @@ class ApiClient {
       unawaited(SecureStorageService.deleteRefreshToken());
       ///Todo Remove when refresh token is ready
       unawaited(SecureStorageService.deleteAccessToken());
+      unawaited(SecureStorageService.deleteUsername());
+      unawaited(SecureStorageService.deletePassword());
+      unawaited(SecureStorageService.deleteRole());
+      unawaited(SecureStorageService.deleteAction());
+      unawaited(SecureStorageService.deleteIsVerified());
+      unawaited(SecureStorageService.deleteForgotPasswordToken());
       unawaited(SecureStorageService.deleteCompleted());
 
       // Delete user data
