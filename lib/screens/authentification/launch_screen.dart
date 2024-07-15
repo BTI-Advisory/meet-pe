@@ -6,7 +6,7 @@ import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/secure_storage_service.dart';
 import '../../utils/utils.dart';
-import '../homePage.dart';
+import '../travelersPages/main_travelers_page.dart';
 import 'introMovePage.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -41,16 +41,16 @@ class _LaunchScreenState extends State<LaunchScreen>
     print('readRole ${await SecureStorageService.readRole()}');
     print('readCompleted ${await SecureStorageService.readCompleted()}');
     if (await SecureStorageService.readAccessToken() != null) {
-      if (await SecureStorageService.readCompleted() == 'true') {
-        if (await SecureStorageService.readRole() == '1') {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => const HomePage()));
-        } else if (await SecureStorageService.readRole() == '2')  {
+      if (await SecureStorageService.readRole() == '1') {
+        controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0,)));
+      } else if (await SecureStorageService.readRole() == '2')  {
+        if (await SecureStorageService.readCompleted() == 'true') {
           controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 2)));
         } else {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
+          controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
         }
       } else {
-        controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
+        controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
       }
     } else {
       controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));

@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../services/app_service.dart';
+import '../../services/app_service.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class FavorisPage extends StatefulWidget {
+  const FavorisPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FavorisPage> createState() => _FavorisPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FavorisPageState extends State<FavorisPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +18,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           Text('Hello'),
           TextButton(
-              onPressed: AppService.instance.logOut,
-              child: Text('Logout'),
+            onPressed: AppService.instance.logOut,
+            child: Text('Logout'),
           ),
           TextButton(
             onPressed: () async {

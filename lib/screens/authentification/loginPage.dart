@@ -16,7 +16,7 @@ import 'package:meet_pe/firebase_options.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '../guideProfilPages/main_guide_page.dart';
-import '../homePage.dart';
+import '../travelersPages/main_travelers_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           Future.delayed(Duration(seconds: 1), () async {
                             if(await SecureStorageService.readAction() == 'connexion') {
                               if (await SecureStorageService.readRole() == '1') {
-                                navigateTo(context, (_) => const HomePage());
+                                navigateTo(context, (_) => MainTravelersPage(initialPage: 0,));
                               } else {
                                 navigateTo(context, (_) => MainGuidePage(initialPage: 2));
                               }
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                             Future.delayed(Duration(seconds: 1), () async {
                               if(await SecureStorageService.readAction() == 'connexion') {
                                 if (await SecureStorageService.readRole() == '1') {
-                                  navigateTo(context, (_) => const HomePage());
+                                  navigateTo(context, (_) => MainTravelersPage(initialPage: 0,));
                                 } else {
                                   navigateTo(context, (_) => MainGuidePage(initialPage: 2));
                                 }
