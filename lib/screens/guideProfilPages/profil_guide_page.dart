@@ -546,9 +546,18 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                       child: Column(
                         children: [
                           sectionProfile(
-                              'Mes disponibilités', Icons.calendar_month, userInfo.hasUpdatedHesSchedule, () {
-                            navigateTo(
-                                context, (_) => const AvailabilitiesPage());
+                              'Mes disponibilités', Icons.calendar_month, (userInfo.hasUpdatedHesSchedule || userInfo.isFullAvailable), () {
+                            Navigator.of(context)
+                                .push(
+                              MaterialPageRoute(
+                                  builder: (_) => const AvailabilitiesPage()),
+                            )
+                                .then((_) {
+                              _userInfoFuture = AppService.api
+                                  .getUserInfo(); // Refresh user info
+                              setState(
+                                      () {}); // Trigger a rebuild to reflect changes
+                            });
                           }),
                           sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
                             //navigateTo(context, (_) => MyAccountPage());
