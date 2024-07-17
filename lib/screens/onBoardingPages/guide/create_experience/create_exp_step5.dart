@@ -690,93 +690,75 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                 ),
               ),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ResponsiveSize.calculateHeight(40, context),
-                        left: ResponsiveSize.calculateWidth(28, context),
-                      ),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'ENREGISTRER',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: AppResources.colorGray45),
-                        ),
-                      ),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: ResponsiveSize.calculateHeight(40, context),
+                      right: ResponsiveSize.calculateWidth(28, context),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ResponsiveSize.calculateHeight(40, context),
-                        right: ResponsiveSize.calculateWidth(28, context),
-                      ),
-                      child: Container(
-                        width: ResponsiveSize.calculateWidth(151, context),
-                        height: ResponsiveSize.calculateHeight(44, context),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateHeight(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        10, context))),
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return AppResources
-                                      .colorGray15; // Change to your desired grey color
-                                }
+                    child: Container(
+                      width: ResponsiveSize.calculateWidth(151, context),
+                      height: ResponsiveSize.calculateHeight(44, context),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(
+                                  horizontal: ResponsiveSize.calculateHeight(
+                                      24, context),
+                                  vertical: ResponsiveSize.calculateHeight(
+                                      10, context))),
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
                                 return AppResources
-                                    .colorVitamine; // Your enabled color
-                              },
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
+                                    .colorGray15; // Change to your desired grey color
+                              }
+                              return AppResources
+                                  .colorVitamine; // Your enabled color
+                            },
+                          ),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
                             ),
                           ),
-                          onPressed: (selectedImagePathPrincipal != '' && imageSize) // Only enable button if _imageList is not empty
-                              ? () {
-                            _imageList.clear();
-                            if(selectedImagePath1 != '') {
-                              _imageList.add(selectedImagePath1);
-                            }
-                            if(selectedImagePath2 != '') {
-                              _imageList.add(selectedImagePath2);
-                            }
-                            if(selectedImagePath3 != '') {
-                              _imageList.add(selectedImagePath3);
-                            }
-                            if(selectedImagePath4 != '') {
-                              _imageList.add(selectedImagePath4);
-                            }
-                            if(selectedImagePath5 != '') {
-                              _imageList.add(selectedImagePath5);
-                            }
-                                  navigateTo(
-                                      context,
-                                      (_) => CreateExpStep6(
-                                          photo: selectedImagePathPrincipal,
-                                          imageArray: _imageList,
-                                          infoMap: widget.infoMap,
-                                          name: widget.name,
-                                          description: widget.description,
-                                      ));
-                                }
-                              : null, // Disable button if _imageList is empty
-                          child: Image.asset('images/arrowLongRight.png'),
                         ),
+                        onPressed: (selectedImagePathPrincipal != '' && imageSize) // Only enable button if _imageList is not empty
+                            ? () {
+                          _imageList.clear();
+                          if(selectedImagePath1 != '') {
+                            _imageList.add(selectedImagePath1);
+                          }
+                          if(selectedImagePath2 != '') {
+                            _imageList.add(selectedImagePath2);
+                          }
+                          if(selectedImagePath3 != '') {
+                            _imageList.add(selectedImagePath3);
+                          }
+                          if(selectedImagePath4 != '') {
+                            _imageList.add(selectedImagePath4);
+                          }
+                          if(selectedImagePath5 != '') {
+                            _imageList.add(selectedImagePath5);
+                          }
+                                navigateTo(
+                                    context,
+                                    (_) => CreateExpStep6(
+                                        photo: selectedImagePathPrincipal,
+                                        imageArray: _imageList,
+                                        infoMap: widget.infoMap,
+                                        name: widget.name,
+                                        description: widget.description,
+                                    ));
+                              }
+                            : null, // Disable button if _imageList is empty
+                        child: Image.asset('images/arrowLongRight.png'),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

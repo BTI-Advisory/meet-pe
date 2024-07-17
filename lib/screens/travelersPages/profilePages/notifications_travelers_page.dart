@@ -5,14 +5,14 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 
-class NotificationsNewslettersPage extends StatefulWidget {
-  const NotificationsNewslettersPage({super.key});
+class NotificationsTravelersPage extends StatefulWidget {
+  const NotificationsTravelersPage({super.key});
 
   @override
-  State<NotificationsNewslettersPage> createState() => _NotificationsNewslettersPageState();
+  State<NotificationsTravelersPage> createState() => _NotificationsTravelersPageState();
 }
 
-class _NotificationsNewslettersPageState extends State<NotificationsNewslettersPage> {
+class _NotificationsTravelersPageState extends State<NotificationsTravelersPage> {
   bool isEmailResAvailable = false;
   bool isAppNotificationResAvailable = false;
   bool isSMSResAvailable = false;
