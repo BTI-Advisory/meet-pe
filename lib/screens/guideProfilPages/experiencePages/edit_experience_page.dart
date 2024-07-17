@@ -625,41 +625,41 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           crossAxisSpacing: 4,
                           children: [
                             if (updatePhoto1 ? data.image1 != null : (experienceData.image0?.photoUrl ?? '').isNotEmpty)
-                              StaggeredGridTile.count(
+                              StaggeredGridTile.fit(
                                 crossAxisCellCount: 4,
-                                mainAxisCellCount: 2,
+                                //mainAxisCellCount: 2,
                                 child: updatePhoto1
                                     ? Image.asset(data.image1 ?? selectedImagePath, fit: BoxFit.cover)
                                     : Image.network(experienceData.image0!.photoUrl, fit: BoxFit.cover),
                               ),
                             if (updatePhoto2 ? data.image2 != null : (experienceData.image1?.photoUrl ?? '').isNotEmpty)
-                              StaggeredGridTile.count(
+                              StaggeredGridTile.fit(
                                 crossAxisCellCount: 4,
-                                mainAxisCellCount: 2,
+                                //mainAxisCellCount: 2,
                                 child: updatePhoto2
                                     ? Image.asset(data.image2 ?? selectedImagePath, fit: BoxFit.cover)
                                     : Image.network(experienceData.image1!.photoUrl, fit: BoxFit.cover),
                               ),
                             if (updatePhoto3 ? data.image3 != null : (experienceData.image2?.photoUrl ?? '').isNotEmpty)
-                              StaggeredGridTile.count(
+                              StaggeredGridTile.fit(
                                 crossAxisCellCount: 4,
-                                mainAxisCellCount: 2,
+                                //mainAxisCellCount: 2,
                                 child: updatePhoto3
                                     ? Image.asset(data.image3 ?? selectedImagePath, fit: BoxFit.cover)
                                     : Image.network(experienceData.image2!.photoUrl, fit: BoxFit.cover),
                               ),
                             if (updatePhoto4 ? data.image4 != null : (experienceData.image3?.photoUrl ?? '').isNotEmpty)
-                              StaggeredGridTile.count(
+                              StaggeredGridTile.fit(
                                 crossAxisCellCount: 4,
-                                mainAxisCellCount: 2,
+                                //mainAxisCellCount: 2,
                                 child: updatePhoto4
                                     ? Image.asset(data.image4 ?? selectedImagePath, fit: BoxFit.cover)
                                     : Image.network(experienceData.image3!.photoUrl, fit: BoxFit.cover),
                               ),
                             if (updatePhoto5 ? data.image5 != null : (experienceData.image4?.photoUrl ?? '').isNotEmpty)
-                              StaggeredGridTile.count(
+                              StaggeredGridTile.fit(
                                 crossAxisCellCount: 4,
-                                mainAxisCellCount: 2,
+                                //mainAxisCellCount: 2,
                                 child: updatePhoto5
                                     ? Image.asset(data.image5 ?? selectedImagePath, fit: BoxFit.cover)
                                     : Image.network(experienceData.image4!.photoUrl, fit: BoxFit.cover),

@@ -202,33 +202,33 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                       crossAxisSpacing: 4,
                       children: [
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 1)
-                          StaggeredGridTile.count(
+                          StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
+                            //mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[0], fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 2)
-                          StaggeredGridTile.count(
+                          StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
+                            //mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[1], fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 3)
-                          StaggeredGridTile.count(
+                          StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
+                            //mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[2], fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 4)
-                          StaggeredGridTile.count(
+                          StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
+                            //mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[3], fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 5)
-                          StaggeredGridTile.count(
+                          StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
-                            mainAxisCellCount: 2,
+                            //mainAxisCellCount: 2,
                             child: Image.asset(widget.imageArray[4], fit: BoxFit.cover),
                           ),
                       ],
