@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/models/guide_experiences_response.dart';
+import 'package:meet_pe/utils/_utils.dart';
 
 import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
@@ -65,13 +66,15 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
     await fetchGuideReservationData(); // Refresh the data list
   }
 
-  Future<void> _updateReservationStatus(int reservationId, String status) async {
+  Future<void> _updateReservationStatus(
+      int reservationId, String status) async {
     setState(() {
       isLoading = true;
     });
 
     try {
-      final bool result = await AppService.api.updateReservationStatus(reservationId, status);
+      final bool result =
+          await AppService.api.updateReservationStatus(reservationId, status);
       if (result) {
         await fetchGuideReservationData(); // Refresh the data list after a successful update
         Navigator.pop(context, true);
@@ -126,42 +129,91 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                     horizontal: ResponsiveSize.calculateWidth(13, context)),
                 child: isRequest
                     ? Column(
-                        children: List.generate(
-                          reservationList.length,
-                              (index) => GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => _buildPopupDialog(context, reservationList[index]),
-                              ).then((value) {
-                                if (value == true) {
-                                  // Refresh the data if changes were made
-                                  fetchGuideReservationData();
-                                }
-                              });
-                            },
-                            child: RequestCard(guideReservationResponse: reservationList[index], onUpdateStatus: _updateReservation),
-                          ),
-                        ),
+                        children: reservationList.isEmpty
+                            ? [
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(
+                                      150, context),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Pas de réservations pour le moment ? Ne t'inquiète pas, ça arrive 😉⏳",
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                            color: AppResources.colorGray100),
+                                  ),
+                                ),
+                              ]
+                            : List.generate(
+                                reservationList.length,
+                                (index) => GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          _buildPopupDialog(
+                                              context, reservationList[index]),
+                                    ).then((value) {
+                                      if (value == true) {
+                                        // Refresh the data if changes were made
+                                        fetchGuideReservationData();
+                                      }
+                                    });
+                                  },
+                                  child: RequestCard(
+                                      guideReservationResponse:
+                                          reservationList[index],
+                                      onUpdateStatus: _updateReservation),
+                                ),
+                              ),
                       )
                     : Column(
-                        children: List.generate(
-                          experiencesList.length,
-                              (index) => GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(
-                                    MaterialPageRoute(
-                                        builder: (_) => EditExperiencePage(experienceId: experiencesList[index].id, isOnline: experiencesList[index].isOnline)),
-                                  )
-                                      .then((_) async {
-                                    experiencesList = await AppService.api.getGuideExperiencesList();
-                                    setState(() {});
-                                  });
-                                },
-                                child: MyCardExperience(guideExperiencesResponse: experiencesList[index],),
+                        children: experiencesList.isEmpty
+                            ? [
+                                SizedBox(
+                                  height: ResponsiveSize.calculateHeight(
+                                      150, context),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Aucune expérience ? N'hésite pas à en créer une 🚀",
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                            color: AppResources.colorGray100),
+                                  ),
+                                ),
+                              ]
+                            : List.generate(
+                                experiencesList.length,
+                                (index) => GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(
+                                      MaterialPageRoute(
+                                          builder: (_) => EditExperiencePage(
+                                              experienceId:
+                                                  experiencesList[index].id,
+                                              isOnline: experiencesList[index]
+                                                  .isOnline)),
+                                    )
+                                        .then((_) async {
+                                      experiencesList = await AppService.api
+                                          .getGuideExperiencesList();
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: MyCardExperience(
+                                    guideExperiencesResponse:
+                                        experiencesList[index],
+                                  ),
+                                ),
                               ),
-                        ),
                       ),
               ),
             ],
@@ -277,7 +329,8 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context, GuideReservationResponse reservation) {
+  Widget _buildPopupDialog(
+      BuildContext context, GuideReservationResponse reservation) {
     return AlertDialog(
         contentPadding: EdgeInsets.zero,
         insetPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -301,20 +354,28 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           Row(
                             children: [
                               ClipOval(
-                                  child: Image.network(reservation.voyageur.profilePath, width: 75, height: 75, fit: BoxFit.cover)
-                              ),
-                              SizedBox(width: ResponsiveSize.calculateWidth(19, context)),
-                              Text(
-                                  reservation.voyageur.name,
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark)
-                              ),
+                                  child: Image.network(
+                                      reservation.voyageur.profilePath,
+                                      width: 75,
+                                      height: 75,
+                                      fit: BoxFit.cover)),
+                              SizedBox(
+                                  width: ResponsiveSize.calculateWidth(
+                                      19, context)),
+                              Text(reservation.voyageur.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: AppResources.colorDark)),
                             ],
                           ),
                           IconButton(
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            icon: const Icon(Icons.close, size: 20, color: AppResources.colorGray30),
+                            icon: const Icon(Icons.close,
+                                size: 20, color: AppResources.colorGray30),
                           )
                         ],
                       ),
@@ -324,27 +385,27 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           Visibility(
                             visible: reservation.voyageur.isVerified,
                             child: Container(
-                              height: ResponsiveSize.calculateHeight(
-                                  28, context),
+                              height:
+                                  ResponsiveSize.calculateHeight(28, context),
                               padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                  ResponsiveSize.calculateWidth(
+                                  horizontal: ResponsiveSize.calculateWidth(
                                       12, context)),
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(ResponsiveSize
-                                        .calculateCornerRadius(
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    ResponsiveSize.calculateCornerRadius(
                                         20, context))),
-                                border: Border.all(
-                                    color: AppResources.colorDark),
+                                border:
+                                    Border.all(color: AppResources.colorDark),
                               ),
                               child: Center(
                                 child: Row(
                                   children: [
-                                    Image.asset(
-                                        'images/icon_verified.png', color: AppResources.colorDark),
-                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                    Image.asset('images/icon_verified.png',
+                                        color: AppResources.colorDark),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            4, context)),
                                     Text(
                                       'Vérifié',
                                       textAlign: TextAlign.center,
@@ -352,10 +413,9 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                           .textTheme
                                           .bodyLarge
                                           ?.copyWith(
-                                        color: AppResources
-                                            .colorDark,
-                                        fontSize: 12,
-                                      ),
+                                            color: AppResources.colorDark,
+                                            fontSize: 12,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -364,28 +424,41 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           ),
                           Visibility(
                               visible: reservation.voyageur.isVerified,
-                              child: SizedBox(width: ResponsiveSize.calculateWidth(41, context))
-                          ),
+                              child: SizedBox(
+                                  width: ResponsiveSize.calculateWidth(
+                                      41, context))),
                           Text(
                             'expériences vécues',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppResources.colorDark),
                           ),
-                          SizedBox(width: ResponsiveSize.calculateWidth(5, context)),
+                          SizedBox(
+                              width: ResponsiveSize.calculateWidth(5, context)),
                           Text(
                             reservation.voyageur.numberOfExperiences.toString(),
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: AppResources.colorDark),
                           )
                         ],
                       ),
                       const SizedBox(height: 24),
                       Text(
                         'Expérience réservée le ${yearsFrenchFormat(reservation.createdAt)}',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppResources.colorDark, fontSize: 12),
                       ),
                       const SizedBox(height: 14),
                       Text(
                         reservation.experience.title,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark, fontSize: 14),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(
+                                color: AppResources.colorDark, fontSize: 14),
                       ),
                       const SizedBox(height: 23),
                       Row(
@@ -393,11 +466,19 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         children: [
                           Text(
                             'Nombre de voyageurs',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: AppResources.colorDark,
+                                    fontSize: 12),
                           ),
                           Text(
                             reservation.nombreDesVoyageurs.toString(),
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(color: AppResources.colorDark),
                           ),
                         ],
                       ),
@@ -407,11 +488,19 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         children: [
                           Text(
                             'Créneau réservé',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: AppResources.colorDark,
+                                    fontSize: 12),
                           ),
                           Text(
                             requestFrenchFormat(reservation.dateTime),
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(color: AppResources.colorDark),
                           ),
                         ],
                       ),
@@ -441,11 +530,15 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            await _updateReservationStatus(reservation.id, 'Acceptée');
+                            await _updateReservationStatus(
+                                reservation.id, 'Acceptée');
                           },
                           child: Column(
                             children: [
-                              Icon(Icons.check, size: 24,),
+                              Icon(
+                                Icons.check,
+                                size: 24,
+                              ),
                               const SizedBox(height: 4),
                               Text(
                                 'Accepter',
@@ -460,11 +553,15 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         const SizedBox(width: 19),
                         GestureDetector(
                           onTap: () async {
-                            await _updateReservationStatus(reservation.id, 'Refusée');
+                            await _updateReservationStatus(
+                                reservation.id, 'Refusée');
                           },
                           child: Column(
                             children: [
-                              const Icon(Icons.close, size: 24,),
+                              const Icon(
+                                Icons.close,
+                                size: 24,
+                              ),
                               const SizedBox(height: 4),
                               Text(
                                 'Refuser',
@@ -482,8 +579,6 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                 ),
                 SizedBox(height: 20),
               ],
-            )
-        )
-    );
+            )));
   }
 }
