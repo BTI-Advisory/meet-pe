@@ -8,7 +8,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/archived_requests_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/my_account_page.dart';
-import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
+import 'package:meet_pe/screens/travelersPages/profilePages/notifications_travelers_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_mask/widget_mask.dart';
@@ -27,7 +27,7 @@ class ProfileTravelersPage extends StatefulWidget {
 }
 
 class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
-  bool isGuide = true; // Track if it's currently "Voyageur" or "Guide"
+  bool isGuide = false; // Track if it's currently "Voyageur" or "Guide"
   late Future<UserResponse> _userInfoFuture;
   late TextEditingController _textEditingControllerDescription;
   String? validationMessageDescription = '';
@@ -567,7 +567,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               sectionProfile('Notifications & newsletters',
                                   Icons.notifications, true, () {
                                     navigateTo(context,
-                                            (_) => const NotificationsNewslettersPage());
+                                            (_) => const NotificationsTravelersPage());
                                   }),
                               sectionProfile(
                                   'FAQ & assistance', Icons.contact_support, true, () {

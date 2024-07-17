@@ -240,7 +240,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   'Prix Groupe Privé',
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
                                 ),
-                                const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privée ou 1 personne.")
+                                const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privé ou 1 personne.")
                               ],
                             ),
                             Switch.adaptive(

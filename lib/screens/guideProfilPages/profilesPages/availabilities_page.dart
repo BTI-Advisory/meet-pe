@@ -194,7 +194,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         ),
                         const SizedBox(height: 17),
                         Text(
-                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci les voyageurs ne pourront pas réserver tes expériences.',
+                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Renseigne ici tes absences exceptionnelles. Durant celles-ci les voyageurs ne pourront pas réserver tes expériences.',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w500,
                               color: AppResources.colorGray30),
@@ -218,7 +218,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                       }
                     },
                     child: Text(
-                      'Ajouter une abscence',
+                      'Ajouter une absence',
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall

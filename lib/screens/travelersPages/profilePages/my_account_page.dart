@@ -100,7 +100,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   Future<UserTravelersResponse> getMockUserInfo() async {
     return Future.delayed(
       const Duration(seconds: 1),
-          () => UserTravelersResponse(
+          () => const UserTravelersResponse(
         id: 1,
         name: 'John Doe',
         email: 'john.doe@example.com',
