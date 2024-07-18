@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:http/http.dart' as http;
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step9Page.dart';
-import 'dart:convert';
 import '../../../utils/_utils.dart';
+import '../../../widgets/_widgets.dart';
 
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
@@ -116,9 +114,9 @@ class _Step8PageState extends State<Step8Page> {
             SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(23, context)),
-                child: SearchTextField(
-                  focusNode: _focusNode,
+                child: NetworkSearchField(
                   controller: _textEditingController,
+                  focusNode: _focusNode,
                 ),
               ),
             ),
@@ -171,10 +169,7 @@ class _Step8PageState extends State<Step8Page> {
                           ),
                         ),
                       ),
-                      onPressed: () async {
-                      },
-                      /*onPressed: () {
-                        //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
+                      onPressed: () {
                         setState(() {
                           if (widget.myMap['location'] == null) {
                             widget.myMap['location'] = Set<String>(); // Initialize if null
@@ -193,7 +188,7 @@ class _Step8PageState extends State<Step8Page> {
                           // Proceed to the next step
                           navigateTo(context, (_) => Step9Page(myMap: widget.myMap));
                         });
-                      },*/
+                      },
                       child: _textEditingController.text.isEmpty
                           ? Text(
                               'SURPRENDS MOI',
@@ -213,121 +208,4 @@ class _Step8PageState extends State<Step8Page> {
       ),
     );
   }
-}
-
-class SearchTextField extends StatefulWidget {
-  final FocusNode focusNode;
-  final TextEditingController controller;
-
-  SearchTextField({Key? key, required this.focusNode, required this.controller})
-      : super(key: key);
-
-  @override
-  _SearchTextFieldState createState() => _SearchTextFieldState();
-}
-
-class _SearchTextFieldState extends State<SearchTextField> {
-  List<String> _suggestions = [];
-
-  /*Future<List<String>> _getSuggestions(String query) async {
-    String username = 'meetpe'; // Replace with your Geonames username
-    String baseUrl = 'http://api.geonames.org/searchJSON';
-    var response =
-        await http.get(Uri.parse('$baseUrl?q=$query&username=$username'));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-      List<dynamic> cities = data['geonames'];
-      return cities.map((city) => city['name']).toList().cast<String>();
-    } else {
-      throw Exception('Failed to load suggestions');
-    }
-  }*/
-  Future<List<String>> _getSuggestions(String query) async {
-    // Replace this with your logic to fetch suggestions
-    return ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x1E000000),
-            blurRadius: 50,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: TypeAheadField<String>(
-        suggestionsCallback: _getSuggestions,
-        builder: (context, controller, focusNode) => TextField(
-          controller: widget.controller,
-          focusNode: focusNode,
-          autofocus: true,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(color: AppResources.colorDark),
-          cursorColor: Colors.black,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
-            hintText: 'Toutes les expériences',
-            hintStyle: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: AppResources.colorGray30),
-            prefixIcon: Icon(Icons.search, color: AppResources.colorGray75),
-            iconColor: AppResources.colorGray75,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: const BorderSide(
-                color: Colors.white, // You can change the border color here
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: const BorderSide(
-                color:
-                Colors.white, // Border color when the TextField is focused
-              ),
-            ),
-          ),
-        ),
-        itemBuilder: (context, suggestion) {
-          return ListTile(
-            title: Text(suggestion),
-          );
-        },
-        onSelected: (Object? value) {
-          setState(() {
-            widget.controller.text = value.toString(); // Update the text field text
-          });
-        },
-        /*suggestionsCallback: (String search) async {
-        return await _getSuggestions(search);
-      },*/
-      ),
-
-
-    );
-  }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }

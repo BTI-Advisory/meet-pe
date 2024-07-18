@@ -24,7 +24,6 @@ dependencies:
   # Widgets / UI
   flash: ^3.0.5+1
   flutter_verification_code: ^1.1.7
-  flutter_typeahead: ^5.2.0
   searchfield: ^1.0.6
   table_calendar: ^3.0.9
   widget_mask: ^1.0.0+0
