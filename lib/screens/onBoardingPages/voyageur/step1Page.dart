@@ -104,7 +104,7 @@ class _Step1PageState extends State<Step1Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
                     Text(
-                      'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
+                      'Tu peux modifier ces critères à tout \nmoments depuis ton profil.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(48, context)),

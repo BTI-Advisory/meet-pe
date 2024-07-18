@@ -25,7 +25,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
   String otherDocument = '';
   String otherDocumentName = '';
   bool _isDropdownOpened = false;
-  List<String> _categories = ['Permis', 'Licence professionnelle', 'Assurance'];
+  List<String> _categories = ['Permis', 'Licence professionnelle', 'Assurance', 'Autres'];
   String _selectedCategory = 'Catégorie du document';
 
   Future<void> pickImage(OtherDocumentPathCallback callback, OtherDocumentPathCallback callbackName) async {

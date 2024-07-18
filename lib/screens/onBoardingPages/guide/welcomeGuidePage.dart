@@ -53,7 +53,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        'Ta ville n’a aucun secret pour toi, tu connais des pépites qui sortent des sentiers battus et tu aimes faire découvrir tes passions ? \n \nRejoins la communauté de guides Meet Pe et partage des moments uniques avec des voyageurs curieux du monde entier !\n',
+                        'Ta ville n’a aucun secret pour toi, tu connais des pépites qui sortent des sentiers battus et tu aimes faire découvrir tes passions ? \n \nRejoins la communauté de guides Meet People et partage des moments uniques avec des voyageurs curieux du monde entier !\n',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: ResponsiveSize.calculateHeight(1.4, context)),
                       ),
                     ),
