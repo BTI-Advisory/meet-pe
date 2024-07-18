@@ -37,7 +37,7 @@ class _VerificationCodePageState extends State<VerificationCodePage>
       builder: (BuildContext context) => AlertDialog(
         title: const Center(child: Text('Information')),
         content: const Text(
-            'Et oui, même pour Meet People alors que notre mission est de rendre ce monde encore plus merveilleux grâce à toi cela nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part nous serons plus fort que le côté obscur de la force 💪🏼'),
+            '⚠️ Spam Alerte ça nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part, nous serons plus forts que le côté obscur de la Force 💪🏼'),
         actions: <Widget>[
           TextButton(
             onPressed: () {

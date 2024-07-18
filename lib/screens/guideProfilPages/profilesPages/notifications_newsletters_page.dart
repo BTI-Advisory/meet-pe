@@ -118,7 +118,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   }),
                   const SizedBox(height: 23),
                   Text(
-                    'Notifications  Meetpe',
+                    'Notifications  Meet People',
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -127,7 +127,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Reçois des nouveautés sur l’actualité de Meetpe, toutes les dernières expériences et des conseils de voyage.',
+                    'Reçois des nouveautés sur l’actualité de Meet People, toutes les dernières expériences et des conseils de voyage.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),

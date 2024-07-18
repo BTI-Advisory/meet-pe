@@ -6,8 +6,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:http/http.dart' as http;
 import 'package:meet_pe/screens/onBoardingPages/voyageur/step9Page.dart';
 import 'dart:convert';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
@@ -172,7 +171,9 @@ class _Step8PageState extends State<Step8Page> {
                           ),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                      },
+                      /*onPressed: () {
                         //navigateTo(context, (_) => Step9Page(myMap: widget.myMap,));
                         setState(() {
                           if (widget.myMap['location'] == null) {
@@ -192,7 +193,7 @@ class _Step8PageState extends State<Step8Page> {
                           // Proceed to the next step
                           navigateTo(context, (_) => Step9Page(myMap: widget.myMap));
                         });
-                      },
+                      },*/
                       child: _textEditingController.text.isEmpty
                           ? Text(
                               'SURPRENDS MOI',
@@ -228,7 +229,7 @@ class SearchTextField extends StatefulWidget {
 class _SearchTextFieldState extends State<SearchTextField> {
   List<String> _suggestions = [];
 
-  Future<List<String>> _getSuggestions(String query) async {
+  /*Future<List<String>> _getSuggestions(String query) async {
     String username = 'meetpe'; // Replace with your Geonames username
     String baseUrl = 'http://api.geonames.org/searchJSON';
     var response =
@@ -241,6 +242,10 @@ class _SearchTextFieldState extends State<SearchTextField> {
     } else {
       throw Exception('Failed to load suggestions');
     }
+  }*/
+  Future<List<String>> _getSuggestions(String query) async {
+    // Replace this with your logic to fetch suggestions
+    return ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'];
   }
 
   @override
@@ -257,9 +262,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
         ],
       ),
       child: TypeAheadField<String>(
-        controller: widget.controller,
+        suggestionsCallback: _getSuggestions,
         builder: (context, controller, focusNode) => TextField(
           controller: widget.controller,
+          focusNode: focusNode,
+          autofocus: true,
           style: Theme.of(context)
               .textTheme
               .headlineSmall
@@ -304,9 +311,10 @@ class _SearchTextFieldState extends State<SearchTextField> {
           setState(() {
             widget.controller.text = value.toString(); // Update the text field text
           });
-      }, suggestionsCallback: (String search) async {
+        },
+        /*suggestionsCallback: (String search) async {
         return await _getSuggestions(search);
-      },
+      },*/
       ),
 
 

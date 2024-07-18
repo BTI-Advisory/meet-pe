@@ -93,7 +93,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Tu as une question concernant le fonctionnement de Meetpe ? Tu peux nous contacter via le formulaire suivant :',
+                    'Tu as une question concernant le fonctionnement de Meet People ? Tu peux nous contacter via le formulaire suivant :',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),

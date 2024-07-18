@@ -1211,18 +1211,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             child: accountRowToComplete('Ma pièce d’identité', userInfo.pieceIdentite, false)
                         ),
                         const SizedBox(height: 17),
-                        InkWell(
+                        if (userInfo.sirenNumber != null) ...[
+                          InkWell(
                             onTap: () {
                               showModalBottomSheet<void>(
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (BuildContext context) {
                                     return Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                       child: StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            StateSetter setState) {
+                                        builder: (BuildContext context, StateSetter setState) {
                                           return KbisWidget(onFetchUserInfo: fetchUserInfo);
                                         },
                                       ),
@@ -1230,9 +1229,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Mon KBIS', userInfo.kbisFile, false)
-                        ),
-                        const SizedBox(height: 17),
+                            child: accountRowToComplete('Mon KBIS', userInfo.kbisFile, false),
+                          ),
+                          const SizedBox(height: 17),
+                        ],
                         InkWell(
                             onTap: () {
                               showModalBottomSheet<void>(
