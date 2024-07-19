@@ -27,7 +27,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  Future<UserCredential> signInWithGoogle() async{
+  ///Todo: Hide social connect button, problem with google in android device
+  /*Future<UserCredential> signInWithGoogle() async{
     final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId:
     (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.ios)
         ? DefaultFirebaseOptions.currentPlatform.iosClientId
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     appleProvider.addScope('email');
     var credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
     return credential;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +73,26 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Image.asset('images/logo_color.png', width: ResponsiveSize.calculateWidth(110, context), height: ResponsiveSize.calculateHeight(101, context),),
             SizedBox(height: ResponsiveSize.calculateHeight(62, context),),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(52, context), right: ResponsiveSize.calculateWidth(44, context)),
+                  child: GestureDetector(
+                    onTap: () {
+                      navigateTo(context, (_) => const VerificationEmailPage());
+                    },
+                    child: Image.asset('images/emailButton.png', width: ResponsiveSize.calculateWidth(279, context), height: ResponsiveSize.calculateHeight(32, context),),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: ResponsiveSize.calculateHeight(62, context),),
             Container(
               margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(24, context), right: ResponsiveSize.calculateWidth(25, context)),
               child: Column(
                 children: [
-                  TextButton(
+                  ///Todo: Hide social connect button, problem with google in android device
+                  /*TextButton(
                     child: Align(
                       alignment: Alignment.center,
                       child: Image.asset('images/googleButton.png'),
@@ -98,7 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           });
                         }
-                      } catch(e) {}
+                      } catch(e) {
+                        print('FRFRHFURHUFRF FFF $e');
+                        showMessage(context, 'Hello $e');
+                      }
                     },
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
@@ -126,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         } catch(e) {}
                       },
-                  ),
+                  ),*/
                   ///Todo: when fix facebook response with flutter
                   /*SizedBox(height: ResponsiveSize.calculateHeight(22, context),),
                   TextButton(
@@ -227,7 +246,8 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            SizedBox(height: ResponsiveSize.calculateHeight(41, context),),
+            ///Todo: Remove comment when social button is back
+            /*SizedBox(height: ResponsiveSize.calculateHeight(41, context),),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -288,7 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ],
-            ),
+            ),*/
             SizedBox(height: ResponsiveSize.calculateHeight(57, context)),
           ],
         ),
