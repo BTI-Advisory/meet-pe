@@ -122,8 +122,18 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'Renseigne le prix de ton expérience par personne.',
+                          'Renseigne le prix de ton expérience',
                           style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'par personne.',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            const PopupView(contentTitle: "Soit tu slides soit tu écris ton prix 😃")
+                          ],
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(30, context)),
@@ -140,7 +150,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                     ?.copyWith(fontSize: 16, color: AppResources.colorDark),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: '350',
+                                  hintText: '350 €',
                                   hintStyle:
                                   Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16, color: AppResources.colorGray60),
                                   contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -161,7 +171,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                 onChanged: (value) {
                                   setState(() {
                                     double parsedValue = double.tryParse(value) ?? 15; // Default to min value if empty or not a number
-                                    valueSlider = parsedValue.clamp(15, 2000); // Ensure value stays within range
+                                    valueSlider = parsedValue.clamp(15, 1000); // Ensure value stays within range
                                     //_textEditingControllerPrice.text = valueSlider.toStringAsFixed(2);
                                   });
                                 },
@@ -176,8 +186,8 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             Slider(
                               value: valueSlider,
                               min: 15,
-                              max: 2000,
-                              divisions: 10,
+                              max: 1000,
+                              divisions: 20,
                               label: '${valueSlider.round().toString()} €',
                               onChanged: (double value) {
                                 setState(() {
