@@ -60,6 +60,34 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     }
   }
 
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: Text('Êtes-vous sûr de vouloir supprimer cette expérience ?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Annuler'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Supprimer'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+                _deleteExperience(widget.experienceId); // Delete the experience
+                Navigator.maybePop(context); // Navigate back if possible
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -707,8 +735,9 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               ),
                             ),
                             onPressed: () {
-                              _deleteExperience(widget.experienceId);
-                              Navigator.maybePop(context);
+                              //_deleteExperience(widget.experienceId);
+                              //Navigator.maybePop(context);
+                              _showConfirmationDialog(context);
                             },
                             child: Text(
                               'SUPPRIMER',
