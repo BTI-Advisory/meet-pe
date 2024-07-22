@@ -45,6 +45,29 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
   @override
   void initState() {
     super.initState();
+
+    displayInfo();
+  }
+
+  Future<void> displayInfo() async {
+    await Future.delayed(const Duration(seconds: 1));
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Center(child: Text('Information')),
+        content: const Text(
+            'Ici, nous souhaitons une photo de toi avec ton plus beau sourire 😃'
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
