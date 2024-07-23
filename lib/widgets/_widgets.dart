@@ -16,3 +16,4 @@ export 'account_widget/id_card_widget.dart';
 export 'account_widget/kbis_widget.dart';
 export 'account_widget/other_document_widget.dart';
 export 'network_search_field.dart';
+export 'reservation_card.dart';
