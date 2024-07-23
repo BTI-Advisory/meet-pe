@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:meet_pe/models/guide_experiences_response.dart';
-import 'package:meet_pe/utils/_utils.dart';
 import 'package:widget_mask/widget_mask.dart';
 
+import '../models/reservation_data_response.dart';
 import '../resources/resources.dart';
 
 class ReservationCard extends StatefulWidget {
   const ReservationCard({super.key, required this.reservationResponse});
-  final GuideExperiencesResponse reservationResponse;
+  final ReservationDataResponse reservationResponse;
 
   @override
   _ReservationCardState createState() => _ReservationCardState();
@@ -40,7 +39,7 @@ class _ReservationCardState extends State<ReservationCard> {
               WidgetMask(
                 blendMode: BlendMode.srcATop,
                 childSaveLayer: true,
-                mask: Image.network(widget.reservationResponse.photoPrincipal?.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
+                mask: Image.network(widget.reservationResponse.mainPhoto ?? '', width: 68, height: 68, fit: BoxFit.cover),
                 child: Image.asset(
                   'images/mask_picture.png',
                   width: 68,
