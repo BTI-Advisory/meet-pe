@@ -17,6 +17,8 @@ import 'package:widget_mask/widget_mask.dart';
 import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
+import '../travelersPages/main_travelers_page.dart';
+import 'main_guide_page.dart';
 
 typedef ImagePathCallback = void Function(String);
 
@@ -66,6 +68,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
   void toggleRole() {
     setState(() {
       isGuide = !isGuide;
+      isGuide ? navigateTo(context, (_) => MainGuidePage(initialPage: 2,)) : navigateTo(context, (_) => MainTravelersPage(initialPage: 3,));
     });
   }
 

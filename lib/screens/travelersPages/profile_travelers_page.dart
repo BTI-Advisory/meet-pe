@@ -8,6 +8,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/archived_requests_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/my_account_page.dart';
+import 'package:meet_pe/screens/travelersPages/profilePages/my_reservations_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/notifications_travelers_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,6 +17,8 @@ import 'package:widget_mask/widget_mask.dart';
 import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
+import '../guideProfilPages/main_guide_page.dart';
+import 'main_travelers_page.dart';
 
 typedef ImagePathCallback = void Function(String);
 
@@ -65,6 +68,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
   void toggleRole() {
     setState(() {
       isGuide = !isGuide;
+      !isGuide ? navigateTo(context, (_) => MainTravelersPage(initialPage: 3,)) : navigateTo(context, (_) => MainGuidePage(initialPage: 2,));
     });
   }
 
@@ -439,105 +443,6 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(24, context)),
-
-                        /// Messages Alerts
-                        Visibility(
-                          visible: (userInfo.hasUpdatedHesSchedule == false &&
-                              userInfo.IBAN == null),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                ResponsiveSize.calculateWidth(8, context)),
-                            child: Container(
-                              height: ResponsiveSize.calculateHeight(85, context),
-                              padding: EdgeInsets.only(
-                                top: ResponsiveSize.calculateHeight(12, context),
-                                left: ResponsiveSize.calculateWidth(12, context),
-                                right: ResponsiveSize.calculateWidth(12, context),
-                                bottom: ResponsiveSize.calculateHeight(16, context),
-                              ),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1, color: AppResources.colorVitamine),
-                                  borderRadius: BorderRadius.circular(
-                                      ResponsiveSize.calculateCornerRadius(
-                                          8, context)),
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset('images/info_icon.svg'),
-                                  SizedBox(
-                                      width: ResponsiveSize.calculateWidth(
-                                          8, context)),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Tu as plusieurs informations à compléter :\n',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppResources.colorVitamine,
-                                            height: 0.14),
-                                      ),
-                                      Visibility(
-                                        visible:
-                                        userInfo.hasUpdatedHesSchedule == false,
-                                        child: Text(
-                                          '   .   Renseigne tes disponibilités',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: userInfo.IBAN == null,
-                                        child: Text(
-                                          '   .   Renseigne ton RIB',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: userInfo.IBAN == null,
-                                        child: Text(
-                                          '   .   Renseigne tes infos (Mon compte)',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal:
@@ -562,7 +467,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               sectionProfile('Mes réservations', Icons.bookmark, true,
                                       () {
                                     navigateTo(
-                                        context, (_) => const ArchivedRequestsPage());
+                                        context, (_) => const MyReservationsPage());
                                   }),
                               sectionProfile('Notifications & newsletters',
                                   Icons.notifications, true, () {
