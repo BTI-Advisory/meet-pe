@@ -13,7 +13,6 @@ class ReservationCard extends StatefulWidget {
 }
 
 class _ReservationCardState extends State<ReservationCard> {
-  bool accepted = false;
 
   @override
   Widget build(BuildContext context) {
