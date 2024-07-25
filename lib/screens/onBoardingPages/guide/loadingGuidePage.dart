@@ -60,10 +60,6 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                       height: ResponsiveSize.calculateHeight(44, context),
                       child: TextButton(
                         style: ButtonStyle(
-                          padding:
-                          MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.symmetric(
-                                  horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
                           backgroundColor: MaterialStateProperty.all(
                               Colors.transparent),
                           shape: MaterialStateProperty.all<
@@ -89,10 +85,6 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                       height: ResponsiveSize.calculateHeight(44, context),
                       child: TextButton(
                         style: ButtonStyle(
-                          padding:
-                          MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.symmetric(
-                                  horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
                           backgroundColor: MaterialStateProperty.all(
                               AppResources.colorVitamine),
                           shape: MaterialStateProperty.all<
@@ -111,7 +103,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(40, context),),
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
                   ],
                 ),
               ],

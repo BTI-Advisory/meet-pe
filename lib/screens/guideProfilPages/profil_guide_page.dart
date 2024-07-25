@@ -10,13 +10,12 @@ import 'package:meet_pe/screens/guideProfilPages/profilesPages/availabilities_pa
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/my_account_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
-import 'package:meet_pe/utils/responsive_size.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../services/app_service.dart';
-import '../../utils/message.dart';
-import '../../utils/utils.dart';
+import '../../utils/_utils.dart';
 import '../travelersPages/main_travelers_page.dart';
 import 'main_guide_page.dart';
 
@@ -36,6 +35,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
   String? validationMessageDescription = '';
   bool isFormValid = false;
   String? selectedImagePath;
+  String fullVersion = '';
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     _userInfoFuture = AppService.api.getUserInfo();
     _textEditingControllerDescription = TextEditingController();
     _textEditingControllerDescription.addListener(_onTextChanged);
+    getFullVersion();
   }
 
   @override
@@ -70,6 +71,14 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
       isGuide = !isGuide;
       isGuide ? navigateTo(context, (_) => MainGuidePage(initialPage: 2,)) : navigateTo(context, (_) => MainTravelersPage(initialPage: 3,));
     });
+  }
+
+  Future<void> getFullVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final version = packageInfo.version;
+    final buildNumber = packageInfo.buildNumber;
+    fullVersion = '$version($buildNumber)';
+    print('Full version with build number: $fullVersion');
   }
 
   Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
@@ -164,7 +173,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
           return SingleChildScrollView(
             child: Container(
               width: deviceSize.width,
-              height: deviceSize.height,
+              height: deviceSize.height+65,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: ResponsiveSize.calculateWidth(20, context)),
@@ -482,7 +491,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Tu as plusieurs informations à compléter :\n',
+                                    'Tu as plusieurs informations à compléter:',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -563,7 +572,6 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                             });
                           }),
                           sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
-                            //navigateTo(context, (_) => MyAccountPage());
                             Navigator.of(context)
                                 .push(
                               MaterialPageRoute(
@@ -611,7 +619,19 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   decoration: TextDecoration.underline),
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 10,),
+                    Center(
+                      child: Text(
+                        fullVersion,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(
+                            color: AppResources.colorDark,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
                   ],
                 ),
               ),
