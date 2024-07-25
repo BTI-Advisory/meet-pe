@@ -213,7 +213,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                           children: [
                             ///Choose start time
                             Container(
-                              width: ResponsiveSize.calculateWidth(155.5, context),
+                              width: ResponsiveSize.calculateWidth(153, context),
                               height: 52,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 6),
@@ -273,7 +273,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
 
                             ///Choose end time
                             Container(
-                              width: ResponsiveSize.calculateWidth(155.5, context),
+                              width: ResponsiveSize.calculateWidth(153, context),
                               height: 52,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 6),
@@ -421,16 +421,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                     ResponsiveSize.calculateHeight(44, context),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    padding: MaterialStateProperty
-                                        .all<EdgeInsets>(EdgeInsets.symmetric(
-                                            horizontal:
-                                                ResponsiveSize.calculateWidth(
-                                                    24, context),
-                                            vertical:
-                                                ResponsiveSize.calculateHeight(
-                                                    12, context))),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.transparent),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(

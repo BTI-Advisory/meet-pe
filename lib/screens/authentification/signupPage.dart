@@ -86,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage>
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: ResponsiveSize.calculateWidth(
-                                        40, context)),
+                                        38, context)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -211,7 +211,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                     text: 'J’accepte les ',
                                                     style: TextStyle(
                                                       color: Color(0xFF979797),
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontFamily: 'Outfit',
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -223,7 +223,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                         'Conditions Générales',
                                                     style: const TextStyle(
                                                       color: Color(0xFFFF4C00),
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontFamily: 'Outfit',
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -245,7 +245,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                     text: ' et ',
                                                     style: TextStyle(
                                                       color: Color(0xFF979797),
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontFamily: 'Outfit',
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -262,7 +262,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                   text: ' la ',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
-                                                    fontSize: 13,
+                                                    fontSize: 12,
                                                     fontFamily: 'Outfit',
                                                     fontWeight: FontWeight.w400,
                                                     height: 0,
@@ -273,7 +273,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                       'Politique de Confidentialité',
                                                   style: const TextStyle(
                                                     color: Color(0xFFFF4C00),
-                                                    fontSize: 13,
+                                                    fontSize: 12,
                                                     fontFamily: 'Outfit',
                                                     fontWeight: FontWeight.w500,
                                                     decoration: TextDecoration
@@ -294,7 +294,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                   text: ' ',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
-                                                    fontSize: 13,
+                                                    fontSize: 12,
                                                     fontFamily: 'Outfit',
                                                     fontWeight: FontWeight.w500,
                                                     decoration: TextDecoration
@@ -306,7 +306,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                   text: 'Meet People',
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
-                                                    fontSize: 13,
+                                                    fontSize: 12,
                                                     fontFamily: 'Outfit',
                                                     fontWeight: FontWeight.w400,
                                                     height: 0,
@@ -375,7 +375,7 @@ class _SignUpPageState extends State<SignUpPage>
                                         ),
                                         const SizedBox(width: 12),
                                         const Text(
-                                          'J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles expériences,\n tips et newsletter)',
+                                          'J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles \nexpériences, tips et newsletter)',
                                           style: TextStyle(
                                             color: Color(0xFF979797),
                                             fontSize: 12,

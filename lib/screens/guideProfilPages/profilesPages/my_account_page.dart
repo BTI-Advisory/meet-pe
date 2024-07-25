@@ -1334,7 +1334,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               children: [
                 Text(
                   name,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontSize: 12),
                 ),
                 Visibility(
                   visible: tooltip,
