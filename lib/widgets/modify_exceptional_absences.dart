@@ -161,14 +161,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                 isRangeSelected = true;
                               });
                             },
-                            onFormatChanged: (format) {
-                              if (_calendarFormat != format) {
-                                // Call `setState()` when updating calendar format
-                                setState(() {
-                                  _calendarFormat = format;
-                                });
-                              }
-                            },
                             onPageChanged: (focusedDay) {
                               // No need to call `setState()` here
                               _focusedDay = focusedDay;

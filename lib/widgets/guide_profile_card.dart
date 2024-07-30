@@ -7,6 +7,7 @@ import 'package:widget_mask/widget_mask.dart';
 import '../models/guide_profile_data_response.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
+import 'event_details.dart';
 
 class GuideProfileCard extends StatefulWidget {
   const GuideProfileCard({super.key, required this.guideProfileResponse});
@@ -17,13 +18,51 @@ class GuideProfileCard extends StatefulWidget {
 }
 
 class _GuideProfileCardState extends State<GuideProfileCard> {
+  late final ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOn;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
-  bool isRangeSelected = false;
+
+  final customEventList = {
+    DateTime.utc(2024, 7, 30): [
+      Event('03 Fév.', '09:30 - 13:30'),
+      Event('03 Fév.', '14:00 - 18:00'),
+    ],
+    DateTime.utc(2024, 7, 31): [
+      Event('03 Fév.', '12:00 - 13:00'),
+    ],
+    // Add more custom events here
+  };
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return customEventList[day] ?? [];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+      });
+
+      _selectedEvents.value = _getEventsForDay(selectedDay);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -447,7 +486,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                           )
                         ],
                       ),
-                      child: TableCalendar(
+                      child: TableCalendar<Event>(
                         headerStyle: HeaderStyle(
                           titleTextStyle: Theme.of(context)
                               .textTheme
@@ -466,87 +505,51 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                         firstDay: kFirstDay,
                         lastDay: kLastDay,
                         focusedDay: _focusedDay,
-                        rangeStartDay: _rangeStart,
-                        rangeEndDay: _rangeEnd,
+                        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                         calendarFormat: _calendarFormat,
-                        rangeSelectionMode: _rangeSelectionMode,
-                        selectedDayPredicate: (day) =>
-                            isSameDay(_selectedDay, day),
-                        onDaySelected: (selectedDay, focusedDay) {
-                          if (!isSameDay(_selectedDay, selectedDay)) {
-                            // Call `setState()` when updating the selected day
-                            setState(() {
-                              _selectedDay = selectedDay;
-                              _focusedDay = focusedDay;
-                              _rangeStart = null;
-                              _rangeEnd = null;
-                              _rangeSelectionMode =
-                                  RangeSelectionMode.toggledOff;
-                              isRangeSelected = false;
-                            });
-                          }
-                        },
-                        onRangeSelected: (start, end, focusedDay) {
-                          setState(() {
-                            _selectedDay = null;
-                            _focusedDay = focusedDay;
-                            _rangeStart = start;
-                            _rangeEnd = end;
-                            isRangeSelected = true;
-                          });
-                        },
-                        onFormatChanged: (format) {
-                          if (_calendarFormat != format) {
-                            // Call `setState()` when updating calendar format
-                            setState(() {
-                              _calendarFormat = format;
-                            });
-                          }
-                        },
+                        eventLoader: _getEventsForDay,
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        onDaySelected: _onDaySelected,
                         onPageChanged: (focusedDay) {
-                          // No need to call `setState()` here
                           _focusedDay = focusedDay;
                         },
                         calendarStyle: CalendarStyle(
                           selectedDecoration: BoxDecoration(
+                            color: AppResources.colorWhite,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppResources.colorVitamine,
+                              width: 1.0,
+                            ),
+                          ),
+                          selectedTextStyle: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                              fontSize: 14,
+                              color: AppResources.colorVitamine),
+                          markersMaxCount: 1,
+                          markerDecoration: const BoxDecoration(
                             color: AppResources.colorVitamine,
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppResources.colorVitamine,
-                              width: 1.0,
-                            ),
                           ),
-                          rangeStartDecoration: BoxDecoration(
-                            color: AppResources.colorWhite,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppResources.colorVitamine,
-                              width: 1.0,
-                            ),
-                          ),
-                          rangeStartTextStyle: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                              fontSize: 14,
-                              color: AppResources.colorVitamine),
-                          rangeEndDecoration: BoxDecoration(
-                            color: AppResources.colorWhite,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppResources.colorVitamine,
-                              width: 1.0,
-                            ),
-                          ),
-                          rangeEndTextStyle: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                              fontSize: 14,
-                              color: AppResources.colorVitamine),
-                          rangeHighlightColor: AppResources.colorVitamine
-                              .withOpacity(0x44 / 0xFF),
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Container(
+                      height: 350,
+                      child: ValueListenableBuilder<List<Event>>(
+                        valueListenable: _selectedEvents,
+                        builder: (context, value, _) {
+                          if (value.isEmpty) {
+                            return Center(
+                              child: Text('No events for this day.'),
+                            );
+                          } else {
+                            return EventDetails(events: value);
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(height: 60),

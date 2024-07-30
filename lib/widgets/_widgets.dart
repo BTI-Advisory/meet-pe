@@ -18,3 +18,4 @@ export 'account_widget/other_document_widget.dart';
 export 'network_search_field.dart';
 export 'reservation_card.dart';
 export 'favoris_card.dart';
+export 'event_details.dart';
