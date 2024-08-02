@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/guide_profile_data_response.dart';
@@ -15,6 +16,9 @@ class MatchingPage extends StatefulWidget {
 
 class _MatchingPageState extends State<MatchingPage> {
   late List<GuideProfileDataResponse> listOfProfile;
+  late List<GuideProfileDataResponse> filteredListOfProfile;
+  TextEditingController editingController = TextEditingController();
+  late List<GuideProfileCard> cards;
 
   @override
   void initState() {
@@ -114,14 +118,65 @@ class _MatchingPageState extends State<MatchingPage> {
         'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
       ),
     ];
+    filteredListOfProfile = List.from(listOfProfile);
   }
-
-  late List<GuideProfileCard> cards;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    cards = listOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile)).toList();
+    _updateCards();
+  }
+
+  ///Todo: Fix bug an filtered
+  void _updateCards() {
+    if (filteredListOfProfile.isEmpty) {
+      cards = [
+        GuideProfileCard(guideProfileResponse: GuideProfileDataResponse(
+          id: 0,
+          title: 'No results found',
+          description: '',
+          duration: '',
+          aboutGuide: '',
+          pricePerTraveler: '',
+          numberOfTravelers: 0,
+          city: '',
+          address: '',
+          postalCode: '',
+          createdAt: '',
+          updatedAt: '',
+          status: '',
+          userId: 0,
+          country: '',
+          categories: [],
+          guideParticipants: [],
+          etAvecCa: [],
+          isOnline: false,
+          isProfessionalGuide: false,
+          guideDescription: '',
+          guideName: '',
+          mainPhoto: '',
+          image0: '',
+        ))
+      ];
+    } else {
+      cards = filteredListOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile)).toList();
+    }
+  }
+
+  void filterSearchResults(String query) {
+    if (query.isNotEmpty) {
+      setState(() {
+        filteredListOfProfile = listOfProfile
+            .where((profile) => profile.title.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+        _updateCards();
+      });
+    } else {
+      setState(() {
+        filteredListOfProfile = List.from(listOfProfile);
+        _updateCards();
+      });
+    }
   }
 
   @override
@@ -129,15 +184,98 @@ class _MatchingPageState extends State<MatchingPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        width: size.width,
-        height: size.height,
-        child: CardSwiper(
-          cardsCount: cards.length,
-          cardBuilder: (context, index, percentThresholdX, percentThresholdY) => cards[index],
-          allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
-          padding: const EdgeInsets.all(0),
-        ),
+      body: Stack(
+        children: [
+          Container(
+            width: size.width,
+            height: size.height,
+            child: CardSwiper(
+              cardsCount: cards.length,
+              cardBuilder: (context, index, percentThresholdX, percentThresholdY) => cards[index],
+              allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
+              padding: const EdgeInsets.all(0),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 226,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppResources.colorWhite,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.12),
+                          spreadRadius: 0,
+                          blurRadius: 50,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      onChanged: (value) {
+                        filterSearchResults(value);
+                      },
+                      controller: editingController,
+                      decoration: const InputDecoration(
+                        hintText: "Recherche des expériences",
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          borderSide: BorderSide(color: Colors.transparent), // Default border color
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          borderSide: BorderSide(color: Colors.transparent), // Border color when enabled
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          borderSide: BorderSide(color: Colors.transparent), // Border color when focused
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 15,),
+                  Container(
+                    width: ResponsiveSize.calculateWidth(92, context),
+                    height: ResponsiveSize.calculateHeight(40, context),
+                    decoration: BoxDecoration(
+                      color: AppResources.colorWhite,
+                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.date_range, size: 20,),
+                        ),
+                        const VerticalDivider(
+                          color: Colors.grey, // Adjust the color to your preference
+                          thickness: 1, // Adjust the thickness as needed
+                          width: 0, // Adjust the width to control the space taken by the divider
+                          indent: 8, // Adjust the indent to control the space from the top
+                          endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.tune, size: 20,),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
