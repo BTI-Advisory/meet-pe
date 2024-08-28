@@ -127,40 +127,43 @@ class _MatchingPageState extends State<MatchingPage> {
     _updateCards();
   }
 
-  ///Todo: Fix bug an filtered
   void _updateCards() {
-    if (filteredListOfProfile.isEmpty) {
-      cards = [
-        GuideProfileCard(guideProfileResponse: GuideProfileDataResponse(
-          id: 0,
-          title: 'No results found',
-          description: '',
-          duration: '',
-          aboutGuide: '',
-          pricePerTraveler: '',
-          numberOfTravelers: 0,
-          city: '',
-          address: '',
-          postalCode: '',
-          createdAt: '',
-          updatedAt: '',
-          status: '',
-          userId: 0,
-          country: '',
-          categories: [],
-          guideParticipants: [],
-          etAvecCa: [],
-          isOnline: false,
-          isProfessionalGuide: false,
-          guideDescription: '',
-          guideName: '',
-          mainPhoto: '',
-          image0: '',
-        ))
-      ];
-    } else {
-      cards = filteredListOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile)).toList();
-    }
+    setState(() {
+      if (filteredListOfProfile.isEmpty) {
+        cards = [
+          const GuideProfileCard(
+            guideProfileResponse: GuideProfileDataResponse(
+              id: 0,
+              title: 'No results found',
+              description: '',
+              duration: '',
+              aboutGuide: '',
+              pricePerTraveler: '',
+              numberOfTravelers: 0,
+              city: '',
+              address: '',
+              postalCode: '',
+              createdAt: '',
+              updatedAt: '',
+              status: '',
+              userId: 0,
+              country: '',
+              categories: [],
+              guideParticipants: [],
+              etAvecCa: [],
+              isOnline: false,
+              isProfessionalGuide: false,
+              guideDescription: '',
+              guideName: '',
+              mainPhoto: '',
+              image0: '',
+            ),
+          )
+        ];
+      } else {
+        cards = filteredListOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile)).toList();
+      }
+    });
   }
 
   void filterSearchResults(String query) {
@@ -194,6 +197,7 @@ class _MatchingPageState extends State<MatchingPage> {
               cardBuilder: (context, index, percentThresholdX, percentThresholdY) => cards[index],
               allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
               padding: const EdgeInsets.all(0),
+              numberOfCardsDisplayed: 1,
             ),
           ),
           Positioned(
