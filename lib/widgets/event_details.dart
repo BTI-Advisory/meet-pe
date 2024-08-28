@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/screens/travelersPages/reservation_page.dart';
 
 import '../resources/resources.dart';
 
@@ -53,6 +54,12 @@ class EventDetails extends StatelessWidget {
                       time: event.time,
                       onPressed: () {
                         // Handle reservation
+                        print('FJRJFJRF');
+                        Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                              builder: (_) => const ReservationPage()),
+                        );
                       },
                     ),
                   );

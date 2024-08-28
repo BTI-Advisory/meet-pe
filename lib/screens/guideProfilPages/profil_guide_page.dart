@@ -603,22 +603,41 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                       ),
                     ),
                     const SizedBox(height: 10,),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              ResponsiveSize.calculateWidth(24, context)),
-                      child: TextButton(
-                        onPressed: AppService.instance.logOut,
-                        child: Text(
-                          'Se déconnecter',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  color: AppResources.colorDark,
-                                  decoration: TextDecoration.underline),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  ResponsiveSize.calculateWidth(24, context)),
+                          child: TextButton(
+                            onPressed: AppService.instance.logOut,
+                            child: Text(
+                              'Se déconnecter',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: AppResources.colorDark,
+                                      decoration: TextDecoration.underline),
+                            ),
+                          ),
                         ),
-                      ),
+                        TextButton(
+                          onPressed: () async {
+                            await AppService.api.deleteUser();
+                            AppService.instance.logOut;
+                          },
+                          child: Text(
+                              'Supprimer mon compte',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                color: AppResources.colorDark,
+                                decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10,),
                     Center(
