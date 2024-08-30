@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/utils/_utils.dart';
+import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/guide_profile_data_response.dart';
@@ -258,7 +259,19 @@ class _MatchingPageState extends State<MatchingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final result = await showModalBottomSheet<bool>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return CalendarMatching();
+                              },
+                            );
+
+                            if (result == true) {
+                              //_scrollToEnd();
+                            }
+                          },
                           icon: Icon(Icons.date_range, size: 20,),
                         ),
                         const VerticalDivider(

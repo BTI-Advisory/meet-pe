@@ -75,3 +75,21 @@ class ModifyAbsence {
     'horraires': times.map((timeSlot) => timeSlot.toJson()).toList(),
   };
 }
+
+class SearchByDate {
+  String day;
+  String dayFrom;
+  String dayTo;
+
+  SearchByDate({
+    required this.day,
+    required this.dayFrom,
+    required this.dayTo,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'day': day,
+    'day_from': dayFrom,
+    'day_to': dayTo,
+  };
+}

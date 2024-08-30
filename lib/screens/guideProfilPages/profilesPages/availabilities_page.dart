@@ -208,7 +208,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return ExceptionalAbsences();
+                          return CalendarMatching();
                         },
                       );
 
