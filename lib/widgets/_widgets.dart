@@ -19,3 +19,4 @@ export 'network_search_field.dart';
 export 'reservation_card.dart';
 export 'favoris_card.dart';
 export 'event_details.dart';
+export 'calendar_matching.dart';
