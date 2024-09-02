@@ -282,7 +282,19 @@ class _MatchingPageState extends State<MatchingPage> {
                           endIndent: 8, // Adjust the endIndent to control the space from the bottom
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final result = await showModalBottomSheet<bool>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return FiltredWidget();
+                              },
+                            );
+
+                            if (result == true) {
+                              //_scrollToEnd();
+                            }
+                          },
                           icon: Icon(Icons.tune, size: 20,),
                         ),
                       ],
