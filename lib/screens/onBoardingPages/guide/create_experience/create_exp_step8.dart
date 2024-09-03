@@ -186,8 +186,8 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             Slider(
                               value: valueSlider,
                               min: 15,
-                              max: 1000,
-                              divisions: 20,
+                              max: 2000,
+                              //divisions: 20,
                               label: '${valueSlider.round().toString()} €',
                               onChanged: (double value) {
                                 setState(() {
