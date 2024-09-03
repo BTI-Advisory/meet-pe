@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:intl/intl.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import '../models/step_list_response.dart';
 import '../resources/resources.dart';
@@ -22,8 +21,8 @@ class _FiltredWidgetState extends State<FiltredWidget>
   int _counterChild = 0;
   int _counterBaby = 0;
 
-  double _minPrice = 300;
-  double _maxPrice = 1500;
+  double _minPrice = 15;
+  double _maxPrice = 2000;
   double _currentMin = 300;
   double _currentMax = 1500;
 
@@ -31,11 +30,15 @@ class _FiltredWidgetState extends State<FiltredWidget>
   final TextEditingController _maxController = TextEditingController();
 
   late Future<List<StepListResponse>> _choicesFuture;
-  late Future<List<StepListResponse>> _choicesLanguageFuture;
   late List<Voyages> myCategory = [];
-  late List<Voyages> myLanguage = [];
   Map<String, Set<Object>> myMap = {};
   bool openFilter = false;
+
+  late FocusNode _focusNode;
+  late TextEditingController _textEditingController;
+  bool _showButton = false;
+  Position? _currentPosition;
+  String _currentCity = '';
 
   @override
   initBloc() => FiltredWidgetBloc();
@@ -48,9 +51,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
   void initState() {
     super.initState();
     _choicesFuture = AppService.api.fetchChoices('voyageur_experiences');
-    _choicesLanguageFuture = AppService.api.fetchChoices('languages_fr');
     _loadChoices();
-    _loadChoicesLanguage();
     _minController.text = _currentMin.toStringAsFixed(0);
     _maxController.text = _currentMax.toStringAsFixed(0);
 
@@ -71,6 +72,11 @@ class _FiltredWidgetState extends State<FiltredWidget>
         });
       }
     });
+
+    _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
+    _textEditingController = TextEditingController();
+    _textEditingController.addListener(_onTextChanged);
   }
 
   Future<void> _loadChoices() async {
@@ -90,20 +96,55 @@ class _FiltredWidgetState extends State<FiltredWidget>
     }
   }
 
-  Future<void> _loadChoicesLanguage() async {
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _textEditingController.removeListener(_onTextChanged);
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      //_showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
+      _showButton = _focusNode.hasFocus;
+    });
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      _showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
+    });
+  }
+
+  Future<void> _getCurrentLocation() async {
     try {
-      final choices = await _choicesLanguageFuture;
-      for (var choice in choices) {
-        var newVoyage = Voyages(id: choice.id, title: choice.choiceTxt);
-        if (!myLanguage.contains(newVoyage)) {
-          setState(() {
-            myLanguage.add(newVoyage);
-          });
-        }
+      LocationPermission permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        print("Location permission denied");
+        return;
       }
-    } catch (error) {
-      // Handle error if fetching data fails
-      print('Error: $error');
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Get the city name from the position
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      setState(() {
+        _currentPosition = position;
+        _currentCity = placemarks.isNotEmpty
+            ? placemarks[0].locality ?? "Unknown City"
+            : "Unknown City";
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -487,43 +528,40 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 color: AppResources.colorGray15,
                               ),
                               const SizedBox(height: 20),
-                              Text(
-                                'Quelles langues pour les expériences ?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium,
+                              SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(23, context)),
+                                  child: NetworkSearchField(
+                                    controller: _textEditingController,
+                                    focusNode: _focusNode,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(height: 20),
-                              Container(
-                                width: ResponsiveSize.calculateWidth(319, context),
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                  runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                  children: myLanguage.map((item) {
-                                    return Item(
-                                      id: item.id,
-                                      text: item.title,
-                                      isSelected: myMap['languages_fr'] != null
-                                          ? myMap['languages_fr']!.contains(item.id)
-                                          : false,
-                                      onTap: () {
-                                        setState(() {
-                                          if (myMap['languages_fr'] == null) {
-                                            myMap['languages_fr'] =
-                                                Set<int>(); // Initialize if null
-                                          }
-
-                                          if (myMap['languages_fr']!
-                                              .contains(item.id)) {
-                                            myMap['languages_fr']!.remove(item.id);
-                                          } else {
-                                            myMap['languages_fr']!.add(item.id);
-                                          }
-                                        });
+                              SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(23, context)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    TextButton.icon(
+                                      icon: Icon(Icons.near_me_sharp, color: Colors.black),
+                                      onPressed: () async {
+                                        await _getCurrentLocation();
+                                        if (_currentCity.isNotEmpty) {
+                                          setState(() {
+                                            _textEditingController.text = 'Autour de moi';
+                                          });
+                                        }
                                       },
-                                    );
-                                  }).toList(),
+                                      label: Text(
+                                        'Autour de moi',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -544,19 +582,21 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                   RoundedRectangleBorder(
                                     side: const BorderSide(
                                       width: 1,
-                                      color: AppResources.colorDark,
+                                      color: AppResources.colorVitamine,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
                               onPressed: () {
-                                openFilter = true;
+                                setState(() {
+                                  openFilter = !openFilter;
+                                });
                               },
                               child: Text(
                                 'PLUS DE FILTRES',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: AppResources.colorDark),
+                                    color: AppResources.colorVitamine),
                               ),
                             ),
                           ),
@@ -569,24 +609,32 @@ class _FiltredWidgetState extends State<FiltredWidget>
                             child: TextButton(
                               style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                                MaterialStateProperty.all(AppResources.colorVitamine),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     side: const BorderSide(
                                       width: 1,
-                                      color: AppResources.colorDark,
+                                      color: Colors.transparent,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
                               onPressed: () {
-                                validate();
+                                //validate();
+                                setState(() {
+                                  myMap['adults'] = {_counter};
+                                  myMap['children'] = {_counterChild};
+                                  myMap['babies'] = {_counterBaby};
+                                  myMap['minPrice'] = {_currentMin};
+                                  myMap['maxPrice'] = {_currentMax};
+                                  Navigator.pop(context, true);
+                                });
                               },
                               child: Text(
                                 'ENREGISTRER',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: AppResources.colorDark),
+                                    color: AppResources.colorWhite),
                               ),
                             ),
                           ),
@@ -598,24 +646,45 @@ class _FiltredWidgetState extends State<FiltredWidget>
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(AppResources.colorVitamine),
                             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 side: const BorderSide(
                                   width: 1,
-                                  color: AppResources.colorDark,
+                                  color: Colors.transparent,
                                 ),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                             ),
                           ),
                           onPressed: () {
-                            validate();
+                            setState(() {
+                              myMap['adults'] = {_counter};
+                              myMap['children'] = {_counterChild};
+                              myMap['babies'] = {_counterBaby};
+                              myMap['minPrice'] = {_currentMin};
+                              myMap['maxPrice'] = {_currentMax};
+
+                              if (myMap['location'] == null) {
+                                myMap['location'] = Set<String>(); // Initialize if null
+                              }
+
+                              // Insert _textEditingController.text into myMap with key 'Step8'
+                              if (_textEditingController.text.isNotEmpty) {
+                                // Assuming the value to be inserted is a String
+                                if (_textEditingController.text == 'Autour de moi') {
+                                  myMap['location']!.add(_currentCity);
+                                } else {
+                                  myMap['location']!.add(_textEditingController.text);
+                                }
+                              }
+                            });
+                            Navigator.pop(context, true);
                           },
                           child: Text(
                             'ENREGISTRER',
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: AppResources.colorDark),
+                                color: AppResources.colorWhite),
                           ),
                         ),
                       ),

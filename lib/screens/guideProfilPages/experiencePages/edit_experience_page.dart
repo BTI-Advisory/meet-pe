@@ -66,7 +66,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmation'),
-          content: Text('Êtes-vous sûr de vouloir supprimer cette expérience ?'),
+          content: Text('Es-tu sûr de vouloir supprimer cette expérience ?'),
           actions: <Widget>[
             TextButton(
               child: Text('Annuler'),
