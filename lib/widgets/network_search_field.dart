@@ -40,12 +40,12 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
   }
 
   Widget searchChild(String x) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
     child: Row(
       children: [
         const Icon(Icons.location_on, color: AppResources.colorDark),
-        const SizedBox(width: 10), // Space between the icon and the text
-        Text(x, style: const TextStyle(fontSize: 20, color: Colors.black)),
+        const SizedBox(width: 6), // Space between the icon and the text
+        Text(x, style: const TextStyle(fontSize: 15, color: Colors.black)),
       ],
     ),
   );
@@ -117,7 +117,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
             ),
           ),
           key: const Key('searchfield'),
-          hint: 'Toutes les expériences',
+          hint: 'Recherche tes futures expériences par ville',
           itemHeight: 50,
           scrollbarDecoration: ScrollbarDecoration(),
           onTapOutside: (x) {},
@@ -143,7 +143,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
             ),
             filled: true,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
+              horizontal: 0,
             ),
           ),
           suggestionsDecoration: suggestionDecoration,

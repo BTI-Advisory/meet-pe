@@ -6,7 +6,9 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/guide_profile_data_response.dart';
-import '../../services/app_service.dart';
+
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MatchingPage extends StatefulWidget {
   const MatchingPage({super.key});
@@ -20,6 +22,12 @@ class _MatchingPageState extends State<MatchingPage> {
   late List<GuideProfileDataResponse> filteredListOfProfile;
   TextEditingController editingController = TextEditingController();
   late List<GuideProfileCard> cards;
+
+  late FocusNode _focusNode;
+  late TextEditingController _textEditingController;
+  bool _showButton = false;
+  Position? _currentPosition;
+  String _currentCity = '';
 
   @override
   void initState() {
@@ -120,6 +128,63 @@ class _MatchingPageState extends State<MatchingPage> {
       ),
     ];
     filteredListOfProfile = List.from(listOfProfile);
+
+    _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
+    _textEditingController = TextEditingController();
+    _textEditingController.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _textEditingController.removeListener(_onTextChanged);
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      //_showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
+      _showButton = _focusNode.hasFocus;
+    });
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      _showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
+    });
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        print("Location permission denied");
+        return;
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Get the city name from the position
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      setState(() {
+        _currentPosition = position;
+        _currentCity = placemarks.isNotEmpty
+            ? placemarks[0].locality ?? "Unknown City"
+            : "Unknown City";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -210,21 +275,15 @@ class _MatchingPageState extends State<MatchingPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 226,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppResources.colorWhite,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.12),
-                          spreadRadius: 0,
-                          blurRadius: 50,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
+                    width: 200,
+                    //height: 40,
+                    child: SingleChildScrollView(
+                      child: NetworkSearchField(
+                        controller: _textEditingController,
+                        focusNode: _focusNode,
+                      ),
                     ),
-                    child: TextField(
+                    /*child: TextField(
                       onChanged: (value) {
                         filterSearchResults(value);
                       },
@@ -245,11 +304,11 @@ class _MatchingPageState extends State<MatchingPage> {
                           borderSide: BorderSide(color: Colors.transparent), // Border color when focused
                         ),
                       ),
-                    ),
+                    ),*/
                   ),
-                  const SizedBox(width: 15,),
+                  const SizedBox(width: 10,),
                   Container(
-                    width: ResponsiveSize.calculateWidth(92, context),
+                    width: ResponsiveSize.calculateWidth(140, context),
                     height: ResponsiveSize.calculateHeight(40, context),
                     decoration: BoxDecoration(
                       color: AppResources.colorWhite,
@@ -258,6 +317,29 @@ class _MatchingPageState extends State<MatchingPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        IconButton(
+                          onPressed: () async {
+                            final result = await showModalBottomSheet<bool>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return PositionFiltred();
+                              },
+                            );
+
+                            if (result == true) {
+                              //_scrollToEnd();
+                            }
+                          },
+                          icon: Icon(Icons.gps_fixed, size: 20,),
+                        ),
+                        const VerticalDivider(
+                          color: Colors.grey, // Adjust the color to your preference
+                          thickness: 1, // Adjust the thickness as needed
+                          width: 0, // Adjust the width to control the space taken by the divider
+                          indent: 8, // Adjust the indent to control the space from the top
+                          endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                        ),
                         IconButton(
                           onPressed: () async {
                             final result = await showModalBottomSheet<bool>(
