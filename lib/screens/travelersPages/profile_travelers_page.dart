@@ -18,6 +18,7 @@ import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
 import '../guideProfilPages/main_guide_page.dart';
+import '../onBoardingPages/voyageur/step1Page.dart';
 import 'main_travelers_page.dart';
 
 typedef ImagePathCallback = void Function(String);
@@ -468,6 +469,10 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                       () {
                                     navigateTo(
                                         context, (_) => const MyReservationsPage());
+                                  }),
+                              sectionProfile('Mes choix', Icons.tune, true,
+                                      () {
+                                navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));
                                   }),
                               sectionProfile('Notifications & newsletters',
                                   Icons.notifications, true, () {
