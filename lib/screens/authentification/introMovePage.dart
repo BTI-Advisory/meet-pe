@@ -58,7 +58,7 @@ class _IntroMovePageState extends State<IntroMovePage> {
       Center(
           child: Pages(
             text: "Meet",
-            description: 'Rencontre nos guides\n passionnés où que tu sois',
+            description: 'Rencontre nos locaux\n passionnés où que tu sois',
             imageName: 'introMeet',
             ellipseOne: ellipseEmptyContainer,
             ellipseTow: ellipseFullContainer,
@@ -69,7 +69,7 @@ class _IntroMovePageState extends State<IntroMovePage> {
       Center(
         child: Pages(
           text: "Share",
-          description: 'Partage des moments uniques\n avec des locaux',
+          description: 'Partage des moments de vie uniques\n avec notre communauté',
           imageName: 'introShare',
           ellipseOne: ellipseEmptyContainer,
           ellipseTow: ellipseEmptyContainer,

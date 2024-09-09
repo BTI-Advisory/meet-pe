@@ -117,10 +117,10 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
             ),
           ),
           key: const Key('searchfield'),
-          hint: 'Recherche tes futures expériences par ville',
+          hint: 'Recherche par ville',
           itemHeight: 50,
           scrollbarDecoration: ScrollbarDecoration(),
-          onTapOutside: (x) {},
+          //onTapOutside: (x) {},
           suggestionDirection: SuggestionDirection.down,
           suggestionStyle: const TextStyle(fontSize: 20, color: Colors.black),
           searchInputDecoration: InputDecoration(
