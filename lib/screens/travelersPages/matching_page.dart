@@ -28,6 +28,7 @@ class _MatchingPageState extends State<MatchingPage> {
   bool _showButton = false;
   Position? _currentPosition;
   String _currentCity = '';
+  bool tappedScreen = false;
 
   @override
   void initState() {
@@ -187,6 +188,12 @@ class _MatchingPageState extends State<MatchingPage> {
     }
   }
 
+  void _handleCardTapped(bool profile) {
+    // Handle the card data here
+    print('Card tapped: ${profile}');
+    // You can navigate, update the UI, or process the data as needed
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -197,7 +204,7 @@ class _MatchingPageState extends State<MatchingPage> {
     setState(() {
       if (filteredListOfProfile.isEmpty) {
         cards = [
-          const GuideProfileCard(
+          GuideProfileCard(
             guideProfileResponse: GuideProfileDataResponse(
               id: 0,
               title: 'No results found',
@@ -224,10 +231,18 @@ class _MatchingPageState extends State<MatchingPage> {
               mainPhoto: '',
               image0: '',
             ),
+            onCardTapped: (profile) {
+              // Handle no results card tap if needed
+              print('No results card tapped');
+            },
           )
         ];
       } else {
-        cards = filteredListOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile)).toList();
+        cards = filteredListOfProfile.map((profile) => GuideProfileCard(guideProfileResponse: profile, onCardTapped: (tapped ) {
+          setState(() {
+            tappedScreen = tapped;
+          });
+          },)).toList();
       }
     });
   }
@@ -248,145 +263,159 @@ class _MatchingPageState extends State<MatchingPage> {
     }
   }
 
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: size.width,
-            height: size.height,
-            child: CardSwiper(
-              cardsCount: cards.length,
-              cardBuilder: (context, index, percentThresholdX, percentThresholdY) => cards[index],
-              allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
-              padding: const EdgeInsets.all(0),
-              numberOfCardsDisplayed: 1,
-            ),
-          ),
-          Positioned(
-            top: 40,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 200,
-                    //height: 40,
-                    child: SingleChildScrollView(
-                      child: NetworkSearchField(
-                        controller: _textEditingController,
-                        focusNode: _focusNode,
-                      ),
-                    ),
-                    /*child: TextField(
-                      onChanged: (value) {
-                        filterSearchResults(value);
-                      },
-                      controller: editingController,
-                      decoration: const InputDecoration(
-                        hintText: "Recherche des expériences",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          borderSide: BorderSide(color: Colors.transparent), // Default border color
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          borderSide: BorderSide(color: Colors.transparent), // Border color when enabled
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          borderSide: BorderSide(color: Colors.transparent), // Border color when focused
-                        ),
-                      ),
-                    ),*/
-                  ),
-                  const SizedBox(width: 10,),
-                  Container(
-                    width: ResponsiveSize.calculateWidth(140, context),
-                    height: ResponsiveSize.calculateHeight(40, context),
-                    decoration: BoxDecoration(
-                      color: AppResources.colorWhite,
-                      borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            final result = await showModalBottomSheet<bool>(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return PositionFiltred();
-                              },
-                            );
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        Future.delayed(const Duration(milliseconds: 100), () {
 
-                            if (result == true) {
-                              //_scrollToEnd();
-                            }
-                          },
-                          icon: Icon(Icons.gps_fixed, size: 20,),
-                        ),
-                        const VerticalDivider(
-                          color: Colors.grey, // Adjust the color to your preference
-                          thickness: 1, // Adjust the thickness as needed
-                          width: 0, // Adjust the width to control the space taken by the divider
-                          indent: 8, // Adjust the indent to control the space from the top
-                          endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            final result = await showModalBottomSheet<bool>(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return CalendarMatching();
-                              },
-                            );
+          setState(() {
+            tappedScreen = false;
+          });
 
-                            if (result == true) {
-                              //_scrollToEnd();
-                            }
-                          },
-                          icon: Icon(Icons.date_range, size: 20,),
-                        ),
-                        const VerticalDivider(
-                          color: Colors.grey, // Adjust the color to your preference
-                          thickness: 1, // Adjust the thickness as needed
-                          width: 0, // Adjust the width to control the space taken by the divider
-                          indent: 8, // Adjust the indent to control the space from the top
-                          endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            final result = await showModalBottomSheet<bool>(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return FiltredWidget();
-                              },
-                            );
-
-                            if (result == true) {
-                              //_scrollToEnd();
-                            }
-                          },
-                          icon: Icon(Icons.tune, size: 20,),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+        });
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              width: size.width,
+              height: size.height,
+              child: AbsorbPointer(
+                absorbing: tappedScreen,
+                child: CardSwiper(
+                  cardsCount: cards.length,
+                  cardBuilder: (context, index, percentThresholdX, percentThresholdY) => cards[index],
+                  allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
+                  padding: const EdgeInsets.all(0),
+                  numberOfCardsDisplayed: 1,
+                ),
               ),
             ),
-          )
-        ],
+            Positioned(
+              top: 40,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 200,
+                      //height: 40,
+                      child: SingleChildScrollView(
+                        child: NetworkSearchField(
+                          controller: _textEditingController,
+                          focusNode: _focusNode,
+                        ),
+                      ),
+                      /*child: TextField(
+                        onChanged: (value) {
+                          filterSearchResults(value);
+                        },
+                        controller: editingController,
+                        decoration: const InputDecoration(
+                          hintText: "Recherche des expériences",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderSide: BorderSide(color: Colors.transparent), // Default border color
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderSide: BorderSide(color: Colors.transparent), // Border color when enabled
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderSide: BorderSide(color: Colors.transparent), // Border color when focused
+                          ),
+                        ),
+                      ),*/
+                    ),
+                    const SizedBox(width: 10,),
+                    Container(
+                      width: ResponsiveSize.calculateWidth(140, context),
+                      height: ResponsiveSize.calculateHeight(40, context),
+                      decoration: BoxDecoration(
+                        color: AppResources.colorWhite,
+                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              final result = await showModalBottomSheet<bool>(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return PositionFiltred();
+                                },
+                              );
+
+                              if (result == true) {
+                                //_scrollToEnd();
+                              }
+                            },
+                            icon: Icon(Icons.gps_fixed, size: 20,),
+                          ),
+                          const VerticalDivider(
+                            color: Colors.grey, // Adjust the color to your preference
+                            thickness: 1, // Adjust the thickness as needed
+                            width: 0, // Adjust the width to control the space taken by the divider
+                            indent: 8, // Adjust the indent to control the space from the top
+                            endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              final result = await showModalBottomSheet<bool>(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return CalendarMatching();
+                                },
+                              );
+
+                              if (result == true) {
+                                //_scrollToEnd();
+                              }
+                            },
+                            icon: Icon(Icons.date_range, size: 20,),
+                          ),
+                          const VerticalDivider(
+                            color: Colors.grey, // Adjust the color to your preference
+                            thickness: 1, // Adjust the thickness as needed
+                            width: 0, // Adjust the width to control the space taken by the divider
+                            indent: 8, // Adjust the indent to control the space from the top
+                            endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              final result = await showModalBottomSheet<bool>(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return FiltredWidget();
+                                },
+                              );
+
+                              if (result == true) {
+                                //_scrollToEnd();
+                              }
+                            },
+                            icon: Icon(Icons.tune, size: 20,),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
