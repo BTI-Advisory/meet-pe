@@ -66,29 +66,36 @@ class _WelcomePageState extends State<WelcomePage> {
             Positioned.fill(
               top: ResponsiveSize.calculateHeight(109, context),
               child: Container(
-                margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
+                //margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          'MEETPE,\nL’APP QUI \nTE FAIT \nVOYAGER \nAUTREMENT',
-                          style: TextStyle(
-                            color: AppResources.colorBeigeLight,
-                            fontSize: ResponsiveSize.calculateTextSize(38, context),
-                            fontFamily: 'Rammetto One',
-                            fontWeight: FontWeight.w400,
-                            height: ResponsiveSize.calculateHeight(1.4, context),
+                      SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            "Notre p'tit truc en plus : un Matching instantané",
+                            style: TextStyle(
+                              color: AppResources.colorBeigeLight,
+                              fontSize: ResponsiveSize.calculateTextSize(38, context),
+                              fontFamily: 'Rammetto One',
+                              fontWeight: FontWeight.w400,
+                              height: ResponsiveSize.calculateHeight(1.4, context),
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
-                      SizedBox(
-                        width: ResponsiveSize.calculateWidth(double.infinity, context),
-                        child: Text(
-                          'Avec notre système de matching, rencontre des locaux passionnés et vis des expériences faites pour toi !\n',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige,),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
+                        child: SizedBox(
+                          width: ResponsiveSize.calculateWidth(double.infinity, context),
+                          child: Text(
+                            "Chez nous c'est toi la star ! Notre système de Matching va te proposer des expériences sur mesure. Laisse toi guider par ceux qui y vivent et crée des souvenirs qui te ressemblent  🚀",
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige,),
+                          ),
                         ),
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(30, context),),

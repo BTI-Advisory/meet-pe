@@ -103,7 +103,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                          'C’est la première information que l’on va voir sur ton éxperience. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         SizedBox(
