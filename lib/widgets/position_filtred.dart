@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
-import '../services/app_service.dart';
 
 class PositionFiltred extends StatefulWidget {
   const PositionFiltred({super.key});
@@ -18,6 +17,8 @@ class PositionFiltred extends StatefulWidget {
 class _PositionFiltredState extends State<PositionFiltred>
     with BlocProvider<PositionFiltred, PositionFiltredBloc> {
   double valueSlider = 30;
+  Position? _currentPosition;
+  String _currentCity = '';
 
   @override
   initBloc() => PositionFiltredBloc();
@@ -25,6 +26,36 @@ class _PositionFiltredState extends State<PositionFiltred>
 
   void _onAbsenceAdded() {
     Navigator.pop(context, true);
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        print("Location permission denied");
+        return;
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Get the city name from the position
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      setState(() {
+        _currentPosition = position;
+        _currentCity = placemarks.isNotEmpty
+            ? placemarks[0].locality ?? "Unknown City"
+            : "Unknown City";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -116,8 +147,14 @@ class _PositionFiltredState extends State<PositionFiltred>
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              validate();
+                            onPressed: () async {
+                              //validate();
+                              await _getCurrentLocation();
+                              if (_currentCity.isNotEmpty) {
+                                setState(() {
+                                  //_textEditingController.text = 'Autour de moi';
+                                });
+                              }
                             },
                             child: Text(
                               'ENREGISTRER',
