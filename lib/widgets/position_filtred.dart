@@ -109,6 +109,10 @@ class _PositionFiltredState extends State<PositionFiltred>
                               ?.copyWith(color: AppResources.colorDark),
                         ),
                         const SizedBox(height: 42),
+                        Text(
+                          '${valueSlider.toInt()} KM',
+                        ),
+                        const SizedBox(height: 20),
                         Slider(
                           value: valueSlider,
                           min: 1,
@@ -153,6 +157,8 @@ class _PositionFiltredState extends State<PositionFiltred>
                               if (_currentCity.isNotEmpty) {
                                 setState(() {
                                   //_textEditingController.text = 'Autour de moi';
+                                  print('Autour moi is selected $_currentCity');
+                                  print('Autour moi rayon ${valueSlider.toInt()}');
                                 });
                               }
                             },
