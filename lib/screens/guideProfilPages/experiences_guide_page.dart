@@ -222,8 +222,8 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
         floatingActionButton: Visibility(
           visible: !isRequest,
           child: SizedBox(
-            width: 52.0,
-            height: 52.0,
+            width: 116.0,
+            height: 48.0,
             child: FloatingActionButton(
               onPressed: () {
                 // Add your action here
@@ -233,9 +233,22 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
               backgroundColor: AppResources.colorVitamine,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                    26.0), // Half of width or height to make it circular
+                    40.0), // Half of width or height to make it circular
               ),
-              child: const Icon(Icons.add, color: AppResources.colorWhite),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.add, color: AppResources.colorWhite),
+                  Text(
+                    'CREER',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(
+                        color: AppResources.colorWhite),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -245,84 +258,115 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   }
 
   Widget buildToggleButtons() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonWidth = screenWidth / 2;
+
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              if (!isRequest) toggleRole();
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text('Demandes',
-                      style: isRequest
-                          ? Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: AppResources.colorVitamine)
-                          : Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorDark)),
-                ),
-                const SizedBox(height: 4),
-                if (isRequest)
+        GestureDetector(
+          onTap: () {
+            if (!isRequest) toggleRole();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text('Demandes',
+                    style: isRequest
+                        ? Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(color: AppResources.colorVitamine)
+                        : Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppResources.colorDark)),
+              ),
+              const SizedBox(height: 4),
+              (isRequest)
+                ? Container(
+                  width: buttonWidth,
+                  height: 4,
+                  decoration: const ShapeDecoration(
+                    color: AppResources.colorVitamine,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                  ),
+                )
+              : Column(
+                children: [
+                  const SizedBox(height: 3,),
                   Container(
-                    width: 188,
-                    height: 4,
+                    width: buttonWidth,
+                    height: 1,
                     decoration: const ShapeDecoration(
-                      color: AppResources.colorVitamine,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(8),
+                        side: BorderSide(
+                          strokeAlign: BorderSide.strokeAlignCenter,
+                          color: AppResources.colorImputStroke
                         ),
                       ),
                     ),
                   ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              if (isRequest) toggleRole();
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text('Mes expériences',
-                      style: isRequest
-                          ? Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorDark)
-                          : Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: AppResources.colorVitamine)),
-                ),
-                const SizedBox(height: 4),
-                if (!isRequest)
-                  Container(
-                    width: 188,
-                    height: 4,
-                    decoration: const ShapeDecoration(
-                      color: AppResources.colorVitamine,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                        ),
+        GestureDetector(
+          onTap: () {
+            if (isRequest) toggleRole();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text('Mes expériences',
+                    style: isRequest
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppResources.colorDark)
+                        : Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(color: AppResources.colorVitamine)),
+              ),
+              const SizedBox(height: 4),
+              (!isRequest)
+                ? Container(
+                  width: buttonWidth,
+                  height: 4,
+                  decoration: const ShapeDecoration(
+                    color: AppResources.colorVitamine,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
                       ),
                     ),
                   ),
-              ],
-            ),
+                ) : Column(
+                  children: [
+                    const SizedBox(height: 3,),
+                    Container(
+                    width: buttonWidth,
+                    height: 1,
+                    decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            strokeAlign: BorderSide.strokeAlignCenter,
+                            color: AppResources.colorImputStroke
+                        ),
+                      ),
+                    ),
+                                  ),
+                  ],
+                ),
+            ],
           ),
         ),
       ],

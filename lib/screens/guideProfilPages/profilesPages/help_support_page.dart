@@ -20,7 +20,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
   String? validationMessageFeedBack = '';
   bool isFormValid = false;
   bool _isDropdownOpened = false;
-  List<String> _categories = ['Assistance avec une expérience', 'Assistance avec mon compte', 'Assistance avec l’application', 'Autre'];
+  List<String> _categories = ['Assistance avec une expérience', 'Assistance avec mon compte', 'Assistance avec l’application', 'Feedback sur Meet People', 'Autre'];
   String _selectedCategory = 'Motif de la demande';
 
   @override
@@ -312,7 +312,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   }).catchError((error) {
                                     // Handle any errors that occur during the asynchronous operation
                                     print('Error: $error');
-                                    showMessage(context, 'Ton message est bien envoyé');
+                                    showMessage(context, "Ton message n'est pas envoyé");
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
