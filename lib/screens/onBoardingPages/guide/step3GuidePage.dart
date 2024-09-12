@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/step4GuidePage.dart';
-import '../../../models/step_list_response.dart';
-import '../../../services/app_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 
@@ -23,31 +22,23 @@ class Step3GuidePage extends StatefulWidget {
 }
 
 class _Step3GuidePageState extends State<Step3GuidePage> {
-  late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
+  late TextEditingController _textEditingControllerAbout;
+  String? validationMessageAbout = '';
+  bool isFormValid = false;
+  bool _isButtonActive = false;
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('languages_fr');
-    _loadChoices();
-  }
+    _textEditingControllerAbout = TextEditingController();
+    _textEditingControllerAbout.addListener(_onTextChanged);
 
-  Future<void> _loadChoices() async {
-    try {
-      final choices = await _choicesFuture;
-      for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
-        if (!myList.contains(newVoyage)) {
-          setState(() {
-            myList.add(newVoyage);
-          });
-        }
-      }
-    } catch (error) {
-      // Handle error if fetching data fails
-      print('Error: $error');
-    }
+    _textEditingControllerAbout.addListener(() {
+      setState(() {
+        _isButtonActive = _textEditingControllerAbout.text.isNotEmpty;
+      });
+    });
   }
 
   double calculateProgress() {
@@ -55,208 +46,189 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
   }
 
   @override
+  void dispose() {
+    _textEditingControllerAbout.removeListener(_onTextChanged);
+    _textEditingControllerAbout.dispose();
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
+
+  void updateFormValidity() {
+    setState(() {
+      isFormValid =
+          validationMessageAbout == null;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     double progress = calculateProgress();
 
-    return Scaffold(
-      body: FutureBuilder<List<StepListResponse>>(
-        future: _choicesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppResources.colorGray5, AppResources.colorWhite],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppResources.colorGray5, AppResources.colorWhite],
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
+                SizedBox(
+                  width: ResponsiveSize.calculateWidth(108, context),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 8,
+                    backgroundColor: AppResources.colorImputStroke,
+                    color: AppResources.colorVitamine,
+                    borderRadius: BorderRadius.circular(3.5),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
-                    SizedBox(
-                      width: ResponsiveSize.calculateWidth(108, context),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 8,
-                        backgroundColor: AppResources.colorImputStroke,
-                        color: AppResources.colorVitamine,
-                        borderRadius: BorderRadius.circular(3.5),
+                SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
+                Text(
+                  'A propos de toi',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(color: AppResources.colorGray100),
+                ),
+                SizedBox(height: ResponsiveSize.calculateHeight(100, context)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 28),
+                  child: Text(
+                    "C'est le moment idéal pour donner une touche personnelle à ton profil qui sera vu par tous nos voyageurs. Partage nous quelque chose de spécial sur toi. Tu es la star de notre équipe, c’est à toi 🎙️",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+                SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 28),
+                  child: TextFormField(
+                    controller: _textEditingControllerAbout,
+                    maxLines: null,
+                    textInputAction: TextInputAction.newline,
+                    keyboardType: TextInputType.multiline,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(3000),
+                    ],
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppResources.colorDark),
+                    decoration: InputDecoration(
+                      filled: false,
+                      hintText: 'Hello la communauté Meet People, je suis Sacha\npassionné par la food de ma région...',
+                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                      contentPadding: EdgeInsets.only(
+                        top: ResponsiveSize.calculateHeight(20, context),
+                        bottom: ResponsiveSize.calculateHeight(10, context),
+                      ),
+                      // Adjust padding
+                      suffix: SizedBox(
+                          height:
+                          ResponsiveSize.calculateHeight(10, context)),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color: AppResources.colorGray15),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color: AppResources.colorGray15),
+                      ),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      focusedErrorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
                       ),
                     ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
-                    Text(
-                      'Tu parles...',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: AppResources.colorGray100),
-                    ),
-                    ///Todo: Remove comment when it's added in profile
-                    /*SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
-                    Text(
-                      'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),*/
-                    SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
-                    Container(
-                      width: ResponsiveSize.calculateWidth(319, context),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                        runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                        children: myList.map((item) {
-                          return Item(
-                            id: item.id,
-                            text: item.title,
-                            isSelected: widget.myMap['languages_fr'] != null
-                                ? widget.myMap['languages_fr']!.contains(item.id)
-                                : false,
-                            onTap: () {
-                              setState(() {
-                                if (widget.myMap['languages_fr'] == null) {
-                                  widget.myMap['languages_fr'] =
-                                      Set<int>(); // Initialize if null
+                    validator: AppResources.validatorNotEmpty,
+                    onChanged: (value) {
+                      setState(() {
+                        validationMessageAbout =
+                            AppResources.validatorNotEmpty(value);
+                        updateFormValidity();
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(183, context),
+                        height: ResponsiveSize.calculateHeight(44, context),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                            backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states
+                                    .contains(MaterialState.disabled)) {
+                                  return AppResources
+                                      .colorGray15; // Change to your desired grey color
                                 }
-
-                                if (widget.myMap['languages_fr']!
-                                    .contains(item.id)) {
-                                  widget.myMap['languages_fr']!.remove(item.id);
-                                } else {
-                                  widget.myMap['languages_fr']!.add(item.id);
-                                }
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
-                          child: Container(
-                            width: ResponsiveSize.calculateWidth(183, context),
-                            height: ResponsiveSize.calculateHeight(44, context),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                                backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                      (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.disabled)) {
-                                      return AppResources
-                                          .colorGray15; // Change to your desired grey color
-                                    }
-                                    return AppResources
-                                        .colorVitamine; // Your enabled color
-                                  },
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
-                                  ),
-                                ),
+                                return AppResources
+                                    .colorVitamine; // Your enabled color
+                              },
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                               ),
-                              onPressed: widget.myMap['languages_fr'] != null &&
-                                  widget.myMap['languages_fr']!.isNotEmpty
-                                  ? () {
-                                navigateTo(
-                                  context,
-                                      (_) => Step4GuidePage(
-                                    myMap: widget.myMap,
-                                    totalSteps: 5,
-                                    currentStep: 4,
-                                  ),
-                                );
-                              }
-                                  : null,
-                              // Disable the button if no item is selected
-                              child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
+                          onPressed: _isButtonActive
+                              ? () {
+                            if (widget.myMap['languages_fr'] == null) {
+                              widget.myMap['languages_fr'] =
+                                  Set<int>(); // Initialize if null
+                            }
+                            widget.myMap['languages_fr']!.add(188);
+
+                            navigateTo(
+                              context,
+                                  (_) => Step4GuidePage(
+                                myMap: widget.myMap,
+                                totalSteps: 5,
+                                currentStep: 4,
+                              ),
+                            );
+                          }
+                              : null,
+                          // Disable the button if no item is selected
+                          child: Image.asset('images/arrowLongRight.png'),
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(16, context), vertical: ResponsiveSize.calculateHeight(10, context)-3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: widget.isSelected
-                    ? Colors.white
-                    : AppResources.colorGray100,
-                fontWeight:
-                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-              ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }
