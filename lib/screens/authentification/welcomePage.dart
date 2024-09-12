@@ -94,7 +94,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           width: ResponsiveSize.calculateWidth(double.infinity, context),
                           child: Text(
                             "Chez nous c'est toi la star ! Notre système de Matching va te proposer des expériences sur mesure. Laisse toi guider par ceux qui y vivent et crée des souvenirs qui te ressemblent  🚀",
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige,),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, fontSize: 18),
                           ),
                         ),
                       ),
