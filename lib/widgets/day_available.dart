@@ -31,7 +31,7 @@ class _DayAvailableState extends State<DayAvailable> {
         return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}  /  ${times[1].from.substring(0, 5)}-${times[1].to.substring(0, 5)}';
       }
     } else {
-      return 'Non disponible';
+      return 'Non renseigné';
     }
   }
 

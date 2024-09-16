@@ -177,7 +177,7 @@ class _Step2GuidePageState extends State<Step2GuidePage> {
                                   context,
                                       (_) => Step3GuidePage(
                                     myMap: widget.myMap,
-                                    totalSteps: 5,
+                                    totalSteps: 4,
                                     currentStep: 3,
                                   ),
                                 );

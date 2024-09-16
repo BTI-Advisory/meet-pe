@@ -82,7 +82,7 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 1 sur 9',
+                              'Étape 1 sur 11',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

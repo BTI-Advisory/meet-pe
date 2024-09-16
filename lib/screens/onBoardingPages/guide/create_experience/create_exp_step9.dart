@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/step_list_response.dart';
@@ -124,7 +123,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 7 sur 9',
+                              'Étape 8 sur 11',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

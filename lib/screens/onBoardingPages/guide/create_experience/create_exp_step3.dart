@@ -87,7 +87,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Étape 2 sur 9',
+                        'Étape 3 sur 11',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -98,12 +98,6 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                       Text(
                         'Langue de ton expérience',
                         style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      Text(
-                        "C'est le moment idéal pour donner une touche",
-                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(40, context)),
