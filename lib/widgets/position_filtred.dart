@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
@@ -138,16 +137,14 @@ class _PositionFiltredState extends State<PositionFiltred>
                           child: TextButton(
                             style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(
-                                  Colors.transparent),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                              MaterialStateProperty.all(AppResources.colorVitamine),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorDark),
-                                  borderRadius:
-                                  BorderRadius.circular(40),
+                                    width: 1,
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
                             ),
@@ -168,7 +165,7 @@ class _PositionFiltredState extends State<PositionFiltred>
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(
-                                  color: AppResources.colorDark),
+                                  color: AppResources.colorWhite),
                             ),
                           ),
                         ),

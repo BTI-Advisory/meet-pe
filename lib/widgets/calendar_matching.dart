@@ -212,16 +212,14 @@ class _CalendarMatchingState extends State<CalendarMatching>
                               child: TextButton(
                                 style: ButtonStyle(
                                   backgroundColor:
-                                  MaterialStateProperty.all(
-                                      Colors.transparent),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                                  MaterialStateProperty.all(Colors.transparent),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       side: const BorderSide(
-                                          width: 1,
-                                          color: AppResources.colorDark),
-                                      borderRadius:
-                                      BorderRadius.circular(40),
+                                        width: 1,
+                                        color: AppResources.colorVitamine,
+                                      ),
+                                      borderRadius: BorderRadius.circular(40),
                                     ),
                                   ),
                                 ),
@@ -234,7 +232,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(
-                                      color: AppResources.colorDark),
+                                      color: AppResources.colorVitamine),
                                 ),
                               ),
                             ),
@@ -245,16 +243,14 @@ class _CalendarMatchingState extends State<CalendarMatching>
                               child: TextButton(
                                 style: ButtonStyle(
                                   backgroundColor:
-                                  MaterialStateProperty.all(
-                                      Colors.transparent),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                                  MaterialStateProperty.all(AppResources.colorVitamine),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       side: const BorderSide(
-                                          width: 1,
-                                          color: AppResources.colorDark),
-                                      borderRadius:
-                                      BorderRadius.circular(40),
+                                        width: 1,
+                                        color: Colors.transparent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(40),
                                     ),
                                   ),
                                 ),
@@ -277,7 +273,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(
-                                      color: AppResources.colorDark),
+                                      color: AppResources.colorWhite),
                                 ),
                               ),
                             )
@@ -290,12 +286,14 @@ class _CalendarMatchingState extends State<CalendarMatching>
                           ResponsiveSize.calculateHeight(44, context),
                           child: TextButton(
                             style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                              backgroundColor:
+                              MaterialStateProperty.all(AppResources.colorVitamine),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorDark),
+                                  side: const BorderSide(
+                                    width: 1,
+                                    color: Colors.transparent,
+                                  ),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
@@ -306,7 +304,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(
-                                  color: AppResources.colorDark),
+                                  color: AppResources.colorWhite),
                             ),
                             onPressed: () {
                               showMessage(context, 'Select date!');

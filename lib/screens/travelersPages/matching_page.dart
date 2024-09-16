@@ -7,9 +7,6 @@ import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/guide_profile_data_response.dart';
 
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-
 class MatchingPage extends StatefulWidget {
   const MatchingPage({super.key});
 
@@ -26,8 +23,6 @@ class _MatchingPageState extends State<MatchingPage> {
   late FocusNode _focusNode;
   late TextEditingController _textEditingController;
   bool _showButton = false;
-  Position? _currentPosition;
-  String _currentCity = '';
   bool tappedScreen = false;
 
   @override
@@ -156,42 +151,6 @@ class _MatchingPageState extends State<MatchingPage> {
     setState(() {
       _showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
     });
-  }
-
-  Future<void> _getCurrentLocation() async {
-    try {
-      LocationPermission permission = await Geolocator.requestPermission();
-
-      if (permission == LocationPermission.denied) {
-        print("Location permission denied");
-        return;
-      }
-
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-
-      // Get the city name from the position
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      setState(() {
-        _currentPosition = position;
-        _currentCity = placemarks.isNotEmpty
-            ? placemarks[0].locality ?? "Unknown City"
-            : "Unknown City";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _handleCardTapped(bool profile) {
-    // Handle the card data here
-    print('Card tapped: ${profile}');
-    // You can navigate, update the UI, or process the data as needed
   }
 
   @override
@@ -359,7 +318,7 @@ class _MatchingPageState extends State<MatchingPage> {
                                 //_scrollToEnd();
                               }
                             },
-                            icon: Icon(Icons.gps_fixed, size: 20,),
+                            icon: const Icon(Icons.gps_fixed, size: 20,),
                           ),
                           const VerticalDivider(
                             color: Colors.grey, // Adjust the color to your preference
