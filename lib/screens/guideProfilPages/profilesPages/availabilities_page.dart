@@ -26,51 +26,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   @override
   void initState() {
     super.initState();
-    _fetchFullAvailable();
-    fetchAvailabilityData();
     fetchAbsenceData();
-  }
-
-  Future<void> _fetchFullAvailable() async {
-    try {
-      final fullAvailable = await AppService.api.getFullAvailable();
-      setState(() {
-        isAvailable = fullAvailable.available;
-      });
-    } catch (e) {
-      // Handle error
-      print('Error fetching full available: $e');
-    }
-  }
-
-  Future<void> fetchAvailabilityData() async {
-    try {
-      final response = await AppService.api.getAvailabilityList();
-      setState(() {
-        availabilityList = response;
-      });
-      for (var item in availabilityList) {
-        print(item.day);
-      }
-    } catch (e) {
-      // Handle error
-      print('Error fetching availability list: $e');
-    }
-  }
-
-  void _toggleAvailability(bool value) async {
-    setState(() {
-      isAvailable = value;
-    });
-
-    try {
-      await AppService.api.sendFullAvailable(value);
-    } catch (e) {
-      print('Error updating availability: $e');
-      setState(() {
-        isAvailable = !value;
-      });
-    }
   }
 
   Future<void> fetchAbsenceData() async {
@@ -87,10 +43,6 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
 
   void _onAbsenceModified() {
     fetchAbsenceData();
-  }
-
-  void _onAvailabilityModified() {
-    fetchAvailabilityData();
   }
 
   // Scroll to the end of the page
@@ -110,65 +62,12 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const EpAppBar(
-        title: 'Mes disponibilités',
+        title: 'Mes absences',
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: ResponsiveSize.calculateWidth(31, context)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Rencontre avec les voyageurs',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(
-                            fontSize: 20, color: AppResources.colorDark),
-                  ),
-                  const SizedBox(height: 17),
-                  Text(
-                    'Merci beaucoup de nous donner un coup de main en partageant tes dispos de façon super précise, c’est ultra important pour notre communauté ! Merci d’avance, tu es le meilleur 😎 !',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppResources.colorGray30),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        isAvailable
-                            ? 'Disponible 24h / 7j sur 7'
-                            : 'Toujours disponible',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff797979)),
-                      ),
-                      Switch.adaptive(
-                        value: isAvailable,
-                        activeColor: AppResources.colorVitamine,
-                        onChanged: _toggleAvailability,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Visibility(
-              visible: !isAvailable,
-              child: Column(
-                children: availabilityList.map((item) {
-                  return DayAvailable(availabilityList: item, onAvailabilityModified: _onAvailabilityModified,);
-                }).toList(),
-              ),
-            ),
             SizedBox(
               height: isAvailable
                   ? ResponsiveSize.calculateHeight(0, context)

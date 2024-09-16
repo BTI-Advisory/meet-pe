@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
+import '../../../../widgets/_widgets.dart';
 import 'create_exp_step10.dart';
 
 class CreateExpStep9 extends StatefulWidget {
@@ -17,7 +17,7 @@ class CreateExpStep9 extends StatefulWidget {
 
 class _CreateExpStep9State extends State<CreateExpStep9> {
   late Future<List<StepListResponse>> _choicesFuture;
-  late List<Voyage> myList = [];
+  late List<VoyageImage> myList = [];
   Map<String, Set<Object>> myMap = {};
 
   @override
@@ -31,7 +31,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
+        var newVoyage = VoyageImage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -150,7 +150,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                                 spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                 runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                                 children: myList.map((item) {
-                                  return Item(
+                                  return ItemImage(
                                     id: item.id,
                                     text: item.title,
                                     image: item.image,
@@ -223,85 +223,4 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
           }),
     );
   }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final String image;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.image,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveSize.calculateWidth(16, context),
-              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(
-                ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
-          ),
-          child: Center(
-            child: Row(
-              children: [
-                if(widget.image != '')
-                Image.network(
-                  widget.image,
-                  width: 16,
-                  height: 16,
-                  color: widget.isSelected
-                      ? Colors.white
-                      : AppResources.colorGray100,
-                ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                Text(
-                  widget.text,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: widget.isSelected
-                            ? Colors.white
-                            : AppResources.colorGray100,
-                        fontWeight:
-                            widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-  final String image;
-
-  Voyage({
-    required this.id,
-    required this.title,
-    required this.image,
-  });
 }

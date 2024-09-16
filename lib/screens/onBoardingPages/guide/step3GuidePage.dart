@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/step4GuidePage.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
+import '../../../widgets/_widgets.dart';
 
 class Step3GuidePage extends StatefulWidget {
   final int totalSteps;

@@ -462,7 +462,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                             horizontal:
                                 ResponsiveSize.calculateWidth(8, context)),
                         child: Container(
-                          height: ResponsiveSize.calculateHeight(85, context),
+                          height: ResponsiveSize.calculateHeight(65, context),
                           padding: EdgeInsets.only(
                             top: ResponsiveSize.calculateHeight(12, context),
                             left: ResponsiveSize.calculateWidth(12, context),
@@ -500,21 +500,6 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                             fontWeight: FontWeight.w400,
                                             color: AppResources.colorVitamine,
                                             height: 0.14),
-                                  ),
-                                  Visibility(
-                                    visible:
-                                        userInfo.hasUpdatedHesSchedule == false,
-                                    child: Text(
-                                      '   .   Renseigne tes disponibilités',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                    ),
                                   ),
                                   Visibility(
                                     visible: userInfo.IBAN == null,
@@ -557,20 +542,10 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                               ResponsiveSize.calculateWidth(8.0, context)),
                       child: Column(
                         children: [
-                          sectionProfile(
-                              'Mes disponibilités', Icons.calendar_month, (userInfo.hasUpdatedHesSchedule || userInfo.isFullAvailable), () {
-                            Navigator.of(context)
-                                .push(
-                              MaterialPageRoute(
-                                  builder: (_) => const AvailabilitiesPage()),
-                            )
-                                .then((_) {
-                              _userInfoFuture = AppService.api
-                                  .getUserInfo(); // Refresh user info
-                              setState(
-                                      () {}); // Trigger a rebuild to reflect changes
-                            });
-                          }),
+                          sectionProfile('Mes absences', Icons.calendar_month, true,
+                                  () {
+                                navigateTo(context, (_) => const AvailabilitiesPage());
+                              }),
                           sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
                             Navigator.of(context)
                                 .push(

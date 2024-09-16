@@ -111,6 +111,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                         TextFormField(
                           controller: _textEditingControllerName,
                           keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.sentences,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
