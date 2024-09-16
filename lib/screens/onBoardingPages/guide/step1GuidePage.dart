@@ -176,7 +176,7 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                                   context,
                                       (_) => Step2GuidePage(
                                     myMap: myMap,
-                                    totalSteps: 5,
+                                    totalSteps: 4,
                                     currentStep: 2,
                                   ),
                                 );

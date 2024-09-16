@@ -80,7 +80,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                                   ),
                                 ),
                               onPressed: () {
-                                navigateTo(context, (_) => const Step1GuidePage(totalSteps: 5, currentStep: 1,));
+                                navigateTo(context, (_) => const Step1GuidePage(totalSteps: 4, currentStep: 1,));
                               }, // Disable the button if no item is selected
                               child: Text(
                                 'COMMENCE PAR TE PRÉSENTER',

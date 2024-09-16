@@ -173,7 +173,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Étape 4 sur 9',
+                                'Étape 5 sur 11',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge

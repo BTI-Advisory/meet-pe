@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 
+import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/_utils.dart';
-import 'created_experience.dart';
+import '../../../../utils/responsive_size.dart';
+import '../../../../utils/utils.dart';
+import '../../../../widgets/popup_view.dart';
+import 'create_exp_step12.dart';
 
 class CreateExpStep11 extends StatefulWidget {
   CreateExpStep11({super.key, required this.sendListMap});
@@ -15,381 +17,253 @@ class CreateExpStep11 extends StatefulWidget {
 }
 
 class _CreateExpStep11State extends State<CreateExpStep11> {
-  late TextEditingController _textEditingControllerAdresse;
-  late TextEditingController _textEditingControllerVille;
-  late TextEditingController _textEditingControllerCodePostal;
-  late TextEditingController _textEditingControllerCountry;
-  String? validationMessageAdresse = '';
-  String? validationMessageVille = '';
-  String? validationMessageCodePostal = '';
-  String? validationMessageCountry = '';
-  bool isFormValid = false;
-  bool isLoading = false;
+  late Future<List<StepListResponse>> _choicesFuture;
+  late List<Voyage> myList = [];
+  Map<String, Set<Object>> myMap = {};
 
   @override
   void initState() {
     super.initState();
-    _textEditingControllerAdresse = TextEditingController();
-    _textEditingControllerAdresse.addListener(_onTextChanged);
-    _textEditingControllerVille = TextEditingController();
-    _textEditingControllerVille.addListener(_onTextChanged);
-    _textEditingControllerCodePostal = TextEditingController();
-    _textEditingControllerCodePostal.addListener(_onTextChanged);
-    _textEditingControllerCountry = TextEditingController();
-    _textEditingControllerCountry.addListener(_onTextChanged);
+    _choicesFuture = AppService.api.fetchChoices('reservation_de_dernier_minute');
+    _loadChoices();
   }
 
-  @override
-  void dispose() {
-    _textEditingControllerAdresse.removeListener(_onTextChanged);
-    _textEditingControllerAdresse.dispose();
-    _textEditingControllerVille.removeListener(_onTextChanged);
-    _textEditingControllerVille.dispose();
-    _textEditingControllerCodePostal.removeListener(_onTextChanged);
-    _textEditingControllerCodePostal.dispose();
-    _textEditingControllerCountry.removeListener(_onTextChanged);
-    _textEditingControllerCountry.dispose();
-    super.dispose();
+  Future<void> _loadChoices() async {
+    try {
+      final choices = await _choicesFuture;
+      for (var choice in choices) {
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
+        if (!myList.contains(newVoyage)) {
+          setState(() {
+            myList.add(newVoyage);
+          });
+        }
+      }
+      // Select the last item by default
+      if (myList.isNotEmpty) {
+        setState(() {
+          if (myMap['dernier_minute_reservation'] == null) {
+            myMap['dernier_minute_reservation'] = Set<int>();
+          }
+          myMap['dernier_minute_reservation']!.add(myList.last.id);
+        });
+      }
+    } catch (error) {
+      // Handle error if fetching data fails
+      print('Error: $error');
+    }
   }
 
-  void _onTextChanged() {
+  void _onItemTap(int itemId) {
     setState(() {
-      //_showButton = _textEditingControllerName.text.isEmpty;
-    });
-  }
-
-  void updateFormValidity() {
-    setState(() {
-      isFormValid =
-          validationMessageAdresse == null && validationMessageVille == null && validationMessageCodePostal == null && validationMessageCountry == null;
+      myMap['dernier_minute_reservation'] = {itemId};
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: deviceSize.width,
-          height: deviceSize.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [AppResources.colorGray5, AppResources.colorWhite],
-            ),
-          ),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'images/backgroundExp8.png',
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  height: ResponsiveSize.calculateHeight(190, context),
+      body: FutureBuilder<List<StepListResponse>>(
+          future: _choicesFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              final choices = snapshot.data!;
+              // Display your choices here
+              return Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [AppResources.colorGray5, AppResources.colorWhite],
+                  ),
                 ),
-                SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Étape 9 sur 9',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                      Image.asset(
+                        'images/backgroundExp7.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                        height: ResponsiveSize.calculateHeight(190, context),
                       ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(8, context)),
-                      Text(
-                        'On se retrouve où ?',
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Étape 10 sur 11',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                                ),
+                                const PopupView(contentTitle: "Tips : plus tu encourageras de « l’instant Booking » en réduisant ce timing plus tu auras l’occasion de remplir ton expérience 💪🏼")
+                              ],
+                            ),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(8, context)),
+                            Text(
+                              'Réservation de dernière minute',
+                              style: Theme.of(context).textTheme.headlineMedium,
+                            ),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(16, context)),
+                            Text(
+                              'Combien de temps avant le début de l’expérience le voyageur peut-il réserver?',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            SizedBox(
+                                height: ResponsiveSize.calculateHeight(40, context)),
+                            Container(
+                              width: double.infinity,
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                                runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                                children: myList.map((item) {
+                                  return Item(
+                                    id: item.id,
+                                    text: item.title,
+                                    isSelected: myMap['dernier_minute_reservation'] != null
+                                        ? myMap['dernier_minute_reservation']!.contains(item.id)
+                                        : false,
+                                    onTap: () => _onItemTap(item.id),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      Text(
-                        'Ou se situe votre expérience ?',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerAdresse,
-                        keyboardType: TextInputType.streetAddress,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'Adresse',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              bottom: ResponsiveSize.calculateHeight(44, context),
+                              right: ResponsiveSize.calculateWidth(28, context),
+                            ),
+                            child: Container(
+                              width: ResponsiveSize.calculateWidth(151, context),
+                              height: ResponsiveSize.calculateHeight(44, context),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          horizontal: ResponsiveSize.calculateHeight(
+                                              24, context),
+                                          vertical: ResponsiveSize.calculateHeight(
+                                              10, context))),
+                                  backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.disabled)) {
+                                        return AppResources
+                                            .colorGray15; // Change to your desired grey color
+                                      }
+                                      return AppResources
+                                          .colorVitamine; // Your enabled color
+                                    },
+                                  ),
+                                  shape:
+                                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Convert sets to lists
+                                  myMap.forEach((key, value) {
+                                    widget.sendListMap[key] = value.toList();
+                                  });
+                                  navigateTo(context, (_) => CreateExpStep12(sendListMap: widget.sendListMap));
+                                },
+                                child: Image.asset('images/arrowLongRight.png'),
+                              ),
+                            ),
                           ),
                         ),
-                        textInputAction: TextInputAction.done,
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageAdresse =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerVille,
-                        keyboardType: TextInputType.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'Ville',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        textInputAction: TextInputAction.done,
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageVille =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerCodePostal,
-                        keyboardType: TextInputType.number,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'Code postal',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        textInputAction: TextInputAction.done,
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageCodePostal =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(40, context)),
-                      TextFormField(
-                        controller: _textEditingControllerCountry,
-                        keyboardType: TextInputType.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
-                        decoration: InputDecoration(
-                          filled: false,
-                          hintText: 'Pays',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          contentPadding: EdgeInsets.only(
-                              top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          // Adjust padding
-                          suffix: SizedBox(
-                              height:
-                              ResponsiveSize.calculateHeight(10, context)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: AppResources.colorGray15),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        textInputAction: TextInputAction.done,
-                        //onFieldSubmitted: (value) => validate(),
-                        validator: AppResources.validatorNotEmpty,
-                        //onSaved: (value) => bloc.name = value,
-                        onChanged: (value) {
-                          setState(() {
-                            validationMessageCountry =
-                                AppResources.validatorNotEmpty(value);
-                            updateFormValidity();
-                          });
-                        },
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ResponsiveSize.calculateHeight(44, context),
-                      ),
-                      child: Container(
-                        width: ResponsiveSize.calculateWidth(319, context),
-                        height: ResponsiveSize.calculateHeight(44, context),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: ResponsiveSize.calculateHeight(
-                                        24, context),
-                                    vertical: ResponsiveSize.calculateHeight(
-                                        10, context))),
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return AppResources
-                                      .colorGray15; // Change to your desired grey color
-                                }
-                                return AppResources
-                                    .colorVitamine; // Your enabled color
-                              },
-                            ),
-                            shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                          ),
-                          onPressed: isFormValid && !isLoading
-                              ? () async {
-                            setState(() {
-                              isLoading = true;
-                              widget.sendListMap['addresse'] = _textEditingControllerAdresse.text;
-                              widget.sendListMap['ville'] = _textEditingControllerVille.text;
-                              widget.sendListMap['code_postale'] = _textEditingControllerCodePostal.text;
-                              widget.sendListMap['country'] = _textEditingControllerCountry.text;
-                            });
-                            try {
-                              final response = await AppService.api.createExperienceGuide(widget.sendListMap);
-                              if(response.experience.id != null) {
-                                navigateTo(context, (_) => CreatedExperience());
-                              }
-                            } catch (error) {
-                              // Handle the error and navigate to MainPage
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Une erreur est survenue. Veuillez réessayer.')),
-                              );
-                              navigateTo(context, (_) => MainGuidePage(initialPage: 0,));
-                            } finally {
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                          }
-                              : null,
-                          child: isLoading
-                              ? CircularProgressIndicator() // Show loader when isLoading is true
-                              : Text(
-                            'POSTER MON EXPÉRIENCE',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: AppResources.colorWhite),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              );
+            }
+          }),
+    );
+  }
+}
+
+class Item extends StatefulWidget {
+  final int id;
+  final String text;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const Item({
+    required this.id,
+    required this.text,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  State<Item> createState() => _ItemState();
+}
+
+class _ItemState extends State<Item> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: IntrinsicWidth(
+        child: Container(
+          height: ResponsiveSize.calculateHeight(40, context),
+          padding: EdgeInsets.symmetric(
+              horizontal: ResponsiveSize.calculateWidth(16, context),
+              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
+          decoration: BoxDecoration(
+            color: widget.isSelected ? Colors.black : Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(
+                ResponsiveSize.calculateCornerRadius(24, context))),
+            border: Border.all(color: AppResources.colorGray100),
+          ),
+          child: Center(
+            child: Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: widget.isSelected
+                    ? Colors.white
+                    : AppResources.colorGray100,
+                fontWeight:
+                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+class Voyage {
+  final int id;
+  final String title;
+
+  Voyage({
+    required this.id,
+    required this.title,
+  });
 }

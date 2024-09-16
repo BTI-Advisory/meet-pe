@@ -133,7 +133,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                     decoration: InputDecoration(
                       filled: false,
                       hintText: 'Hello la communauté Meet People, je suis Sacha\npassionné par la food de ma région...',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray45),
                       contentPadding: EdgeInsets.only(
                         top: ResponsiveSize.calculateHeight(20, context),
                         bottom: ResponsiveSize.calculateHeight(10, context),
@@ -211,7 +211,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                               context,
                                   (_) => Step4GuidePage(
                                 myMap: widget.myMap,
-                                totalSteps: 5,
+                                totalSteps: 4,
                                 currentStep: 4,
                               ),
                             );
