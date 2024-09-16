@@ -5,6 +5,7 @@ import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
+import '../../../../widgets/_widgets.dart';
 
 class CreateExpStep1 extends StatefulWidget {
   const CreateExpStep1({super.key});
@@ -106,7 +107,7 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                                 spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                 runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                                 children: myList.map((item) {
-                                  return Item(
+                                  return ItemWidget(
                                     id: item.id,
                                     text: item.title,
                                     isSelected: myMap['categorie'] != null
@@ -185,67 +186,4 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
       ),
     );
   }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveSize.calculateWidth(16, context),
-              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(
-                ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: widget.isSelected
-                        ? Colors.white
-                        : AppResources.colorGray100,
-                    fontWeight:
-                        widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-                  ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }

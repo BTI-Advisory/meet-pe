@@ -456,7 +456,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                   spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                   runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                                   children: myCategory.map((item) {
-                                    return Item(
+                                    return ItemWidget(
                                       id: item.id,
                                       text: item.title,
                                       isSelected: myMap['voyageur_experiences'] != null
@@ -502,7 +502,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                   spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                   runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
                                   children: myLanguage.map((item) {
-                                    return Item(
+                                    return ItemWidget(
                                       id: item.id,
                                       text: item.title,
                                       isSelected: myMap['languages_fr'] != null
@@ -703,56 +703,6 @@ class FiltredWidgetBloc with Disposable {
   @override
   void dispose() {
     super.dispose();
-  }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(16, context), vertical: ResponsiveSize.calculateHeight(10, context)-3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: widget.isSelected
-                    ? Colors.white
-                    : AppResources.colorGray100,
-                fontWeight:
-                widget.isSelected ? FontWeight.w500 : FontWeight.w300,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

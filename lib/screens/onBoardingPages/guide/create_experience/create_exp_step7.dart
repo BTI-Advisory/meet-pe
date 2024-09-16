@@ -4,6 +4,7 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/_utils.dart';
+import '../../../../widgets/_widgets.dart';
 import 'create_exp_step8.dart';
 
 class CreateExpStep7 extends StatefulWidget {
@@ -24,7 +25,7 @@ class CreateExpStep7 extends StatefulWidget {
 class _CreateExpStep7State extends State<CreateExpStep7> {
   Map<String, dynamic> sendListMap = {};
   late Future<List<StepListResponse>> _choicesFuture;
-  late List<Voyage> myList = [];
+  late List<VoyageImage> myList = [];
   Map<String, Set<Object>> myMap = {};
   int _counter = 3;
 
@@ -56,7 +57,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
     try {
       final choices = await _choicesFuture;
       for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
+        var newVoyage = VoyageImage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
         if (!myList.contains(newVoyage)) {
           setState(() {
             myList.add(newVoyage);
@@ -202,7 +203,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                       ResponsiveSize.calculateHeight(12, context),
                                   // Vertical spacing between lines
                                   children: myList.map((item) {
-                                    return Item(
+                                    return ItemImage(
                                       id: item.id,
                                       text: item.title,
                                       image: item.image,
@@ -312,86 +313,4 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
       ),
     );
   }
-}
-
-class Item extends StatefulWidget {
-  final int id;
-  final String text;
-  final String image;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const Item({
-    required this.id,
-    required this.text,
-    required this.image,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: IntrinsicWidth(
-        child: Container(
-          height: ResponsiveSize.calculateHeight(40, context),
-          padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveSize.calculateWidth(16, context),
-              vertical: ResponsiveSize.calculateHeight(10, context) - 3),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(
-                ResponsiveSize.calculateCornerRadius(24, context))),
-            border: Border.all(color: AppResources.colorGray100),
-          ),
-          child: Center(
-            child: Row(
-              children: [
-                Image.network(
-                  widget.image,
-                  //'https://rec1-meetpe.neway-esoft.com/svgs/${widget.image}.png',
-                  width: 10,
-                  height: 10,
-                  color: widget.isSelected
-                      ? Colors.white
-                      : AppResources.colorGray100,
-                ),
-                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                Text(
-                  widget.text,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: widget.isSelected
-                            ? Colors.white
-                            : AppResources.colorGray100,
-                        fontWeight: widget.isSelected
-                            ? FontWeight.w500
-                            : FontWeight.w300,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-  final String image;
-
-  Voyage({
-    required this.id,
-    required this.title,
-    required this.image,
-  });
 }

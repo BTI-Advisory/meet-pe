@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../models/availability_list_response.dart';
-import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import '../../../../widgets/_widgets.dart';
 import 'create_exp_step11.dart';
 
@@ -18,8 +16,7 @@ class CreateExpStep10 extends StatefulWidget {
 }
 
 class _CreateExpStep10State extends State<CreateExpStep10> {
-  late List<Voyage> myList = [];
-  Map<String, Set<Object>> myMap = {};
+  Map<String, Set<Availability>> myMap = {};
   List<AvailabilityListResponse> availabilityList = [];
 
   @override
@@ -43,8 +40,56 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
     }
   }
 
-  void _onAvailabilityModified() {
-    fetchAvailabilityData();
+  // This is the method that handles time selection for each day
+  void _onTimeSelected(String day, Availability availability) {
+    setState(() {
+      // If the day already exists in myMap, add the new availability to the set
+      if (myMap.containsKey(day)) {
+        myMap[day]?.add(availability);
+      } else {
+        // If the day does not exist, create a new set for this day and add the availability
+        myMap[day] = {availability};
+      }
+
+      print('Selected time for $day: ${availability.times.first.from}');
+    });
+  }
+
+
+  void _sendAllData() {
+    // Prepare the data
+    Map<String, dynamic> dataToSend = {};
+
+    // Iterate through the myMap to prepare the data to send
+    myMap.forEach((day, availabilities) {
+      dataToSend[day] = availabilities.map((availability) {
+        if (availability.times.length == 1) {
+          return {
+            'availableFullDay': availability.isAvailableFullDay,
+            'startTime': availability.times.first.from,
+            'endTime': availability.times.first.to,
+          };
+        } else {
+          return {
+            'availableFullDay': availability.isAvailableFullDay,
+            'startTime': availability.times.first.from,
+            'endTime': availability.times.first.to,
+            'startSecondTime': availability.times.last.from,
+            'endSecondTime': availability.times.last.to,
+          };
+        }
+      }).toList(); // Convert Set<Availability> to List<Map<String, String>>
+    });
+
+    ///Todo: Remove this comment when backend is update
+    /*if (widget.sendListMap['available'] == null) {
+      widget.sendListMap['available'] = {};
+    }
+
+    myMap.forEach((key, value) {
+      widget.sendListMap['available'][key] = value.toList();
+    });*/
+    navigateTo(context, (_) => CreateExpStep11(sendListMap: widget.sendListMap));
   }
 
   @override
@@ -107,7 +152,12 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                             width: double.infinity,
                             child: Column(
                               children: availabilityList.map((item) {
-                                return DayAvailable(availabilityList: item, onAvailabilityModified: _onAvailabilityModified,);
+                                return DayAvailable(
+                                  availabilityList: item,
+                                  onTimeSelected: (day, availability) {
+                                    _onTimeSelected(day, availability);  // Save selected times for each day
+                                  },
+                                );
                               }).toList(),
                             ),
                           ),
@@ -151,19 +201,14 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                 ),
                               ),
                             ),
-                            onPressed: myMap['categorie'] != null &&
-                                myMap['categorie']!.isNotEmpty
+                            onPressed: myMap.isNotEmpty
                                 ? () {
-                              navigateTo(context, (_) => CreateExpStep11(sendListMap: widget.sendListMap));
+                              setState(() {
+                                // Proceed to the next step
+                                _sendAllData();
+                              });
                             }
                                 : null,
-                            /*onPressed: () {
-                              // Convert sets to lists
-                              myMap.forEach((key, value) {
-                                widget.sendListMap[key] = value.toList();
-                              });
-                              navigateTo(context, (_) => CreateExpStep11(sendListMap: widget.sendListMap));
-                            },*/
                             child: Image.asset('images/arrowLongRight.png'),
                           ),
                         ),

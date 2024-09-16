@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:meet_pe/services/app_service.dart';
 
 import '../models/availability_list_response.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
 
 class DayAvailable extends StatefulWidget {
-  const DayAvailable({super.key, required this.availabilityList, required this.onAvailabilityModified});
+  const DayAvailable({super.key, required this.availabilityList, required this.onTimeSelected});
 
   final AvailabilityListResponse availabilityList;
-  final VoidCallback onAvailabilityModified;
+  final Function(String, Availability) onTimeSelected;
 
   @override
   State<DayAvailable> createState() => _DayAvailableState();
@@ -22,8 +21,9 @@ class _DayAvailableState extends State<DayAvailable> {
   String hourAvailableEnd = '';
   String hourSecondAvailableStart = '';
   String hourSecondAvailableEnd = '';
+  Availability availability = Availability(day: '', isAvailableFullDay: false, times: [], );
 
-  String timeResult(List<ScheduleTime> times) {
+  String timeResult(List<TimeSlot> times) {
     if (times.isNotEmpty) {
       if (times.length == 1) {
         return '${times[0].from.substring(0, 5)}-${times[0].to.substring(0, 5)}';
@@ -431,7 +431,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         timeSlot2
                                       ];
                                       // Create an Availability object
-                                      Availability availability = Availability(
+                                      availability = Availability(
                                         day: widget.availabilityList.day,
                                         isAvailableFullDay: isAvailableHour,
                                         times: times,
@@ -444,8 +444,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                         ]
                                       };
 
-                                      await AppService.api
-                                          .sendScheduleAvailability(json);
+                                      widget.onTimeSelected(widget.availabilityList.day, availability);
                                     } else {
                                       TimeSlot timeSlot = TimeSlot(
                                           from: hourAvailableStart,
@@ -455,7 +454,7 @@ class _DayAvailableState extends State<DayAvailable> {
                                       List<TimeSlot> times = [timeSlot];
 
                                       // Create an Availability object
-                                      Availability availability = Availability(
+                                      availability = Availability(
                                         day: widget.availabilityList.day,
                                         isAvailableFullDay: isAvailableHour,
                                         times: times,
@@ -468,11 +467,8 @@ class _DayAvailableState extends State<DayAvailable> {
                                         ]
                                       };
 
-                                      await AppService.api
-                                          .sendScheduleAvailability(json);
+                                      widget.onTimeSelected(widget.availabilityList.day, availability);
                                     }
-
-                                    widget.onAvailabilityModified();
                                     Navigator.pop(context);
                                   },
                                 ),
@@ -498,9 +494,9 @@ class _DayAvailableState extends State<DayAvailable> {
                 Row(
                   children: [
                     Text(
-                      widget.availabilityList.isAvailableFullTime == true
+                      availability.isAvailableFullDay == true
                           ? '9:00-18:00'
-                          : timeResult(widget.availabilityList.scheduleTimes),
+                          : timeResult(availability.times),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w400,
                             color: AppResources.colorDark,

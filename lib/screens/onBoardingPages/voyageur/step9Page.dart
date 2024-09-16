@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../services/app_service.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 import 'loadingPage.dart';
 
 class Step9Page extends StatefulWidget {
@@ -186,14 +185,4 @@ class _Step9PageState extends State<Step9Page> {
       ),
     );
   }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }

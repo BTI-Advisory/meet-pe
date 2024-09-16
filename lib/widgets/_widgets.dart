@@ -22,3 +22,5 @@ export 'event_details.dart';
 export 'calendar_matching.dart';
 export 'filtred_widget.dart';
 export 'position_filtred.dart';
+export 'item_widget.dart';
+export 'item_image_widget.dart';

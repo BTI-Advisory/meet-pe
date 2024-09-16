@@ -8,8 +8,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../../../services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../widgets/async_form.dart';
+import '../../../widgets/_widgets.dart';
 import 'loadingGuidePage.dart';
 
 // Define the callback function type
@@ -549,16 +548,6 @@ class _Step4GuidePageState extends State<Step4GuidePage>
           }),
     );
   }
-}
-
-class Voyage {
-  final int id;
-  final String title;
-
-  Voyage({
-    required this.id,
-    required this.title,
-  });
 }
 
 class Step4GuidePageBloc with Disposable {
