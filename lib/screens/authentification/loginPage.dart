@@ -5,7 +5,7 @@ import 'package:meet_pe/screens/authentification/verificationEmailPage.dart';
 import 'package:meet_pe/screens/authentification/welcomePage.dart';
 import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/widgets/web_view_container.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../services/secure_storage_service.dart';
 import '../../utils/_utils.dart';

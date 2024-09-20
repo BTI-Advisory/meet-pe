@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
+import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
+import '../../../../services/app_service.dart';
 import 'create_exp_step5.dart';
 
 class CreateExpStep4 extends StatefulWidget {
@@ -21,9 +23,35 @@ class CreateExpStep4 extends StatefulWidget {
 class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<CreateExpStep4, CreateExpStep4Bloc> {
   double valueSlider = 0;
   final idExperience = 0;
+  late Future<List<StepListResponse>> _choicesFuture;
+  late List<Voyage> myList = [];
 
   @override
   initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.about, valueSlider, widget.audioPath, idExperience);
+
+  @override
+  void initState() {
+    super.initState();
+    _choicesFuture = AppService.api.fetchChoices('languages_fr');
+    _loadChoices();
+  }
+
+  Future<void> _loadChoices() async {
+    try {
+      final choices = await _choicesFuture;
+      for (var choice in choices) {
+        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
+        if (!myList.contains(newVoyage)) {
+          setState(() {
+            myList.add(newVoyage);
+          });
+        }
+      }
+    } catch (error) {
+      // Handle error if fetching data fails
+      print('Error: $error');
+    }
+  }
 
   void updateDuration(double value) {
     setState(() {
@@ -97,6 +125,39 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                               updateDuration(value);
                             });
                           },
+                        ),
+                        const SizedBox(height: 60,),
+                        Container(
+                          width: ResponsiveSize.calculateWidth(319, context),
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                            runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                            children: myList.map((item) {
+                              return ItemWidget(
+                                id: item.id,
+                                text: item.title,
+                                isSelected: widget.myMap['duration'] != null
+                                    ? widget.myMap['duration']!.contains(item.id)
+                                    : false,
+                                onTap: () {
+                                  setState(() {
+                                    if (widget.myMap['duration'] == null) {
+                                      widget.myMap['duration'] =
+                                          Set<int>(); // Initialize if null
+                                    }
+
+                                    if (widget.myMap['duration']!
+                                        .contains(item.id)) {
+                                      widget.myMap['duration']!.remove(item.id);
+                                    } else {
+                                      widget.myMap['duration']!.add(item.id);
+                                    }
+                                  });
+                                },
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ],
                     ),
