@@ -22,45 +22,45 @@ dependencies:
   fetcher: 0.0.1-dev2
 
   # Widgets / UI
-  flash: ^3.0.5+1
+  flash: ^3.1.1
   flutter_verification_code: ^1.1.7
-  searchfield: ^1.0.6
-  table_calendar: ^3.0.9
+  searchfield: ^1.1.6
+  table_calendar: ^3.1.2
   widget_mask: ^1.0.0+0
-  image_picker: ^1.0.7
-  record: ^5.0.4
-  audioplayers: ^5.2.1
+  image_picker: ^1.1.2
+  record: ^5.1.2
+  audioplayers: ^6.1.0
   dotted_border: ^2.1.0
   flutter_staggered_grid_view: ^0.7.0
   flutter_snake_navigationbar: ^0.6.1
-  flutter_datetime_picker_plus: ^2.1.0
+  flutter_datetime_picker_plus: ^2.2.0
   flutter_svg: ^2.0.10+1
   info_popup: ^4.3.1
   flutter_card_swiper: ^7.0.1
 
   # Web
-  http: ^1.1.0
-  connectivity_plus: ^4.0.2
+  http: ^1.2.2
+  connectivity_plus: ^6.0.5
   firebase_core: ^3.5.0
   firebase_auth: ^5.3.0
   firebase_crashlytics: ^4.1.2
   firebase_messaging: ^15.1.2
-  webview_flutter: ^4.8.0
+  webview_flutter: ^4.9.0
 
   # Platform tools
-  package_info_plus: ^4.2.0
-  device_info_plus: ^9.1.1
+  package_info_plus: ^8.0.2
+  device_info_plus: ^10.1.2
   permission_handler: ^11.3.1
-  local_auth: ^2.1.7
-  path_provider: ^2.1.1
-  geolocator: ^12.0.0
+  local_auth: ^2.3.0
+  path_provider: ^2.1.4
+  geolocator: ^13.0.1
   geocoding: ^3.0.0
   path: ^1.9.0
 
   # Data management
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^9.2.2
   hive_flutter: ^1.1.0
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.2
 
   # Connect with social
   google_sign_in: ^6.2.1
@@ -69,7 +69,7 @@ dependencies:
 
   # Internationalization
   intl: ^0.19.0
-  timeago: ^3.2.2
+  timeago: ^3.7.0
 
 dev_dependencies:
   flutter_test:
@@ -80,10 +80,10 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
-  build_runner: ^2.4.6
-  json_serializable: ^6.7.1
-  json_annotation: ^4.8.1
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.12
+  json_serializable: ^6.8.0
+  json_annotation: ^4.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

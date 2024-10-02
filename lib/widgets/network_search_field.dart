@@ -95,10 +95,10 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SearchField(
-          searchStyle: Theme.of(context)
+          /*searchStyle: Theme.of(context)
               .textTheme
               .headlineSmall
-              ?.copyWith(color: AppResources.colorDark),
+              ?.copyWith(color: AppResources.colorDark),*/
           suggestions: suggestions,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
@@ -123,7 +123,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
           //onTapOutside: (x) {},
           suggestionDirection: SuggestionDirection.down,
           suggestionStyle: const TextStyle(fontSize: 20, color: Colors.black),
-          searchInputDecoration: InputDecoration(
+          searchInputDecoration: SearchInputDecoration(
             prefixIcon: const Icon(Icons.search, color: AppResources.colorGray75),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
