@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
+import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_availabilities_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -34,6 +35,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   bool updatePhoto4 = false;
   bool updatePhoto5= false;
   ModifyExperienceDataModel data = ModifyExperienceDataModel();
+  Map<String, dynamic> availabilityList = {};
 
   @override
   void initState() {
@@ -231,6 +233,74 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       }),
                                     ),
                                   ],
+                                ),
+                              ),
+
+                              ///bloc info in the top
+                              Positioned(
+                                top: 15,
+                                left: 64,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(width: 1, color: AppResources.colorVitamine),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.calendar_month, color: AppResources.colorVitamine,),
+                                      const SizedBox(width: 12,),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'Expérience proposée tous les',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorVitamine)
+                                          ),
+                                          Text(
+                                              'Lu, Ma, Me, Je, Ve, Sa, Di',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorVitamine)
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 12,),
+                                      editButton(
+                                        onTap: () async {
+                                          print('Edit availabilities');
+
+                                          // Navigate to the EditAvailabilitiesPage and wait for the result
+                                          final result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => EditAvailabilitiesPage(
+                                                sendListMap: availabilityList,
+                                              ),
+                                            ),
+                                          );
+
+                                          // Check if the result is not null and is of type ModifyExperienceDataModel
+                                          if (result != null && result is ModifyExperienceDataModel) {
+
+                                            // Update the state with the returned availabilities data
+                                            setState(() {
+
+                                              // Assign the result's availabilities data to the current instance's data
+                                              data.availabilitiesData = result.availabilitiesData;
+                                            });
+                                          }
+                                        },
+                                      ),
+
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -774,8 +844,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                             ),
                             onPressed: () async {
                               data.experienceId = widget.experienceId;
-                              //data.title = 'Le Paris de Maria en deux lignes ';
-                              await AppService.api.updateDataExperience(data);
+                              ///Todo: Remove this comment when Api is modify
+                              //await AppService.api.updateDataExperience(data);
                               Navigator.maybePop(context);
                             },
                             child: Text(

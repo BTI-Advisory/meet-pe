@@ -15,6 +15,7 @@ class ModifyExperienceDataModel {
   String? image4;
   String? image5;
   String? title;
+  List<AvailabilitiesDataModel>? availabilitiesData;
 
   ModifyExperienceDataModel({
     this.experienceId,
@@ -31,5 +32,24 @@ class ModifyExperienceDataModel {
     this.image4,
     this.image5,
     this.title,
+    this.availabilitiesData
+  });
+}
+
+class AvailabilitiesDataModel {
+  String day;
+  bool availableFullDay;
+  String startTime;
+  String endTime;
+  String? startSecondTime;
+  String? endSecondTime;
+
+  AvailabilitiesDataModel({
+    required this.day,
+    required this.availableFullDay,
+    required this.startTime,
+    required this.endTime,
+    this.startSecondTime,
+    this.endSecondTime,
   });
 }
