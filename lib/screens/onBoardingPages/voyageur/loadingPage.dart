@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../resources/resources.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
-import '../../travelersPages/main_travelers_page.dart';
+import '../../travelersPages/tutorial/tutorial_page.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -25,7 +25,7 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
       setState(() {});
     });
     //controller.repeat(reverse: true);
-    controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0,)));
+    controller.forward().whenComplete(() => navigateTo(context, (_) => TutorialPage()));
     super.initState();
   }
 
