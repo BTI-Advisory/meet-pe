@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../services/app_service.dart';
@@ -20,6 +21,10 @@ class _Step9PageState extends State<Step9Page> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOn;
+  DateTime? _rangeStart;
+  DateTime? _rangeEnd;
+  bool isRangeSelected = false;
 
   final BoxDecoration tableCalendarDecoration = BoxDecoration(
     color: Colors.white,
@@ -83,7 +88,10 @@ class _Step9PageState extends State<Step9Page> {
                   firstDay: kFirstDay,
                   lastDay: kLastDay,
                   focusedDay: _focusedDay,
+                  rangeStartDay: _rangeStart,
+                  rangeEndDay: _rangeEnd,
                   calendarFormat: _calendarFormat,
+                  rangeSelectionMode: _rangeSelectionMode,
                   selectedDayPredicate: (day) {
                     // Use `selectedDayPredicate` to determine which day is currently selected.
                     // If this returns true, then `day` will be marked as selected.
@@ -98,8 +106,22 @@ class _Step9PageState extends State<Step9Page> {
                       setState(() {
                         _selectedDay = selectedDay;
                         _focusedDay = focusedDay;
+                        _rangeStart = null;
+                        _rangeEnd = null;
+                        _rangeSelectionMode =
+                            RangeSelectionMode.toggledOff;
+                        isRangeSelected = false;
                       });
                     }
+                  },
+                  onRangeSelected: (start, end, focusedDay) {
+                    setState(() {
+                      _selectedDay = null;
+                      _focusedDay = focusedDay;
+                      _rangeStart = start;
+                      _rangeEnd = end;
+                      isRangeSelected = true;
+                    });
                   },
                   onPageChanged: (focusedDay) {
                     // No need to call `setState()` here
@@ -114,6 +136,36 @@ class _Step9PageState extends State<Step9Page> {
                         width: 1.0,
                       ),
                     ),
+                    rangeStartDecoration: BoxDecoration(
+                      color: AppResources.colorWhite,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppResources.colorVitamine,
+                        width: 1.0,
+                      ),
+                    ),
+                    rangeStartTextStyle: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(
+                        fontSize: 14,
+                        color: AppResources.colorVitamine),
+                    rangeEndDecoration: BoxDecoration(
+                      color: AppResources.colorWhite,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppResources.colorVitamine,
+                        width: 1.0,
+                      ),
+                    ),
+                    rangeEndTextStyle: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(
+                        fontSize: 14,
+                        color: AppResources.colorVitamine),
+                    rangeHighlightColor: AppResources.colorVitamine
+                        .withOpacity(0x44 / 0xFF),
                   ),
                 ),
               ),
@@ -140,32 +192,39 @@ class _Step9PageState extends State<Step9Page> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_selectedDay != null) {
-                            // Adding selected date to myMap
-                            String key = 'date'; // You can use a meaningful key
-                            Set<String> selectedDatesSet = { _selectedDay.toString() };
-
-                            setState(() {
-                              // Add the selected date to myMap
-                              widget.myMap[key] = selectedDatesSet;
-                            });
-
-                            // Convert sets to lists
-                            widget.myMap.forEach((key, value) {
-                              widget.modifiedMap[key] = value.toList();
-                            });
-                            // Verify that the date is added to myMap
-                            print('Updated modifiedMap: ${widget.modifiedMap}');
-                            //navigateTo(context, (_) => LoadingPage());
-                            bool isSend = await AppService.api
-                                .sendListVoyageur(widget.modifiedMap);
-                            if (isSend) {
-                              navigateTo(context, (_) => LoadingPage());
-                            }
+                          if (_rangeStart!.isBefore(DateTime.now())) {
+                            showMessage(context, 'Error date select');
                           } else {
-                            // Handle case when no date is selected
-                            // You might want to show a message or take another action here
+                            if(_rangeStart != null) {
+                              //bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
+                              print('FREKKRJFEKRFKERF 11 ${DateFormat('yyyy-MM-dd').format(_rangeStart!)}');
+                              if (widget.myMap['rangeStart'] == null) {
+                                widget.myMap['rangeStart'] = Set<String>(); // Initialize if null
+                              }
+                              widget.myMap['rangeStart']!.add(DateFormat('yyyy-MM-dd').format(_rangeStart!));
+                            }
+                            if(_rangeEnd != null) {
+                              //bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
+                              print('FREKKRJFEKRFKERF 22 ${DateFormat('yyyy-MM-dd').format(_rangeEnd!)}');
+                              if (widget.myMap['rangeEnd'] == null) {
+                                widget.myMap['rangeEnd'] = Set<String>(); // Initialize if null
+                              }
+                              widget.myMap['rangeEnd']!.add(DateFormat('yyyy-MM-dd').format(_rangeEnd!));
+                            }
                           }
+                          // Convert sets to lists
+                          widget.myMap.forEach((key, value) {
+                            widget.modifiedMap[key] = value.toList();
+                          });
+                          // Verify that the date is added to myMap
+                          print('Updated modifiedMap: ${widget.modifiedMap}');
+                          ///Todo: Remove comment when api is modify
+                          navigateTo(context, (_) => LoadingPage());
+                          /*bool isSend = await AppService.api
+                              .sendListVoyageur(widget.modifiedMap);
+                          if (isSend) {
+                            navigateTo(context, (_) => LoadingPage());
+                          }*/
                         },
                         child: Text(
                           'VOIR LES EXPERIENCES',

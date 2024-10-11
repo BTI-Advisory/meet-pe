@@ -1685,6 +1685,7 @@ class ApiClient {
       unawaited(SecureStorageService.deleteIsVerified());
       unawaited(SecureStorageService.deleteForgotPasswordToken());
       unawaited(SecureStorageService.deleteCompleted());
+      unawaited(SecureStorageService.deleteIsFirstLaunch());
 
       // Delete user data
       unawaited(StorageService.deleteAll(butAnalyticsEnabled: true));

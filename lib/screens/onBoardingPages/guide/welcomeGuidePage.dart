@@ -39,10 +39,11 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        'PRÊT \nPOUR \nDEVENIR \nUN SUPER \nGUIDE ?',
+                        'Prêt(e) pour rejoindre notre team de super héros',
+                        //'PRÊT \nPOUR \nDEVENIR \nUN SUPER \nGUIDE ?',
                         style: TextStyle(
                           color: AppResources.colorBeigeLight,
-                          fontSize: ResponsiveSize.calculateTextSize(40, context),
+                          fontSize: ResponsiveSize.calculateTextSize(35, context),
                           fontFamily: 'Rammetto One',
                           fontWeight: FontWeight.w400,
                           height: ResponsiveSize.calculateHeight(1.0, context),

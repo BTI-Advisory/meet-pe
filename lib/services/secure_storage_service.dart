@@ -50,6 +50,11 @@ class SecureStorageService {
   static Future<String?> readCompleted() => _storage.read(key: _isCompletedKey);
   static Future<void> deleteCompleted() => _storage.delete(key: _isCompletedKey);
 
+  static const _isFirstLaunchKey = 'firstLaunch';
+  static Future<void> saveIsFirstLaunch(String value) => _storage.write(key: _isFirstLaunchKey, value: value);
+  static Future<String?> readIsFirstLaunch() => _storage.read(key: _isFirstLaunchKey);
+  static Future<void> deleteIsFirstLaunch() => _storage.delete(key: _isFirstLaunchKey);
+
   static Future<void> deleteAll() => _storage.deleteAll();
 
   static Future<void> _clearSecureStorage() async {
