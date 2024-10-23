@@ -42,15 +42,16 @@ class _ItemImageState extends State<ItemImage> {
           child: Center(
             child: Row(
               children: [
-                Image.network(
+                widget.image != null && widget.image.isNotEmpty
+                    ? Image.network(
                   widget.image,
-                  //'https://rec1-meetpe.neway-esoft.com/svgs/${widget.image}.png',
                   width: 10,
                   height: 10,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,
-                ),
+                )
+                    : Container(),
                 SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                 Text(
                   widget.text,
