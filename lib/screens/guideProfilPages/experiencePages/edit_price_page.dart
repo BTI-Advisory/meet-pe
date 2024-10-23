@@ -156,7 +156,7 @@ class _EditPricePageState extends State<EditPricePage> {
                           onChanged: (value) {
                             setState(() {
                               double parsedValue = double.tryParse(value) ?? 15; // Default to min value if empty or not a number
-                              valueSlider = parsedValue.clamp(15, 2000); // Ensure value stays within range
+                              valueSlider = parsedValue.clamp(15, 1000); // Ensure value stays within range
                               //_textEditingControllerPrice.text = valueSlider.toStringAsFixed(2);
                             });
                           },
@@ -171,8 +171,8 @@ class _EditPricePageState extends State<EditPricePage> {
                       Slider(
                         value: valueSlider,
                         min: 15,
-                        max: 2000,
-                        divisions: 10,
+                        max: 1000,
+                        //divisions: 10,
                         label: '${valueSlider.round().toString()} €',
                         onChanged: (double value) {
                           setState(() {
