@@ -25,12 +25,18 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
   DateTime? _selectedDay;
 
   final customEventList = {
-    DateTime.utc(2024, 9, 03): [
-      Event('03 Fév.', '09:30 - 13:30'),
-      Event('03 Fév.', '14:00 - 18:00'),
+    DateTime.utc(2024, 11, 23): [
+      Event('23 Nov.', '09:30 - 13:30'),
+      Event('23 Nov.', '14:00 - 18:00'),
     ],
-    DateTime.utc(2024, 9, 04): [
-      Event('03 Fév.', '12:00 - 13:00'),
+    DateTime.utc(2024, 11, 25): [
+      Event('25 Nov.', '12:00 - 13:00'),
+    ],
+    DateTime.utc(2024, 11, 26): [
+      Event('26 Nov.', '12:00 - 13:00'),
+    ],
+    DateTime.utc(2024, 11, 28): [
+      Event('28 Nov.', '12:00 - 13:00'),
     ],
     // Add more custom events here
   };
