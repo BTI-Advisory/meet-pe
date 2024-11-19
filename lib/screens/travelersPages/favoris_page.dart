@@ -26,13 +26,13 @@ class _FavorisPageState extends State<FavorisPage> {
     duplicateItems = [
       const FavorisDataResponse(
         id: 12,
-        title: 'Le Paris de Maria en deux lignes',
+        title: 'Balade Gourmande',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.',
+        "Je vous emmène pendant environ 2h autour du vieux port pour vous raconter des petites histoires qui ont fait la grande. On passe dans les petites rues et on découvre les petites anecdotes de la ville. Puis on finit la balade à la plage pour une dégustation de produits locaux. Avec ou sans alcool et option végétarien possible.",
         duration: '3',
         aboutGuide:
-            "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.",
-        pricePerTraveler: '120',
+        "Je suis natif de la ville. Je souhaite vous faire avoir une expérience où vous sortirez de là et vous vous direz ''génial, pendant 1 journée j'ai eu l'impression d'être rochelais''.",
+        pricePerTraveler: '32',
         numberOfTravelers: 4,
         city: '',
         address: '',
@@ -42,28 +42,30 @@ class _FavorisPageState extends State<FavorisPage> {
         status: 'Accepté',
         userId: 12,
         country: '',
-        categories: ['Aventurier'],
+        categories: ['Exploration Urbaine'],
         guideParticipants: [''],
         etAvecCa: [''],
         isOnline: true,
         isProfessionalGuide: true,
         guideDescription:
-            "Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.",
-        guideName: 'Maria',
+        "Je suis natif de la ville. Je souhaite vous faire avoir une expérience où vous sortirez de là et vous vous direz 'génial, pendant 1 journée j'ai eu l'impression d'être rochelais.'.",
+        guideName: 'Alexandre',
         mainPhoto:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66e31d90d6015received_593085006281053.jpg',
         image0:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66f1cd1ab031dimage_picker_08128290-E2D7-431D-B2A2-4DA31FDCFB76-6518-0000010B90C44FC4.jpg',
+        image1:
+        'https://www.meetpe.fr//experiences/66c30131434bd1000000143.jpg',
       ),
       const FavorisDataResponse(
         id: 12,
-        title: 'Baha experience',
+        title: 'Dégustation de fromages et vins dans une cave secrète!',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.',
+        "Dans une cave secrète du 17éme siècle, au sein d'une fromagerie familiale multi-centenaire, vous savourerez une expérience unique de dégustation. Un sommelier vous présentera des vins raffinés chacun associé à un fromage artisanal affiné sur place. Les arômes et les textures s'entremêleront, révélant une harmonie parfaite des saveurs, dans une ambiance intime et authentique !",
         duration: '3',
         aboutGuide:
-            "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.",
-        pricePerTraveler: '120',
+        "WeTasteParis, c'est Aurélien et Andrés, deux sommeliers associés, avec chacun 10 ans d'expérience dans la restauration en France et à l'étranger. Ils ont mis leur passion au service des amateurs de gastronomie afin de leur faire découvrir dans un cadre insolite et convivial les plaisirs gustatifs que Paris a à leur offrir.",
+        pricePerTraveler: '85',
         numberOfTravelers: 4,
         city: '',
         address: '',
@@ -73,28 +75,32 @@ class _FavorisPageState extends State<FavorisPage> {
         status: 'Accepté',
         userId: 12,
         country: '',
-        categories: ['Aventurier'],
+        categories: ['Autour de la Food'],
         guideParticipants: [''],
         etAvecCa: [''],
         isOnline: true,
         isProfessionalGuide: true,
         guideDescription:
-            "Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.",
-        guideName: 'Maria',
+        "Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.",
+        guideName: 'Aurelien',
         mainPhoto:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66b23c98a5b871000021361.jpg',
         image0:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66b23c98a0cab1000021364.jpg',
+        image1:
+        'https://www.meetpe.fr//experiences/66b23c98a374b1000021365.jpg',
+        image2:
+        'https://www.meetpe.fr//experiences/66b23c98a423d1000021366.jpg',
       ),
       const FavorisDataResponse(
         id: 12,
-        title: 'Alex experience',
+        title: 'Passion Moto',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.',
+        "Je propose une sortie Moto Trail découverte des sentiers TET en région parisienne. Basé dans le secteur 92/78 je prévois une sortie de 4h sur la sortie TET 8. Débutants ou confirmés sont bienvenus. Venez passer un moment de partage convivial et découvrez le trail moto. !",
         duration: '3',
         aboutGuide:
-            "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.",
-        pricePerTraveler: '120',
+        "Je m'appelle Mick j'ai 40 ans passés, je suis sportif et actif, j'aime passée de bons moments et faire des rencontres en partageant ma passion.",
+        pricePerTraveler: '45',
         numberOfTravelers: 4,
         city: '',
         address: '',
@@ -104,18 +110,22 @@ class _FavorisPageState extends State<FavorisPage> {
         status: 'Accepté',
         userId: 12,
         country: '',
-        categories: ['Aventurier'],
+        categories: ['Activités Mécaniques'],
         guideParticipants: [''],
         etAvecCa: [''],
         isOnline: true,
         isProfessionalGuide: true,
         guideDescription:
-            "Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.",
-        guideName: 'Maria',
+        "Lorem ipsum dolor sit amet, consectetur adipe iscijd elit, sed do eiusmod tempor incididunt ut labore etsi dolore magna aliqua. Ut enim adipsd minim estedgj veniam, quis nostrud exercitation esteil ullamco astr labor commodou consequat.",
+        guideName: 'Michael',
         mainPhoto:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66bc9135243361000004905.jpg',
         image0:
-            'https://www.meetpe.fr//user_profile/669fc7d02049aimage_picker_D2F0CDF9-2732-4B83-B4A7-7F4C7E97C230-77723-000001233A7AAB01.jpg',
+        'https://www.meetpe.fr//experiences/66bc91352b4b71000055636.jpg',
+        image1:
+        'https://www.meetpe.fr//experiences/66bc91352a1021000004906.jpg',
+        image2:
+        'https://www.meetpe.fr//experiences/66bc9135257481000004902.jpg',
       ),
     ];
 

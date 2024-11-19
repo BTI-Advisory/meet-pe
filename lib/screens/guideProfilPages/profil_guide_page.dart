@@ -66,12 +66,21 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     });
   }
 
-  void toggleRole() {
+  void toggleRole(String selectedRole) {
     setState(() {
-      isGuide = !isGuide;
-      isGuide ? navigateTo(context, (_) => MainGuidePage(initialPage: 2,)) : navigateTo(context, (_) => MainTravelersPage(initialPage: 3,));
+      isGuide = (selectedRole == "Guide");
+    });
+
+    // Use addPostFrameCallback to navigate after the UI updates
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isGuide && selectedRole == "Guide") {
+        navigateTo(context, (_) => MainGuidePage(initialPage: 2));
+      } else if (!isGuide && selectedRole == "Voyageur") {
+        navigateTo(context, (_) => MainTravelersPage(initialPage: 3));
+      }
     });
   }
+
 
   Future<void> getFullVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -443,8 +452,12 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                           40, context)),
                                 ),
                               ),
-                              child:
-                                  isGuide ? buildGuideUI() : buildVoyageurUI(),
+                              child: Row(
+                                children: [
+                                  buildRoleButton("Voyageur", isActive: !isGuide),
+                                  buildRoleButton("Guide", isActive: isGuide),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -706,105 +719,42 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     );
   }
 
-  Widget buildGuideUI() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: toggleRole,
-          child: Container(
-            width: ResponsiveSize.calculateWidth(153.50, context),
-            height: ResponsiveSize.calculateHeight(44, context),
-            child: Center(
-              child: Text(
-                'Voyageur',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppResources.colorGray45),
-              ),
-            ),
+  Widget buildRoleButton(String role, {required bool isActive}) {
+    return GestureDetector(
+      onTap: () {
+        // Call toggleRole with the selected role name
+        if ((role == "Guide" && !isGuide) || (role == "Voyageur" && isGuide)) {
+          toggleRole(role);
+        }
+      },
+      child: Container(
+        width: ResponsiveSize.calculateWidth(153.50, context),
+        height: ResponsiveSize.calculateHeight(44, context),
+        decoration: ShapeDecoration(
+          color: isActive ? AppResources.colorWhite : Colors.transparent,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 2, color: isActive ? AppResources.colorVitamine : Colors.transparent),
+            borderRadius: BorderRadius.circular(
+                ResponsiveSize.calculateCornerRadius(40, context)),
           ),
         ),
-        GestureDetector(
-          onTap: toggleRole,
-          child: Container(
-            width: ResponsiveSize.calculateWidth(153.50, context),
-            height: ResponsiveSize.calculateHeight(44, context),
-            decoration: ShapeDecoration(
-              color: AppResources.colorWhite,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2, color: AppResources.colorVitamine),
-                borderRadius: BorderRadius.circular(
-                    ResponsiveSize.calculateCornerRadius(40, context)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (isActive) Icon(Icons.check_circle, color: AppResources.colorVitamine),
+            if (isActive) SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
+            Text(
+              role,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: isActive ? AppResources.colorVitamine : AppResources.colorGray45,
+                fontSize: isActive ? 14 : null,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.check_circle, color: AppResources.colorVitamine),
-                SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
-                Text(
-                  'Guide',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: AppResources.colorVitamine, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget buildVoyageurUI() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: toggleRole,
-          child: Container(
-            width: ResponsiveSize.calculateWidth(153.50, context),
-            height: ResponsiveSize.calculateHeight(44, context),
-            decoration: ShapeDecoration(
-              color: AppResources.colorWhite,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2, color: AppResources.colorVitamine),
-                borderRadius: BorderRadius.circular(
-                    ResponsiveSize.calculateCornerRadius(40, context)),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.check_circle, color: AppResources.colorVitamine),
-                SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
-                Text(
-                  'Voyageur',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: AppResources.colorVitamine, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: toggleRole,
-          child: Container(
-            width: ResponsiveSize.calculateWidth(153.50, context),
-            height: ResponsiveSize.calculateHeight(44, context),
-            child: Center(
-              child: Text(
-                'Guide',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppResources.colorGray45),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
