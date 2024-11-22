@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meet_pe/utils/_utils.dart';
 
-import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
-import '../../../../services/app_service.dart';
-import '../../../../utils/_utils.dart';
-import '../../../../widgets/_widgets.dart';
+import '../../../../widgets/popup_view.dart';
 import 'create_exp_step10.dart';
 
 class CreateExpStep9 extends StatefulWidget {
@@ -16,211 +14,441 @@ class CreateExpStep9 extends StatefulWidget {
 }
 
 class _CreateExpStep9State extends State<CreateExpStep9> {
-  late Future<List<StepListResponse>> _choicesFuture;
-  late List<VoyageImage> myList = [];
-  Map<String, Set<Object>> myMap = {};
+  double valueSlider = 15;
+  bool isKidsAvailable = false;
+  bool isGroupeAvailable = false;
+  int _counter = 3;
+  late TextEditingController _textEditingControllerPrice;
+  late TextEditingController _textEditingControllerPriceGroup;
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('et_avec_ça');
-    _loadChoices();
+    _textEditingControllerPrice = TextEditingController();
+    _textEditingControllerPrice.addListener(_onTextChanged);
+    _textEditingControllerPriceGroup = TextEditingController();
+    _textEditingControllerPriceGroup.addListener(_onTextChanged);
+    _textEditingControllerPrice.text = valueSlider.toInt().toString();
   }
 
-  Future<void> _loadChoices() async {
-    try {
-      final choices = await _choicesFuture;
-      for (var choice in choices) {
-        var newVoyage = VoyageImage(id: choice.id, title: choice.choiceTxt, image: choice.svg);
-        if (!myList.contains(newVoyage)) {
-          setState(() {
-            myList.add(newVoyage);
-          });
-        }
-      }
-      // Select the last item by default
-      if (myList.isNotEmpty) {
-        setState(() {
-          if (myMap['et_avec_ça'] == null) {
-            myMap['et_avec_ça'] = Set<int>();
-          }
-          myMap['et_avec_ça']!.add(myList.last.id);
-        });
-      }
-    } catch (error) {
-      // Handle error if fetching data fails
-      print('Error: $error');
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    _textEditingControllerPrice.removeListener(_onTextChanged);
+    _textEditingControllerPrice.dispose();
+    _textEditingControllerPriceGroup.removeListener(_onTextChanged);
+    _textEditingControllerPriceGroup.dispose();
   }
 
-  void _onItemTap(int itemId) {
+  void _onTextChanged() {
     setState(() {
-      if (myMap['et_avec_ça'] == null) {
-        myMap['et_avec_ça'] = {};
-      }
+      //_showButton = _textEditingControllerName.text.isEmpty;
+    });
+  }
 
-      // Check if the tapped item is already selected
-      final bool isSelected = myMap['et_avec_ça']!.contains(itemId);
-
-      // If it's the last item and it's already selected, deselect it
-      if (itemId == myList.last.id && isSelected) {
-        myMap['et_avec_ça']!.remove(itemId);
-      } else {
-        // If it's the last item, deselect all other items
-        if (itemId == myList.last.id) {
-          myMap['et_avec_ça'] = {itemId};
-        } else {
-          // Deselect the last item if it's currently selected
-          if (myMap['et_avec_ça']!.contains(myList.last.id)) {
-            myMap['et_avec_ça']!.remove(myList.last.id);
-          }
-          // Toggle selection for the tapped item
-          if (isSelected) {
-            myMap['et_avec_ça']!.remove(itemId);
-          } else {
-            myMap['et_avec_ça']!.add(itemId);
-          }
-        }
+  void _incrementCounter() {
+    setState(() {
+      if (_counter < 10) {
+        _counter++;
       }
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      if (_counter > 1) {
+        _counter--;
+      }
+    });
+  }
+
+  void updatePrice(double value) {
+    setState(() {
+      valueSlider = value;
+      //bloc.updateDuration(value); // Call the method to update duration in bloc
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<StepListResponse>>(
-          future: _choicesFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              final choices = snapshot.data!;
-              // Display your choices here
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [AppResources.colorGray5, AppResources.colorWhite],
+      body: GestureDetector(
+        onTap: () {
+          // FocusScope.of(context).requestFocus(FocusNode()); // Alternative method
+          FocusScope.of(context).unfocus(); // Unfocus any focused text input fields
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppResources.colorGray5, AppResources.colorWhite],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'images/backgroundExp6.png',
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    height: ResponsiveSize.calculateHeight(190, context),
                   ),
-                ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'images/backgroundExp7.png',
-                        width: double.infinity,
-                        fit: BoxFit.fill,
-                        height: ResponsiveSize.calculateHeight(190, context),
-                      ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                        child: Column(
+                  SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Étape 8 sur 11',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(8, context)),
+                        Text(
+                          'Ça coûte combien ?',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(16, context)),
+                        Text(
+                          'Renseigne le prix de ton expérience',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 8 sur 11',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(8, context)),
-                            Text(
-                              'Et avec ça ?',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(16, context)),
-                            Text(
-                              'Renseigne ce qui est inclus dans ton expérience.',
+                              'par personne.',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            SizedBox(
-                                height: ResponsiveSize.calculateHeight(40, context)),
-                            Container(
-                              width: double.infinity,
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                children: myList.map((item) {
-                                  return ItemImage(
-                                    id: item.id,
-                                    text: item.title,
-                                    image: item.image,
-                                    isSelected: myMap['et_avec_ça'] != null
-                                        ? myMap['et_avec_ça']!.contains(item.id)
-                                        : false,
-                                    onTap: () => _onItemTap(item.id),
-                                  );
-                                }).toList(),
+                            const PopupView(contentTitle: "Soit tu slides soit tu écris ton prix 😃")
+                          ],
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(30, context)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IntrinsicWidth(
+                              child: TextFormField(
+                                controller: _textEditingControllerPrice,
+                                keyboardType: TextInputType.number,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontSize: 16, color: AppResources.colorDark),
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  hintText: '350 €',
+                                  hintStyle:
+                                  Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16, color: AppResources.colorGray60),
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                  // Adjust padding
+                                  suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppResources.colorGray15),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    double parsedValue = double.tryParse(value) ?? 15; // Default to min value if empty or not a number
+                                    valueSlider = parsedValue.clamp(15, 1000); // Ensure value stays within range
+                                    //_textEditingControllerPrice.text = valueSlider.toStringAsFixed(2);
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
+                            ),
+                            Slider(
+                              value: valueSlider,
+                              min: 15,
+                              max: 1000,
+                              //divisions: 20,
+                              label: '${valueSlider.round().toString()} €',
+                              onChanged: (double value) {
+                                setState(() {
+                                  valueSlider = value;
+                                  _textEditingControllerPrice.text = value.round().toString();
+                                  updatePrice(value);
+                                });
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: ResponsiveSize.calculateHeight(44, context),
-                              right: ResponsiveSize.calculateWidth(28, context),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(20, context)),
+                        Container(
+                          width: double.infinity,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Revenus estimés ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                              ),
+                              const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: ResponsiveSize.calculateHeight(23, context)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Réduction 30% enfants 2-12ans',
+                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                                ),
+                                const PopupView(contentTitle: "Si tu coches cette case il y aura directement une remise de 30% qui s’appliquera pour les enfants.")
+                              ],
                             ),
-                            child: Container(
-                              width: ResponsiveSize.calculateWidth(151, context),
-                              height: ResponsiveSize.calculateHeight(44, context),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.symmetric(
-                                          horizontal: ResponsiveSize.calculateHeight(
-                                              24, context),
-                                          vertical: ResponsiveSize.calculateHeight(
-                                              10, context))),
-                                  backgroundColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.disabled)) {
-                                        return AppResources
-                                            .colorGray15; // Change to your desired grey color
-                                      }
-                                      return AppResources
-                                          .colorVitamine; // Your enabled color
-                                    },
+                            Switch.adaptive(
+                              value: isKidsAvailable,
+                              activeColor: AppResources.colorVitamine,
+                              onChanged: (bool value) {
+                                // Update the state immediately without awaiting the async operation
+                                setState(() {
+                                  isKidsAvailable = value;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Prix Groupe Privé',
+                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                                ),
+                                const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privé ou 1 personne.")
+                              ],
+                            ),
+                            Switch.adaptive(
+                              value: isGroupeAvailable,
+                              activeColor: AppResources.colorVitamine,
+                              onChanged: (bool value) {
+                                // Update the state immediately without awaiting the async operation
+                                setState(() {
+                                  isGroupeAvailable = value;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                        Visibility(
+                          visible: isGroupeAvailable,
+                          child: Column(
+                            children: [
+                              SizedBox(height: ResponsiveSize.calculateHeight(15, context)),
+                              Text(
+                                'Un voyageur peut réserver l’expérience rien que pour lui et ses proches.',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Nombre de personne max.',
+                                    style: Theme.of(context).textTheme.bodyMedium,
                                   ),
-                                  shape:
-                                  MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
+                                  SizedBox(
+                                      width: ResponsiveSize.calculateWidth(
+                                          16, context)),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppResources.colorGray45,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: _decrementCounter,
+                                      icon: Icon(Icons.remove,
+                                          color: AppResources.colorGray75),
                                     ),
                                   ),
-                                ),
-                                onPressed: () {
-                                  // Convert sets to lists
-                                  myMap.forEach((key, value) {
-                                    widget.sendListMap[key] = value.toList();
-                                  });
-                                  navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
-                                },
-                                child: Image.asset('images/arrowLongRight.png'),
+                                  SizedBox(
+                                      width: ResponsiveSize.calculateWidth(
+                                          8, context)),
+                                  Text(
+                                    '$_counter',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                      width: ResponsiveSize.calculateWidth(
+                                          8, context)),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppResources.colorGray45,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: _incrementCounter,
+                                      icon: Icon(Icons.add,
+                                          color: AppResources.colorGray75),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: ResponsiveSize.calculateHeight(9, context)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Prix Groupe Privé',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  IntrinsicWidth(
+                                    child: TextFormField(
+                                      controller: _textEditingControllerPriceGroup,
+                                      keyboardType: TextInputType.number,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(fontSize: 16, color: AppResources.colorDark),
+                                      decoration: InputDecoration(
+                                        filled: false,
+                                        hintText: '350',
+                                        hintStyle:
+                                        Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16, color: AppResources.colorGray60),
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                        // Adjust padding
+                                        suffix: SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppResources.colorGray15),
+                                        ),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppResources.colorGray15),
+                                        ),
+                                        errorBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.red),
+                                        ),
+                                      ),
+                                      textInputAction: TextInputAction.done,
+                                      //onFieldSubmitted: (value) => validate(),
+                                      validator: AppResources.validatorNotEmpty,
+                                      /*onSaved: (value) => bloc.name = value,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      validationMessageName =
+                                          AppResources.validatorNotEmpty(value);
+                                      updateFormValidity();
+                                    });
+                                  },*/
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Revenus estimés ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                                  ),
+                                  const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: ResponsiveSize.calculateHeight(44, context),
+                        right: ResponsiveSize.calculateWidth(28, context),
+                      ),
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(151, context),
+                        height: ResponsiveSize.calculateHeight(44, context),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateHeight(
+                                        24, context),
+                                    vertical: ResponsiveSize.calculateHeight(
+                                        10, context))),
+                            backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return AppResources
+                                      .colorGray15; // Change to your desired grey color
+                                }
+                                return AppResources
+                                    .colorVitamine; // Your enabled color
+                              },
+                            ),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
                               ),
                             ),
                           ),
+                          onPressed: () {
+                            if(valueSlider<15 || (int.tryParse(_textEditingControllerPrice.text) ?? 15)<15) {
+                              showMessage(context, 'Le prix doit minimum 15€');
+                            } else {
+                              widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
+                              widget.sendListMap['discount_kids_between_2_and_12'] = isKidsAvailable.toString();
+                              widget.sendListMap['support_group_prive'] = isGroupeAvailable.toString();
+                              widget.sendListMap['max_number_of_persons'] = _counter.toInt();
+                              widget.sendListMap['price_group_prive'] = _textEditingControllerPriceGroup.text;
+
+                              navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));
+                            }
+                          },
+                          child: Image.asset('images/arrowLongRight.png'),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            }
-          }),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
