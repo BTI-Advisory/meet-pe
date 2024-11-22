@@ -6,6 +6,7 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import 'create_exp_step5.dart';
+import 'create_exp_step6.dart';
 
 class CreateExpStep4 extends StatefulWidget {
   CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.about, required this.audioPath});
@@ -64,7 +65,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-        onValidated: bloc.makeExperienceGuide1,
+        onValidated: bloc.makeExperienceGuide,
         onSuccess: () {
           return navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
         },
@@ -235,7 +236,7 @@ class CreateExpStep4Bloc with Disposable {
 
   CreateExpStep4Bloc(this.myMap, this.name, this.description, this.about, this.duration, this.audioPath, this.idExperience);
 
-  Future<void> makeExperienceGuide1() async {
+  Future<void> makeExperienceGuide() async {
     try {
       modifiedMap['nom'] = name!;
       modifiedMap['description'] = description!;
@@ -252,7 +253,7 @@ class CreateExpStep4Bloc with Disposable {
 
     } catch (error) {
       // Handle the error appropriately
-      print("Error in make Experience Guide 1: $error");
+      print("Error in make Experience Guide: $error");
     }
   }
 
