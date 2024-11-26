@@ -334,8 +334,8 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
       Event('Today\'s Event 1'),
       Event('Today\'s Event 2'),
     ],
-  });
+  });*/
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
-}*/
+}

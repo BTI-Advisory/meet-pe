@@ -25,3 +25,4 @@ export 'position_filtred.dart';
 export 'item_widget.dart';
 export 'item_image_widget.dart';
 export 'time_slot_widget.dart';
+export 'calendar_multi_selection.dart';
