@@ -32,20 +32,44 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
       Map<String, dynamic> data = json.decode(response.body);
       List<dynamic> cities = data['geonames'];
       setState(() {
-        suggestions = cities.map((city) => SearchFieldListItem<String>(city['name'], child: searchChild(city['name']))).toList();
+        suggestions = cities.map((city) {
+          final cityName = city['name'];
+          final countryName = city['countryName'];
+          return SearchFieldListItem<String>(
+            '$cityName, $countryName',
+            child: searchChild(cityName, countryName),
+          );
+        }).toList();
       });
     } else {
       throw Exception('Failed to load suggestions');
     }
   }
 
-  Widget searchChild(String x) => Padding(
+  Widget searchChild(String cityName, String countryName) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Icon(Icons.location_on, color: AppResources.colorDark),
         const SizedBox(width: 6), // Space between the icon and the text
-        Text(x, style: const TextStyle(fontSize: 15, color: Colors.black)),
+        Expanded( // Ensures text doesn't overflow
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                cityName,
+                style: const TextStyle(fontSize: 15, color: Colors.black),
+                overflow: TextOverflow.ellipsis, // Prevents overflow
+              ),
+              Text(
+                countryName,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                overflow: TextOverflow.ellipsis, // Prevents overflow
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );
@@ -118,7 +142,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
           ),
           key: const Key('searchfield'),
           hint: 'Recherche par ville',
-          itemHeight: 50,
+          itemHeight: 63,
           scrollbarDecoration: ScrollbarDecoration(),
           //onTapOutside: (x) {},
           suggestionDirection: SuggestionDirection.down,

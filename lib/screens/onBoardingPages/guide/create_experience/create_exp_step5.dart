@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
@@ -24,6 +22,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
   List<Map<String, TimeOfDay?>> timeSlots = [
     {"start": null, "end": null}
   ];
+  List<DateTime> selectedDays = [];
 
   @override
   initBloc() => CreateExpStep5Bloc(widget.infoMap, widget.name, widget.description, idExperience);
@@ -95,6 +94,41 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                               });
                             },
                           ),
+                          InkWell(
+                              onTap: () async {
+                                final result = await showModalBottomSheet<List<DateTime>>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return CalendarMultiSelection();
+                                  },
+                                );
+                                if (result != null && result.isNotEmpty) {
+                                  setState(() {
+                                    selectedDays = result;
+                                  });
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Dates de l’expérience',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        selectedDays.isNotEmpty ? 'Renseigné' : 'Non renseigné',
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                                      ),
+                                      Image.asset('images/chevron_right.png',
+                                          width: 27, height: 27, fit: BoxFit.fill),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                          ),
                         ],
                       ),
                     ),
@@ -111,34 +145,32 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateHeight(
-                                            24, context),
-                                        vertical: ResponsiveSize.calculateHeight(
-                                            10, context))),
-                                backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                  EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateHeight(24, context),
+                                    vertical: ResponsiveSize.calculateHeight(10, context),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                       (Set<MaterialState> states) {
                                     if (states.contains(MaterialState.disabled)) {
-                                      return AppResources
-                                          .colorGray15; // Change to your desired grey color
+                                      return AppResources.colorGray15; // Disabled color
                                     }
-                                    return AppResources
-                                        .colorVitamine; // Your enabled color
+                                    return AppResources.colorVitamine; // Enabled color
                                   },
                                 ),
-                                shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
-                              onPressed: (){
+                              onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedDays.isNotEmpty
+                                  ? () {
                                 setState(() {
                                   validate();
                                 });
-                              },
+                              }
+                                  : null,
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),
