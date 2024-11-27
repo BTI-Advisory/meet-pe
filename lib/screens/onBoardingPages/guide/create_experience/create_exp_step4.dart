@@ -6,7 +6,7 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import 'create_exp_step5.dart';
-import 'create_exp_step6.dart';
+import 'create_exp_step5_multi_days.dart';
 
 class CreateExpStep4 extends StatefulWidget {
   CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.about, required this.audioPath});
@@ -33,21 +33,20 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('languages_fr');
+    //_choicesFuture = AppService.api.fetchChoices('languages_fr');
+    _choicesFuture = Future.value([
+      StepListResponse(id: 1, choiceTxt: "1 week-end", svg: ''),
+      StepListResponse(id: 2, choiceTxt: "1 semaine", svg: ''),
+    ]);
     _loadChoices();
   }
 
   Future<void> _loadChoices() async {
     try {
       final choices = await _choicesFuture;
-      for (var choice in choices) {
-        var newVoyage = Voyage(id: choice.id, title: choice.choiceTxt);
-        if (!myList.contains(newVoyage)) {
-          setState(() {
-            myList.add(newVoyage);
-          });
-        }
-      }
+      setState(() {
+        myList = choices.map((choice) => Voyage(id: choice.id, title: choice.choiceTxt)).toList();
+      });
     } catch (error) {
       // Handle error if fetching data fails
       print('Error: $error');
@@ -148,10 +147,12 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                           Set<int>(); // Initialize if null
                                     }
 
-                                    if (widget.myMap['duration']!
-                                        .contains(item.id)) {
+                                    if (widget.myMap['duration']!.contains(item.id)) {
+                                      // Deselect the current item
                                       widget.myMap['duration']!.remove(item.id);
                                     } else {
+                                      // Deselect any other selection and select the current item
+                                      widget.myMap['duration']!.clear();
                                       widget.myMap['duration']!.add(item.id);
                                     }
                                   });
@@ -199,11 +200,28 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                 ),
                               ),
                             ),
-                            onPressed: (){
+                            /*onPressed: (){
                               setState(() {
                                 // Proceed to the next step
                                 //navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap,));
                                 validate();
+                              });
+                            },*/
+                            onPressed: () {
+                              setState(() {
+                                // Check the current selection in widget.myMap['duration']
+                                final selectedChoices = widget.myMap['duration'];
+
+                                if (selectedChoices == null || selectedChoices.isEmpty) {
+                                  // No choice selected -> Redirect to PageState1
+                                  navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
+                                } else if (selectedChoices.contains(1)) {
+                                  // "1 week-end" selected -> Redirect to PageState2
+                                  navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 2,));
+                                } else if (selectedChoices.contains(2)) {
+                                  // "1 semaine" selected -> Redirect to PageState3
+                                  navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 7,));
+                                }
                               });
                             },
                             child: Image.asset('images/arrowLongRight.png'),
@@ -247,6 +265,7 @@ class CreateExpStep4Bloc with Disposable {
       myMap.forEach((key, value) {
         modifiedMap[key] = value.toList();
       });
+      print('ZRFIJIZZZZIZIZIZIZI $modifiedMap');
 
       // Perform the API call
       //final response = await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);

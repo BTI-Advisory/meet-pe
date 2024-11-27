@@ -7,7 +7,9 @@ import 'package:table_calendar/table_calendar.dart';
 import '../resources/resources.dart';
 
 class CalendarRangeSelection extends StatefulWidget {
-  const CalendarRangeSelection({super.key});
+  const CalendarRangeSelection({super.key, required this.duration});
+
+  final int duration;
 
   @override
   State<CalendarRangeSelection> createState() => _CalendarRangeSelectionState();
@@ -27,8 +29,8 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
 
   bool isRangeSelected = false;
 
-  void _onAbsenceAdded() {
-    Navigator.pop(context, true);
+  void _onRangeAdded() {
+    Navigator.pop(context, [_rangeStart, _rangeEnd]);
   }
 
   @override
@@ -38,7 +40,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
       child: AsyncForm(
           onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
-            _onAbsenceAdded();
+            _onRangeAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -112,6 +114,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                             ),
                             firstDay: kFirstDay,
                             lastDay: kLastDay,
+                            startingDayOfWeek: StartingDayOfWeek.monday,
                             focusedDay: _focusedDay,
                             rangeStartDay: _rangeStart,
                             rangeEndDay: _rangeEnd,
@@ -138,7 +141,12 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                 _selectedDay = null;
                                 _focusedDay = focusedDay;
                                 _rangeStart = start;
-                                _rangeEnd = end;
+                                // Automatically set range end to two days after range start
+                                if (_rangeStart != null) {
+                                  _rangeEnd = _rangeStart!.add(Duration(days: widget.duration));
+                                } else {
+                                  _rangeEnd = null;
+                                }
                                 isRangeSelected = true;
                               });
                             },

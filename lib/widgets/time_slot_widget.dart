@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class TimeSlotWidget extends StatefulWidget {
   final List<Map<String, TimeOfDay?>> initialTimeSlots;
   final Function(List<Map<String, TimeOfDay?>>) onTimeSlotsChanged;
+  final bool active;
 
   const TimeSlotWidget({
     Key? key,
     required this.initialTimeSlots,
     required this.onTimeSlotsChanged,
+    required this.active
   }) : super(key: key);
 
   @override
@@ -95,20 +97,23 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
             ],
           ),
         /// Add/Delete Time Slot Button
-        TextButton(
-          onPressed: () {
-            setState(() {
-              if (timeSlots.length == 1) {
-                timeSlots.add({"start": null, "end": null});
-              } else {
-                timeSlots.removeLast();
-              }
-              widget.onTimeSlotsChanged(timeSlots);
-            });
-          },
-          child: Text(
-            timeSlots.length == 1 ? "+ AJOUTER UN HORAIRE" : "- SUPPRIMER L'HORAIRE",
-            style: Theme.of(context).textTheme.bodyLarge,
+        Visibility(
+          visible: widget.active,
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                if (timeSlots.length == 1) {
+                  timeSlots.add({"start": null, "end": null});
+                } else {
+                  timeSlots.removeLast();
+                }
+                widget.onTimeSlotsChanged(timeSlots);
+              });
+            },
+            child: Text(
+              timeSlots.length == 1 ? "+ AJOUTER UN HORAIRE" : "- SUPPRIMER L'HORAIRE",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
         ),
       ],
