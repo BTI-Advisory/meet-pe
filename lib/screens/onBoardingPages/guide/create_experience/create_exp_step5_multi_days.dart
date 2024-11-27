@@ -5,27 +5,29 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import '../../../../resources/resources.dart';
 import 'create_exp_step6.dart';
 
-class CreateExpStep5 extends StatefulWidget {
-  CreateExpStep5({super.key, required this.name, required this.description, required this.infoMap});
+class CreateExpStep5MultiDays extends StatefulWidget {
+  CreateExpStep5MultiDays({super.key, required this.name, required this.description, required this.infoMap, required this.duration});
 
   Map<String, dynamic> infoMap = {};
   final String name;
   final String description;
+  final int duration;
 
   @override
-  State<CreateExpStep5> createState() => _CreateExpStep5State();
+  State<CreateExpStep5MultiDays> createState() => _CreateExpStep5MultiDaysState();
 }
 
-class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<CreateExpStep5, CreateExpStep5Bloc> {
+class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with BlocProvider<CreateExpStep5MultiDays, CreateExpStep5MultiDaysBloc> {
   final idExperience = 0;
   late List<Voyage> myList = [];
   List<Map<String, TimeOfDay?>> timeSlots = [
     {"start": null, "end": null}
   ];
-  List<DateTime> selectedDays = [];
+  // Add a state for selected ranges
+  List<Map<String, DateTime>> selectedRanges = [];
 
   @override
-  initBloc() => CreateExpStep5Bloc(widget.infoMap, widget.name, widget.description, idExperience);
+  initBloc() => CreateExpStep5MultiDaysBloc(widget.infoMap, widget.name, widget.description, idExperience);
 
   @override
   void initState() {
@@ -93,46 +95,46 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                 timeSlots = updatedTimeSlots;
                               });
                             },
-                            active: true,
+                            active: false,
                           ),
+                          SizedBox(
+                              height: ResponsiveSize.calculateHeight(20, context)),
                           InkWell(
-                              onTap: () async {
-                                final result = await showModalBottomSheet<List<DateTime>>(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (BuildContext context) {
-                                    return CalendarMultiSelection();
-                                  },
-                                );
-                                if (result != null && result.isNotEmpty) {
+                            onTap: () async {
+                              final result = await showModalBottomSheet<List<DateTime?>>(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return CalendarRangeSelection(duration: widget.duration,);
+                                },
+                              );
+                              if (result != null && result.length == 2) {
+                                final startDate = result[0];
+                                final endDate = result[1];
+
+                                if (startDate != null && endDate != null) {
                                   setState(() {
-                                    selectedDays = result;
+                                    selectedRanges.add({
+                                      "start": startDate,
+                                      "end": endDate,
+                                    });
                                   });
                                 }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Dates de l’expérience',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        selectedDays.isNotEmpty ? 'Renseigné' : 'Non renseigné',
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
-                                      ),
-                                      Image.asset('images/chevron_right.png',
-                                          width: 27, height: 27, fit: BoxFit.fill),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              }
+                            },
+                            child: Text(
+                              '+ Ajouter des dates',
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorVitamine),
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    ...selectedRanges.map((range) {
+                      final startDate = yearsFrenchFormatDateVar(range["start"]!);
+                      final endDate = yearsFrenchFormatDateVar(range["end"]!);
+                      return _listRangeAvailabilities(startDate, endDate);
+                    }).toList(),
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomRight,
@@ -165,7 +167,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                   ),
                                 ),
                               ),
-                              onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedDays.isNotEmpty
+                              onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedRanges.isNotEmpty
                                   ? () {
                                 setState(() {
                                   validate();
@@ -186,9 +188,43 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
       ),
     );
   }
+
+  Widget _listRangeAvailabilities(String startDate, String endDate) {
+    return Column(
+      children: [
+        const SizedBox(height: 19),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 31),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Du $startDate au $endDate',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
+              ),
+              Icon(Icons.chevron_right, size: 27, color: Color(0xFFBBBBBB)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 19),
+        Container(
+          width: 390,
+          decoration: const ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                strokeAlign: BorderSide.strokeAlignCenter,
+                color: AppResources.colorImputStroke,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-class CreateExpStep5Bloc with Disposable {
+class CreateExpStep5MultiDaysBloc with Disposable {
   String? name;
   String? description;
   int? idExperience;
@@ -197,7 +233,7 @@ class CreateExpStep5Bloc with Disposable {
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep5Bloc(this.myMap, this.name, this.description, this.idExperience);
+  CreateExpStep5MultiDaysBloc(this.myMap, this.name, this.description, this.idExperience);
 
   Future<void> makeExperienceGuide1() async {
     try {
