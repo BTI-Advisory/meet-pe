@@ -123,27 +123,28 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
   Widget _buildTimePicker(BuildContext context, int index, {required bool isStartTime}) {
     final String label = isStartTime ? "De" : "À";
     final TimeOfDay? time = timeSlots[index][isStartTime ? "start" : "end"];
-    return Container(
-      width: 153,
-      height: 52,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(width: 1, color: Colors.grey),
-          borderRadius: BorderRadius.circular(8),
+    return Expanded(
+      child: Container(
+        height: 52,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 1, color: Colors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      child: InkWell(
-        onTap: () => _selectDateTime(context, isStartTime, index),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12)),
-            Text(
-              time == null ? (isStartTime ? "00:00" : "23:59") : time.format(context),
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
-            ),
-          ],
+        child: InkWell(
+          onTap: () => _selectDateTime(context, isStartTime, index),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12)),
+              Text(
+                time == null ? (isStartTime ? "00:00" : "23:59") : time.format(context),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -77,17 +77,96 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(8, context)),
                           Text(
-                            'Horaire de l’expérience',
+                            'Horaire & dates de l’expérience',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(16, context)),
                           Text(
-                            'Renseigne l’horaire de début de l’expérience et de fin de l’expérience.',
+                            'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           SizedBox(
-                              height: ResponsiveSize.calculateHeight(40, context)),
+                              height: ResponsiveSize.calculateHeight(16, context)),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+                            decoration: ShapeDecoration(
+                              color: AppResources.colorBeigeLight,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Durée de l’expérience : ',
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                                      ),
+                                      TextSpan(
+                                        text: widget.duration == 2 ? "48 h" : "7 jours",
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      shadows: [
+                                        BoxShadow(
+                                          color: Color(0x19FF4D00),
+                                          blurRadius: 3,
+                                          offset: Offset(0, 1),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x16FF4D00),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 5),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0CFF4D00),
+                                          blurRadius: 6,
+                                          offset: Offset(0, 10),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x02FF4D00),
+                                          blurRadius: 7,
+                                          offset: Offset(0, 18),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x00FF4D00),
+                                          blurRadius: 8,
+                                          offset: Offset(0, 29),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Image.asset(
+                                        'images/pen_icon.png'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                              height: ResponsiveSize.calculateHeight(16, context)),
                           TimeSlotWidget(
                             initialTimeSlots: timeSlots,
                             onTimeSlotsChanged: (updatedTimeSlots) {
@@ -98,7 +177,14 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                             active: false,
                           ),
                           SizedBox(
-                              height: ResponsiveSize.calculateHeight(20, context)),
+                              height: ResponsiveSize.calculateHeight(16, context)),
+                          Text(
+                            'L’expérience commence à ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
+                                'et se termine ${widget.duration == 2 ? "48 h" : "7 jours"} après à ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray60),
+                          ),
+                          SizedBox(
+                              height: ResponsiveSize.calculateHeight(18, context)),
                           InkWell(
                             onTap: () async {
                               final result = await showModalBottomSheet<List<DateTime?>>(
@@ -131,9 +217,60 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                       ),
                     ),
                     ...selectedRanges.map((range) {
-                      final startDate = yearsFrenchFormatDateVar(range["start"]!);
-                      final endDate = yearsFrenchFormatDateVar(range["end"]!);
-                      return _listRangeAvailabilities(startDate, endDate);
+                      final startDate = range["start"];
+                      final endDate = range["end"];
+                      final rangeIndex = selectedRanges.indexOf(range); // Get the index for Dismissible key
+
+                      return Dismissible(
+                        key: ValueKey(rangeIndex), // Unique key for each item
+                        direction: DismissDirection.endToStart, // Allow swipe to delete
+                        background: Container(
+                          color: Colors.red, // Background color when swiping
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        onDismissed: (direction) {
+                          setState(() {
+                            selectedRanges.removeAt(rangeIndex); // Remove the item from the list
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Date range removed')),
+                          );
+                        },
+                        child: GestureDetector(
+                          onTap: () async {
+                            final result = await showModalBottomSheet<List<DateTime?>>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return CalendarRangeSelection(
+                                  duration: widget.duration,
+                                  initialStartDate: startDate,
+                                  initialEndDate: endDate,
+                                );
+                              },
+                            );
+
+                            if (result != null && result.length == 2) {
+                              final updatedStartDate = result[0];
+                              final updatedEndDate = result[1];
+
+                              if (updatedStartDate != null && updatedEndDate != null) {
+                                setState(() {
+                                  // Update the selected range
+                                  range["start"] = updatedStartDate;
+                                  range["end"] = updatedEndDate;
+                                });
+                              }
+                            }
+                          },
+                          child: _listRangeAvailabilities(
+                            yearsFrenchFormatDateVar(startDate!),
+                            yearsFrenchFormatDateVar(endDate!),
+                          ),
+                        ),
+                      );
                     }).toList(),
                     Expanded(
                       child: Align(

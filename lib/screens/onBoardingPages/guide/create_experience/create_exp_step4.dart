@@ -22,21 +22,21 @@ class CreateExpStep4 extends StatefulWidget {
 }
 
 class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<CreateExpStep4, CreateExpStep4Bloc> {
-  double valueSlider = 0;
   final idExperience = 0;
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
-  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.about, valueSlider, widget.audioPath, idExperience);
+  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.about, widget.audioPath, idExperience);
 
   @override
   void initState() {
     super.initState();
     //_choicesFuture = AppService.api.fetchChoices('languages_fr');
     _choicesFuture = Future.value([
-      StepListResponse(id: 1, choiceTxt: "1 week-end", svg: ''),
-      StepListResponse(id: 2, choiceTxt: "1 semaine", svg: ''),
+      StepListResponse(id: 1, choiceTxt: "Horaire personalisé", svg: ''),
+      StepListResponse(id: 2, choiceTxt: "48 heures", svg: ''),
+      StepListResponse(id: 3, choiceTxt: "7 jours", svg: ''),
     ]);
     _loadChoices();
   }
@@ -51,13 +51,6 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
       // Handle error if fetching data fails
       print('Error: $error');
     }
-  }
-
-  void updateDuration(double value) {
-    setState(() {
-      valueSlider = value;
-      bloc.updateDuration(value); // Call the method to update duration in bloc
-    });
   }
 
   @override
@@ -114,19 +107,6 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(40, context)),
-                        Slider(
-                          value: valueSlider,
-                          max: 8,
-                          divisions: 8,
-                          label: '${valueSlider.round().toString()} heure'.plural(valueSlider.round()),
-                          onChanged: (double value) {
-                            setState(() {
-                              valueSlider = value;
-                              updateDuration(value);
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 60,),
                         Container(
                           width: ResponsiveSize.calculateWidth(319, context),
                           child: Wrap(
@@ -212,13 +192,13 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                 // Check the current selection in widget.myMap['duration']
                                 final selectedChoices = widget.myMap['duration'];
 
-                                if (selectedChoices == null || selectedChoices.isEmpty) {
+                                if (selectedChoices != null && selectedChoices.contains(1)) {
                                   // No choice selected -> Redirect to PageState1
                                   navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
-                                } else if (selectedChoices.contains(1)) {
+                                } else if (selectedChoices != null && selectedChoices.contains(2)) {
                                   // "1 week-end" selected -> Redirect to PageState2
                                   navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 2,));
-                                } else if (selectedChoices.contains(2)) {
+                                } else if (selectedChoices != null && selectedChoices.contains(3)) {
                                   // "1 semaine" selected -> Redirect to PageState3
                                   navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 7,));
                                 }
@@ -244,7 +224,6 @@ class CreateExpStep4Bloc with Disposable {
   String? name;
   String? description;
   String? about;
-  double duration;
   String? audioPath;
   int? idExperience;
   Map<String, Set<Object>> myMap;
@@ -252,14 +231,13 @@ class CreateExpStep4Bloc with Disposable {
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.about, this.duration, this.audioPath, this.idExperience);
+  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.about, this.audioPath, this.idExperience);
 
   Future<void> makeExperienceGuide() async {
     try {
       modifiedMap['nom'] = name!;
       modifiedMap['description'] = description!;
       modifiedMap['about_guide'] = about!;
-      modifiedMap['dure'] = duration.toInt();
 
       // Convert sets to lists
       myMap.forEach((key, value) {
@@ -274,10 +252,6 @@ class CreateExpStep4Bloc with Disposable {
       // Handle the error appropriately
       print("Error in make Experience Guide: $error");
     }
-  }
-
-  void updateDuration(double value) {
-    duration = value;
   }
 
   @override
