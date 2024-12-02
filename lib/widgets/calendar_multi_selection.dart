@@ -1,16 +1,15 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
-import '../services/app_service.dart';
 
 class CalendarMultiSelection extends StatefulWidget {
-  const CalendarMultiSelection({super.key});
+  const CalendarMultiSelection({super.key, this.initialSelectedDays = const []});
+  final List<DateTime> initialSelectedDays;
 
   @override
   State<CalendarMultiSelection> createState() => _CalendarMultiSelectionState();
@@ -24,10 +23,16 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   // Using a `LinkedHashSet` is recommended due to equality comparison override
-  final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
-    equals: isSameDay,
-    hashCode: getHashCode,
-  );
+  late final Set<DateTime> _selectedDays;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDays = LinkedHashSet<DateTime>(
+      equals: isSameDay,
+      hashCode: getHashCode,
+    )..addAll(widget.initialSelectedDays);
+  }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {

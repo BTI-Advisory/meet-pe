@@ -75,17 +75,96 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(8, context)),
                           Text(
-                            'Horaire de l’expérience',
+                            'Horaire & dates de l’expérience',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(16, context)),
                           Text(
-                            'Renseigne l’horaire de début de l’expérience et de fin de l’expérience.',
+                            'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           SizedBox(
-                              height: ResponsiveSize.calculateHeight(40, context)),
+                              height: ResponsiveSize.calculateHeight(16, context)),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+                            decoration: ShapeDecoration(
+                              color: AppResources.colorBeigeLight,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Durée de l’expérience : ',
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                                      ),
+                                      TextSpan(
+                                        text: 'Horaire personalisé',
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      shadows: [
+                                        BoxShadow(
+                                          color: Color(0x19FF4D00),
+                                          blurRadius: 3,
+                                          offset: Offset(0, 1),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x16FF4D00),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 5),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0CFF4D00),
+                                          blurRadius: 6,
+                                          offset: Offset(0, 10),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x02FF4D00),
+                                          blurRadius: 7,
+                                          offset: Offset(0, 18),
+                                          spreadRadius: 0,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x00FF4D00),
+                                          blurRadius: 8,
+                                          offset: Offset(0, 29),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Image.asset(
+                                        'images/pen_icon.png'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                              height: ResponsiveSize.calculateHeight(16, context)),
                           TimeSlotWidget(
                             initialTimeSlots: timeSlots,
                             onTimeSlotsChanged: (updatedTimeSlots) {
@@ -101,7 +180,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (BuildContext context) {
-                                    return CalendarMultiSelection();
+                                    return CalendarMultiSelection(initialSelectedDays: selectedDays);
                                   },
                                 );
                                 if (result != null && result.isNotEmpty) {
@@ -121,7 +200,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                     children: [
                                       Text(
                                         selectedDays.isNotEmpty ? 'Renseigné' : 'Non renseigné',
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorDark),
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: selectedDays.isNotEmpty ? AppResources.colorVitamine : AppResources.colorDark ),
                                       ),
                                       Image.asset('images/chevron_right.png',
                                           width: 27, height: 27, fit: BoxFit.fill),
@@ -168,7 +247,8 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                               onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedDays.isNotEmpty
                                   ? () {
                                 setState(() {
-                                  validate();
+                                  print("RFNEJRFJERFNJEFE ${selectedDays}");
+                                  //validate();
                                 });
                               }
                                   : null,

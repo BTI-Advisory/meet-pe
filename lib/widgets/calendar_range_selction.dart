@@ -7,9 +7,16 @@ import 'package:table_calendar/table_calendar.dart';
 import '../resources/resources.dart';
 
 class CalendarRangeSelection extends StatefulWidget {
-  const CalendarRangeSelection({super.key, required this.duration});
-
+  final DateTime? initialStartDate;
+  final DateTime? initialEndDate;
   final int duration;
+
+  CalendarRangeSelection({
+    Key? key,
+    required this.duration,
+    this.initialStartDate,
+    this.initialEndDate,
+  }) : super(key: key);
 
   @override
   State<CalendarRangeSelection> createState() => _CalendarRangeSelectionState();
@@ -26,8 +33,14 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-
   bool isRangeSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _rangeStart = widget.initialStartDate;
+    _rangeEnd = widget.initialEndDate;
+  }
 
   void _onRangeAdded() {
     Navigator.pop(context, [_rangeStart, _rangeEnd]);
