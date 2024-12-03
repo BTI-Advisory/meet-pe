@@ -49,8 +49,8 @@ const _httpMethodDelete = 'DELETE';
 class ApiClient {
   //#region Vars
   /// API url
-  static const _authorityProd = 'rec1-meetpe.neway-esoft.com';
-  static const _authorityDev = 'rec1-meetpe.neway-esoft.com';
+  static const _authorityProd = '13.38.218.140';
+  static const _authorityDev = '13.38.218.140';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
@@ -737,15 +737,12 @@ class ApiClient {
     List<int> categories = List<int>.from(initialData['guide_truc_de_toi_fr']);
     String categoriesString = categories.join(', ');
 
-    List<int> languages = List<int>.from(initialData['languages_fr']);
-    String languagesString = languages.join(', ');
-
     List<int> personalite = List<int>.from(initialData['personalite_fr']);
     String personaliteString = personalite.join(', ');
 
     return {
       'guide_truc_de_toi_fr': categoriesString,
-      'languages_fr': languagesString,
+      'a_propos_de_toi_fr': initialData['a_propos_de_toi_fr'].toString(),
       'personalite_fr': personaliteString,
       'phone_number': initialData['phone_number'].toString(),
       'name': initialData['name'].toString(),
@@ -1913,7 +1910,7 @@ class ApiClient {
 
   //#region Generics
   Uri _buildUri(String path, [JsonObject? queryParameters]) =>
-      Uri.https(_authority, path, queryParameters);
+      Uri.http(_authority, path, queryParameters);
 
   /// Send a classic request
   Future<T?> _send<T>(

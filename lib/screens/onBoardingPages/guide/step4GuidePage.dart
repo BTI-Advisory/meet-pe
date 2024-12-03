@@ -18,12 +18,14 @@ class Step4GuidePage extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
   Map<String, Set<Object>> myMap = {};
+  final String aboutGuide;
 
   Step4GuidePage({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
     required this.myMap,
+    required this.aboutGuide,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,8 @@ class _Step4GuidePageState extends State<Step4GuidePage>
   @override
   void initState() {
     super.initState();
+    bloc.aboutGuide = widget.aboutGuide;
+    bloc.isCheck = isChecked;
   }
 
   late List<Voyage> myList = [];
@@ -551,6 +555,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
 }
 
 class Step4GuidePageBloc with Disposable {
+  String? aboutGuide;
   String? name;
   String? phone;
   String? nameOfSociety;
@@ -570,6 +575,7 @@ class Step4GuidePageBloc with Disposable {
         // Only send data if isChecked is false
         modifiedMap['name'] = name!;
         modifiedMap['phone_number'] = phone!;
+        modifiedMap['a_propos_de_toi_fr'] = aboutGuide!;
         // Convert sets to lists
         myMap.forEach((key, value) {
           modifiedMap[key] = value.toList();
@@ -588,6 +594,7 @@ class Step4GuidePageBloc with Disposable {
           modifiedMap['phone_number'] = phone!;
           modifiedMap['name_of_company'] = nameOfSociety!;
           modifiedMap['siren_number'] = siren!;
+          modifiedMap['a_propos_de_toi_fr'] = aboutGuide!;
 
           // Convert sets to lists
           myMap.forEach((key, value) {

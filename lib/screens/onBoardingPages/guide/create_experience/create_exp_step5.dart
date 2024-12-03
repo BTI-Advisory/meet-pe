@@ -248,7 +248,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                   ? () {
                                 setState(() {
                                   print("RFNEJRFJERFNJEFE ${selectedDays}");
-                                  //validate();
+                                  validate();
                                 });
                               }
                                   : null,

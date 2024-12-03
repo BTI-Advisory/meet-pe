@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/step4GuidePage.dart';
 import '../../../utils/_utils.dart';
-import '../../../widgets/_widgets.dart';
 
 class Step3GuidePage extends StatefulWidget {
   final int totalSteps;
@@ -22,7 +21,6 @@ class Step3GuidePage extends StatefulWidget {
 }
 
 class _Step3GuidePageState extends State<Step3GuidePage> {
-  late List<Voyage> myList = [];
   late TextEditingController _textEditingControllerAbout;
   String? validationMessageAbout = '';
   bool isFormValid = false;
@@ -201,16 +199,12 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                           ),
                           onPressed: _isButtonActive
                               ? () {
-                            if (widget.myMap['languages_fr'] == null) {
-                              widget.myMap['languages_fr'] =
-                                  Set<int>(); // Initialize if null
-                            }
-                            widget.myMap['languages_fr']!.add(188);
 
                             navigateTo(
                               context,
                                   (_) => Step4GuidePage(
                                 myMap: widget.myMap,
+                                aboutGuide: _textEditingControllerAbout.text,
                                 totalSteps: 4,
                                 currentStep: 4,
                               ),
