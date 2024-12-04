@@ -430,8 +430,8 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               showMessage(context, 'Le prix doit minimum 15€');
                             } else {
                               widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
-                              widget.sendListMap['discount_kids_between_2_and_12'] = isKidsAvailable.toString();
-                              widget.sendListMap['support_group_prive'] = isGroupeAvailable.toString();
+                              widget.sendListMap['discount_kids_between_2_and_12'] = isKidsAvailable ? "1" : "0";
+                              widget.sendListMap['support_group_prive'] = isGroupeAvailable ? "1" : "0";
                               widget.sendListMap['max_number_of_persons'] = _counter.toInt();
                               widget.sendListMap['price_group_prive'] = _textEditingControllerPriceGroup.text;
 

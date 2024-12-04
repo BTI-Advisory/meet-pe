@@ -701,6 +701,8 @@ class ApiClient {
   Map<String, String> transformDataExperience(Map<String, dynamic> initialData) {
     List<int> categories = List<int>.from(initialData['categorie']);
     String categoriesString = categories.join(', ');
+    List<int> languages = List<int>.from(initialData['experience_languages']);
+    String languagesString = languages.join(', ');
     List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
     String avecCaString = avecCa.join(', ');
 
@@ -709,12 +711,16 @@ class ApiClient {
 
     String? guidePersonnesPeuvesParticiperString = _convertListToString(initialData['guide_personnes_peuves_participer']);
 
+    String? horairesJson = initialData['horaires'] != null
+        ? jsonEncode(initialData['horaires'])
+        : null;
+
     return {
       'categorie': categoriesString,
       'nom': initialData['nom'].replaceAll(' ', ' '),
       'description': initialData['description'].replaceAll(' ', ' '),
-      'about_guide': initialData['about_guide'].toString(),
-      'dure': initialData['dure'].toString(),
+      'experience_languages': languagesString,
+      'duree': initialData['duree'].toString(),
       'et_avec_ça': avecCaString,
       'guide_personnes_peuves_participer': guidePersonnesPeuvesParticiperString ?? '',
       'prix_par_voyageur': initialData['prix_par_voyageur'].toString(),
@@ -723,12 +729,13 @@ class ApiClient {
       'addresse': initialData['addresse'].toString(),
       'code_postale': initialData['code_postale'].toString(),
       'country': initialData['country'].toString(),
-      'experience_id': initialData['experience_id'].toString(),
+      //'experience_id': initialData['experience_id'].toString(),
       'support_group_prive': initialData['support_group_prive'].toString(),
       'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
       'price_group_prive': initialData['price_group_prive'].toString(),
       'max_number_of_persons': initialData['max_number_of_persons'].toString(),
       'dernier_minute_reservation': dernierMinuteReservationString,
+      if (horairesJson != null) 'horaires': horairesJson,
     };
   }
 

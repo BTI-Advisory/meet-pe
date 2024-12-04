@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
@@ -17,7 +18,6 @@ class CreateExpStep5 extends StatefulWidget {
 }
 
 class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<CreateExpStep5, CreateExpStep5Bloc> {
-  final idExperience = 0;
   late List<Voyage> myList = [];
   List<Map<String, TimeOfDay?>> timeSlots = [
     {"start": null, "end": null}
@@ -25,7 +25,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
   List<DateTime> selectedDays = [];
 
   @override
-  initBloc() => CreateExpStep5Bloc(widget.infoMap, widget.name, widget.description, idExperience);
+  initBloc() => CreateExpStep5Bloc(widget.infoMap, widget.name, widget.description);
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.makeExperienceGuide1,
+          onValidated: () => bloc.addTimeDateExpGuide(timeSlots, selectedDays),
           onSuccess: () {
             return navigateTo(context, (_) => CreateExpStep6(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
           },
@@ -247,7 +247,6 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                               onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedDays.isNotEmpty
                                   ? () {
                                 setState(() {
-                                  print("RFNEJRFJERFNJEFE ${selectedDays}");
                                   validate();
                                 });
                               }
@@ -271,31 +270,55 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
 class CreateExpStep5Bloc with Disposable {
   String? name;
   String? description;
-  int? idExperience;
   Map<String, dynamic> myMap;
 
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep5Bloc(this.myMap, this.name, this.description, this.idExperience);
+  CreateExpStep5Bloc(this.myMap, this.name, this.description);
 
-  Future<void> makeExperienceGuide1() async {
+  Future<void> addTimeDateExpGuide(List<Map<String, TimeOfDay?>> timeSlots, List<DateTime> selectedDays) async {
     try {
-      /*// Convert sets to lists
-      myMap.forEach((key, value) {
-        modifiedMap[key] = value.toList();
-      });*/
-      modifiedMap = myMap;
+      // Initialize the list of time slots
+      List<Map<String, dynamic>> horaires = [];
 
+      // Iterate through the timeSlots
+      for (int i = 0; i < timeSlots.length; i++) {
+        Map<String, dynamic> timeSlot = {
+          "heure_debut": timeSlots[i]["start"] != null ? timeOfDayToString(timeSlots[i]["start"]!) : null,
+          "heure_fin": timeSlots[i]["end"] != null ? timeOfDayToString(timeSlots[i]["end"]!) : null,
+          "dates": []
+        };
+
+        // Add dates for the current time slot
+        for (var date in selectedDays) {
+          timeSlot["dates"].add({
+            "date_debut": DateFormat('yyyy-MM-dd').format(date),
+          });
+        }
+
+        horaires.add(timeSlot);
+      }
+
+      // Merge new data into the original map
+      myMap["horaires"] = horaires;
+      modifiedMap = Map<String, dynamic>.from(myMap); // Ensure a deep copy is made
+
+      // Debugging output
+      print(modifiedMap);
     } catch (error) {
-      // Handle the error appropriately
-      print("Error in make Experience Guide 1: $error");
+      print("Error in addTimeDateExpGuide: $error");
     }
+  }
+
+  String timeOfDayToString(TimeOfDay timeOfDay) {
+    final hours = timeOfDay.hour.toString().padLeft(2, '0');
+    final minutes = timeOfDay.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes:00';
   }
 
   @override
   void dispose() {
-    // Dispose of any resources if needed
     super.dispose();
   }
 }
