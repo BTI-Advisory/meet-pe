@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
@@ -18,7 +19,6 @@ class CreateExpStep5MultiDays extends StatefulWidget {
 }
 
 class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with BlocProvider<CreateExpStep5MultiDays, CreateExpStep5MultiDaysBloc> {
-  final idExperience = 0;
   late List<Voyage> myList = [];
   List<Map<String, TimeOfDay?>> timeSlots = [
     {"start": null, "end": null}
@@ -27,7 +27,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
   List<Map<String, DateTime>> selectedRanges = [];
 
   @override
-  initBloc() => CreateExpStep5MultiDaysBloc(widget.infoMap, widget.name, widget.description, idExperience);
+  initBloc() => CreateExpStep5MultiDaysBloc(widget.infoMap, widget.name, widget.description);
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-          onValidated: bloc.makeExperienceGuide1,
+          onValidated: () => bloc.addTimeDateExpGuide(timeSlots, selectedRanges),
           onSuccess: () {
             return navigateTo(context, (_) => CreateExpStep6(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
           },
@@ -364,26 +364,52 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
 class CreateExpStep5MultiDaysBloc with Disposable {
   String? name;
   String? description;
-  int? idExperience;
   Map<String, dynamic> myMap;
 
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep5MultiDaysBloc(this.myMap, this.name, this.description, this.idExperience);
+  CreateExpStep5MultiDaysBloc(this.myMap, this.name, this.description);
 
-  Future<void> makeExperienceGuide1() async {
+  Future<void> addTimeDateExpGuide(List<Map<String, TimeOfDay?>> timeSlots, List<Map<String, DateTime>> selectedRanges) async {
     try {
-      /*// Convert sets to lists
-      myMap.forEach((key, value) {
-        modifiedMap[key] = value.toList();
-      });*/
-      modifiedMap = myMap;
+      // Initialize the list of horaires
+      List<Map<String, dynamic>> horaires = [];
 
+      for (int i = 0; i < timeSlots.length; i++) {
+        // Create a time slot entry
+        Map<String, dynamic> timeSlot = {
+          "heure_debut": timeSlots[i]["start"] != null ? timeOfDayToString(timeSlots[i]["start"]!) : null,
+          "heure_fin": timeSlots[i]["end"] != null ? timeOfDayToString(timeSlots[i]["end"]!) : null,
+          "dates": []
+        };
+
+        // Add date ranges to the current time slot
+        for (var range in selectedRanges) {
+          timeSlot["dates"].add({
+            "date_debut": DateFormat('yyyy-MM-dd').format(range["start"]!),
+            "date_fin": DateFormat('yyyy-MM-dd').format(range["end"]!),
+          });
+        }
+
+        horaires.add(timeSlot);
+      }
+
+      // Merge the new horaires into the existing map
+      myMap["horaires"] = horaires;
+      modifiedMap = Map<String, dynamic>.from(myMap);
+
+      // Debugging output
+      print(modifiedMap);
     } catch (error) {
-      // Handle the error appropriately
-      print("Error in make Experience Guide 1: $error");
+      print("Error in addTimeDateExpGuide: $error");
     }
+  }
+
+  String timeOfDayToString(TimeOfDay timeOfDay) {
+    final hours = timeOfDay.hour.toString().padLeft(2, '0');
+    final minutes = timeOfDay.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes:00';
   }
 
   @override
