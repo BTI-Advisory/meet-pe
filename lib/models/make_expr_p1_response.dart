@@ -21,8 +21,8 @@ class Experience {
   final String title;
   @JsonKey(name: 'description')
   final String description;
-  @JsonKey(name: 'dure')
-  final String dure;
+  @JsonKey(name: 'duree')
+  final String duree;
   @JsonKey(name: 'prix_par_voyageur')
   final String? prixParVoyageur;
   @JsonKey(name: 'inclus')
@@ -46,7 +46,7 @@ class Experience {
     required this.id,
     required this.title,
     required this.description,
-    required this.dure,
+    required this.duree,
     required this.prixParVoyageur,
     required this.inclus,
     required this.nombreDesVoyageur,
