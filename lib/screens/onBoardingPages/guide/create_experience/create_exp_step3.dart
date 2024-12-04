@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
@@ -148,21 +147,21 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                             return ItemWidget(
                               id: item.id,
                               text: item.title,
-                              isSelected: widget.myMap['languages_fr'] != null
-                                  ? widget.myMap['languages_fr']!.contains(item.id)
+                              isSelected: widget.myMap['experience_languages'] != null
+                                  ? widget.myMap['experience_languages']!.contains(item.id)
                                   : false,
                               onTap: () {
                                 setState(() {
-                                  if (widget.myMap['languages_fr'] == null) {
-                                    widget.myMap['languages_fr'] =
+                                  if (widget.myMap['experience_languages'] == null) {
+                                    widget.myMap['experience_languages'] =
                                         Set<int>(); // Initialize if null
                                   }
 
-                                  if (widget.myMap['languages_fr']!
+                                  if (widget.myMap['experience_languages']!
                                       .contains(item.id)) {
-                                    widget.myMap['languages_fr']!.remove(item.id);
+                                    widget.myMap['experience_languages']!.remove(item.id);
                                   } else {
-                                    widget.myMap['languages_fr']!.add(item.id);
+                                    widget.myMap['experience_languages']!.add(item.id);
                                   }
                                 });
                               },
@@ -211,14 +210,12 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                               ),
                             ),
                           ),
-                          onPressed: widget.myMap['languages_fr'] != null &&
-                              widget.myMap['languages_fr']!.isNotEmpty
+                          onPressed: widget.myMap['experience_languages'] != null &&
+                              widget.myMap['experience_languages']!.isNotEmpty
                               ? () {
-                            ///Todo: Remove this when API is modified
-                            widget.myMap.remove('languages_fr');
                             setState(() {
                               // Proceed to the next step
-                              navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description, about: 'about me text', audioPath: audioPath ?? '',));
+                              navigateTo(context, (_) => CreateExpStep4(myMap: widget.myMap, name: widget.name, description: widget.description, audioPath: audioPath ?? '',));
                             });
                           }
                               : null,

@@ -4,17 +4,15 @@ import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
-import '../../../../services/app_service.dart';
 import 'create_exp_step5.dart';
 import 'create_exp_step5_multi_days.dart';
 
 class CreateExpStep4 extends StatefulWidget {
-  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.about, required this.audioPath});
+  CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.audioPath});
 
   Map<String, Set<Object>> myMap = {};
   final String name;
   final String description;
-  final String about;
   final String audioPath;
 
   @override
@@ -22,17 +20,15 @@ class CreateExpStep4 extends StatefulWidget {
 }
 
 class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<CreateExpStep4, CreateExpStep4Bloc> {
-  final idExperience = 0;
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
-  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.about, widget.audioPath, idExperience);
+  initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.audioPath);
 
   @override
   void initState() {
     super.initState();
-    //_choicesFuture = AppService.api.fetchChoices('languages_fr');
     _choicesFuture = Future.value([
       StepListResponse(id: 1, choiceTxt: "Horaire personalisé", svg: ''),
       StepListResponse(id: 2, choiceTxt: "48 heures", svg: ''),
@@ -57,9 +53,9 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   Widget build(BuildContext context) {
     return Scaffold(
       body: AsyncForm(
-        onValidated: bloc.makeExperienceGuide,
-        onSuccess: () {
-          return navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
+        onValidated: () => bloc.addDurationGuide(context),
+        onSuccess: () async {
+          await bloc.addDurationGuide(context);
         },
         builder: (BuildContext context, void Function() validate) {
           return Container(
@@ -117,23 +113,23 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                               return ItemWidget(
                                 id: item.id,
                                 text: item.title,
-                                isSelected: widget.myMap['duration'] != null
-                                    ? widget.myMap['duration']!.contains(item.id)
+                                isSelected: widget.myMap['duree'] != null
+                                    ? widget.myMap['duree']!.contains(item.id)
                                     : false,
                                 onTap: () {
                                   setState(() {
-                                    if (widget.myMap['duration'] == null) {
-                                      widget.myMap['duration'] =
+                                    if (widget.myMap['duree'] == null) {
+                                      widget.myMap['duree'] =
                                           Set<int>(); // Initialize if null
                                     }
 
-                                    if (widget.myMap['duration']!.contains(item.id)) {
+                                    if (widget.myMap['duree']!.contains(item.id)) {
                                       // Deselect the current item
-                                      widget.myMap['duration']!.remove(item.id);
+                                      widget.myMap['duree']!.remove(item.id);
                                     } else {
                                       // Deselect any other selection and select the current item
-                                      widget.myMap['duration']!.clear();
-                                      widget.myMap['duration']!.add(item.id);
+                                      widget.myMap['duree']!.clear();
+                                      widget.myMap['duree']!.add(item.id);
                                     }
                                   });
                                 },
@@ -180,29 +176,8 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                 ),
                               ),
                             ),
-                            /*onPressed: (){
-                              setState(() {
-                                // Proceed to the next step
-                                //navigateTo(context, (_) => CreateExpStep5(myMap: widget.myMap,));
-                                validate();
-                              });
-                            },*/
                             onPressed: () {
-                              setState(() {
-                                // Check the current selection in widget.myMap['duration']
-                                final selectedChoices = widget.myMap['duration'];
-
-                                if (selectedChoices != null && selectedChoices.contains(1)) {
-                                  // No choice selected -> Redirect to PageState1
-                                  navigateTo(context, (_) => CreateExpStep5(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap,));
-                                } else if (selectedChoices != null && selectedChoices.contains(2)) {
-                                  // "1 week-end" selected -> Redirect to PageState2
-                                  navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 2,));
-                                } else if (selectedChoices != null && selectedChoices.contains(3)) {
-                                  // "1 semaine" selected -> Redirect to PageState3
-                                  navigateTo(context, (_) => CreateExpStep5MultiDays(name: widget.name, description: widget.description, infoMap: bloc.modifiedMap, duration: 7,));
-                                }
-                              });
+                              bloc.addDurationGuide(context);
                             },
                             child: Image.asset('images/arrowLongRight.png'),
                           ),
@@ -223,40 +198,79 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
 class CreateExpStep4Bloc with Disposable {
   String? name;
   String? description;
-  String? about;
   String? audioPath;
-  int? idExperience;
   Map<String, Set<Object>> myMap;
 
   // Create a new map with lists instead of sets
   Map<String, dynamic> modifiedMap = {};
 
-  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.about, this.audioPath, this.idExperience);
+  CreateExpStep4Bloc(this.myMap, this.name, this.description, this.audioPath);
 
-  Future<void> makeExperienceGuide() async {
+  Future<void> addDurationGuide(BuildContext context) async {
     try {
       modifiedMap['nom'] = name!;
       modifiedMap['description'] = description!;
-      modifiedMap['about_guide'] = about!;
 
       // Convert sets to lists
       myMap.forEach((key, value) {
         modifiedMap[key] = value.toList();
       });
-      print('ZRFIJIZZZZIZIZIZIZI $modifiedMap');
 
-      // Perform the API call
-      //final response = await AppService.api.makeExperienceGuide1(modifiedMap, audioFilePath: audioPath);
+      // Determine the selected duration and set it in the map
+      final selectedChoices = myMap['duree'];
+      if (selectedChoices != null && selectedChoices.isNotEmpty) {
+        final selectedId = selectedChoices.first as int;
 
+        // Update the duration
+        switch (selectedId) {
+          case 1:
+            modifiedMap['duree'] = "1d";
+            navigateTo(
+              context,
+                  (_) => CreateExpStep5(
+                name: name!,
+                description: description!,
+                infoMap: modifiedMap,
+              ),
+            );
+            break;
+          case 2:
+            modifiedMap['duree'] = "2d";
+            navigateTo(
+              context,
+                  (_) => CreateExpStep5MultiDays(
+                name: name!,
+                description: description!,
+                infoMap: modifiedMap,
+                duration: 2,
+              ),
+            );
+            break;
+          case 3:
+            modifiedMap['duree'] = "7d";
+            navigateTo(
+              context,
+                  (_) => CreateExpStep5MultiDays(
+                name: name!,
+                description: description!,
+                infoMap: modifiedMap,
+                duration: 7,
+              ),
+            );
+            break;
+          default:
+            print('No valid duration selected.');
+        }
+      } else {
+        print('No duration selected.');
+      }
     } catch (error) {
-      // Handle the error appropriately
-      print("Error in make Experience Guide: $error");
+      print("Error in addDurationGuide: $error");
     }
   }
 
   @override
   void dispose() {
-    // Dispose of any resources if needed
     super.dispose();
   }
 }
