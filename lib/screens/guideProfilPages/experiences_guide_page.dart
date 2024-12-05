@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meet_pe/models/guide_experiences_response.dart';
 import 'package:meet_pe/utils/_utils.dart';
 
+import '../../models/experience_data_response.dart';
 import '../../models/guide_reservation_response.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
-import '../../utils/responsive_size.dart';
-import '../../utils/utils.dart';
 import '../../widgets/_widgets.dart';
 import '../onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import 'experiencePages/edit_experience_page.dart';
@@ -22,7 +20,7 @@ class ExperiencesGuidePage extends StatefulWidget {
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = false; // Track if it's currently "Request" or "Experience"
   List<GuideReservationResponse> reservationList = [];
-  List<GuideExperiencesResponse> experiencesList = [];
+  List<ExperienceDataResponse> experiencesList = [];
   bool isLoading = false;
 
   @override
@@ -197,10 +195,8 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                         .push(
                                       MaterialPageRoute(
                                           builder: (_) => EditExperiencePage(
-                                              experienceId:
-                                                  experiencesList[index].id,
-                                              isOnline: experiencesList[index]
-                                                  .isOnline)),
+                                              experienceData:
+                                                  experiencesList[index])),
                                     )
                                         .then((_) async {
                                       experiencesList = await AppService.api

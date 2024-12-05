@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/reservation_detail_page.dart';
 
 import '../../../models/archived_reservation_response.dart';
-import '../../../models/guide_experiences_response.dart';
 import '../../../models/reservation_data_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';

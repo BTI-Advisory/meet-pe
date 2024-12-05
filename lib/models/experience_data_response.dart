@@ -8,31 +8,32 @@ class ExperienceDataResponse {
     required this.id,
     required this.title,
     required this.description,
-    required this.duration,
-    required this.aboutGuide,
-    required this.pricePerTraveler,
-    required this.numberOfTravelers,
-    required this.city,
-    required this.address,
-    required this.postalCode,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.userId,
     required this.status,
-    required this.country,
     required this.categories,
-    this.guideParticipants,
-    required this.etAvecCa,
-    required this.isOnline,
-    required this.isProfessionalGuide,
-    required this.guideDescription,
-    required this.guideName,
+    required this.languages,
+    required this.planning,
+    required this.duration,
     required this.mainPhoto,
-    this.image0,
-    this.image1,
-    this.image2,
-    this.image3,
-    this.image4});
+    required this.photos,
+    required this.numberOfTravelers,
+    required this.typeDesVoyageur,
+    required this.pricePerTraveler,
+    required this.maxNumberOfTravelers,
+    required this.options,
+    required this.city,
+    required this.country,
+    required this.address,
+    this.latitude,
+    this.longitude,
+    required this.postalCode,
+    required this.supportGroupPrive,
+    this.priceGroupPrive,
+    this.discountKids,
+    this.lastMinuteReservation,
+    required this.nameGuide,
+    required this.descriptionGuide,
+    required this.createdAt,
+  });
 
   @JsonKey(name: 'id')
   final int id;
@@ -40,84 +41,108 @@ class ExperienceDataResponse {
   final String title;
   @JsonKey(name: 'description')
   final String description;
-  @JsonKey(name: 'dure')
-  final String duration;
-  @JsonKey(name: 'about_guide')
-  final String aboutGuide;
-  @JsonKey(name: 'prix_par_voyageur')
-  final String pricePerTraveler;
-  @JsonKey(name: 'nombre_des_voyageur')
-  final int numberOfTravelers;
-  @JsonKey(name: 'ville')
-  final String city;
-  @JsonKey(name: 'addresse')
-  final String address;
-  @JsonKey(name: 'code_postale')
-  final String postalCode;
-  @JsonKey(name: 'created_at')
-  final String createdAt;
-  @JsonKey(name: 'updated_at')
-  final String updatedAt;
-  @JsonKey(name: 'user_id')
-  final int userId;
   @JsonKey(name: 'status')
   final String status;
-  @JsonKey(name: 'country')
-  final String country;
-  @JsonKey(name: 'categorie')
+  @JsonKey(name: 'categories')
   final List<String> categories;
-  @JsonKey(name: 'guide_personnes_peuves_participer')
-  final List<String?>? guideParticipants;
-  @JsonKey(name: 'et_avec_ça')
-  final List<String> etAvecCa;
-  @JsonKey(name: 'is_online')
-  final bool isOnline;
-  @JsonKey(name: 'guide_is_pro')
-  final bool isProfessionalGuide;
-  @JsonKey(name: 'description_guide')
-  final String? guideDescription;
-  @JsonKey(name: 'nom_of_guide')
-  final String guideName;
+  @JsonKey(name: 'languages')
+  final List<String> languages;
+  @JsonKey(name: 'planning')
+  final List<Planning> planning;
+  @JsonKey(name: 'duree')
+  final String duration;
   @JsonKey(name: 'photoprincipal')
-  final PhotoPrincipal mainPhoto;
-  @JsonKey(name: 'image_0')
-  final PhotoPrincipal? image0;
-  @JsonKey(name: 'image_1')
-  final PhotoPrincipal? image1;
-  @JsonKey(name: 'image_2')
-  final PhotoPrincipal? image2;
-  @JsonKey(name: 'image_3')
-  final PhotoPrincipal? image3;
-  @JsonKey(name: 'image_4')
-  final PhotoPrincipal? image4;
+  final Photo mainPhoto;
+  @JsonKey(name: 'photos')
+  final List<Photo> photos;
+  @JsonKey(name: 'nombre_voyageur')
+  final int numberOfTravelers;
+  @JsonKey(name: 'type_voyageur')
+  final List<String> typeDesVoyageur;
+  @JsonKey(name: 'prix_par_voyageur')
+  final String pricePerTraveler;
+  @JsonKey(name: 'Max_nb_voyageur')
+  final int maxNumberOfTravelers;
+  @JsonKey(name: 'options')
+  final List<String> options;
+  @JsonKey(name: 'ville')
+  final String city;
+  @JsonKey(name: 'pays')
+  final String country;
+  @JsonKey(name: 'adresse')
+  final String address;
+  @JsonKey(name: 'lat')
+  final double? latitude;
+  @JsonKey(name: 'lang')
+  final double? longitude;
+  @JsonKey(name: 'code_postal')
+  final String postalCode;
+  @JsonKey(name: 'support_group_prive')
+  final bool supportGroupPrive;
+  @JsonKey(name: 'prix_par_group')
+  final int? priceGroupPrive;
+  @JsonKey(name: 'discount_kids')
+  final bool? discountKids;
+  @JsonKey(name: 'dernier_minute_reservation')
+  final String? lastMinuteReservation;
+  @JsonKey(name: 'name_guide')
+  final String nameGuide;
+  @JsonKey(name: 'description_guide')
+  final String descriptionGuide;
+  @JsonKey(name: 'createdAt')
+  final String createdAt;
 
   factory ExperienceDataResponse.fromJson(Map<String, dynamic> json) =>
       _$ExperienceDataResponseFromJson(json);
 }
 
 @JsonSerializable()
-class PhotoPrincipal {
-  final int id;
-  @JsonKey(name: 'guide_experience_id')
-  final int guideExperienceId;
-  @JsonKey(name: 'photo_url')
-  final String photoUrl;
-  @JsonKey(name: 'created_at')
-  final String createdAt;
-  @JsonKey(name: 'updated_at')
-  final String updatedAt;
-  @JsonKey(name: 'type_image')
-  final String typeImage;
-
-  PhotoPrincipal({
-    required this.id,
-    required this.guideExperienceId,
+class Photo {
+  const Photo({
     required this.photoUrl,
-    required this.createdAt,
-    required this.updatedAt,
     required this.typeImage,
   });
 
-  factory PhotoPrincipal.fromJson(Map<String, dynamic> json) =>
-      _$PhotoPrincipalFromJson(json);
+  @JsonKey(name: 'photo_url')
+  final String photoUrl;
+
+  @JsonKey(name: 'type_image')
+  final String typeImage;
+
+  factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
+}
+
+@JsonSerializable()
+class Planning {
+  const Planning({
+    required this.startDate,
+    required this.endDate,
+    required this.schedules,
+  });
+
+  @JsonKey(name: 'start_date')
+  final String startDate;
+  @JsonKey(name: 'end_date')
+  final String endDate;
+  @JsonKey(name: 'schedules')
+  final List<Schedule> schedules;
+
+  factory Planning.fromJson(Map<String, dynamic> json) =>
+      _$PlanningFromJson(json);
+}
+
+@JsonSerializable()
+class Schedule {
+  const Schedule({
+    required this.startTime,
+    required this.endTime,
+  });
+
+  @JsonKey(name: 'start_time')
+  final String startTime;
+  @JsonKey(name: 'end_time')
+  final String endTime;
+
+  factory Schedule.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleFromJson(json);
 }

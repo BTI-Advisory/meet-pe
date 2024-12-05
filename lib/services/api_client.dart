@@ -9,7 +9,6 @@ import 'package:meet_pe/models/archived_reservation_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
 import 'package:meet_pe/models/email_exist.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
-import 'package:meet_pe/models/guide_experiences_response.dart';
 import 'package:meet_pe/models/guide_reservation_response.dart';
 import 'package:meet_pe/models/is_full_availability_response.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
@@ -1408,22 +1407,36 @@ class ApiClient {
     return response['data']!.map<GuideReservationResponse>((json) => GuideReservationResponse.fromJson(json)).toList(growable: false);
   }*/
 
-  Future<List<GuideExperiencesResponse>> getGuideExperiencesList() async {
+  Future<List<ExperienceDataResponse>> getGuideExperiencesList() async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
       'api-key': '$_apiKey',
-      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken() ?? 'none'}',
     };
 
+    // Make the GET request
     final response = await http.get(_buildUri('api/get-guide-experiences'), headers: headers);
 
+    // Check response status code
     if (response.statusCode == 200) {
-      return parseGuideExperiencesItem(response.body);
+      // Decode the response body to a Map
+      final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+      // Extract the 'data' field and parse it into a list of ExperienceDataResponse
+      if (jsonResponse.containsKey('data') && jsonResponse['data'] is List) {
+        final List<dynamic> dataList = jsonResponse['data'];
+        return dataList
+            .map((item) => ExperienceDataResponse.fromJson(item as Map<String, dynamic>))
+            .toList();
+      } else {
+        throw Exception('Invalid response format: missing "data" field');
+      }
     } else {
-      throw Exception('Failed to load experiences list');
+      throw Exception('Failed to load experiences list. Status code: ${response.statusCode}');
     }
   }
+
 
   /// Mark a get of experience detail
   Future<ExperienceDataResponse> getExperienceDetail(int experienceID) async {

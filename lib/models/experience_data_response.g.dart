@@ -9,69 +9,76 @@ part of 'experience_data_response.dart';
 ExperienceDataResponse _$ExperienceDataResponseFromJson(
         Map<String, dynamic> json) =>
     ExperienceDataResponse(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
-      duration: json['dure'] as String,
-      aboutGuide: json['about_guide'] as String,
-      pricePerTraveler: json['prix_par_voyageur'] as String,
-      numberOfTravelers: json['nombre_des_voyageur'] as int,
-      city: json['ville'] as String,
-      address: json['addresse'] as String,
-      postalCode: json['code_postale'] as String,
-      createdAt: json['created_at'] as String,
-      updatedAt: json['updated_at'] as String,
-      userId: json['user_id'] as int,
       status: json['status'] as String,
-      country: json['country'] as String,
-      categories:
-          (json['categorie'] as List<dynamic>).map((e) => e as String).toList(),
-      guideParticipants:
-          (json['guide_personnes_peuves_participer'] as List<dynamic>?)
-              ?.map((e) => e as String?)
-              .toList(),
-      etAvecCa: (json['et_avec_ça'] as List<dynamic>)
+      categories: (json['categories'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      isOnline: json['is_online'] as bool,
-      isProfessionalGuide: json['guide_is_pro'] as bool,
-      guideDescription: json['description_guide'] as String?,
-      guideName: json['nom_of_guide'] as String,
-      mainPhoto: PhotoPrincipal.fromJson(
-          json['photoprincipal'] as Map<String, dynamic>),
-      image0: json['image_0'] == null
-          ? null
-          : PhotoPrincipal.fromJson(json['image_0'] as Map<String, dynamic>),
-      image1: json['image_1'] == null
-          ? null
-          : PhotoPrincipal.fromJson(json['image_1'] as Map<String, dynamic>),
-      image2: json['image_2'] == null
-          ? null
-          : PhotoPrincipal.fromJson(json['image_2'] as Map<String, dynamic>),
-      image3: json['image_3'] == null
-          ? null
-          : PhotoPrincipal.fromJson(json['image_3'] as Map<String, dynamic>),
-      image4: json['image_4'] == null
-          ? null
-          : PhotoPrincipal.fromJson(json['image_4'] as Map<String, dynamic>),
+      languages:
+          (json['languages'] as List<dynamic>).map((e) => e as String).toList(),
+      planning: (json['planning'] as List<dynamic>)
+          .map((e) => Planning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      duration: json['duree'] as String,
+      mainPhoto: Photo.fromJson(json['photoprincipal'] as Map<String, dynamic>),
+      photos: (json['photos'] as List<dynamic>)
+          .map((e) => Photo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numberOfTravelers: (json['nombre_voyageur'] as num).toInt(),
+      typeDesVoyageur: (json['type_voyageur'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      pricePerTraveler: json['prix_par_voyageur'] as String,
+      maxNumberOfTravelers: (json['Max_nb_voyageur'] as num).toInt(),
+      options:
+          (json['options'] as List<dynamic>).map((e) => e as String).toList(),
+      city: json['ville'] as String,
+      country: json['pays'] as String,
+      address: json['adresse'] as String,
+      latitude: (json['lat'] as num?)?.toDouble(),
+      longitude: (json['lang'] as num?)?.toDouble(),
+      postalCode: json['code_postal'] as String,
+      supportGroupPrive: json['support_group_prive'] as bool,
+      priceGroupPrive: (json['prix_par_group'] as num?)?.toInt(),
+      discountKids: json['discount_kids'] as bool?,
+      lastMinuteReservation: json['dernier_minute_reservation'] as String?,
+      nameGuide: json['name_guide'] as String,
+      descriptionGuide: json['description_guide'] as String,
+      createdAt: json['createdAt'] as String,
     );
 
-PhotoPrincipal _$PhotoPrincipalFromJson(Map<String, dynamic> json) =>
-    PhotoPrincipal(
-      id: json['id'] as int,
-      guideExperienceId: json['guide_experience_id'] as int,
+Photo _$PhotoFromJson(Map<String, dynamic> json) => Photo(
       photoUrl: json['photo_url'] as String,
-      createdAt: json['created_at'] as String,
-      updatedAt: json['updated_at'] as String,
       typeImage: json['type_image'] as String,
     );
 
-Map<String, dynamic> _$PhotoPrincipalToJson(PhotoPrincipal instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'guide_experience_id': instance.guideExperienceId,
+Map<String, dynamic> _$PhotoToJson(Photo instance) => <String, dynamic>{
       'photo_url': instance.photoUrl,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
       'type_image': instance.typeImage,
+    };
+
+Planning _$PlanningFromJson(Map<String, dynamic> json) => Planning(
+      startDate: json['start_date'] as String,
+      endDate: json['end_date'] as String,
+      schedules: (json['schedules'] as List<dynamic>)
+          .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$PlanningToJson(Planning instance) => <String, dynamic>{
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
+      'schedules': instance.schedules,
+    };
+
+Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule(
+      startTime: json['start_time'] as String,
+      endTime: json['end_time'] as String,
+    );
+
+Map<String, dynamic> _$ScheduleToJson(Schedule instance) => <String, dynamic>{
+      'start_time': instance.startTime,
+      'end_time': instance.endTime,
     };

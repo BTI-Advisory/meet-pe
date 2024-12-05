@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:meet_pe/models/guide_experiences_response.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:widget_mask/widget_mask.dart';
 
+import '../models/experience_data_response.dart';
 import '../resources/resources.dart';
 
 class MyCardExperience extends StatefulWidget {
   //const MyCardExperience({Key? key}) : super(key: key, required this.guideExperiencesResponse);
   MyCardExperience({super.key, required this.guideExperiencesResponse});
-  final GuideExperiencesResponse guideExperiencesResponse;
+  final ExperienceDataResponse guideExperiencesResponse;
 
   @override
   _MyCardExperienceState createState() => _MyCardExperienceState();
@@ -43,7 +43,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                   WidgetMask(
                     blendMode: BlendMode.srcATop,
                     childSaveLayer: true,
-                    mask: Image.network(widget.guideExperiencesResponse.photoPrincipal?.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
+                    mask: Image.network(widget.guideExperiencesResponse.mainPhoto.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
                     child: Image.asset(
                       'images/mask_picture.png',
                       width: 68,
