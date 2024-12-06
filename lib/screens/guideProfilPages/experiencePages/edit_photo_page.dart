@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../utils/_utils.dart';
 import '../../../resources/resources.dart';
+import '../../../widgets/_widgets.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -222,7 +223,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                             206, context),
                                         height: ResponsiveSize.calculateHeight(
                                             206, context),
-                                        child: selectedImagePathPrincipal.isEmpty
+                                        /*child: selectedImagePathPrincipal.isEmpty
                                             ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.imagePrincipal, fit: BoxFit.cover))
                                             : ClipRRect(
                                           borderRadius: BorderRadius
@@ -234,7 +235,18 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                                 selectedImagePathPrincipal),
                                             fit: BoxFit.cover,
                                           ),
-                                        )),
+                                        ),*/
+                                      child: selectedImagePathPrincipal.isEmpty
+                                          ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: Image.network(widget.imagePrincipal, fit: BoxFit.cover))
+                                          : ClipRRect(
+                                        borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(12, context)),
+                                        child: Image.file(File(selectedImagePathPrincipal), fit: BoxFit.cover,
+                                        ),
+                                      ),
+
+                                    ),
                                   ),
                                 ),
                                 Positioned(
@@ -279,170 +291,38 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                             Expanded(
                               child: Column(
                                 children: [
-                                  Stack(children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        pickImageFromGallery(context, (imagePath) {
-                                          setState(() {
-                                            _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                            selectedImagePath1 = imagePath;
-                                            updatePhoto1 = true;
-                                          });
-                                        });
-                                      },
-                                      child: DottedBorder(
-                                        borderType: BorderType.RRect,
-                                        color: AppResources.colorGray45,
-                                        radius: Radius.circular(
-                                            ResponsiveSize.calculateCornerRadius(
-                                                12, context)),
-                                        child: Container(
-                                          width:
-                                          ResponsiveSize.calculateWidth(
-                                              98, context),
-                                          height:
-                                          ResponsiveSize.calculateHeight(
-                                              98, context),
-                                          child: Builder (
-                                            builder: (context) {
-                                              if (updatePhoto1 == false) {
-                                                if (widget.image1.isNotEmpty) {
-                                                  return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image1, fit: BoxFit.cover));
-                                                } else {
-                                                  return const Icon(Icons.add, color: AppResources.colorGray60);
-                                                }
-                                              } else {
-                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath1), fit: BoxFit.cover));
-                                              }
-                                            }
-                                          )
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 8,
-                                      right: 7,
-                                      child: Visibility(
-                                        visible: widget.image1 != '' || selectedImagePath1.isNotEmpty,
-                                        child: Container(
-                                          width: ResponsiveSize.calculateWidth(
-                                              24, context),
-                                          height:
-                                          ResponsiveSize.calculateHeight(
-                                              24, context),
-                                          decoration: ShapeDecoration(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                            ),
-                                          ),
-                                          child: FloatingActionButton(
-                                            heroTag: "btn3",
-                                            backgroundColor:
-                                            AppResources.colorWhite,
-                                            onPressed: () async {
-                                              pickImageFromGallery(context, (imagePath) {
-                                                setState(() {
-                                                  _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                                  selectedImagePath1 = imagePath;
-                                                  updatePhoto1 = true;
-                                                });
-                                              });
-                                            },
-                                            child: Image.asset(
-                                                'images/pen_icon.png'),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                                  SizedBox(
-                                      height: ResponsiveSize.calculateHeight(
-                                          10, context)),
-                                  Stack(children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        pickImageFromGallery(context, (imagePath) {
-                                          setState(() {
-                                            _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                            selectedImagePath2 = imagePath;
-                                            updatePhoto2 = true;
-                                          });
-                                        });
-                                      },
-                                      child: DottedBorder(
-                                        borderType: BorderType.RRect,
-                                        color: AppResources.colorGray45,
-                                        radius: Radius.circular(
-                                            ResponsiveSize.calculateCornerRadius(
-                                                12, context)),
-                                        child: Container(
-                                          width:
-                                          ResponsiveSize.calculateWidth(
-                                              98, context),
-                                          height:
-                                          ResponsiveSize.calculateHeight(
-                                              98, context),
-                                          child: Builder (
-                                              builder: (context) {
-                                                if (updatePhoto2 == false) {
-                                                  if (widget.image2.isNotEmpty) {
-                                                    return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image2, fit: BoxFit.cover));
-                                                  } else {
-                                                    return const Icon(Icons.add, color: AppResources.colorGray60);
-                                                  }
-                                                } else {
-                                                  return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath2), fit: BoxFit.cover));
-                                                }
-                                              }
-                                          )
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 8,
-                                      right: 7,
-                                      child: Visibility(
-                                        visible: widget.image2 != '' || selectedImagePath2.isNotEmpty,
-                                        child: Container(
-                                          width: ResponsiveSize.calculateWidth(
-                                              24, context),
-                                          height:
-                                          ResponsiveSize.calculateHeight(
-                                              24, context),
-                                          decoration: ShapeDecoration(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                            ),
-                                          ),
-                                          child: FloatingActionButton(
-                                            heroTag: "btn4",
-                                            backgroundColor:
-                                            AppResources.colorWhite,
-                                            onPressed: () async {
-                                              pickImageFromGallery(context, (imagePath) {
-                                                setState(() {
-                                                  _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                                  selectedImagePath2 = imagePath;
-                                                  updatePhoto2 = true;
-                                                });
-                                              });
-                                            },
-                                            child: Image.asset(
-                                                'images/pen_icon.png'),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
+                                  ImagePickerWidget(
+                                    initialImage: widget.image1,
+                                    selectedImagePath: selectedImagePath1,
+                                    isUpdated: updatePhoto1,
+                                    onImagePicked: (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath);
+                                        selectedImagePath1 = imagePath;
+                                        updatePhoto1 = true;
+                                      });
+                                    },
+                                    pickImageFunction: pickImageFromGallery,
+                                    heroTag: "btn3",
+                                  ),
+                                  SizedBox(height: ResponsiveSize.calculateHeight(10, context)),
+                                  ImagePickerWidget(
+                                    initialImage: widget.image2,
+                                    selectedImagePath: selectedImagePath2,
+                                    isUpdated: updatePhoto2,
+                                    onImagePicked: (imagePath) {
+                                      setState(() {
+                                        _imageList.add(imagePath);
+                                        selectedImagePath2 = imagePath;
+                                        updatePhoto2 = true;
+                                      });
+                                    },
+                                    pickImageFunction: pickImageFromGallery,
+                                    heroTag: "btn4",
+                                  ),
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                         SizedBox(
@@ -451,244 +331,54 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                         Row(
                           children: [
                             Expanded(
-                              child: Stack(children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    pickImageFromGallery(context, (imagePath) {
-                                      setState(() {
-                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                        selectedImagePath3 = imagePath;
-                                        updatePhoto3 = true;
-                                      });
-                                    });
-                                  },
-                                  child: DottedBorder(
-                                    borderType: BorderType.RRect,
-                                    color: AppResources.colorGray45,
-                                    radius: Radius.circular(
-                                        ResponsiveSize.calculateCornerRadius(
-                                            12, context)),
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          98, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          98, context),
-                                      child: Builder (
-                                          builder: (context) {
-                                            if (updatePhoto3 == false) {
-                                              if (widget.image3.isNotEmpty) {
-                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image3, fit: BoxFit.cover));
-                                              } else {
-                                                return const Icon(Icons.add, color: AppResources.colorGray60);
-                                              }
-                                            } else {
-                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath3), fit: BoxFit.cover));
-                                            }
-                                          }
-                                      )
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 8,
-                                  right: 7,
-                                  child: Visibility(
-                                    visible: widget.image3 != '' || selectedImagePath3.isNotEmpty,
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          24, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          24, context),
-                                      decoration: ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                        ),
-                                      ),
-                                      child: FloatingActionButton(
-                                        heroTag: "btn5",
-                                        backgroundColor:
-                                        AppResources.colorWhite,
-                                        onPressed: () async {
-                                          pickImageFromGallery(context, (imagePath) {
-                                            setState(() {
-                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                              selectedImagePath3 = imagePath;
-                                              updatePhoto3 = true;
-                                            });
-                                          });
-                                        },
-                                        child:
-                                        Image.asset('images/pen_icon.png'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
+                              child: ImagePickerWidget(
+                                initialImage: widget.image3,
+                                selectedImagePath: selectedImagePath3,
+                                isUpdated: updatePhoto3,
+                                onImagePicked: (imagePath) {
+                                  setState(() {
+                                    _imageList.add(imagePath);
+                                    selectedImagePath3 = imagePath;
+                                    updatePhoto3 = true;
+                                  });
+                                },
+                                pickImageFunction: pickImageFromGallery, // Pass the function
+                                heroTag: "btn5",
+                              ),
                             ),
-                            SizedBox(
-                                width:
-                                ResponsiveSize.calculateWidth(12, context)),
+                            SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
-                              child: Stack(children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    pickImageFromGallery(context, (imagePath) {
-                                      setState(() {
-                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                        selectedImagePath4 = imagePath;
-                                        updatePhoto4 = true;
-                                      });
-                                    });
-                                  },
-                                  child: DottedBorder(
-                                    borderType: BorderType.RRect,
-                                    color: AppResources.colorGray45,
-                                    radius: Radius.circular(
-                                        ResponsiveSize.calculateCornerRadius(
-                                            12, context)),
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          98, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          98, context),
-                                      child: Builder (
-                                          builder: (context) {
-                                            if (updatePhoto4 == false) {
-                                              if (widget.image4.isNotEmpty) {
-                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image4, fit: BoxFit.cover));
-                                              } else {
-                                                return const Icon(Icons.add, color: AppResources.colorGray60);
-                                              }
-                                            } else {
-                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath4), fit: BoxFit.cover));
-                                            }
-                                          }
-                                      )
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 8,
-                                  right: 7,
-                                  child: Visibility(
-                                    visible: widget.image4 != '' || selectedImagePath4.isNotEmpty,
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          24, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          24, context),
-                                      decoration: ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                        ),
-                                      ),
-                                      child: FloatingActionButton(
-                                        heroTag: "btn6",
-                                        backgroundColor:
-                                        AppResources.colorWhite,
-                                        onPressed: () async {
-                                          pickImageFromGallery(context, (imagePath) {
-                                            setState(() {
-                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                              selectedImagePath4 = imagePath;
-                                              updatePhoto4 = true;
-                                            });
-                                          });
-                                        },
-                                        child:
-                                        Image.asset('images/pen_icon.png'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
+                              child: ImagePickerWidget(
+                                initialImage: widget.image4,
+                                selectedImagePath: selectedImagePath4,
+                                isUpdated: updatePhoto4,
+                                onImagePicked: (imagePath) {
+                                  setState(() {
+                                    _imageList.add(imagePath);
+                                    selectedImagePath4 = imagePath;
+                                    updatePhoto4 = true;
+                                  });
+                                },
+                                pickImageFunction: pickImageFromGallery, // Pass the function
+                                heroTag: "btn6",
+                              ),
                             ),
-                            SizedBox(
-                                width:
-                                ResponsiveSize.calculateWidth(12, context)),
+                            SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
-                              child: Stack(children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    pickImageFromGallery(context, (imagePath) {
-                                      setState(() {
-                                        _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                        selectedImagePath5 = imagePath;
-                                        updatePhoto5 = true;
-                                      });
-                                    });
-                                  },
-                                  child: DottedBorder(
-                                    borderType: BorderType.RRect,
-                                    color: AppResources.colorGray45,
-                                    radius: Radius.circular(
-                                        ResponsiveSize.calculateCornerRadius(
-                                            12, context)),
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          98, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          98, context),
-                                      child: Builder (
-                                          builder: (context) {
-                                            if (updatePhoto5 == false) {
-                                              if (widget.image5.isNotEmpty) {
-                                                return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(widget.image5, fit: BoxFit.cover));
-                                              } else {
-                                                return const Icon(Icons.add, color: AppResources.colorGray60);
-                                              }
-                                            } else {
-                                              return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(File(selectedImagePath5), fit: BoxFit.cover));
-                                            }
-                                          }
-                                      )
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 8,
-                                  right: 7,
-                                  child: Visibility(
-                                    visible: widget.image5 != '' || selectedImagePath5.isNotEmpty,
-                                    child: Container(
-                                      width: ResponsiveSize.calculateWidth(
-                                          24, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          24, context),
-                                      decoration: ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              ResponsiveSize
-                                                  .calculateCornerRadius(
-                                                  40, context)),
-                                        ),
-                                      ),
-                                      child: FloatingActionButton(
-                                        heroTag: "btn7",
-                                        backgroundColor:
-                                        AppResources.colorWhite,
-                                        onPressed: () async {
-                                          pickImageFromGallery(context, (imagePath) {
-                                            setState(() {
-                                              _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
-                                              selectedImagePath5 = imagePath;
-                                              updatePhoto5 = true;
-                                            });
-                                          });
-                                        },
-                                        child:
-                                        Image.asset('images/pen_icon.png'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
+                              child: ImagePickerWidget(
+                                initialImage: widget.image5,
+                                selectedImagePath: selectedImagePath5,
+                                isUpdated: updatePhoto5,
+                                onImagePicked: (imagePath) {
+                                  setState(() {
+                                    _imageList.add(imagePath);
+                                    selectedImagePath5 = imagePath;
+                                    updatePhoto5 = true;
+                                  });
+                                },
+                                pickImageFunction: pickImageFromGallery, // Pass the function
+                                heroTag: "btn7",
+                              ),
                             ),
                           ],
                         )
