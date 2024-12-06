@@ -1486,7 +1486,7 @@ class ApiClient {
   }
 
   /// Mark a update experience
-  Future<void> updateDataExperience(ModifyExperienceDataModel data) async {
+  Future<void> updateDataExperience(int experienceId, ModifyExperienceDataModel data) async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -1495,7 +1495,7 @@ class ApiClient {
     };
 
     // Create a multi-part request
-    final request = http.MultipartRequest('POST', _buildUri('api/update-experience'));
+    final request = http.MultipartRequest('POST', _buildUri('api/update-experience/$experienceId'));
 
     // Add headers if provided
     if (headers != null) {
@@ -1504,15 +1504,33 @@ class ApiClient {
 
     // Add JSON data
     // Add non-null fields
-    if (data.experienceId != null) request.fields['experience_id'] = data.experienceId.toString();
     if (data.description != null) request.fields['description'] = data.description!;
-    if (data.aboutGuide != null) request.fields['about_guide'] = data.aboutGuide!;
+    if (data.experienceLanguages != null) request.fields['experience_languages'] = data.experienceLanguages!;
+
+    // Serialize horaires as a JSON string
+    String? horairesJson = data.horaires != null
+        ? jsonEncode(data.horaires!.map((h) {
+      return {
+        'heure_debut': h.heureDebut,
+        'heure_fin': h.heureFin,
+        'dates': h.dates.map((d) {
+          return {
+            'date_debut': d.dateDebut,
+            'date_fin': d.dateFin,
+          };
+        }).toList(),
+      };
+    }).toList())
+        : null;
+
+    if (horairesJson != null) {
+      request.fields['horaires'] = horairesJson;
+    }
 
     if (data.prixParVoyageur != null) request.fields['prix_par_voyageur'] = data.prixParVoyageur.toString();
     if (data.priceGroupPrive != null) request.fields['price_group_prive'] = data.priceGroupPrive.toString();
-    if (data.numberVoyageur != null) request.fields['max_number_of_persons'] = data.numberVoyageur.toString();
+    if (data.maxNumberOfPersons != null) request.fields['max_number_of_persons'] = data.maxNumberOfPersons.toString();
     if (data.discountKidsBetween2And12 != null) request.fields['discount_kids_between_2_and_12'] = data.discountKidsBetween2And12.toString();
-    if (data.title != null) request.fields['title'] = data.title!;
 
     // Helper function to add image if path is valid
     Future<void> addImage(String field, String? imagePath) async {
@@ -1549,7 +1567,6 @@ class ApiClient {
       throw Exception('Failed to send update experience: ${response.reasonPhrase}');
     }
   }
-
 
   /// Mark a update experience description
   Future<void> updateExperienceDescription(int experienceID, String description) async {

@@ -1,30 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../models/availability_list_response.dart';
+import '../../../models/experience_data_response.dart';
 import '../../../models/modify_experience_data_model.dart';
-import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
+import '../../../widgets/_widgets.dart';
 import '../../../resources/resources.dart';
-import '../../../widgets/day_available.dart';
 
 class EditAvailabilitiesPage extends StatefulWidget {
-  const EditAvailabilitiesPage({super.key, required this.sendListMap});
+  const EditAvailabilitiesPage({super.key, required this.planning});
 
-  final Map<String, dynamic> sendListMap;
+  final List<Planning> planning;
 
   @override
   State<EditAvailabilitiesPage> createState() => _EditAvailabilitiesPageState();
 }
 
 class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
-  Map<String, Set<Availability>> myMap = {};
-  List<AvailabilityListResponse> availabilityList = [];
+  List<Map<String, TimeOfDay?>> timeSlots = [
+    {"start": null, "end": null}
+  ];
+  List<DateTime> selectedDays = [];
 
   @override
   void initState() {
     super.initState();
-    fetchAvailabilityData();
   }
 
   @override
@@ -32,97 +32,26 @@ class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
     super.dispose();
   }
 
-  Future<void> fetchAvailabilityData() async {
-    try {
-      final response = await AppService.api.getAvailabilityList();
-      setState(() {
-        availabilityList = response;
-      });
-      for (var item in availabilityList) {
-        print(item.day);
-      }
-    } catch (e) {
-      // Handle error
-      print('Error fetching availability list: $e');
-    }
-  }
+  /// Combine dates with time slots into a structured planning object
+  List<HorairesDataModel> _generateHoraires() {
+    List<HorairesDataModel> horaires = [];
 
-  // This is the method that handles time selection for each day
-  void _onTimeSelected(String day, Availability availability) {
-    setState(() {
-      // If the day already exists in myMap, add the new availability to the set
-      if (myMap.containsKey(day)) {
-        myMap[day]?.add(availability);
-      } else {
-        // If the day does not exist, create a new set for this day and add the availability
-        myMap[day] = {availability};
-      }
-
-      print('Selected time for $day: ${availability.times.first.from}');
-    });
-  }
-
-  void _sendAllData() {
-    // Prepare the list to hold all the data
-    List<Map<String, dynamic>> dataToSend = [];
-
-    // Iterate through the myMap to prepare the data to send
-    myMap.forEach((day, availabilities) {
-      availabilities.forEach((availability) {
-        if (availability.times.length == 1) {
-          dataToSend.add({
-            'day': day,
-            'availableFullDay': availability.isAvailableFullDay,
-            'startTime': availability.times.first.from,
-            'endTime': availability.times.first.to,
-          });
-        } else {
-          dataToSend.add({
-            'day': day,
-            'availableFullDay': availability.isAvailableFullDay,
-            'startTime': availability.times.first.from,
-            'endTime': availability.times.first.to,
-            'startSecondTime': availability.times.last.from,
-            'endSecondTime': availability.times.last.to,
-          });
-        }
-      });
-    });
-
-    print('Prepared Data: $dataToSend');
-
-    // Create a list of AvailabilitiesDataModel based on the dataToSend list
-    List<AvailabilitiesDataModel> availabilitiesData = dataToSend.map((data) {
-      return AvailabilitiesDataModel(
-        day: data['day'],
-        availableFullDay: data['availableFullDay'],
-        startTime: data['startTime'],
-        endTime: data['endTime'],
-        startSecondTime: data['startSecondTime'],
-        endSecondTime: data['endSecondTime'],
-      );
-    }).toList();
-
-    // Assuming you have an instance of ModifyExperienceDataModel
-    ModifyExperienceDataModel experienceData = ModifyExperienceDataModel(
-      availabilitiesData: availabilitiesData,
-      // Add other fields as needed
-    );
-
-    print('Final Experience Data: ${experienceData.availabilitiesData}');
-
-    /// If `sendListMap['available']` is null, initialize it
-    if (widget.sendListMap['available'] == null) {
-      widget.sendListMap['available'] = [];
+    for (var day in selectedDays) {
+      horaires.add(HorairesDataModel(
+        heureDebut: timeSlots.first["start"]?.format(context),
+        heureFin: timeSlots.first["end"]?.format(context),
+        dates: [
+          DatesDataModel(
+            dateDebut: day.toIso8601String().split('T').first, // Format as YYYY-MM-DD
+            dateFin: day.toIso8601String().split('T').first,   // Format as YYYY-MM-DD
+          ),
+        ],
+      ));
     }
 
-    // Optionally, you can still add the raw data to `sendListMap` if needed
-    widget.sendListMap['available'] = dataToSend;
-    print('Final Data: ${widget.sendListMap}');
-
-    // Pass the experience data or sendListMap back to the previous screen as needed
-    Navigator.pop(context, experienceData);
+    return horaires;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -175,30 +104,89 @@ class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
                       ),
                       const SizedBox(height: 80),
                       Text(
-                        'Ça commence quand ?',
+                        'Horaire & dates de l’expérience',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        "Renseigne les jours de la semaine ainsi que l’horaire de début de l’expérience.",
+                        'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(
+                          height: ResponsiveSize.calculateHeight(16, context)),
                       Container(
                         width: double.infinity,
-                        child: Column(
-                          children: availabilityList.map((item) {
-                            return DayAvailable(
-                              availabilityList: item,
-                              onTimeSelected: (day, availability) {
-                                _onTimeSelected(day, availability);  // Save selected times for each day
-                              },
-                            );
-                          }).toList(),
+                        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+                        decoration: ShapeDecoration(
+                          color: AppResources.colorBeigeLight,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Durée de l’expérience : ',
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
+                                  ),
+                                  TextSpan(
+                                    text: 'Horaire personalisé',
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 80),
-                      // Additional space to account for button
+                      SizedBox(
+                          height: ResponsiveSize.calculateHeight(16, context)),
+                      TimeSlotWidget(
+                        initialTimeSlots: timeSlots,
+                        onTimeSlotsChanged: (updatedTimeSlots) {
+                          setState(() {
+                            timeSlots = updatedTimeSlots;
+                          });
+                        },
+                        active: true,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          final result = await showModalBottomSheet<List<DateTime>>(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return CalendarMultiSelection(initialSelectedDays: selectedDays);
+                            },
+                          );
+                          if (result != null && result.isNotEmpty) {
+                            setState(() {
+                              selectedDays = result;
+                            });
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Dates de l’expérience',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  selectedDays.isNotEmpty ? 'Renseigné' : 'Non renseigné',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: selectedDays.isNotEmpty ? AppResources.colorVitamine : AppResources.colorDark ),
+                                ),
+                                Image.asset('images/chevron_right.png',
+                                    width: 27, height: 27, fit: BoxFit.fill),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -231,6 +219,23 @@ class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
                           ),
                         ),
                       ),
+                      onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedDays.isNotEmpty
+                          ? () {
+                        setState(() {
+                          print("Selected Days: $selectedDays");
+                          print("Time Slots: $timeSlots");
+                          List<HorairesDataModel> horaires = _generateHoraires();
+
+                          // Create ModifyExperienceDataModel with horaires data
+                          final modifyExperienceDataModel = ModifyExperienceDataModel(
+                            horaires: horaires,
+                          );
+
+                          // Pass the ModifyExperienceDataModel back to the previous screen
+                          Navigator.pop(context, modifyExperienceDataModel);
+                        });
+                      }
+                          : null,
                       child: Text(
                         'ENREGISTRER',
                         style: Theme.of(context)
@@ -238,9 +243,6 @@ class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
                             .bodyLarge
                             ?.copyWith(color: AppResources.colorDark),
                       ),
-                      onPressed: () {
-                        _sendAllData();
-                      },
                     ),
                   ),
                 ),

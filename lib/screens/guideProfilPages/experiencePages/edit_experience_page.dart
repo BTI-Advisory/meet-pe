@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meet_pe/models/experience_data_response.dart';
-import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_about_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_availabilities_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/experiencePages/edit_description_page.dart';
 import 'package:widget_mask/widget_mask.dart';
@@ -34,7 +33,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   bool updatePhoto4 = false;
   bool updatePhoto5= false;
   ModifyExperienceDataModel data = ModifyExperienceDataModel();
-  Map<String, dynamic> availabilityList = {};
 
   @override
   void initState() {
@@ -175,50 +173,56 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                               Positioned(
                                 top: 280,
                                 right: 28,
-                                child: editButton(onTap: () async {
-                                  print('Edit image');
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => EditPhotoPage(
-                                          imagePrincipal: widget.experienceData.mainPhoto.photoUrl,
-                                          image1: widget.experienceData.photos[0].photoUrl ?? '',
-                                          image2: widget.experienceData.photos[1].photoUrl ?? '',
-                                          image3: widget.experienceData.photos[2].photoUrl ?? '',
-                                          image4: widget.experienceData.photos[3].photoUrl ?? '',
-                                          image5: widget.experienceData.photos[4].photoUrl ?? '',)
-                                    ),
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      if (result.containsKey('image_principale')) {
-                                        data.imagePrincipale = result['image_principale'];
-                                        updatePhotoPrincipal = true;
+                                child: editButton(
+                                    onTap: () async {
+                                      print('Edit image');
+                                      final photos = widget.experienceData.photos ?? [];
+
+                                      final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditPhotoPage(
+                                            imagePrincipal: widget.experienceData.mainPhoto.photoUrl,
+                                            image1: photos.length > 0 ? photos[0].photoUrl ?? '' : '',
+                                            image2: photos.length > 1 ? photos[1].photoUrl ?? '' : '',
+                                            image3: photos.length > 2 ? photos[2].photoUrl ?? '' : '',
+                                            image4: photos.length > 3 ? photos[3].photoUrl ?? '' : '',
+                                            image5: photos.length > 4 ? photos[4].photoUrl ?? '' : '',
+                                          ),
+                                        ),
+                                      );
+
+                                      if (result != null) {
+                                        setState(() {
+                                          if (result.containsKey('image_principale')) {
+                                            data.imagePrincipale = result['image_principale'];
+                                            updatePhotoPrincipal = true;
+                                          }
+                                          if (result.containsKey('image_0')) {
+                                            data.image1 = result['image_0'];
+                                            updatePhoto1 = true;
+                                          }
+                                          if (result.containsKey('image_1')) {
+                                            data.image2 = result['image_1'];
+                                            updatePhoto2 = true;
+                                          }
+                                          if (result.containsKey('image_2')) {
+                                            data.image3 = result['image_2'];
+                                            updatePhoto3 = true;
+                                          }
+                                          if (result.containsKey('image_3')) {
+                                            data.image4 = result['image_3'];
+                                            updatePhoto4 = true;
+                                          }
+                                          if (result.containsKey('image_4')) {
+                                            data.image5 = result['image_4'];
+                                            updatePhoto5 = true;
+                                          }
+                                          print('Return photo $result');
+                                        });
                                       }
-                                      if (result.containsKey('image_0')) {
-                                        data.image1 = result['image_0'];
-                                        updatePhoto1 = true;
-                                      }
-                                      if (result.containsKey('image_1')) {
-                                        data.image2 = result['image_1'];
-                                        updatePhoto2 = true;
-                                      }
-                                      if (result.containsKey('image_2')) {
-                                        data.image3 = result['image_2'];
-                                        updatePhoto3 = true;
-                                      }
-                                      if (result.containsKey('image_3')) {
-                                        data.image4 = result['image_3'];
-                                        updatePhoto4 = true;
-                                      }
-                                      if (result.containsKey('image_4')) {
-                                        data.image5 = result['image_4'];
-                                        updatePhoto5 = true;
-                                      }
-                                      print('Return photo $result');
-                                    });
-                                  }
-                                }),
+                                    }
+                                ),
                               ),
                             ],
                           ),
@@ -269,19 +273,16 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => EditAvailabilitiesPage(
-                                          sendListMap: availabilityList,
+                                          planning: widget.experienceData.planning,
                                         ),
                                       ),
                                     );
 
                                     // Check if the result is not null and is of type ModifyExperienceDataModel
                                     if (result != null && result is ModifyExperienceDataModel) {
-
                                       // Update the state with the returned availabilities data
                                       setState(() {
-
-                                        // Assign the result's availabilities data to the current instance's data
-                                        data.availabilitiesData = result.availabilitiesData;
+                                        data.horaires = result.horaires;
                                       });
                                     }
                                   },
@@ -373,10 +374,10 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                 data.prixParVoyageur = result['prix_par_voyageur'] as int?;
                                               }
                                               if (result.containsKey('discount_kids_between_2_and_12')) {
-                                                data.discountKidsBetween2And12 = result['discount_kids_between_2_and_12'];
+                                                data.discountKidsBetween2And12 = result['discount_kids_between_2_and_12'].toString();
                                               }
                                               if (result.containsKey('max_number_of_persons')) {
-                                                data.numberVoyageur = result['max_number_of_persons'];
+                                                data.maxNumberOfPersons = result['max_number_of_persons'];
                                               }
                                               if (result.containsKey('price_group_prive')) {
                                                 data.priceGroupPrive = result['price_group_prive'];
@@ -611,33 +612,12 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              SizedBox(
-                                width: 319,
-                                child: Text(
-                                  widget.experienceData.descriptionGuide ?? "",
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: editButton(onTap: () async {
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const EditAboutPage()),
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      data.aboutGuide = result;
-                                      print('Return about $result');
-                                    });
-                                  }
-                                }),
-                              )
-                            ]
+                        SizedBox(
+                          width: 319,
+                          child: Text(
+                            widget.experienceData.descriptionGuide ?? "",
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                          ),
                         ),
                       ],
                     ),
@@ -779,9 +759,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         ),
                       ),
                       onPressed: () async {
-                        data.experienceId = widget.experienceData.id;
                         ///Todo: Remove this comment when Api is modify
-                        //await AppService.api.updateDataExperience(data);
+                        await AppService.api.updateDataExperience(widget.experienceData.id, data);
                         Navigator.maybePop(context);
                       },
                       child: Text(
