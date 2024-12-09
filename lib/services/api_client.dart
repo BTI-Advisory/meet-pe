@@ -48,8 +48,8 @@ const _httpMethodDelete = 'DELETE';
 class ApiClient {
   //#region Vars
   /// API url
-  static const _authorityProd = '13.38.218.140';
-  static const _authorityDev = '13.38.218.140';
+  static const _authorityProd = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
+  static const _authorityDev = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
@@ -1508,23 +1508,19 @@ class ApiClient {
     if (data.experienceLanguages != null) request.fields['experience_languages'] = data.experienceLanguages!;
 
     // Serialize horaires as a JSON string
-    String? horairesJson = data.horaires != null
-        ? jsonEncode(data.horaires!.map((h) {
-      return {
-        'heure_debut': h.heureDebut,
-        'heure_fin': h.heureFin,
-        'dates': h.dates.map((d) {
-          return {
-            'date_debut': d.dateDebut,
-            'date_fin': d.dateFin,
-          };
-        }).toList(),
-      };
-    }).toList())
-        : null;
-
-    if (horairesJson != null) {
-      request.fields['horaires'] = horairesJson;
+    if (data.horaires != null) {
+      request.fields['horaires'] = jsonEncode(data.horaires!.map((h) {
+        return {
+          'heure_debut': h.heureDebut,
+          'heure_fin': h.heureFin,
+          'dates': h.dates.map((d) {
+            return {
+              'date_debut': d.dateDebut,
+              'date_fin': d.dateFin,
+            };
+          }).toList(),
+        };
+      }).toList());
     }
 
     if (data.prixParVoyageur != null) request.fields['prix_par_voyageur'] = data.prixParVoyageur.toString();
