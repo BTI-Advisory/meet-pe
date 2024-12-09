@@ -11,6 +11,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'edit_availabilities_range_date_page.dart';
 import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
 
@@ -268,22 +269,43 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   onTap: () async {
                                     print('Edit availabilities');
 
-                                    // Navigate to the EditAvailabilitiesPage and wait for the result
-                                    final result = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EditAvailabilitiesPage(
-                                          planning: widget.experienceData.planning,
+                                    if(widget.experienceData.duration == "1d") {
+                                      // Navigate to the EditAvailabilitiesPage and wait for the result
+                                      final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditAvailabilitiesPage(
+                                            planning: widget.experienceData.planning,
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
 
-                                    // Check if the result is not null and is of type ModifyExperienceDataModel
-                                    if (result != null && result is ModifyExperienceDataModel) {
-                                      // Update the state with the returned availabilities data
-                                      setState(() {
-                                        data.horaires = result.horaires;
-                                      });
+                                      // Check if the result is not null and is of type ModifyExperienceDataModel
+                                      if (result != null && result is ModifyExperienceDataModel) {
+                                        // Update the state with the returned availabilities data
+                                        setState(() {
+                                          data.horaires = result.horaires;
+                                        });
+                                      }
+                                    } else {
+                                      // Navigate to the EditAvailabilitiesPage and wait for the result
+                                      final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditAvailabilitiesRangeDatePage(
+                                            planning: widget.experienceData.planning,
+                                            duration: widget.experienceData.duration,
+                                          ),
+                                        ),
+                                      );
+
+                                      // Check if the result is not null and is of type ModifyExperienceDataModel
+                                      if (result != null && result is ModifyExperienceDataModel) {
+                                        // Update the state with the returned availabilities data
+                                        setState(() {
+                                          data.horaires = result.horaires;
+                                        });
+                                      }
                                     }
                                   },
                                 ),
