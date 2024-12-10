@@ -557,6 +557,63 @@ class ApiClient {
     }
   }
 
+  /// Mark a Send list of choice Guide
+  Future<bool> setTravelersProfile(String name, String phone, String? imageFilePath) async {
+    bool isVerified = false;
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    // Create a multi-part request
+    final request = http.MultipartRequest('POST', _buildUri('api/set-voyageur-Profil'));
+
+    // Add headers if provided
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    // Add JSON data
+    request.fields['name'] = name;
+    request.fields['phone_number'] = phone;
+
+    // Check if the imageFilePath is provided and not empty
+    if (imageFilePath != null && imageFilePath.isNotEmpty) {
+      // Create a File object from the provided file path
+      final imageFile = File(imageFilePath);
+
+      if (imageFile.existsSync()) {
+        request.files.add(
+            http.MultipartFile.fromBytes(
+              'image',
+              imageFile.readAsBytesSync(),
+              filename: imageFile.path.split('/').last,
+            )
+        );
+      } else {
+        print("Image file not found at the given path.");
+      }
+    }
+
+    // Send the request
+    final streamedResponse = await request.send();
+
+    // Get response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      isVerified = true;
+      return isVerified;
+    } else {
+      isVerified = false;
+      return isVerified;
+    }
+  }
+
   /// Mark a Send list of choice voyageur
   Future<bool> sendListVoyageur(Map<String, dynamic> listChoice) async {
     bool isVerified = false;

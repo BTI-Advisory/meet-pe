@@ -19,7 +19,7 @@ import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
 import '../guideProfilPages/main_guide_page.dart';
-import '../onBoardingPages/voyageur/step1Page.dart';
+import '../onBoardingPages/travelers/step1Page.dart';
 import 'main_travelers_page.dart';
 
 typedef ImagePathCallback = void Function(String);

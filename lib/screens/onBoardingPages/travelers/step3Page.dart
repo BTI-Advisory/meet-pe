@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step5Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/step4Page.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
-class Step4Page extends StatefulWidget {
+class Step3Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
   Map<String, Set<Object>> myMap = {};
 
-  Step4Page({
+  Step3Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
@@ -19,17 +19,17 @@ class Step4Page extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Step4Page> createState() => _Step4PageState();
+  State<Step3Page> createState() => _Step3PageState();
 }
 
-class _Step4PageState extends State<Step4Page> {
+class _Step3PageState extends State<Step3Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('personalite_fr');
+    _choicesFuture = AppService.api.fetchChoices('voyage_preference_fr');
     _loadChoices();
   }
 
@@ -94,7 +94,7 @@ class _Step4PageState extends State<Step4Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'On dit de toi que tu es...',
+                      'Tu prefères être...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -117,21 +117,21 @@ class _Step4PageState extends State<Step4Page> {
                           return ItemWidget(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['personalite_fr'] != null
-                                ? widget.myMap['personalite_fr']!.contains(item.id)
+                            isSelected: widget.myMap['voyage_preference_fr'] != null
+                                ? widget.myMap['voyage_preference_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['personalite_fr'] == null) {
-                                  widget.myMap['personalite_fr'] =
+                                if (widget.myMap['voyage_preference_fr'] == null) {
+                                  widget.myMap['voyage_preference_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['personalite_fr']!
+                                if (widget.myMap['voyage_preference_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['personalite_fr']!.remove(item.id);
+                                  widget.myMap['voyage_preference_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['personalite_fr']!.add(item.id);
+                                  widget.myMap['voyage_preference_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -151,7 +151,7 @@ class _Step4PageState extends State<Step4Page> {
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
@@ -171,15 +171,15 @@ class _Step4PageState extends State<Step4Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['personalite_fr'] != null &&
-                                      widget.myMap['personalite_fr']!.isNotEmpty
+                              onPressed: widget.myMap['voyage_preference_fr'] != null &&
+                                      widget.myMap['voyage_preference_fr']!.isNotEmpty
                                   ? () {
                                       navigateTo(
                                         context,
-                                        (_) => Step5Page(
+                                        (_) => Step4Page(
                                           myMap: widget.myMap,
                                           totalSteps: 7,
-                                          currentStep: 5,
+                                          currentStep: 4,
                                         ),
                                       );
                                     }

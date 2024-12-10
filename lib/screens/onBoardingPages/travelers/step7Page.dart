@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step3Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/step8Page.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
-class Step2Page extends StatefulWidget {
+class Step7Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
   Map<String, Set<Object>> myMap = {};
 
-  Step2Page({
+  Step7Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
@@ -20,17 +19,17 @@ class Step2Page extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Step2Page> createState() => _Step2PageState();
+  State<Step7Page> createState() => _Step7PageState();
 }
 
-class _Step2PageState extends State<Step2Page> {
+class _Step7PageState extends State<Step7Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyage_type_fr');
+    _choicesFuture = AppService.api.fetchChoices('voyageur_rencontre_fr');
     _loadChoices();
   }
 
@@ -80,9 +79,7 @@ class _Step2PageState extends State<Step2Page> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: ResponsiveSize.calculateHeight(120, context),
-                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(108, context),
                       child: LinearProgressIndicator(
@@ -95,7 +92,7 @@ class _Step2PageState extends State<Step2Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Tu aimes voyager...',
+                      'Tu veux rencontrer...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -118,21 +115,26 @@ class _Step2PageState extends State<Step2Page> {
                           return ItemWidget(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['voyage_type_fr'] != null
-                                ? widget.myMap['voyage_type_fr']!.contains(item.id)
-                                : false,
+                            isSelected:
+                                widget.myMap['voyageur_rencontre_fr'] != null
+                                    ? widget.myMap['voyageur_rencontre_fr']!
+                                        .contains(item.id)
+                                    : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['voyage_type_fr'] == null) {
-                                  widget.myMap['voyage_type_fr'] =
+                                if (widget.myMap['voyageur_rencontre_fr'] ==
+                                    null) {
+                                  widget.myMap['voyageur_rencontre_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['voyage_type_fr']!
+                                if (widget.myMap['voyageur_rencontre_fr']!
                                     .contains(item.id)) {
-                                  widget.myMap['voyage_type_fr']!.remove(item.id);
+                                  widget.myMap['voyageur_rencontre_fr']!
+                                      .remove(item.id);
                                 } else {
-                                  widget.myMap['voyage_type_fr']!.add(item.id);
+                                  widget.myMap['voyageur_rencontre_fr']!
+                                      .add(item.id);
                                 }
                               });
                             },
@@ -152,7 +154,7 @@ class _Step2PageState extends State<Step2Page> {
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
+                                        horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
@@ -168,24 +170,19 @@ class _Step2PageState extends State<Step2Page> {
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['voyage_type_fr'] != null &&
-                                      widget.myMap['voyage_type_fr']!.isNotEmpty
+                              onPressed: widget.myMap['voyageur_rencontre_fr'] != null &&
+                                  widget.myMap['voyageur_rencontre_fr']!.isNotEmpty
                                   ? () {
-                                      navigateTo(
-                                        context,
-                                        (_) => Step3Page(
-                                          myMap: widget.myMap,
-                                          totalSteps: 7,
-                                          currentStep: 3,
-                                        ),
-                                      );
-                                    }
+                                navigateTo(
+                                  context,
+                                      (_) => Step8Page(myMap: widget.myMap),
+                                );
+                              }
                                   : null,
-                              // Disable the button if no item is selected
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),

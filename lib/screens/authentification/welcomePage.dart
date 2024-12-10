@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/welcomeGuidePage.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step1Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/info_travelers_page.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
@@ -171,7 +171,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 SecureStorageService.saveRole('1');
                                 AppService.api.setRole('voyageur').then((response) {
                                   // If the API call is successful, navigate to a new screen
-                                  navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));
+                                  navigateTo(context, (_) => InfoTravelersPage());
                                 }).catchError((error) {
                                   // Handle errors if the API call fails
                                   print('Error: $error');
