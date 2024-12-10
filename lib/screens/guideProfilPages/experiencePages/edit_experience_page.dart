@@ -12,6 +12,7 @@ import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 import 'edit_availabilities_range_date_page.dart';
+import 'edit_language_page.dart';
 import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
 
@@ -412,7 +413,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 15),
                               Row(
                                 children: [
                                   IntrinsicWidth(
@@ -459,46 +460,67 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   SizedBox(
                                       width: ResponsiveSize.calculateWidth(
                                           8, context)),
-                                  if(true)
-                                    IntrinsicWidth(
-                                      child: Container(
-                                        height: 28,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                            ResponsiveSize.calculateWidth(
-                                                12, context)),
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                          border: Border.all(
-                                              color:
-                                              AppResources.colorBeigeLight),
-                                        ),
-                                        child: Center(
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset('images/emoji_language.svg'),
-                                              SizedBox(
-                                                  width: ResponsiveSize
-                                                      .calculateWidth(
-                                                      4, context)),
-                                              ...widget.experienceData.languages.map((url) {
-                                                return Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                  child: Image.network(
-                                                    url,
-                                                    height: 20.0,
-                                                    width: 20.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              }).toList(),
-                                            ],
+                                  Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        if(true)
+                                          IntrinsicWidth(
+                                            child: Container(
+                                              height: 28,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                  ResponsiveSize.calculateWidth(
+                                                      12, context)),
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: const BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                border: Border.all(
+                                                    color:
+                                                    AppResources.colorBeigeLight),
+                                              ),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    SvgPicture.asset('images/emoji_language.svg'),
+                                                    SizedBox(
+                                                        width: ResponsiveSize
+                                                            .calculateWidth(
+                                                            4, context)),
+                                                    ...widget.experienceData.languages.map((url) {
+                                                      return Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                        child: Image.network(
+                                                          url,
+                                                          height: 20.0,
+                                                          width: 20.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
+                                        Positioned(
+                                          top: -10,
+                                          right: -15,
+                                          child: editButton(onTap: () async {
+                                            final result = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => const EditLanguagePage()),
+                                            );
+                                            if (result != null) {
+                                              setState(() {
+                                                data.experienceLanguages = result;
+                                                print('Return about $result');
+                                              });
+                                            }
+                                          }),
+                                        )
+                                      ]
+                                  ),
                                   ///Todo remove comment when avis is ready
                                   /*if(experienceData.isProfessionalGuide)
                                         SizedBox(
