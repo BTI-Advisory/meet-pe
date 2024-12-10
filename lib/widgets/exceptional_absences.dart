@@ -27,9 +27,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
-  String hourAvailableStart = '';
-  String hourAvailableEnd = '';
-
   bool isRangeSelected = false;
 
   void _onAbsenceAdded() {
@@ -193,136 +190,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                             ),
                           ),
                         ),
-                        const SizedBox(height: 31),
-                        Text(
-                          'Horaires',
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        const SizedBox(height: 24),
-
-                        ///Select Hour
-                        Row(
-                          children: [
-                            ///Choose start time
-                            Container(
-                              width: ResponsiveSize.calculateWidth(153, context),
-                              height: 52,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorGray15),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  DatePicker.showTimePicker(context,
-                                      showTitleActions: true,
-                                      showSecondsColumn: false,
-                                      onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                    setState(() {
-                                      hourAvailableStart = DateFormat('HH:mm').format(date);
-                                    });
-                                  }, locale: LocaleType.fr);
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'De',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12),
-                                    ),
-                                    StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setState) {
-                                        return Text(
-                                          hourAvailableStart != ''
-                                              ? hourAvailableStart
-                                              : '00:00',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                  color:
-                                                      AppResources.colorDark),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: ResponsiveSize.calculateWidth(8, context),),
-
-                            ///Choose end time
-                            Container(
-                              width: ResponsiveSize.calculateWidth(153, context),
-                              height: 52,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorGray15),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: InkWell(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'A',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12),
-                                    ),
-                                    StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setState) {
-                                        return Text(
-                                          hourAvailableEnd != ''
-                                              ? hourAvailableEnd
-                                              : '23:59',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                  color:
-                                                      AppResources.colorDark),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  DatePicker.showTimePicker(context,
-                                      showTitleActions: true,
-                                      showSecondsColumn: false,
-                                      onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                    setState(() {
-                                      hourAvailableEnd = DateFormat('HH:mm').format(date);
-                                    });
-                                  }, locale: LocaleType.fr);
-                                },
-                              ),
-                            )
-                          ],
-                        ),
                         const SizedBox(height: 27),
                         isRangeSelected
                             ? Row(
@@ -383,8 +250,6 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                         if (_rangeStart!.isBefore(DateTime.now())) {
                                           showMessage(context, 'Error date select');
                                         } else {
-                                          bloc.hourAvailableStart = hourAvailableStart;
-                                          bloc.hourAvailableEnd = hourAvailableEnd;
                                           if(_rangeStart != null) {
                                             bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
                                           }
@@ -449,21 +314,13 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
 }
 
 class ExceptionalAbsencesBloc with Disposable {
-  String hourAvailableStart = '00:00:00';
-  String hourAvailableEnd = '23:59:59';
   String day = '';
   String dayFrom = '';
   String dayTo = '';
 
   Future<bool> sendScheduleAbsence() async {
-    // Create a TimeSlot object
-    TimeSlot timeSlot =
-        TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
 
-    // Create a list of TimeSlot objects
-    List<TimeSlot> times = [timeSlot];
-
-    Absence absence = Absence(day: '', dayFrom: dayFrom, dayTo: dayTo, times: times);
+    Absence absence = Absence(day: '', dayFrom: dayFrom, dayTo: dayTo);
 
     if(dayTo == '') {
       // Create an Absence object
@@ -471,7 +328,6 @@ class ExceptionalAbsencesBloc with Disposable {
         day: dayFrom,
         dayFrom: '',
         dayTo: '',
-        times: times,
       );
     } else {
       // Create an Absence object
@@ -479,7 +335,6 @@ class ExceptionalAbsencesBloc with Disposable {
         day: '',
         dayFrom: dayFrom,
         dayTo: dayTo,
-        times: times,
       );
     }
 

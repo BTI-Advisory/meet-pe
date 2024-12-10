@@ -134,7 +134,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                 final formattedStartDate = yearsFrenchFormat(startDate);
                 final formattedEndDate = yearsFrenchFormat(endDate);
 
-                return _listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate, absence.from ?? '', absence.to ?? '');
+                return _listExceptionalAbsences(absence.id, formattedStartDate, formattedEndDate, startDate, endDate);
               }).toList(),
             ),
             const SizedBox(height: 50,)
@@ -144,7 +144,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
     );
   }
 
-  Widget _listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate, String startHour, String endHour) {
+  Widget _listExceptionalAbsences(int id, String startDate, String endDate, String startFormatDate, String endFormatDate) {
     return InkWell(
       onTap: () async {
         bool? modified = await showModalBottomSheet<bool>(
@@ -155,8 +155,6 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
               id: id,
               firstFormatDate: startFormatDate,
               lastFormatDate: endFormatDate,
-              startHour: startHour,
-              endHour: endHour,
               onAbsenceModified: _onAbsenceModified,
             );
           },
