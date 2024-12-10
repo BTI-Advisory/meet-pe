@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step2Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/step7Page.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
-class Step1Page extends StatefulWidget {
+class Step6Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
+  Map<String, Set<Object>> myMap = {};
 
-  const Step1Page({
+  Step6Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
+    required this.myMap,
   }) : super(key: key);
 
   @override
-  State<Step1Page> createState() => _Step1PageState();
+  State<Step6Page> createState() => _Step6PageState();
 }
 
-class _Step1PageState extends State<Step1Page> {
+class _Step6PageState extends State<Step6Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
-  Map<String, Set<Object>> myMap = {};
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyage_mode_fr');
+    _choicesFuture = AppService.api.fetchChoices('languages_fr');
     _loadChoices();
   }
 
@@ -66,8 +67,6 @@ class _Step1PageState extends State<Step1Page> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            final choices = snapshot.data!;
-            // Display your choices here
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -95,7 +94,7 @@ class _Step1PageState extends State<Step1Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Tu es un voyageur plutôt…',
+                      'Tu parles...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -118,20 +117,21 @@ class _Step1PageState extends State<Step1Page> {
                           return ItemWidget(
                             id: item.id,
                             text: item.title,
-                            isSelected: myMap['voyage_mode_fr'] != null
-                                ? myMap['voyage_mode_fr']!.contains(item.id)
+                            isSelected: widget.myMap['languages_fr'] != null
+                                ? widget.myMap['languages_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (myMap['voyage_mode_fr'] == null) {
-                                  myMap['voyage_mode_fr'] =
+                                if (widget.myMap['languages_fr'] == null) {
+                                  widget.myMap['languages_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (myMap['voyage_mode_fr']!.contains(item.id)) {
-                                  myMap['voyage_mode_fr']!.remove(item.id);
+                                if (widget.myMap['languages_fr']!
+                                    .contains(item.id)) {
+                                  widget.myMap['languages_fr']!.remove(item.id);
                                 } else {
-                                  myMap['voyage_mode_fr']!.add(item.id);
+                                  widget.myMap['languages_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -153,9 +153,10 @@ class _Step1PageState extends State<Step1Page> {
                                     EdgeInsets.symmetric(
                                         horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                      (Set<MaterialState> states) {
-                                    if (states.contains(MaterialState.disabled)) {
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                    if (states
+                                        .contains(MaterialState.disabled)) {
                                       return AppResources
                                           .colorGray15; // Change to your desired grey color
                                     }
@@ -163,26 +164,27 @@ class _Step1PageState extends State<Step1Page> {
                                         .colorVitamine; // Your enabled color
                                   },
                                 ),
-                                shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                               ),
-                              onPressed: myMap['voyage_mode_fr'] != null &&
-                                  myMap['voyage_mode_fr']!.isNotEmpty
+                              onPressed: widget.myMap['languages_fr'] != null &&
+                                      widget.myMap['languages_fr']!.isNotEmpty
                                   ? () {
-                                navigateTo(
-                                  context,
-                                      (_) => Step2Page(
-                                    myMap: myMap,
-                                    totalSteps: 7,
-                                    currentStep: 2,
-                                  ),
-                                );
-                              }
-                                  : null, // Disable the button if no item is selected
+                                      navigateTo(
+                                        context,
+                                        (_) => Step7Page(
+                                          myMap: widget.myMap,
+                                          totalSteps: 7,
+                                          currentStep: 7,
+                                        ),
+                                      );
+                                    }
+                                  : null,
+                              // Disable the button if no item is selected
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),

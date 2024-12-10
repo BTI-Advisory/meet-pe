@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step6Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/step2Page.dart';
 import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
-class Step5Page extends StatefulWidget {
+class Step1Page extends StatefulWidget {
   final int totalSteps;
   final int currentStep;
-  Map<String, Set<Object>> myMap = {};
 
-  Step5Page({
+  const Step1Page({
     Key? key,
     required this.totalSteps,
     required this.currentStep,
-    required this.myMap,
   }) : super(key: key);
 
   @override
-  State<Step5Page> createState() => _Step5PageState();
+  State<Step1Page> createState() => _Step1PageState();
 }
 
-class _Step5PageState extends State<Step5Page> {
+class _Step1PageState extends State<Step1Page> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
+  Map<String, Set<Object>> myMap = {};
 
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyageur_experiences');
+    _choicesFuture = AppService.api.fetchChoices('voyage_mode_fr');
     _loadChoices();
   }
 
@@ -67,6 +66,8 @@ class _Step5PageState extends State<Step5Page> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+            final choices = snapshot.data!;
+            // Display your choices here
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -79,9 +80,11 @@ class _Step5PageState extends State<Step5Page> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
                     SizedBox(
-                      width: 108,
+                      height: ResponsiveSize.calculateHeight(120, context),
+                    ),
+                    SizedBox(
+                      width: ResponsiveSize.calculateWidth(108, context),
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 8,
@@ -92,7 +95,7 @@ class _Step5PageState extends State<Step5Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Tu cherches des expériences...',
+                      'Tu es un voyageur plutôt…',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -115,21 +118,20 @@ class _Step5PageState extends State<Step5Page> {
                           return ItemWidget(
                             id: item.id,
                             text: item.title,
-                            isSelected: widget.myMap['voyageur_experiences'] != null
-                                ? widget.myMap['voyageur_experiences']!.contains(item.id)
+                            isSelected: myMap['voyage_mode_fr'] != null
+                                ? myMap['voyage_mode_fr']!.contains(item.id)
                                 : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['voyageur_experiences'] == null) {
-                                  widget.myMap['voyageur_experiences'] =
+                                if (myMap['voyage_mode_fr'] == null) {
+                                  myMap['voyage_mode_fr'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['voyageur_experiences']!
-                                    .contains(item.id)) {
-                                  widget.myMap['voyageur_experiences']!.remove(item.id);
+                                if (myMap['voyage_mode_fr']!.contains(item.id)) {
+                                  myMap['voyage_mode_fr']!.remove(item.id);
                                 } else {
-                                  widget.myMap['voyageur_experiences']!.add(item.id);
+                                  myMap['voyage_mode_fr']!.add(item.id);
                                 }
                               });
                             },
@@ -151,10 +153,9 @@ class _Step5PageState extends State<Step5Page> {
                                     EdgeInsets.symmetric(
                                         horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
                                 backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.disabled)) {
+                                MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.disabled)) {
                                       return AppResources
                                           .colorGray15; // Change to your desired grey color
                                     }
@@ -162,27 +163,26 @@ class _Step5PageState extends State<Step5Page> {
                                         .colorVitamine; // Your enabled color
                                   },
                                 ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['voyageur_experiences'] != null &&
-                                      widget.myMap['voyageur_experiences']!.isNotEmpty
+                              onPressed: myMap['voyage_mode_fr'] != null &&
+                                  myMap['voyage_mode_fr']!.isNotEmpty
                                   ? () {
-                                      navigateTo(
-                                        context,
-                                        (_) => Step6Page(
-                                          myMap: widget.myMap,
-                                          totalSteps: 7,
-                                          currentStep: 6,
-                                        ),
-                                      );
-                                    }
-                                  : null,
-                              // Disable the button if no item is selected
+                                navigateTo(
+                                  context,
+                                      (_) => Step2Page(
+                                    myMap: myMap,
+                                    totalSteps: 7,
+                                    currentStep: 2,
+                                  ),
+                                );
+                              }
+                                  : null, // Disable the button if no item is selected
                               child: Image.asset('images/arrowLongRight.png'),
                             ),
                           ),

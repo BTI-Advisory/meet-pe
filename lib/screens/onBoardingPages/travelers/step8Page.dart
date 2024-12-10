@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/onBoardingPages/voyageur/step9Page.dart';
+import 'package:meet_pe/screens/onBoardingPages/travelers/step9Page.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 
