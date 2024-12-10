@@ -9,12 +9,10 @@ import '../resources/resources.dart';
 import '../services/app_service.dart';
 
 class ModifyExceptionalAbsences extends StatefulWidget {
-  ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.startHour, required this.endHour, required this.onAbsenceModified});
+  ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.onAbsenceModified});
   int id;
   String firstFormatDate;
   String lastFormatDate;
-  String startHour;
-  String endHour;
   final VoidCallback onAbsenceModified;
 
   @override
@@ -33,8 +31,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
-  String hourAvailableStart = '';
-  String hourAvailableEnd = '';
   int id = 0;
 
   bool isRangeSelected = false;
@@ -44,8 +40,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
     super.initState();
     _rangeStart  = DateTime.parse(widget.firstFormatDate);
     _rangeEnd  = DateTime.parse(widget.lastFormatDate);
-    hourAvailableStart = widget.startHour;
-    hourAvailableEnd = widget.endHour;
     id = widget.id;
   }
 
@@ -207,140 +201,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                             ),
                           ),
                         ),
-                        const SizedBox(height: 31),
-                        Text(
-                          'Horaires',
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        const SizedBox(height: 24),
-                        ///Select Hour
-                        Row(
-                          children: [
-                            ///Choose start time
-                            Container(
-                              width: 155.50,
-                              height: 52,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorGray15),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  print('FJRFJRFJJRFJRJF HELLLLOO $_rangeEnd');
-                                  if(DateFormat('yyyy-MM-dd').format(_rangeEnd!) != '') {
-                                    DatePicker.showTimePicker(context,
-                                        showTitleActions: true,
-                                        showSecondsColumn: false,
-                                        onChanged: (date) {
-                                          print('change $date');
-                                        }, onConfirm: (date) {
-                                          print('confirm $date');
-                                          setState(() {
-                                            hourAvailableStart = DateFormat('HH:mm:ss').format(date);
-                                          });
-                                        }, locale: LocaleType.fr);
-                                  }
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'De',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12),
-                                    ),
-                                    StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setState) {
-                                        return Text(
-                                          hourAvailableStart != ''
-                                              ? hourAvailableStart
-                                              : '00:00',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                              color:
-                                              AppResources.colorDark),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-
-                            ///Choose end time
-                            Container(
-                              width: 155.50,
-                              height: 52,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorGray15),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: GestureDetector(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'A',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12),
-                                    ),
-                                    StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setState) {
-                                        return Text(
-                                          hourAvailableEnd != ''
-                                              ? hourAvailableEnd
-                                              : '23:59',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                              color:
-                                              AppResources.colorDark),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  if(DateFormat('yyyy-MM-dd').format(_rangeEnd!) != '') {
-                                    DatePicker.showTimePicker(context,
-                                        showTitleActions: true,
-                                        showSecondsColumn: false,
-                                        onChanged: (date) {
-                                          print('change $date');
-                                        }, onConfirm: (date) {
-                                          print('confirm $date');
-                                          setState(() {
-                                            hourAvailableEnd = DateFormat('HH:mm:ss').format(date);
-                                          });
-                                        }, locale: LocaleType.fr);
-                                  }
-                                },
-                              ),
-                            )
-                          ],
-                        ),
                         const SizedBox(height: 27),
                         Row(
                           children: [
@@ -450,8 +310,6 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                     showMessage(context, 'Error date select');
                                   } else {
                                     bloc.id = id;
-                                    bloc.hourAvailableStart = hourAvailableStart;
-                                    bloc.hourAvailableEnd = hourAvailableEnd;
                                     if(_rangeStart != null) {
                                       bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
                                     }
@@ -487,21 +345,13 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
 
 class ExceptionalAbsencesBloc with Disposable {
   int id = 0;
-  String hourAvailableStart = '00:00:00';
-  String hourAvailableEnd = '23:59:59';
   String day = '';
   String dayFrom = '';
   String dayTo = '';
 
   Future<bool> updateScheduleAbsence() async {
-    // Create a TimeSlot object
-    TimeSlot timeSlot =
-    TimeSlot(from: hourAvailableStart, to: hourAvailableEnd);
 
-    // Create a list of TimeSlot objects
-    List<TimeSlot> times = [timeSlot];
-
-    ModifyAbsence absence = ModifyAbsence(id: id, day: '', dayFrom: dayFrom, dayTo: dayTo, times: times);
+    ModifyAbsence absence = ModifyAbsence(id: id, day: '', dayFrom: dayFrom, dayTo: dayTo);
 
     if(dayTo == '') {
       // Create an Absence object
@@ -510,7 +360,6 @@ class ExceptionalAbsencesBloc with Disposable {
         day: dayFrom,
         dayFrom: '',
         dayTo: '',
-        times: times,
       );
     } else {
       // Create an Absence object
@@ -519,10 +368,8 @@ class ExceptionalAbsencesBloc with Disposable {
         day: '',
         dayFrom: dayFrom,
         dayTo: dayTo,
-        times: times,
       );
     }
-
 
 
     // Convert the Availability object to JSON
