@@ -585,12 +585,7 @@ class ApiClient {
       final imageFile = File(imageFilePath);
 
       if (imageFile.existsSync()) {
-        request.files.add(
-            http.MultipartFile.fromBytes(
-              'image',
-              imageFile.readAsBytesSync(),
-              filename: imageFile.path.split('/').last,
-            )
+        request.files.add(http.MultipartFile.fromBytes('picture', File(imageFile!.path).readAsBytesSync(), filename: imageFile.path.split('/').last,)
         );
       } else {
         print("Image file not found at the given path.");
@@ -633,7 +628,7 @@ class ApiClient {
       }
     }();
 
-    if (VerifyCode.fromJson(response!).verified == 'choices has been set successfully') {
+    if (VerifyCode.fromJson(response!).verified == "Voyageur et ces choix sont sauvegard\u00e9s avec succ\u00e8s") {
       isVerified = true;
     } else {
       isVerified = false;

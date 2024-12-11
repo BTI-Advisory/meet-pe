@@ -195,36 +195,43 @@ class _Step9PageState extends State<Step9Page> {
                           if (_rangeStart!.isBefore(DateTime.now())) {
                             showMessage(context, 'Error date select');
                           } else {
-                            if(_rangeStart != null) {
-                              //bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
-                              print('FREKKRJFEKRFKERF 11 ${DateFormat('yyyy-MM-dd').format(_rangeStart!)}');
-                              if (widget.myMap['rangeStart'] == null) {
-                                widget.myMap['rangeStart'] = Set<String>(); // Initialize if null
-                              }
-                              widget.myMap['rangeStart']!.add(DateFormat('yyyy-MM-dd').format(_rangeStart!));
+                            if (_rangeStart != null) {
+                              widget.myMap['date_arrivee'] ??= Set<String>(); // Initialize if null
+                              widget.myMap['date_arrivee']!.add(DateFormat('yyyy-MM-dd').format(_rangeStart!));
                             }
-                            if(_rangeEnd != null) {
-                              //bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
-                              print('FREKKRJFEKRFKERF 22 ${DateFormat('yyyy-MM-dd').format(_rangeEnd!)}');
-                              if (widget.myMap['rangeEnd'] == null) {
-                                widget.myMap['rangeEnd'] = Set<String>(); // Initialize if null
-                              }
-                              widget.myMap['rangeEnd']!.add(DateFormat('yyyy-MM-dd').format(_rangeEnd!));
+                            if (_rangeEnd != null) {
+                              widget.myMap['date_depart'] ??= Set<String>(); // Initialize if null
+                              widget.myMap['date_depart']!.add(DateFormat('yyyy-MM-dd').format(_rangeEnd!));
                             }
                           }
-                          // Convert sets to lists
+                          // Convert sets/lists to comma-separated strings
                           widget.myMap.forEach((key, value) {
-                            widget.modifiedMap[key] = value.toList();
+                            if (value is Iterable) {
+                              widget.modifiedMap[key] = value.join(', '); // Join values with comma
+                            } else {
+                              widget.modifiedMap[key] = value.toString(); // Convert single values to string
+                            }
                           });
                           // Verify that the date is added to myMap
                           print('Updated modifiedMap: ${widget.modifiedMap}');
-                          ///Todo: Remove comment when api is modify
-                          navigateTo(context, (_) => LoadingPage());
-                          /*bool isSend = await AppService.api
-                              .sendListVoyageur(widget.modifiedMap);
+                          bool isSend = await AppService.api.sendListVoyageur(widget.modifiedMap);
                           if (isSend) {
                             navigateTo(context, (_) => LoadingPage());
-                          }*/
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Erreur'),
+                                content: Text("Probleme au niveau de serveur."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
                         },
                         child: Text(
                           'VOIR LES EXPERIENCES',
