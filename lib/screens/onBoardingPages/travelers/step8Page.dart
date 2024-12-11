@@ -25,6 +25,9 @@ class _Step8PageState extends State<Step8Page> {
   bool _showButton = false;
   Position? _currentPosition;
   String _currentCity = '';
+  String _currentCountry = '';
+  String latitude = '';
+  String longitude = '';
 
   @override
   void initState() {
@@ -78,9 +81,16 @@ class _Step8PageState extends State<Step8Page> {
 
       setState(() {
         _currentPosition = position;
-        _currentCity = placemarks.isNotEmpty
-            ? placemarks[0].locality ?? "Unknown City"
-            : "Unknown City";
+        latitude = "${position.latitude}";
+        longitude = "${position.longitude}";
+        if (placemarks.isNotEmpty) {
+          Placemark place = placemarks[0];
+          _currentCity = place.locality ?? "Unknown City";
+          _currentCountry = place.country ?? "Unknown Country";
+        } else {
+          _currentCity = "Unknown City";
+          _currentCountry = "Unknown Country";
+        }
       });
     } catch (e) {
       print(e);
@@ -130,7 +140,7 @@ class _Step8PageState extends State<Step8Page> {
                     icon: Icon(Icons.near_me_sharp, color: Colors.black),
                     onPressed: () async {
                       await _getCurrentLocation();
-                      if (_currentCity.isNotEmpty) {
+                      if (_currentCity.isNotEmpty && _currentCountry.isNotEmpty) {
                         setState(() {
                           _textEditingController.text = 'Autour de moi';
                         });
@@ -171,17 +181,25 @@ class _Step8PageState extends State<Step8Page> {
                       ),
                       onPressed: () {
                         setState(() {
-                          if (widget.myMap['location'] == null) {
-                            widget.myMap['location'] = Set<String>(); // Initialize if null
+                          if (widget.myMap['ville'] == null && widget.myMap['pays'] == null && widget.myMap['lat'] == null && widget.myMap['long'] == null) {
+                            widget.myMap['ville'] = Set<String>(); // Initialize if null
+                            widget.myMap['pays'] = Set<String>(); // Initialize if null
+                            widget.myMap['lat'] = Set<String>(); // Initialize if null
+                            widget.myMap['long'] = Set<String>(); // Initialize if null
                           }
 
                           // Insert _textEditingController.text into myMap with key 'Step8'
                           if (_textEditingController.text.isNotEmpty) {
                             // Assuming the value to be inserted is a String
                             if (_textEditingController.text == 'Autour de moi') {
-                              widget.myMap['location']!.add(_currentCity);
+                              widget.myMap['ville']!.add(_currentCity);
+                              widget.myMap['pays']!.add(_currentCountry);
+                              widget.myMap['lat']!.add(latitude);
+                              widget.myMap['long']!.add(longitude);
                             } else {
-                              widget.myMap['location']!.add(_textEditingController.text);
+                              List<String> parts = _textEditingController.text.split(', ');
+                              widget.myMap['ville']!.add(parts[0]);
+                              widget.myMap['pays']!.add(parts[1]);
                             }
                           }
 

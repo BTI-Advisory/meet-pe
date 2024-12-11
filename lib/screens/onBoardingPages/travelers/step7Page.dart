@@ -29,7 +29,7 @@ class _Step7PageState extends State<Step7Page> {
   @override
   void initState() {
     super.initState();
-    _choicesFuture = AppService.api.fetchChoices('voyageur_rencontre_fr');
+    _choicesFuture = AppService.api.fetchChoices('voyageur_tu_te_deplace_comment');
     _loadChoices();
   }
 
@@ -92,7 +92,7 @@ class _Step7PageState extends State<Step7Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Tu veux rencontrer...',
+                      'Tu te déplaces comment...',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -116,24 +116,24 @@ class _Step7PageState extends State<Step7Page> {
                             id: item.id,
                             text: item.title,
                             isSelected:
-                                widget.myMap['voyageur_rencontre_fr'] != null
-                                    ? widget.myMap['voyageur_rencontre_fr']!
+                                widget.myMap['voyageur_tu_te_deplace_comment'] != null
+                                    ? widget.myMap['voyageur_tu_te_deplace_comment']!
                                         .contains(item.id)
                                     : false,
                             onTap: () {
                               setState(() {
-                                if (widget.myMap['voyageur_rencontre_fr'] ==
+                                if (widget.myMap['voyageur_tu_te_deplace_comment'] ==
                                     null) {
-                                  widget.myMap['voyageur_rencontre_fr'] =
+                                  widget.myMap['voyageur_tu_te_deplace_comment'] =
                                       Set<int>(); // Initialize if null
                                 }
 
-                                if (widget.myMap['voyageur_rencontre_fr']!
+                                if (widget.myMap['voyageur_tu_te_deplace_comment']!
                                     .contains(item.id)) {
-                                  widget.myMap['voyageur_rencontre_fr']!
+                                  widget.myMap['voyageur_tu_te_deplace_comment']!
                                       .remove(item.id);
                                 } else {
-                                  widget.myMap['voyageur_rencontre_fr']!
+                                  widget.myMap['voyageur_tu_te_deplace_comment']!
                                       .add(item.id);
                                 }
                               });
@@ -174,8 +174,8 @@ class _Step7PageState extends State<Step7Page> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.myMap['voyageur_rencontre_fr'] != null &&
-                                  widget.myMap['voyageur_rencontre_fr']!.isNotEmpty
+                              onPressed: widget.myMap['voyageur_tu_te_deplace_comment'] != null &&
+                                  widget.myMap['voyageur_tu_te_deplace_comment']!.isNotEmpty
                                   ? () {
                                 navigateTo(
                                   context,
