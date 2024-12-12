@@ -39,7 +39,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String selectedImagePath = '';
 
   bool imageSize = false;
-  late Future<UserTravelersResponse> _userInfoFuture;
+  late Future<UserResponse> _userInfoFuture;
 
   @override
   void initState() {
@@ -97,42 +97,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
     });
   }
 
-  Future<UserTravelersResponse> getMockUserInfo() async {
-    return Future.delayed(
-      const Duration(seconds: 1),
-          () => const UserTravelersResponse(
-        id: 1,
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        createdAt: '2022-01-01T00:00:00Z',
-        updatedAt: '2022-01-01T00:00:00Z',
-        otpCode: '123456',
-        profilePath: '/path/to/profile.png',
-        phoneNumber: '1234567890',
-        isFullAvailable: true,
-        IBAN: 'DE89370400440532013000',
-        BIC: 'COBADEFFXXX',
-        nomDuTitulaire: 'John Doe',
-        rue: '123 Main St',
-        codePostal: '12345',
-        ville: 'Anytown',
-        emailVerifiedAt: '2022-01-01T00:00:00Z',
-        userType: 'standard',
-        sirenNumber: '123456789',
-        hasUpdatedHesSchedule: false,
-        pieceIdentite: null,
-        kbisFile: null,
-        otherDocument: [],
-      ),
-    );
-  }
-
   Future<void> fetchUserInfo() async {
     try {
       setState(() {
-        ///Todo remove the mock data when api is ready
-        //_userInfoFuture = AppService.api.getUserInfo();
-        _userInfoFuture = getMockUserInfo();
+        _userInfoFuture = AppService.api.getUserInfo();
       });
     } catch (e) {
       // Handle error
@@ -146,7 +114,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
       appBar: const EpAppBar(
         title: 'Mon Compte',
       ),
-      body: FutureBuilder<UserTravelersResponse>(
+      body: FutureBuilder<UserResponse>(
           future: _userInfoFuture,
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting) {

@@ -473,25 +473,16 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               ResponsiveSize.calculateWidth(8.0, context)),
                           child: Column(
                             children: [
-                              sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
-                                //navigateTo(context, (_) => MyAccountPage());
-                                Navigator.of(context)
-                                    .push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const MyAccountPage()),
-                                )
-                                    .then((_) {
+                              sectionProfile('Mon compte', Icons.person, true, () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyAccountPage()),).then((_) {
                                   // This code runs after returning from MyAccountPage
-                                  _userInfoFuture = AppService.api
-                                      .getUserInfo(); // Refresh user info
-                                  setState(
-                                          () {}); // Trigger a rebuild to reflect changes
+                                  _userInfoFuture = AppService.api.getUserInfo(); // Refresh user info
+                                  setState(() {}); // Trigger a rebuild to reflect changes
                                 });
                               }),
                               sectionProfile('Mes réservations', Icons.bookmark, true,
                                       () {
-                                    navigateTo(
-                                        context, (_) => const MyReservationsPage());
+                                    navigateTo(context, (_) => const MyReservationsPage());
                                   }),
                               sectionProfile('Mes choix', Icons.tune, true,
                                       () {
