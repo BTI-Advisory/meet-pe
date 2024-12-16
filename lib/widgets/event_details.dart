@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/travelersPages/reservation_page.dart';
 
 import '../resources/resources.dart';
+import '../utils/_utils.dart';
 
 class EventDetails extends StatelessWidget {
   final List<Event> events;
@@ -108,12 +109,12 @@ class EventTimeSlot extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            date,
+            formatDateFrench(date),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
           ),
           const SizedBox(height: 10),
           Text(
-            time,
+            formatTimeRange(time),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
           ),
           const SizedBox(height: 5),

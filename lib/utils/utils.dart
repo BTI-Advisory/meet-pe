@@ -286,6 +286,29 @@ String requestFrenchFormat(String date) {
   return transformedDateString;
 }
 
+String formatDateFrench(String date) {
+  // Parse the string into a DateTime object
+  DateTime parsedDate = DateTime.parse(date);
+
+  // Define the French formatter
+  final DateFormat formatter = DateFormat('dd MMM.', 'fr');
+
+  // Format the date
+  return formatter.format(parsedDate);
+}
+
+String formatTimeRange(String timeRange) {
+  // Split the range into start and end times
+  List<String> times = timeRange.split(' - ');
+
+  // Remove the seconds part from each time
+  String startTime = times[0].substring(0, 5);
+  String endTime = times[1].substring(0, 5);
+
+  // Combine and return the formatted range
+  return '$startTime - $endTime';
+}
+
 String formatPhoneNumber(String phoneNumber) {
   // Check if the phone number is at least 10 characters long
   if (phoneNumber.length < 10) {

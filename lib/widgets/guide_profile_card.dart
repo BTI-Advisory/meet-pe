@@ -4,14 +4,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:widget_mask/widget_mask.dart';
 
+import '../models/experience_model.dart';
 import '../models/guide_profile_data_response.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
 import 'event_details.dart';
 
 class GuideProfileCard extends StatefulWidget {
-  const GuideProfileCard({super.key, required this.guideProfileResponse, required this.onCardTapped});
-  final GuideProfileDataResponse guideProfileResponse;
+  const GuideProfileCard({super.key, required this.experienceData, required this.onCardTapped});
+  final ExperienceModel experienceData;
   final void Function(bool tapped) onCardTapped;
 
   @override
@@ -24,28 +25,19 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  final customEventList = {
-    DateTime.utc(2024, 11, 23): [
-      Event('23 Nov.', '09:30 - 13:30'),
-      Event('23 Nov.', '14:00 - 18:00'),
-    ],
-    DateTime.utc(2024, 11, 25): [
-      Event('25 Nov.', '12:00 - 13:00'),
-    ],
-    DateTime.utc(2024, 11, 26): [
-      Event('26 Nov.', '12:00 - 13:00'),
-    ],
-    DateTime.utc(2024, 11, 28): [
-      Event('28 Nov.', '12:00 - 13:00'),
-    ],
-    // Add more custom events here
-  };
+  final Map<DateTime, List<Event>> _customEventList = {};
 
   @override
   void initState() {
     super.initState();
 
+    // Initialize selected day and events
     _selectedDay = _focusedDay;
+
+    // Populate _customEventList with planning data from API
+    _populateEventListFromPlanning();
+
+    // Initialize the ValueNotifier with events for the current selected day
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
 
@@ -55,9 +47,42 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
     super.dispose();
   }
 
+  /// Populate the custom event list from planning data
+  void _populateEventListFromPlanning() {
+    // Extract planning from the API response
+    final planningList = widget.experienceData.experience.planning;
+
+    if (planningList != null) {
+      // Loop through all schedules within the planning
+      for (final planning in planningList) {
+        final startDate = DateTime.parse(planning.startDate);
+        final endDate = DateTime.parse(planning.endDate);
+
+        // Iterate through the range of dates from startDate to endDate
+        for (DateTime currentDate = startDate;
+        currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+        currentDate = currentDate.add(const Duration(days: 1))) {
+          // Map each schedule to the current date
+          for (final schedule in planning.schedules) {
+            final event = Event(
+              currentDate.toIso8601String(),
+              '${schedule.startTime} - ${schedule.endTime}',
+            );
+
+            // If the date already has events, append the new one; otherwise, create a new list
+            if (_customEventList.containsKey(currentDate)) {
+              _customEventList[currentDate]!.add(event);
+            } else {
+              _customEventList[currentDate] = [event];
+            }
+          }
+        }
+      }
+    }
+  }
+
   List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
-    return customEventList[day] ?? [];
+    return _customEventList[DateTime(day.year, day.month, day.day)] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -114,7 +139,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                       height: ResponsiveSize.calculateHeight(
                                           592, context),
                                       child: Image.network(
-                                        widget.guideProfileResponse.mainPhoto,
+                                        widget.experienceData.experience.photoprincipal.photoUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -164,7 +189,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        '88 %',
+                                        '${widget.experienceData.weightedMatchScore} %',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineSmall
@@ -190,7 +215,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            widget.guideProfileResponse.categories[0],
+                                            widget.experienceData.experience.categories[0].choix,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge
@@ -218,7 +243,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '${widget.guideProfileResponse.pricePerTraveler}€/pers',
+                                            '${widget.experienceData.experience.prixParVoyageur}€/pers',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge
@@ -278,7 +303,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                       SizedBox(
                                           width: ResponsiveSize.calculateWidth(
                                               8, context)),
-                                      if(widget.guideProfileResponse.isProfessionalGuide)
+                                      if(widget.experienceData.experience.supportGroupPrive == "")
                                         IntrinsicWidth(
                                           child: Container(
                                             height: 28,
@@ -380,7 +405,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                       SizedBox(
                         width: ResponsiveSize.calculateWidth(319, context),
                         child: Text(
-                          widget.guideProfileResponse.title,
+                          widget.experienceData.experience.title,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -393,7 +418,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                         child: Opacity(
                           opacity: 0.50,
                           child: Text(
-                            widget.guideProfileResponse.description,
+                            widget.experienceData.experience.description,
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.w400,
                                 color: AppResources.colorDark),
@@ -409,7 +434,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                           SizedBox(
                             width: 318,
                             child: Text(
-                              'Un mot sur ${widget.guideProfileResponse.guideName}',
+                              'Un mot sur ${widget.experienceData.experience.nameGuide}',
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 32, color: AppResources.colorVitamine),
                             ),
                           ),
@@ -417,7 +442,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                           SizedBox(
                             width: 319,
                             child: Text(
-                              widget.guideProfileResponse.aboutGuide,
+                              widget.experienceData.experience.descriptionGuide,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                             ),
                           ),
@@ -439,33 +464,16 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                         crossAxisCount: 4,
                         mainAxisSpacing: 4,
                         crossAxisSpacing: 4,
-                        children: [
-                          if (widget.guideProfileResponse.image0 != null)
-                            StaggeredGridTile.fit(
+                        children: widget.experienceData.experience.photos.map((photo) {
+                          if (photo.photoUrl != null && photo.photoUrl.isNotEmpty) {
+                            return StaggeredGridTile.fit(
                               crossAxisCellCount: 4,
-                              child: Image.network(widget.guideProfileResponse.image0!, fit: BoxFit.cover),
-                            ),
-                          if (widget.guideProfileResponse.image1 != null)
-                            StaggeredGridTile.fit(
-                              crossAxisCellCount: 4,
-                              child: Image.network(widget.guideProfileResponse.image1!, fit: BoxFit.cover),
-                            ),
-                          if (widget.guideProfileResponse.image2 != null)
-                            StaggeredGridTile.fit(
-                              crossAxisCellCount: 4,
-                              child: Image.network(widget.guideProfileResponse.image2!, fit: BoxFit.cover),
-                            ),
-                          if (widget.guideProfileResponse.image3 != null)
-                            StaggeredGridTile.fit(
-                              crossAxisCellCount: 4,
-                              child: Image.network(widget.guideProfileResponse.image3!, fit: BoxFit.cover),
-                            ),
-                          if (widget.guideProfileResponse.image4 != null)
-                            StaggeredGridTile.fit(
-                              crossAxisCellCount: 4,
-                              child: Image.network(widget.guideProfileResponse.image4!, fit: BoxFit.cover),
-                            ),
-                        ],
+                              child: Image.network(photo.photoUrl, fit: BoxFit.cover),
+                            );
+                          } else {
+                            return const SizedBox.shrink(); // Return an empty widget if photoUrl is null or empty
+                          }
+                        }).toList(),
                       ),
                       const SizedBox(height: 34),
                       SizedBox(
