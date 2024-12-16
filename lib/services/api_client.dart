@@ -29,9 +29,10 @@ import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../models/availability_list_response.dart';
 import '../models/code_validation_response.dart';
+import '../models/experience_model.dart';
 import '../models/modify_experience_data_model.dart';
 import '../models/register_response.dart';
-import '../models/absence_list_response.dart';
+import '../models/matching_api_request_builder.dart';
 import '../models/update_forgot_password_response.dart';
 import '../models/user_response.dart';
 import '../models/user_social_response.dart';
@@ -694,6 +695,25 @@ class ApiClient {
       //throw Exception('Failed to send List Guide guide: ${response.reasonPhrase}');
     }
   }
+
+  /// Mark a get matching list
+  Future<List<ExperienceModel>> fetchExperiences(FiltersRequest filters) async {
+    final Map<String, String> headers = {
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.post(_buildUri('api/Matching'), headers: headers, body: filters.toJson());
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => ExperienceModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load experiences');
+    }
+  }
+
 
   /// Mark a Create experience Guide
   Future<MakeExprP1Response> createExperienceGuide(Map<String, dynamic> listChoice) async {
