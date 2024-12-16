@@ -5,7 +5,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../models/experience_model.dart';
-import '../models/guide_profile_data_response.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
 import 'event_details.dart';
@@ -111,7 +110,6 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                   gradient: LinearGradient(
                       begin: Alignment(-0.00, -1.00),
                       end: Alignment(0, 1),
-                      //colors: [Color(0x00F8F3EC), AppResources.colorBeigeLight],
                       colors: [Color(0xFFEDD8BE), AppResources.colorWhite]
                   ),
                 ),
@@ -303,9 +301,8 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                       SizedBox(
                                           width: ResponsiveSize.calculateWidth(
                                               8, context)),
-                                      if(widget.experienceData.experience.supportGroupPrive == "")
-                                        IntrinsicWidth(
-                                          child: Container(
+                                      IntrinsicWidth(
+                                        child: Container(
                                             height: 28,
                                             padding: EdgeInsets.symmetric(
                                                 horizontal:
@@ -322,29 +319,24 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                             child: Center(
                                               child: Row(
                                                 children: [
-                                                  Image.asset(
-                                                      'images/icon_badge.png'),
-                                                  SizedBox(
-                                                      width: ResponsiveSize
-                                                          .calculateWidth(
-                                                          4, context)),
-                                                  Text(
-                                                    'Pro',
-                                                    textAlign: TextAlign.center,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                      color: AppResources
-                                                          .colorBeigeLight,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
+                                                  SvgPicture.asset('images/emoji_language.svg'),
+                                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                  ...widget.experienceData.experience.languages.map((url) {
+                                                    return Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                      child: Image.network(
+                                                        url.svg,
+                                                        height: 20.0,
+                                                        width: 20.0,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  }).toList(),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                        ),
+                                      ),
                                       ///Todo remove comment when avis is ready
                                       /*if(experienceData.isProfessionalGuide)
                                           SizedBox(
@@ -424,6 +416,73 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 color: AppResources.colorDark),
                           ),
                         ),
+                      ),
+                      SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                      SizedBox(
+                        width: 319,
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                          runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                          children: [
+                            ...widget.experienceData.experience.typeVoyageur.map((item) {
+                              return IntrinsicWidth(
+                                child: Container(
+                                  height: 40,
+                                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                    border: Border.all(color: AppResources.colorDark),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      if (item.svg.isNotEmpty)
+                                        Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                      if (item.svg.isNotEmpty)
+                                        SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                      Text(
+                                        item.choix,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            ...widget.experienceData.experience.options.map((item) {
+                              return IntrinsicWidth(
+                                child: Container(
+                                  height: 40,
+                                  padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                    border: Border.all(color: AppResources.colorDark),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      if (item.svg.isNotEmpty)
+                                        Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                      if (item.svg.isNotEmpty)
+                                        SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                      Text(
+                                        item.choix,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: AppResources.colorDark),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ]
+                        )
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
                       Column(

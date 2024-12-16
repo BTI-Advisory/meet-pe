@@ -8,7 +8,6 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/experience_model.dart';
-import '../../models/guide_profile_data_response.dart';
 import '../../services/app_service.dart';
 
 class MatchingPage extends StatefulWidget {
@@ -21,7 +20,6 @@ class MatchingPage extends StatefulWidget {
 class _MatchingPageState extends State<MatchingPage> {
   late Future<List<ExperienceModel>> _matchingListFuture;
   late List<ExperienceModel> listOfProfile;
-  TextEditingController editingController = TextEditingController();
 
   late FocusNode _focusNode;
   late TextEditingController _textEditingController;
@@ -55,7 +53,6 @@ class _MatchingPageState extends State<MatchingPage> {
 
   void _onFocusChange() {
     setState(() {
-      //_showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
       _showButton = _focusNode.hasFocus;
     });
   }

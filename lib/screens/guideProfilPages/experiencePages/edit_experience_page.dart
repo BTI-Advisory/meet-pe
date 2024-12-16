@@ -463,8 +463,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   Stack(
                                       clipBehavior: Clip.none,
                                       children: [
-                                        if(true)
-                                          IntrinsicWidth(
+                                        IntrinsicWidth(
                                             child: Container(
                                               height: 28,
                                               padding: EdgeInsets.symmetric(
