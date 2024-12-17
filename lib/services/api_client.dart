@@ -706,6 +706,10 @@ class ApiClient {
 
     final response = await http.post(_buildUri('api/Matching'), headers: headers, body: filters.toJson());
 
+    print("filters.toJson(): ${filters.toJson()}");
+    print("response.statusCode: ${response.statusCode}");
+    print("response.body: ${response.body}");
+
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = jsonDecode(response.body);
       return jsonData.map((json) => ExperienceModel.fromJson(json)).toList();
