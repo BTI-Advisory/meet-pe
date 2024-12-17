@@ -9,11 +9,13 @@ import '../resources/resources.dart';
 class NetworkSearchField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final Function(String? city, String? country) onCitySelected;
 
   const NetworkSearchField({
     Key? key,
     required this.controller,
     required this.focusNode,
+    required this.onCitySelected,
   }) : super(key: key);
 
   @override
@@ -102,14 +104,15 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
         setState(() {
           suggestions = [];
         });
+        widget.onCitySelected(null, null);
       }
     });
   }
 
   @override
   void dispose() {
-    widget.controller.dispose();
-    widget.focusNode.dispose();
+    //widget.controller.dispose();
+    //widget.focusNode.dispose();
     super.dispose();
   }
 
@@ -174,6 +177,11 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
           focusNode: widget.focusNode,
           suggestionState: Suggestion.expand,
           onSuggestionTap: (SearchFieldListItem<String> x) {
+            final parts = x.searchKey.split(',');
+            final selectedCity = parts[0].trim();
+            final selectedCountry = parts[1].trim();
+
+            widget.onCitySelected(selectedCity, selectedCountry);
             widget.focusNode.unfocus();
           },
           controller: widget.controller,

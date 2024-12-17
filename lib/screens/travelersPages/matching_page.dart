@@ -19,7 +19,6 @@ class MatchingPage extends StatefulWidget {
 
 class _MatchingPageState extends State<MatchingPage> {
   late Future<List<ExperienceModel>> _matchingListFuture;
-  late List<ExperienceModel> listOfProfile;
 
   late FocusNode _focusNode;
   late TextEditingController _textEditingController;
@@ -63,29 +62,17 @@ class _MatchingPageState extends State<MatchingPage> {
     });
   }
 
-  void _updateCards(List<ExperienceModel> profiles) {
+  void _onCitySelected(String? city, String? country) {
     setState(() {
-      // Use the updated profiles list
-      if (profiles.isEmpty) {
-        listOfProfile = []; // If no profiles match, set to empty
-      } else {
-        listOfProfile = profiles;
-      }
+      _matchingListFuture = AppService.api.fetchExperiences(
+        FiltersRequest(
+          filtreDateDebut: "2024-12-24",
+          filtreDateFin: "2025-12-29",
+          filtreVille: city,
+          filtrePays: country
+        ),
+      );
     });
-  }
-
-  void filterSearchResults(String query) {
-    if (query.isNotEmpty) {
-      setState(() {
-        listOfProfile = listOfProfile
-            .where((profile) => profile.experience.title.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
-    } else {
-      setState(() {
-        listOfProfile = listOfProfile; // Reset to original list when query is empty
-      });
-    }
   }
 
   Widget build(BuildContext context) {
@@ -95,32 +82,28 @@ class _MatchingPageState extends State<MatchingPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
         Future.delayed(const Duration(milliseconds: 100), () {
-
           setState(() {
             tappedScreen = false;
           });
-
         });
       },
       child: Scaffold(
+        backgroundColor: AppResources.colorBeigeLight,
         body: FutureBuilder<List<ExperienceModel>>(
           future: _matchingListFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              print("UZEFHUZEHFZUEHF ${snapshot.error}");
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data == null) {
               return Center(child: Text('No matching experiences found.'));
             } else {
               final filteredProfiles = snapshot.data!;
-              /*final filteredProfiles = listOfProfile
-                  .where((profile) => profile.experience.title.toLowerCase().contains(editingController.text.toLowerCase()))
-                  .toList();*/
               return Stack(
                 children: [
-                  Container(
+                  filteredProfiles.isNotEmpty ?
+                    Container(
                     width: size.width,
                     height: size.height,
                     child: AbsorbPointer(
@@ -142,9 +125,21 @@ class _MatchingPageState extends State<MatchingPage> {
                         numberOfCardsDisplayed: 1,
                       ),
                     ),
+                  )
+                  :
+                  Center(
+                    child: Text(
+                      "Oups désolé ! Nous ne sommes pas encore présent dans cette ville. Stay tuned, on est déjà sur le coup pour te dénicher les meilleurs pépites de cette région 🚀",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                          color: AppResources.colorGray100),
+                    ),
                   ),
                   Positioned(
-                    top: 40,
+                    top: 45,
                     left: 0,
                     right: 0,
                     child: Center(
@@ -158,6 +153,7 @@ class _MatchingPageState extends State<MatchingPage> {
                               child: NetworkSearchField(
                                 controller: _textEditingController,
                                 focusNode: _focusNode,
+                                onCitySelected: _onCitySelected,
                               ),
                             ),
                           ),
@@ -181,10 +177,6 @@ class _MatchingPageState extends State<MatchingPage> {
                                         return PositionFiltred();
                                       },
                                     );
-
-                                    if (result == true) {
-                                      //_scrollToEnd();
-                                    }
                                   },
                                   icon: const Icon(Icons.gps_fixed, size: 20,),
                                 ),
@@ -204,10 +196,6 @@ class _MatchingPageState extends State<MatchingPage> {
                                         return CalendarMatching();
                                       },
                                     );
-
-                                    if (result == true) {
-                                      //_scrollToEnd();
-                                    }
                                   },
                                   icon: Icon(Icons.date_range, size: 20,),
                                 ),
@@ -227,10 +215,6 @@ class _MatchingPageState extends State<MatchingPage> {
                                         return FiltredWidget();
                                       },
                                     );
-
-                                    if (result == true) {
-                                      //_scrollToEnd();
-                                    }
                                   },
                                   icon: Icon(Icons.tune, size: 20,),
                                 ),

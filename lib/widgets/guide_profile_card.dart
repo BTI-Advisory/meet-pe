@@ -132,10 +132,8 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                     top: 0,
                                     bottom: 0,
                                     child: Container(
-                                      width:
-                                      ResponsiveSize.calculateWidth(427, context),
-                                      height: ResponsiveSize.calculateHeight(
-                                          592, context),
+                                      width: ResponsiveSize.calculateWidth(427, context),
+                                      height: ResponsiveSize.calculateHeight(592, context),
                                       child: Image.network(
                                         widget.experienceData.experience.photoprincipal.photoUrl,
                                         fit: BoxFit.cover,

@@ -97,6 +97,13 @@ class _Step8PageState extends State<Step8Page> {
     }
   }
 
+  void _onCitySelected(String? city, String? country) {
+    setState(() {
+      print("CITY: $city");
+      print("COUNTRY: $country");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,6 +134,7 @@ class _Step8PageState extends State<Step8Page> {
                 child: NetworkSearchField(
                   controller: _textEditingController,
                   focusNode: _focusNode,
+                  onCitySelected: _onCitySelected,
                 ),
               ),
             ),
