@@ -5,7 +5,7 @@ class FiltersRequest {
   String? filtrePays;
   String? filtreLat;
   String? filtreLang;
-  int? filtreDistance;
+  String? filtreDistance;
   String? filtreCategorie;
   String? filtreLangue;
   int? filtrePrixMin;
