@@ -162,13 +162,28 @@ class _MatchingPageState extends State<MatchingPage> {
                               children: [
                                 IconButton(
                                   onPressed: () async {
-                                    final result = await showModalBottomSheet<bool>(
+                                    final result = await showModalBottomSheet<Map<String, dynamic>>(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (BuildContext context) {
                                         return PositionFiltred();
                                       },
                                     );
+                                    if (result != null) {
+                                      setState(() {
+                                        double latitude = result['latitude'];
+                                        double longitude = result['longitude'];
+                                        int radius = result['radius'];
+
+                                        _matchingListFuture = AppService.api.fetchExperiences(
+                                          FiltersRequest(
+                                            filtreLat: latitude.toString(),
+                                            filtreLang: longitude.toString(),
+                                            filtreDistance: radius.toString()
+                                          ),
+                                        );
+                                      });
+                                    }
                                   },
                                   icon: const Icon(Icons.gps_fixed, size: 20,),
                                 ),

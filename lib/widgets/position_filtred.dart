@@ -22,9 +22,12 @@ class _PositionFiltredState extends State<PositionFiltred>
   @override
   initBloc() => PositionFiltredBloc();
 
-
-  void _onAbsenceAdded() {
-    Navigator.pop(context, true);
+  void _onLocationAdded(double latitude, double longitude, int radius) {
+    Navigator.pop(context, {
+      'latitude': latitude,
+      'longitude': longitude,
+      'radius': radius,
+    });
   }
 
   Future<void> _getCurrentLocation() async {
@@ -62,9 +65,15 @@ class _PositionFiltredState extends State<PositionFiltred>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: bloc.sendPosition,
           onSuccess: () async {
-            _onAbsenceAdded();
+            if (_currentPosition != null) {
+              _onLocationAdded(
+                _currentPosition!.latitude,
+                _currentPosition!.longitude,
+                valueSlider.toInt(),
+              );
+            }
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -149,14 +158,13 @@ class _PositionFiltredState extends State<PositionFiltred>
                               ),
                             ),
                             onPressed: () async {
-                              //validate();
                               await _getCurrentLocation();
-                              if (_currentCity.isNotEmpty) {
-                                setState(() {
-                                  //_textEditingController.text = 'Autour de moi';
-                                  print('Autour moi is selected $_currentCity');
-                                  print('Autour moi rayon ${valueSlider.toInt()}');
-                                });
+                              if (_currentPosition != null) {
+                                _onLocationAdded(
+                                  _currentPosition!.latitude,
+                                  _currentPosition!.longitude,
+                                  valueSlider.toInt(),
+                                );
                               }
                             },
                             child: Text(
@@ -183,7 +191,7 @@ class _PositionFiltredState extends State<PositionFiltred>
 
 class PositionFiltredBloc with Disposable {
 
-  Future<bool> sendScheduleAbsence() async {
+  Future<bool> sendPosition() async {
     return true;
   }
 
