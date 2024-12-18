@@ -48,6 +48,7 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       supportGroupPrive: json['support_group_prive'] as String?,
       prixParGroup: json['prix_par_group'] as String?,
       discountKids: json['discount_kids'] as String?,
+      prixParEnfant: json['prix_par_enfant'] as String?,
       dernierMinuteReservation: json['dernier_minute_reservation'] as String?,
       nameGuide: json['name_guide'] as String,
       descriptionGuide: json['description_guide'] as String,

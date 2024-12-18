@@ -39,6 +39,7 @@ class Experience {
   final String? supportGroupPrive;
   final String? prixParGroup;
   final String? discountKids;
+  final String? prixParEnfant;
   final String? dernierMinuteReservation;
   final String nameGuide;
   final String descriptionGuide;
@@ -65,6 +66,7 @@ class Experience {
     this.supportGroupPrive,
     this.prixParGroup,
     this.discountKids,
+    this.prixParEnfant,
     this.dernierMinuteReservation,
     required this.nameGuide,
     required this.descriptionGuide
