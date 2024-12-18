@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
-import '../services/app_service.dart';
 
 class CalendarMatching extends StatefulWidget {
   const CalendarMatching({super.key});
@@ -23,14 +21,23 @@ class _CalendarMatchingState extends State<CalendarMatching>
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOn;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
-  bool isRangeSelected = false;
+  String formatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
 
-  void _onAbsenceAdded() {
-    Navigator.pop(context, true);
+  void _onDateAdded() {
+    if (_rangeStart != null && _rangeEnd != null) {
+      final result = {
+        'rangeStart': formatDate(_rangeStart!),
+        'rangeEnd': formatDate(_rangeEnd!),
+      };
+      Navigator.pop(context, result);
+    } else {
+      showMessage(context, 'Please select a valid date range!');
+    }
   }
 
   @override
@@ -40,7 +47,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
       child: AsyncForm(
           onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
-            _onAbsenceAdded();
+            _onDateAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -125,29 +132,11 @@ class _CalendarMatchingState extends State<CalendarMatching>
                             rangeEndDay: _rangeEnd,
                             calendarFormat: _calendarFormat,
                             rangeSelectionMode: _rangeSelectionMode,
-                            selectedDayPredicate: (day) =>
-                                isSameDay(_selectedDay, day),
-                            onDaySelected: (selectedDay, focusedDay) {
-                              if (!isSameDay(_selectedDay, selectedDay)) {
-                                // Call `setState()` when updating the selected day
-                                setState(() {
-                                  _selectedDay = selectedDay;
-                                  _focusedDay = focusedDay;
-                                  _rangeStart = null;
-                                  _rangeEnd = null;
-                                  _rangeSelectionMode =
-                                      RangeSelectionMode.toggledOff;
-                                  isRangeSelected = false;
-                                });
-                              }
-                            },
                             onRangeSelected: (start, end, focusedDay) {
                               setState(() {
-                                _selectedDay = null;
                                 _focusedDay = focusedDay;
                                 _rangeStart = start;
                                 _rangeEnd = end;
-                                isRangeSelected = true;
                               });
                             },
                             onPageChanged: (focusedDay) {
@@ -203,8 +192,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                           color: AppResources.colorGray15,
                         ),
                         const SizedBox(height: 40),
-                        isRangeSelected
-                            ? Row(
+                        Row(
                           children: [
                             Container(
                               width: ResponsiveSize.calculateWidth(145, context),
@@ -255,16 +243,16 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (_rangeStart!.isBefore(DateTime.now())) {
+                                  if (_rangeStart != null && _rangeStart!.isBefore(DateTime.now())) {
                                     showMessage(context, 'Error date select');
                                   } else {
-                                    if(_rangeStart != null) {
+                                    if (_rangeStart != null) {
                                       bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
                                     }
-                                    if(_rangeEnd != null) {
+                                    if (_rangeEnd != null) {
                                       bloc.dayTo = DateFormat('yyyy-MM-dd').format(_rangeEnd!);
                                     }
-                                    validate();
+                                    _onDateAdded(); // Pass the result back to the parent
                                   }
                                 },
                                 child: Text(
@@ -278,38 +266,6 @@ class _CalendarMatchingState extends State<CalendarMatching>
                               ),
                             )
                           ],
-                        )
-                            : Container(
-                          width:
-                          ResponsiveSize.calculateWidth(319, context),
-                          height:
-                          ResponsiveSize.calculateHeight(44, context),
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                              MaterialStateProperty.all(AppResources.colorVitamine),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 1,
-                                    color: Colors.transparent,
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              'ENREGISTRER',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                  color: AppResources.colorWhite),
-                            ),
-                            onPressed: () {
-                              showMessage(context, 'Select date!');
-                            },
-                          ),
                         ),
                         const SizedBox(height: 33),
                       ],
@@ -324,31 +280,26 @@ class _CalendarMatchingState extends State<CalendarMatching>
 }
 
 class CalendarMatchingBloc with Disposable {
-  String day = '';
   String dayFrom = '';
   String dayTo = '';
 
   Future<bool> sendScheduleAbsence() async {
 
-    SearchByDate absence = SearchByDate(day: '', dayFrom: dayFrom, dayTo: dayTo);
+    SearchByDate absence = SearchByDate(dayFrom: dayFrom, dayTo: dayTo);
 
     if(dayTo == '') {
       // Create an Absence object
       absence = SearchByDate(
-        day: dayFrom,
         dayFrom: '',
         dayTo: '',
       );
     } else {
       // Create an Absence object
       absence = SearchByDate(
-        day: '',
         dayFrom: dayFrom,
         dayTo: dayTo,
       );
     }
-
-
 
     // Convert the Availability object to JSON
     Map<String, dynamic> json = absence.toJson();

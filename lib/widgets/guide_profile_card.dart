@@ -239,7 +239,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '${widget.experienceData.experience.prixParVoyageur}€/pers',
+                                            '${double.parse(widget.experienceData.experience.prixParVoyageur ?? '0').toInt()}€/pers',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge
@@ -511,7 +511,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
                                   ),
                                   Text(
-                                    "${widget.experienceData.experience.prixParVoyageur} €",
+                                    "${double.parse(widget.experienceData.experience.prixParVoyageur ?? '0').toInt()} €",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge

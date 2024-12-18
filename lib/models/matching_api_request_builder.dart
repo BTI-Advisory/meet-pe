@@ -8,9 +8,11 @@ class FiltersRequest {
   int? filtreDistance;
   String? filtreCategorie;
   String? filtreLangue;
-  String? filtreNbVoyageurTotal;
   int? filtrePrixMin;
   int? filtrePrixMax;
+  int? filtreNbAdult;
+  int? filtreNbEnfant;
+  int? filtreNbBebes;
 
   FiltersRequest({
     this.filtreDateDebut,
@@ -22,9 +24,11 @@ class FiltersRequest {
     this.filtreDistance,
     this.filtreCategorie,
     this.filtreLangue,
-    this.filtreNbVoyageurTotal,
     this.filtrePrixMin,
     this.filtrePrixMax,
+    this.filtreNbAdult,
+    this.filtreNbEnfant,
+    this.filtreNbBebes,
   });
 
   /// Converts the object into a Map (JSON format) with only non-null fields.
@@ -40,11 +44,11 @@ class FiltersRequest {
     if (filtreDistance != null) json['filtre_distance'] = filtreDistance;
     if (filtreCategorie != null) json['filtre_categorie'] = filtreCategorie;
     if (filtreLangue != null) json['filtre_langue'] = filtreLangue;
-    if (filtreNbVoyageurTotal != null) {
-      json['filtre_nb_voyageur_total'] = filtreNbVoyageurTotal;
-    }
     if (filtrePrixMin != null) json['filtre_prix_min'] = filtrePrixMin;
     if (filtrePrixMax != null) json['filtre_prix_max'] = filtrePrixMax;
+    if (filtreNbAdult != null) json['filtre_nb_adultes'] = filtreNbAdult;
+    if (filtreNbEnfant != null) json['filtre_nb_enfants'] = filtreNbEnfant;
+    if (filtreNbBebes != null) json['filtre_nb_bebes'] = filtreNbBebes;
 
     return json;
   }

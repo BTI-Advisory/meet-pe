@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:meet_pe/models/matching_api_request_builder.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/services/api_client.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
@@ -28,12 +27,7 @@ class _MatchingPageState extends State<MatchingPage> {
   @override
   void initState() {
     super.initState();
-    _matchingListFuture = AppService.api.fetchExperiences(
-      FiltersRequest(
-        filtreDateDebut: "2024-12-24",
-        filtreDateFin: "2025-12-29"
-      )
-    );
+    _matchingListFuture = AppService.api.fetchExperiences(FiltersRequest());
 
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChange);
@@ -66,8 +60,6 @@ class _MatchingPageState extends State<MatchingPage> {
     setState(() {
       _matchingListFuture = AppService.api.fetchExperiences(
         FiltersRequest(
-          filtreDateDebut: "2024-12-24",
-          filtreDateFin: "2025-12-29",
           filtreVille: city,
           filtrePays: country
         ),
@@ -189,13 +181,29 @@ class _MatchingPageState extends State<MatchingPage> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final result = await showModalBottomSheet<bool>(
+                                    final result = await showModalBottomSheet<Map<String, String>>(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (BuildContext context) {
                                         return CalendarMatching();
                                       },
                                     );
+                                    if (result != null) {
+                                      setState(() {
+                                        if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
+                                          // Handle range selection
+                                          final rangeStart = result['rangeStart'];
+                                          final rangeEnd = result['rangeEnd'];
+                                          print('Selected Range: $rangeStart to $rangeEnd');
+                                          _matchingListFuture = AppService.api.fetchExperiences(
+                                            FiltersRequest(
+                                              filtreDateDebut: rangeStart,
+                                              filtreDateFin: rangeEnd,
+                                            ),
+                                          );
+                                        }
+                                      });
+                                    }
                                   },
                                   icon: Icon(Icons.date_range, size: 20,),
                                 ),
