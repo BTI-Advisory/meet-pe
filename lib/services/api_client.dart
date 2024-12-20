@@ -4,6 +4,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:meet_pe/models/absence_list_response.dart';
 import 'package:meet_pe/models/archived_reservation_response.dart';
 import 'package:meet_pe/models/contact_data.dart';
@@ -701,6 +703,37 @@ class ApiClient {
     }
   }
 
+  /// Mark a set favorite experience
+  Future<void> setFavoriteExperience(int experienceId, String action, BuildContext context) async {
+    final data = {
+      'experience_id': experienceId,
+      "action": action
+    };
+
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/set-favorite-experience', bodyJson: data);
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        if (e is EpHttpResponseException && e.statusCode == 409) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("L'expérience est déjà dans les favoris"),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          //return;
+        }
+        rethrow;
+      }
+    }();
+  }
+
   /// Mark a get matching list
   Future<List<ExperienceModel>> fetchExperiences(FiltersRequest filters) async {
     final Map<String, String> headers = {
@@ -729,16 +762,6 @@ class ApiClient {
   }
 
   /// Get reservation list.
-  Future<List<ReservationListResponse>> getReservations() async {
-    // Send request
-    final response = await _send<JsonObject>(_httpMethodGet, 'api/get-voyageur-reservation');
-    if (response == null) return const [];
-
-    // Return data
-    //return ReservationListResponse.fromJson(response!);
-    return response['']!.map<ReservationListResponse>((json) => ReservationListResponse.fromJson(json)).toList(growable: false);
-  }
-
   Future<List<ReservationListResponse>> getReservation() async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',

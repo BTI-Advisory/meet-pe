@@ -6,6 +6,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../models/experience_model.dart';
 import '../resources/resources.dart';
+import '../services/app_service.dart';
 import '../utils/_utils.dart';
 import 'event_details.dart';
 
@@ -730,7 +731,9 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                       borderRadius: BorderRadius.circular(22),
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppService.api.setFavoriteExperience(int.parse(widget.experienceData.experience.id), "add", context);
+                      },
                       icon: SvgPicture.asset('images/heart-filled.svg',),
                     ),
                   ),

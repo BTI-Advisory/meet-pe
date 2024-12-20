@@ -4,6 +4,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../models/favoris_data_response.dart';
 import '../resources/resources.dart';
+import '../services/app_service.dart';
 
 class FavorisCard extends StatefulWidget {
   const FavorisCard({super.key, required this.favorisResponse});
@@ -61,7 +62,9 @@ class _FavorisCardState extends State<FavorisCard> {
               ),
               const SizedBox(width: 43),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  AppService.api.setFavoriteExperience(int.parse("widget.experienceData.experience.id"), "remove", context);
+                },
                 icon: SvgPicture.asset('images/heart_outlined_fill.svg'),
               ),
             ],
