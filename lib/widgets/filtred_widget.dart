@@ -41,8 +41,14 @@ class _FiltredWidgetState extends State<FiltredWidget>
   @override
   initBloc() => FiltredWidgetBloc();
 
-  void _onFilterAdded() {
-    Navigator.pop(context, true);
+  Map<String, String> formatMyMap(Map<String, Set<Object>> map) {
+    return map.map((key, value) {
+      return MapEntry(key, value.map((e) => e.toString()).join(', '));
+    });
+  }
+
+  void _onFilterAdded(Map<String, String> formattedMap) {
+    Navigator.pop(context, formattedMap);
   }
 
   @override
@@ -115,7 +121,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
       child: AsyncForm(
           //onValidated: bloc.sendScheduleAbsence,
           onSuccess: () async {
-            _onFilterAdded();
+            //_onFilterAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -244,7 +250,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
                                 Text(
-                                  'De 2 ans à 10 ans',
+                                  'De 2 ans à 12 ans',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium,
@@ -459,21 +465,21 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                     return ItemWidget(
                                       id: item.id,
                                       text: item.title,
-                                      isSelected: myMap['voyageur_experiences'] != null
-                                          ? myMap['voyageur_experiences']!.contains(item.id)
+                                      isSelected: myMap['filtre_categorie'] != null
+                                          ? myMap['filtre_categorie']!.contains(item.id)
                                           : false,
                                       onTap: () {
                                         setState(() {
-                                          if (myMap['voyageur_experiences'] == null) {
-                                            myMap['voyageur_experiences'] =
+                                          if (myMap['filtre_categorie'] == null) {
+                                            myMap['filtre_categorie'] =
                                                 Set<int>(); // Initialize if null
                                           }
 
-                                          if (myMap['voyageur_experiences']!
+                                          if (myMap['filtre_categorie']!
                                               .contains(item.id)) {
-                                            myMap['voyageur_experiences']!.remove(item.id);
+                                            myMap['filtre_categorie']!.remove(item.id);
                                           } else {
-                                            myMap['voyageur_experiences']!.add(item.id);
+                                            myMap['filtre_categorie']!.add(item.id);
                                           }
                                         });
                                       },
@@ -505,21 +511,21 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                     return ItemWidget(
                                       id: item.id,
                                       text: item.title,
-                                      isSelected: myMap['languages_fr'] != null
-                                          ? myMap['languages_fr']!.contains(item.id)
+                                      isSelected: myMap['filtre_langue'] != null
+                                          ? myMap['filtre_langue']!.contains(item.id)
                                           : false,
                                       onTap: () {
                                         setState(() {
-                                          if (myMap['languages_fr'] == null) {
-                                            myMap['languages_fr'] =
+                                          if (myMap['filtre_langue'] == null) {
+                                            myMap['filtre_langue'] =
                                                 Set<int>(); // Initialize if null
                                           }
 
-                                          if (myMap['languages_fr']!
+                                          if (myMap['filtre_langue']!
                                               .contains(item.id)) {
-                                            myMap['languages_fr']!.remove(item.id);
+                                            myMap['filtre_langue']!.remove(item.id);
                                           } else {
-                                            myMap['languages_fr']!.add(item.id);
+                                            myMap['filtre_langue']!.add(item.id);
                                           }
                                         });
                                       },
@@ -586,12 +592,13 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               onPressed: () {
                                 //validate();
                                 setState(() {
-                                  myMap['adults'] = {_counter};
-                                  myMap['children'] = {_counterChild};
-                                  myMap['babies'] = {_counterBaby};
-                                  myMap['minPrice'] = {_currentMin};
-                                  myMap['maxPrice'] = {_currentMax};
-                                  Navigator.pop(context, true);
+                                  myMap['filtre_nb_adultes'] = {_counter};
+                                  myMap['filtre_nb_enfants'] = {_counterChild};
+                                  myMap['filtre_nb_bebes'] = {_counterBaby};
+                                  myMap['filtre_prix_min'] = {_currentMin};
+                                  myMap['filtre_prix_max'] = {_currentMax};
+                                  //Navigator.pop(context, true);
+                                  _onFilterAdded(formatMyMap(myMap));
                                 });
                               },
                               child: Text(
@@ -622,14 +629,16 @@ class _FiltredWidgetState extends State<FiltredWidget>
                           ),
                           onPressed: () {
                             setState(() {
-                              myMap['adults'] = {_counter};
-                              myMap['children'] = {_counterChild};
-                              myMap['babies'] = {_counterBaby};
-                              myMap['minPrice'] = {_currentMin};
-                              myMap['maxPrice'] = {_currentMax};
+                              myMap['filtre_nb_adultes'] = {_counter};
+                              myMap['filtre_nb_enfants'] = {_counterChild};
+                              myMap['filtre_nb_bebes'] = {_counterBaby};
+                              myMap['filtre_prix_min'] = {_currentMin};
+                              myMap['filtre_prix_max'] = {_currentMax};
+                              print("ZJFJZFJZEJFZEHF 2212121212 $myMap");
 
                             });
-                            Navigator.pop(context, true);
+                            //Navigator.pop(context, true);
+                            _onFilterAdded(formatMyMap(myMap));
                           },
                           child: Text(
                             'ENREGISTRER',

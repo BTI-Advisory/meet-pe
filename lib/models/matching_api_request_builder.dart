@@ -8,11 +8,11 @@ class FiltersRequest {
   String? filtreDistance;
   String? filtreCategorie;
   String? filtreLangue;
-  int? filtrePrixMin;
-  int? filtrePrixMax;
-  int? filtreNbAdult;
-  int? filtreNbEnfant;
-  int? filtreNbBebes;
+  String? filtrePrixMin;
+  String? filtrePrixMax;
+  String? filtreNbAdult;
+  String? filtreNbEnfant;
+  String? filtreNbBebes;
 
   FiltersRequest({
     this.filtreDateDebut,
