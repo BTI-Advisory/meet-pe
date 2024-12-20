@@ -689,7 +689,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         child: Text('No events for this day.'),
                                       );
                                     } else {
-                                      return EventDetails(events: value);
+                                      return EventDetails(events: value, experienceData: widget.experienceData,);
                                     }
                                   },
                                 ),

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/travelersPages/reservation_page.dart';
 
+import '../models/experience_model.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
 
 class EventDetails extends StatelessWidget {
   final List<Event> events;
+  final ExperienceModel experienceData;
 
-  const EventDetails({Key? key, required this.events}) : super(key: key);
+  const EventDetails({Key? key, required this.events, required this.experienceData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +57,10 @@ class EventDetails extends StatelessWidget {
                       time: event.time,
                       onPressed: () {
                         // Handle reservation
-                        print('FJRJFJRF');
                         Navigator.of(context)
                             .push(
                           MaterialPageRoute(
-                              builder: (_) => const ReservationPage()),
+                              builder: (_) => ReservationPage(experienceData: experienceData, date: event.date, time: event.time,)),
                         );
                       },
                     ),

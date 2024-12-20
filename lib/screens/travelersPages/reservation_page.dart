@@ -1,13 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../models/experience_model.dart';
+import '../../models/reservation_request.dart';
 import '../../resources/resources.dart';
-import '../../utils/responsive_size.dart';
+import '../../services/app_service.dart';
+import '../../utils/_utils.dart';
 import '../../widgets/themed/ep_app_bar.dart';
 
 class ReservationPage extends StatefulWidget {
-  const ReservationPage({super.key});
+  const ReservationPage({Key? key, required this.experienceData, required this.date, required this.time}) : super(key: key);
+  final ExperienceModel experienceData;
+  final String date;
+  final String time;
 
   @override
   State<ReservationPage> createState() => _ReservationPageState();
@@ -21,6 +26,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
   int _counterChild = 0;
   int _counterBaby = 0;
   late TextEditingController _textEditingControllerName;
+  late TextEditingController _textEditingControllerComment;
   String? validationMessageName = '';
   bool isFormValid = false;
 
@@ -30,6 +36,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
     _controller = AnimationController(vsync: this);
     _textEditingControllerName = TextEditingController();
     _textEditingControllerName.addListener(_onTextChanged);
+    _textEditingControllerComment = TextEditingController();
+    _textEditingControllerComment.addListener(_onTextChanged);
   }
 
   @override
@@ -37,6 +45,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
     _controller.dispose();
     _textEditingControllerName.removeListener(_onTextChanged);
     _textEditingControllerName.dispose();
+    _textEditingControllerComment.removeListener(_onTextChanged);
+    _textEditingControllerComment.dispose();
     super.dispose();
   }
 
@@ -51,6 +61,33 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
       isFormValid =
           validationMessageName == null;
     });
+  }
+
+  String calculPrice(int numberAdult, int numberKids) {
+    // Retrieve prices
+    final prixParVoyageur = widget.experienceData.experience.prixParVoyageur;
+    final prixParEnfant = widget.experienceData.experience.prixParEnfant;
+
+    // Check if prixParVoyageur is null
+    if (prixParVoyageur == null) {
+      return "0"; // Default value if prixParVoyageur is null
+    }
+
+    if (widget.experienceData.experience.discountKids == "1") {
+      // Check if prixParEnfant is null
+      if (prixParEnfant == null) {
+        return "0"; // Default value if prixParEnfant is null
+      }
+
+      // Parse prices as double and calculate the total
+      final total = (double.parse(prixParVoyageur) * numberAdult) +
+          (double.parse(prixParEnfant) * numberKids);
+      return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+    } else {
+      // Parse prices as double and calculate the total
+      final total = double.parse(prixParVoyageur) * (numberAdult + numberKids);
+      return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+    }
   }
 
   @override
@@ -68,7 +105,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Le Courchevel sauvage d’Emeline',
+                    widget.experienceData.experience.title,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -92,7 +129,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ?.copyWith(color: AppResources.colorDark),
                   ),
                   const SizedBox(height: 24,),
-                  Row(
+                  if (widget.experienceData.experience.supportGroupPrive == "1")
+                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -212,7 +250,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                 ?.copyWith(color: AppResources.colorDark),
                           ),
                           Text(
-                            'De 2 ans à 10 ans',
+                            'De 2 ans à 12 ans',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium,
@@ -407,7 +445,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                             ?.copyWith(color: const Color(0xFF797979)),
                       ),
                       Text(
-                        'Mar 17 Oct 2023 09:30',
+                        '${dateReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}',
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
@@ -430,7 +468,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                 ?.copyWith(color: AppResources.colorDark),
                           ),
                           Text(
-                            '350,00€',
+                            calculPrice(_counter, _counterChild),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
@@ -439,7 +477,21 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final _makeReservation = AppService.api.makeReservation(
+                            ReservationRequest(
+                              experienceId: int.parse(widget.experienceData.experience.id),
+                              dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
+                              voyageursAdultes: _counter,
+                              voyageursEnfants: _counterChild,
+                              voyageursBebes: _counterBaby,
+                              messageAuGuide: _textEditingControllerComment.text,
+                              nom: _textEditingControllerName.text,
+                              prenom: _textEditingControllerName.text,
+                              phone: "2332342343"
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppResources.colorVitamine,
                         ),
@@ -496,7 +548,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                   Container(
                     width: 309,
                     height: 216,
-                    child: const TextField(
+                    child: TextField(
+                      controller: _textEditingControllerComment,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
