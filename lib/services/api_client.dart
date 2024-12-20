@@ -13,6 +13,7 @@ import 'package:meet_pe/models/guide_reservation_response.dart';
 import 'package:meet_pe/models/is_full_availability_response.dart';
 import 'package:meet_pe/models/make_expr_p1_response.dart';
 import 'package:meet_pe/models/notification_settings_response.dart';
+import 'package:meet_pe/models/reservation_request_response.dart';
 import 'package:meet_pe/models/step_list_response.dart';
 import 'package:meet_pe/models/user_token_response.dart';
 import 'package:meet_pe/services/app_service.dart';
@@ -33,6 +34,7 @@ import '../models/experience_model.dart';
 import '../models/modify_experience_data_model.dart';
 import '../models/register_response.dart';
 import '../models/matching_api_request_builder.dart';
+import '../models/reservation_request.dart';
 import '../models/update_forgot_password_response.dart';
 import '../models/user_response.dart';
 import '../models/user_social_response.dart';
@@ -708,10 +710,6 @@ class ApiClient {
 
     final response = await http.post(_buildUri('api/Matching'), headers: headers, body: filters.toJson());
 
-    print("filters.toJson(): ${filters.toJson()}");
-    print("response.statusCode: ${response.statusCode}");
-    print("response.body: ${response.body}");
-
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = jsonDecode(response.body);
       return jsonData.map((json) => ExperienceModel.fromJson(json)).toList();
@@ -720,6 +718,14 @@ class ApiClient {
     }
   }
 
+  /// Send reservation for experience.
+  Future<ReservationRequestResponse> makeReservation(ReservationRequest reservationRequest) async {
+    // Send request
+    final response = await _send<JsonObject>(_httpMethodPost, 'api/make-reservation', bodyJson: reservationRequest.toJson());
+
+    // Return data
+    return ReservationRequestResponse.fromJson(response!);
+  }
 
   /// Mark a Create experience Guide
   Future<MakeExprP1Response> createExperienceGuide(Map<String, dynamic> listChoice) async {

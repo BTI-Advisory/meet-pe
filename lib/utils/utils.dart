@@ -271,6 +271,26 @@ String yearsFrenchFormat(String date) {
   return transformedDateString;
 }
 
+String yearsReservationFormat(String date) {
+  DateTime originalDate = DateTime.parse(date);
+
+  // Format the date to the desired format
+  String formattedDateTime = DateFormat("yyyy-MM-dd").format(originalDate);
+  return formattedDateTime;
+}
+
+String dateReservationFormat(String date) {
+  String originalDate = date;
+
+  // Parse the original date
+  DateTime parsedDate = DateTime.parse(originalDate);
+
+  // Format the date into the desired format
+  String formattedDate = DateFormat("EEE dd MMM yyyy", "fr").format(parsedDate);
+
+  return formattedDate;
+}
+
 String yearsFrenchFormatDateVar(DateTime date) {
   // Format the DateTime to the desired format (dd/MM/yyyy)
   return "${date.day}/${date.month}/${date.year}";
