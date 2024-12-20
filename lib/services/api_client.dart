@@ -34,6 +34,7 @@ import '../models/experience_model.dart';
 import '../models/modify_experience_data_model.dart';
 import '../models/register_response.dart';
 import '../models/matching_api_request_builder.dart';
+import '../models/reservation_list_response.dart';
 import '../models/reservation_request.dart';
 import '../models/update_forgot_password_response.dart';
 import '../models/user_response.dart';
@@ -725,6 +726,34 @@ class ApiClient {
 
     // Return data
     return ReservationRequestResponse.fromJson(response!);
+  }
+
+  /// Get reservation list.
+  Future<List<ReservationListResponse>> getReservations() async {
+    // Send request
+    final response = await _send<JsonObject>(_httpMethodGet, 'api/get-voyageur-reservation');
+    if (response == null) return const [];
+
+    // Return data
+    //return ReservationListResponse.fromJson(response!);
+    return response['']!.map<ReservationListResponse>((json) => ReservationListResponse.fromJson(json)).toList(growable: false);
+  }
+
+  Future<List<ReservationListResponse>> getReservation() async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(_buildUri('api/get-voyageur-reservation'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return parseReservationList(response.body);
+    } else {
+      throw Exception('Failed to load reservation list');
+    }
   }
 
   /// Mark a Create experience Guide
