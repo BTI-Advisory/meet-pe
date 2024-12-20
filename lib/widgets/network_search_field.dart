@@ -28,7 +28,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
   Future<void> getSuggestions(String query) async {
     String username = 'meetpe'; // Replace with your Geonames username
     String baseUrl = 'http://api.geonames.org/searchJSON';
-    var response = await http.get(Uri.parse('$baseUrl?q=$query&username=$username'));
+    var response = await http.get(Uri.parse('$baseUrl?q=$query&username=$username&country=FR'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);

@@ -231,15 +231,41 @@ class _MatchingPageState extends State<MatchingPage> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final result = await showModalBottomSheet<bool>(
+                                    final result = await showModalBottomSheet<Map<String, String>>(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (BuildContext context) {
-                                        return FiltredWidget();
+                                        return const FiltredWidget();
                                       },
                                     );
+
+                                    if (result != null) {
+                                      setState(() {
+                                        // Extract values with fallback to defaults
+                                        final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
+                                        final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
+                                        final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
+                                        final filtrePrixMin = result['filtre_prix_min'] ?? "0";
+                                        final filtrePrixMax = result['filtre_prix_max'] ?? "0";
+                                        final filtreCategorie = result['filtre_categorie'] ?? "";
+                                        final filtreLangue = result['filtre_langue'] ?? "";
+
+                                        // Make API call with filters
+                                        _matchingListFuture = AppService.api.fetchExperiences(
+                                          FiltersRequest(
+                                            filtreNbAdult: filtreNbAdultes,
+                                            filtreNbEnfant: filtreNbEnfants,
+                                            filtreNbBebes: filtreNbBebes,
+                                            filtrePrixMin: filtrePrixMin,
+                                            filtrePrixMax: filtrePrixMax,
+                                            filtreCategorie: filtreCategorie,
+                                            filtreLangue: filtreLangue,
+                                          ),
+                                        );
+                                      });
+                                    }
                                   },
-                                  icon: Icon(Icons.tune, size: 20,),
+                                  icon: const Icon(Icons.tune, size: 20),
                                 ),
                               ],
                             ),

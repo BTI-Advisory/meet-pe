@@ -49,8 +49,10 @@ const _httpMethodDelete = 'DELETE';
 class ApiClient {
   //#region Vars
   /// API url
-  static const _authorityProd = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
-  static const _authorityDev = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
+  //static const _authorityProd = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
+  //static const _authorityDev = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
+  static const _authorityProd = 'dashboard.meetpe.fr';
+  static const _authorityDev = 'dashboard.meetpe.fr';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
@@ -2019,7 +2021,7 @@ class ApiClient {
 
   //#region Generics
   Uri _buildUri(String path, [JsonObject? queryParameters]) =>
-      Uri.http(_authority, path, queryParameters);
+      Uri.https(_authority, path, queryParameters);
 
   /// Send a classic request
   Future<T?> _send<T>(
