@@ -4,7 +4,35 @@ part 'experience_data_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class ExperienceDataResponse {
-  const ExperienceDataResponse({
+  final String id;
+  final String title;
+  final String description;
+  final String status;
+  final List<Category> categories;
+  final List<Language> languages;
+  final List<Planning> planning;
+  final String? duree;
+  final Photo photoprincipal;
+  final List<Photo> photos;
+  final String? nombreVoyageur;
+  final List<TravelerType> typeVoyageur;
+  final String? prixParVoyageur;
+  final String? maxNbVoyageur;
+  final List<Option> options;
+  final String? ville;
+  final String? pays;
+  final String? adresse;
+  final String? codePostal;
+  final String? supportGroupPrive;
+  final String? prixParGroup;
+  final String? discountKids;
+  final String? prixParEnfant;
+  final String? dernierMinuteReservation;
+  final String nameGuide;
+  final String descriptionGuide;
+  final String createdAt;
+
+  ExperienceDataResponse({
     required this.id,
     required this.title,
     required this.description,
@@ -12,137 +40,112 @@ class ExperienceDataResponse {
     required this.categories,
     required this.languages,
     required this.planning,
-    required this.duration,
-    required this.mainPhoto,
+    this.duree,
+    required this.photoprincipal,
     required this.photos,
-    required this.numberOfTravelers,
-    required this.typeDesVoyageur,
-    required this.pricePerTraveler,
-    required this.maxNumberOfTravelers,
+    this.nombreVoyageur,
+    required this.typeVoyageur,
+    this.prixParVoyageur,
+    this.maxNbVoyageur,
     required this.options,
-    required this.city,
-    required this.country,
-    required this.address,
-    this.latitude,
-    this.longitude,
-    required this.postalCode,
-    required this.supportGroupPrive,
-    this.priceGroupPrive,
+    this.ville,
+    this.pays,
+    this.adresse,
+    this.codePostal,
+    this.supportGroupPrive,
+    this.prixParGroup,
     this.discountKids,
-    this.lastMinuteReservation,
+    this.prixParEnfant,
+    this.dernierMinuteReservation,
     required this.nameGuide,
     required this.descriptionGuide,
-    required this.createdAt,
+    required this.createdAt
   });
-
-  @JsonKey(name: 'id')
-  final int id;
-  @JsonKey(name: 'title')
-  final String title;
-  @JsonKey(name: 'description')
-  final String description;
-  @JsonKey(name: 'status')
-  final String status;
-  @JsonKey(name: 'categories')
-  final List<String> categories;
-  @JsonKey(name: 'languages')
-  final List<String> languages;
-  @JsonKey(name: 'planning')
-  final List<Planning> planning;
-  @JsonKey(name: 'duree')
-  final String duration;
-  @JsonKey(name: 'photoprincipal')
-  final Photo mainPhoto;
-  @JsonKey(name: 'photos')
-  final List<Photo> photos;
-  @JsonKey(name: 'nombre_voyageur')
-  final int numberOfTravelers;
-  @JsonKey(name: 'type_voyageur')
-  final List<String> typeDesVoyageur;
-  @JsonKey(name: 'prix_par_voyageur')
-  final String pricePerTraveler;
-  @JsonKey(name: 'Max_nb_voyageur')
-  final int maxNumberOfTravelers;
-  @JsonKey(name: 'options')
-  final List<String> options;
-  @JsonKey(name: 'ville')
-  final String city;
-  @JsonKey(name: 'pays')
-  final String country;
-  @JsonKey(name: 'adresse')
-  final String address;
-  @JsonKey(name: 'lat')
-  final double? latitude;
-  @JsonKey(name: 'lang')
-  final double? longitude;
-  @JsonKey(name: 'code_postal')
-  final String postalCode;
-  @JsonKey(name: 'support_group_prive')
-  final bool supportGroupPrive;
-  @JsonKey(name: 'prix_par_group')
-  final int? priceGroupPrive;
-  @JsonKey(name: 'discount_kids')
-  final bool? discountKids;
-  @JsonKey(name: 'dernier_minute_reservation')
-  final String? lastMinuteReservation;
-  @JsonKey(name: 'name_guide')
-  final String nameGuide;
-  @JsonKey(name: 'description_guide')
-  final String descriptionGuide;
-  @JsonKey(name: 'createdAt')
-  final String createdAt;
 
   factory ExperienceDataResponse.fromJson(Map<String, dynamic> json) =>
       _$ExperienceDataResponseFromJson(json);
 }
 
-@JsonSerializable()
-class Photo {
-  const Photo({
-    required this.photoUrl,
-    required this.typeImage,
-  });
+@JsonSerializable(createToJson: false)
+class Category {
+  final int id;
+  final String choix;
+  final String svg;
 
-  @JsonKey(name: 'photo_url')
-  final String photoUrl;
+  Category({required this.id, required this.choix, required this.svg});
 
-  @JsonKey(name: 'type_image')
-  final String typeImage;
-
-  factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
+class Language {
+  final int id;
+  final String choix;
+  final String svg;
+
+  Language({required this.id, required this.choix, required this.svg});
+
+  factory Language.fromJson(Map<String, dynamic> json) =>
+      _$LanguageFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
 class Planning {
-  const Planning({
+  final String startDate;
+  final String endDate;
+  final List<Schedule> schedules;
+
+  Planning({
     required this.startDate,
     required this.endDate,
     required this.schedules,
   });
 
-  @JsonKey(name: 'start_date')
-  final String startDate;
-  @JsonKey(name: 'end_date')
-  final String endDate;
-  @JsonKey(name: 'schedules')
-  final List<Schedule> schedules;
-
   factory Planning.fromJson(Map<String, dynamic> json) =>
       _$PlanningFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Schedule {
-  const Schedule({
-    required this.startTime,
-    required this.endTime,
-  });
-
-  @JsonKey(name: 'start_time')
   final String startTime;
-  @JsonKey(name: 'end_time')
   final String endTime;
+
+  Schedule({required this.startTime, required this.endTime});
 
   factory Schedule.fromJson(Map<String, dynamic> json) =>
       _$ScheduleFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Photo {
+  final String typeImage;
+  final String photoUrl;
+
+  Photo({required this.typeImage, required this.photoUrl});
+
+  factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class TravelerType {
+  final int id;
+  final String choix;
+  final String svg;
+
+  TravelerType({required this.id, required this.choix, required this.svg});
+
+  factory TravelerType.fromJson(Map<String, dynamic> json) =>
+      _$TravelerTypeFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Option {
+  final int id;
+  final String choix;
+  final String svg;
+
+  Option({required this.id, required this.choix, required this.svg});
+
+  factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);
 }

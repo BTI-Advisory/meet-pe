@@ -432,7 +432,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               widget.sendListMap['prix_par_voyageur'] = valueSlider.toInt();
                               widget.sendListMap['discount_kids_between_2_and_12'] = isKidsAvailable ? "1" : "0";
                               widget.sendListMap['support_group_prive'] = isGroupeAvailable ? "1" : "0";
-                              widget.sendListMap['max_number_of_persons'] = _counter.toInt();
+                              widget.sendListMap['max_group_size'] = _counter.toInt();
                               widget.sendListMap['price_group_prive'] = _textEditingControllerPriceGroup.text;
 
                               navigateTo(context, (_) => CreateExpStep10(sendListMap: widget.sendListMap));

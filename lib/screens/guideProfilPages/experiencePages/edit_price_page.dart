@@ -420,14 +420,14 @@ class _EditPricePageState extends State<EditPricePage> {
                                 Navigator.pop(context, {
                                   'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
                                   'discount_kids_between_2_and_12': 1,
-                                  'max_number_of_persons': _counter,
+                                  'max_group_size': _counter,
                                   'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
                                 });
                               } else {
                                 Navigator.pop(context, {
                                   'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
                                   'discount_kids_between_2_and_12': 0,
-                                  'max_number_of_persons': _counter,
+                                  'max_group_size': _counter,
                                   'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
                                 });
                               }

@@ -864,11 +864,10 @@ class ApiClient {
       'addresse': initialData['addresse'].toString(),
       'code_postale': initialData['code_postale'].toString(),
       'country': initialData['country'].toString(),
-      //'experience_id': initialData['experience_id'].toString(),
       'support_group_prive': initialData['support_group_prive'].toString(),
       'discount_kids_between_2_and_12': initialData['discount_kids_between_2_and_12'].toString(),
       'price_group_prive': initialData['price_group_prive'].toString(),
-      'max_number_of_persons': initialData['max_number_of_persons'].toString(),
+      'max_group_size': initialData['max_group_size'].toString(),
       'dernier_minute_reservation': dernierMinuteReservationString,
       if (horairesJson != null) 'horaires': horairesJson,
     };
@@ -1573,7 +1572,6 @@ class ApiClient {
     }
   }
 
-
   /// Mark a get of experience detail
   Future<ExperienceDataResponse> getExperienceDetail(int experienceID) async {
     final data = {
@@ -1661,7 +1659,7 @@ class ApiClient {
 
     if (data.prixParVoyageur != null) request.fields['prix_par_voyageur'] = data.prixParVoyageur.toString();
     if (data.priceGroupPrive != null) request.fields['price_group_prive'] = data.priceGroupPrive.toString();
-    if (data.maxNumberOfPersons != null) request.fields['max_number_of_persons'] = data.maxNumberOfPersons.toString();
+    if (data.maxNumberOfPersons != null) request.fields['max_group_size'] = data.maxNumberOfPersons.toString();
     if (data.discountKidsBetween2And12 != null) request.fields['discount_kids_between_2_and_12'] = data.discountKidsBetween2And12.toString();
 
     // Helper function to add image if path is valid

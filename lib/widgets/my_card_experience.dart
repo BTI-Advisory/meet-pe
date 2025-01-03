@@ -43,7 +43,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                   WidgetMask(
                     blendMode: BlendMode.srcATop,
                     childSaveLayer: true,
-                    mask: Image.network(widget.guideExperiencesResponse.mainPhoto.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
+                    mask: Image.network(widget.guideExperiencesResponse.photoprincipal.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
                     child: Image.asset(
                       'images/mask_picture.png',
                       width: 68,
