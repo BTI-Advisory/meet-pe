@@ -77,7 +77,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
               child: Text('Supprimer'),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
-                _deleteExperience(widget.experienceData.id); // Delete the experience
+                _deleteExperience(int.parse(widget.experienceData.id)); // Delete the experience
                 Navigator.maybePop(context); // Navigate back if possible
               },
             ),
@@ -145,7 +145,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     width: ResponsiveSize.calculateWidth(
                                         427, context),
                                     height: 592,
-                                    child: updatePhotoPrincipal ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(widget.experienceData.mainPhoto.photoUrl, fit: BoxFit.cover)
+                                    child: updatePhotoPrincipal ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(widget.experienceData.photoprincipal.photoUrl, fit: BoxFit.cover)
                                 ),
                               ),
 
@@ -184,7 +184,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => EditPhotoPage(
-                                            imagePrincipal: widget.experienceData.mainPhoto.photoUrl,
+                                            imagePrincipal: widget.experienceData.photoprincipal.photoUrl,
                                             image1: photos.length > 0 ? photos[0].photoUrl ?? '' : '',
                                             image2: photos.length > 1 ? photos[1].photoUrl ?? '' : '',
                                             image3: photos.length > 2 ? photos[2].photoUrl ?? '' : '',
@@ -270,7 +270,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                   onTap: () async {
                                     print('Edit availabilities');
 
-                                    if(widget.experienceData.duration == "1d") {
+                                    if(widget.experienceData.duree == "1d") {
                                       // Navigate to the EditAvailabilitiesPage and wait for the result
                                       final result = await Navigator.push(
                                         context,
@@ -295,7 +295,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         MaterialPageRoute(
                                           builder: (context) => EditAvailabilitiesRangeDatePage(
                                             planning: widget.experienceData.planning,
-                                            duration: widget.experienceData.duration,
+                                            duration: widget.experienceData.duree!,
                                           ),
                                         ),
                                       );
@@ -340,7 +340,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        widget.experienceData.categories[0],
+                                        widget.experienceData.categories[0].choix,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -371,7 +371,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '${data.prixParVoyageur ?? widget.experienceData.pricePerTraveler}€/pers',
+                                            '${data.prixParVoyageur ?? widget.experienceData.prixParVoyageur}€/pers',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge
@@ -399,8 +399,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               if (result.containsKey('discount_kids_between_2_and_12')) {
                                                 data.discountKidsBetween2And12 = result['discount_kids_between_2_and_12'].toString();
                                               }
-                                              if (result.containsKey('max_number_of_persons')) {
-                                                data.maxNumberOfPersons = result['max_number_of_persons'];
+                                              if (result.containsKey('max_group_size')) {
+                                                data.maxNumberOfPersons = result['max_group_size'];
                                               }
                                               if (result.containsKey('price_group_prive')) {
                                                 data.priceGroupPrive = result['price_group_prive'];
@@ -490,7 +490,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                       return Padding(
                                                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                                         child: Image.network(
-                                                          url,
+                                                          url.svg,
                                                           height: 20.0,
                                                           width: 20.0,
                                                           fit: BoxFit.cover,
@@ -803,7 +803,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                       ),
                       onPressed: () async {
                         ///Todo: Remove this comment when Api is modify
-                        await AppService.api.updateDataExperience(widget.experienceData.id, data);
+                        await AppService.api.updateDataExperience(int.parse(widget.experienceData.id), data);
                         Navigator.maybePop(context);
                       },
                       child: Text(
