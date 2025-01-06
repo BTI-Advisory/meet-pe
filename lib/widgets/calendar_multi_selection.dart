@@ -55,7 +55,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: bloc.sendScheduleMultiSelection,
           onSuccess: () async {
             _onCalendarAdded();
           },
@@ -303,7 +303,7 @@ class CalendarMultiSelectionBloc with Disposable {
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> sendScheduleAbsence() async {
+  Future<bool> sendScheduleMultiSelection() async {
     return true;
   }
 

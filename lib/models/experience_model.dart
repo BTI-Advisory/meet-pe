@@ -40,7 +40,7 @@ class Experience {
   final String? prixParGroup;
   final String? discountKids;
   final String? prixParEnfant;
-  final String? dernierMinuteReservation;
+  final List<DernierMinute> dernierMinuteReservation;
   final String nameGuide;
   final String descriptionGuide;
 
@@ -67,7 +67,7 @@ class Experience {
     this.prixParGroup,
     this.discountKids,
     this.prixParEnfant,
-    this.dernierMinuteReservation,
+    required this.dernierMinuteReservation,
     required this.nameGuide,
     required this.descriptionGuide
   });
@@ -158,4 +158,16 @@ class Option {
   Option({required this.id, required this.choix, required this.svg});
 
   factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class DernierMinute {
+  final int id;
+  final String choix;
+  final String svg;
+
+  DernierMinute({required this.id, required this.choix, required this.svg});
+
+  factory DernierMinute.fromJson(Map<String, dynamic> json) =>
+      _$DernierMinuteFromJson(json);
 }

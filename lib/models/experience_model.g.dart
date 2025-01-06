@@ -49,7 +49,9 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       prixParGroup: json['prix_par_group'] as String?,
       discountKids: json['discount_kids'] as String?,
       prixParEnfant: json['prix_par_enfant'] as String?,
-      dernierMinuteReservation: json['dernier_minute_reservation'] as String?,
+      dernierMinuteReservation: (json['dernier_minute_reservation'] as List<dynamic>)
+          .map((e) => DernierMinute.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nameGuide: json['name_guide'] as String,
       descriptionGuide: json['description_guide'] as String,
     );
@@ -95,3 +97,9 @@ Option _$OptionFromJson(Map<String, dynamic> json) => Option(
       choix: json['choix'] as String,
       svg: json['svg'] as String,
     );
+
+DernierMinute _$DernierMinuteFromJson(Map<String, dynamic> json) => DernierMinute(
+      id: (json['id'] as num).toInt(),
+      choix: json['choix'] as String,
+      svg: json['svg'] as String,
+);

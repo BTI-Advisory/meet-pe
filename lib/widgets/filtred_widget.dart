@@ -119,7 +119,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          //onValidated: bloc.sendScheduleAbsence,
+          //onValidated: bloc.sendSchedule,
           onSuccess: () async {
             //_onFilterAdded();
           },

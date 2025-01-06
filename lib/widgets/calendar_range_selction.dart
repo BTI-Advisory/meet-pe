@@ -51,7 +51,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: bloc.sendScheduleRangeSelection,
           onSuccess: () async {
             _onRangeAdded();
           },
@@ -338,33 +338,7 @@ class CalendarRangeSelectionBloc with Disposable {
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> sendScheduleAbsence() async {
-
-    /*Absence absence = Absence(day: '', dayFrom: dayFrom, dayTo: dayTo);
-
-    if(dayTo == '') {
-      // Create an Absence object
-      absence = Absence(
-        day: dayFrom,
-        dayFrom: '',
-        dayTo: '',
-      );
-    } else {
-      // Create an Absence object
-      absence = Absence(
-        day: '',
-        dayFrom: dayFrom,
-        dayTo: dayTo,
-      );
-    }
-
-
-
-    // Convert the Availability object to JSON
-    Map<String, dynamic> json = absence.toJson();
-
-    bool isCreated = await AppService.api.sendScheduleAbsence(json);
-    return isCreated;*/
+  Future<bool> sendScheduleRangeSelection() async {
     return true;
   }
 
