@@ -45,7 +45,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: bloc.sendSchedule,
           onSuccess: () async {
             _onDateAdded();
           },
@@ -283,7 +283,7 @@ class CalendarMatchingBloc with Disposable {
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> sendScheduleAbsence() async {
+  Future<bool> sendSchedule() async {
 
     SearchByDate absence = SearchByDate(dayFrom: dayFrom, dayTo: dayTo);
 
@@ -303,9 +303,6 @@ class CalendarMatchingBloc with Disposable {
 
     // Convert the Availability object to JSON
     Map<String, dynamic> json = absence.toJson();
-
-    //bool isCreated = await AppService.api.sendScheduleAbsence(json);
-    //return isCreated;
     return true;
   }
 
