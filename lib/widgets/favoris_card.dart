@@ -7,8 +7,9 @@ import '../resources/resources.dart';
 import '../services/app_service.dart';
 
 class FavorisCard extends StatefulWidget {
-  const FavorisCard({super.key, required this.favorisResponse});
+  const FavorisCard({super.key, required this.favorisResponse, required this.onRemoveFavorite});
   final FavorisDataResponse favorisResponse;
+  final void Function(FavorisDataResponse) onRemoveFavorite; // Callback to notify parent
 
   @override
   _FavorisCardState createState() => _FavorisCardState();
@@ -63,6 +64,8 @@ class _FavorisCardState extends State<FavorisCard> {
               const SizedBox(width: 43),
               IconButton(
                 onPressed: () {
+                  // Notify the parent widget that the experience is removed
+                  widget.onRemoveFavorite(widget.favorisResponse);
                   AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", context);
                 },
                 icon: SvgPicture.asset('images/heart_outlined_fill.svg'),

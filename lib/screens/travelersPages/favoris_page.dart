@@ -17,8 +17,8 @@ class FavorisPage extends StatefulWidget {
 class _FavorisPageState extends State<FavorisPage> {
   late FavorisDataResponse favorisResponse;
   TextEditingController editingController = TextEditingController();
-  List<FavorisDataResponse>? initialList;
-  List<FavorisDataResponse>? items;
+  late List<FavorisDataResponse> initialList = [];
+  late List<FavorisDataResponse> items = [];
 
   @override
   void initState() {
@@ -48,10 +48,19 @@ class _FavorisPageState extends State<FavorisPage> {
         items = List.from(initialList ?? []);
       } else {
         items = items
-            ?.where((item) =>
+            .where((item) =>
                 item.experience.title.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
+    });
+  }
+
+  // Callback to remove the favorite experience
+  void removeFavorite(FavorisDataResponse favoris) {
+    setState(() {
+      // Remove the experience from both 'items' and 'initialList'
+      items.removeWhere((item) => item.id == favoris.id);
+      initialList.removeWhere((item) => item.id == favoris.id);
     });
   }
 
@@ -109,7 +118,7 @@ class _FavorisPageState extends State<FavorisPage> {
                 ),
                 SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
                 Column(
-                  children: (items == null)
+                  children: (items.isEmpty)
                       ? [
                           SizedBox(
                             height:
@@ -127,15 +136,25 @@ class _FavorisPageState extends State<FavorisPage> {
                           ),
                         ]
                       : List.generate(
-                          items!.length,
+                          items.length,
                           (index) => GestureDetector(
-                            onTap: () {
-                              navigateTo(
-                                  context,
-                                  (_) => FavorisDetailPage(
-                                      favorisResponse: items![index]));
+                            onTap: () async {
+                              final bool? shouldRefresh = await navigateTo(
+                                context,
+                                    (_) => FavorisDetailPage(favorisResponse: items[index]),
+                              );
+
+                              if (shouldRefresh == true) {
+                                print("Refreshing favorite experiences.");
+                                await loadFavoriteExperiences(); // Reload the list
+                              } else {
+                                print("No refresh needed.");
+                              }
                             },
-                            child: FavorisCard(favorisResponse: items![index]),
+                            child: FavorisCard(
+                              favorisResponse: items[index],
+                              onRemoveFavorite: removeFavorite, // Pass the callback
+                            ),
                           ),
                         ),
                 ),

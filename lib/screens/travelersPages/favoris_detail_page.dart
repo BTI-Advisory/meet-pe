@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meet_pe/resources/_resources.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../utils/responsive_size.dart';
 import '../../models/favoris_data_response.dart';
+import '../../services/app_service.dart';
+import '../../utils/_utils.dart';
+import '../../widgets/_widgets.dart';
 
 class FavorisDetailPage extends StatefulWidget {
   FavorisDetailPage({super.key, required this.favorisResponse});
@@ -19,9 +22,80 @@ class FavorisDetailPage extends StatefulWidget {
 }
 
 class _FavorisDetailPageState extends State<FavorisDetailPage> {
+  late final ValueNotifier<List<Event>> _selectedEvents;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
+  final Map<DateTime, List<Event>> _customEventList = {};
+
   @override
   void initState() {
     super.initState();
+
+    // Initialize selected day and events
+    _selectedDay = _focusedDay;
+
+    // Populate _customEventList with planning data from API
+    _populateEventListFromPlanning();
+
+    // Initialize the ValueNotifier with events for the current selected day
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  /// Populate the custom event list from planning data
+  void _populateEventListFromPlanning() {
+    // Extract planning from the API response
+    final planningList = widget.favorisResponse.experience.planning;
+
+    if (planningList != null) {
+      // Loop through all schedules within the planning
+      for (final planning in planningList) {
+        final startDate = DateTime.parse(planning.startDate);
+        final endDate = DateTime.parse(planning.endDate);
+
+        // Iterate through the range of dates from startDate to endDate
+        for (DateTime currentDate = startDate;
+        currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+        currentDate = currentDate.add(const Duration(days: 1))) {
+          // Map each schedule to the current date
+          for (final schedule in planning.schedules) {
+            final event = Event(
+              currentDate.toIso8601String(),
+              '${schedule.startTime} - ${schedule.endTime}',
+            );
+
+            // If the date already has events, append the new one; otherwise, create a new list
+            if (_customEventList.containsKey(currentDate)) {
+              _customEventList[currentDate]!.add(event);
+            } else {
+              _customEventList[currentDate] = [event];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return _customEventList[DateTime(day.year, day.month, day.day)] ?? [];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+      });
+
+      _selectedEvents.value = _getEventsForDay(selectedDay);
+    }
   }
 
   @override
@@ -205,7 +279,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '${widget.favorisResponse.experience.prixParVoyageur}€/pers',
+                                        '${double.parse(widget.favorisResponse.experience.prixParVoyageur ?? '0').toInt()}€/pers',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -261,9 +335,43 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      width: ResponsiveSize.calculateWidth(
-                                          8, context)),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+                                  IntrinsicWidth(
+                                    child: Container(
+                                      height: 28,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                          ResponsiveSize.calculateWidth(
+                                              12, context)),
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        border: Border.all(
+                                            color:
+                                            AppResources.colorBeigeLight),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset('images/emoji_language.svg'),
+                                            SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                            ...widget.favorisResponse.experience.languages.map((url) {
+                                              return Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                child: Image.network(
+                                                  url.svg,
+                                                  height: 20.0,
+                                                  width: 20.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
@@ -299,6 +407,70 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             color: AppResources.colorDark),
                       ),
                     ),
+                  ),
+                  SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                  Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                      runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                      children: [
+                        ...widget.favorisResponse.experience.typeVoyageur.map((item) {
+                          return IntrinsicWidth(
+                            child: Container(
+                              height: 40,
+                              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(color: AppResources.colorDark),
+                              ),
+                              child: Row(
+                                children: [
+                                  if (item.svg.isNotEmpty)
+                                    Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                  if (item.svg.isNotEmpty)
+                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                  Text(
+                                    item.choix,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorDark),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        ...widget.favorisResponse.experience.options.map((item) {
+                          return IntrinsicWidth(
+                            child: Container(
+                              height: 40,
+                              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(color: AppResources.colorDark),
+                              ),
+                              child: Row(
+                                children: [
+                                  if (item.svg.isNotEmpty)
+                                    Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                  if (item.svg.isNotEmpty)
+                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                  Text(
+                                    item.choix,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorDark),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ]
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
                   Container(
@@ -348,7 +520,90 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 34),
+                  const SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tarifs de l’expérience',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(color: AppResources.colorDark),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Prix par adulte",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                            ),
+                            Text(
+                              "${double.parse(widget.favorisResponse.experience.prixParVoyageur ?? '0').toInt()} €",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: AppResources.colorDark),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        if (widget.favorisResponse.experience.discountKids == "1")
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Prix par enfant",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                              ),
+                              Text(
+                                "${widget.favorisResponse.experience.prixParEnfant} €",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: AppResources.colorDark),
+                              ),
+                            ],
+                          ),
+                        const SizedBox(height: 12),
+                        if (widget.favorisResponse.experience.supportGroupPrive == "1")
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Prix de groupe (à partir de ${widget.favorisResponse.experience.nombreVoyageur} personnes)",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                              ),
+                              Text(
+                                "${widget.favorisResponse.experience.prixParGroup} €",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: AppResources.colorDark),
+                              ),
+                            ],
+                          ),
+                        const SizedBox(height: 12),
+                        Container(
+                          height: 1,
+                          color: AppResources.colorGray15,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(319, context),
                     child: Text(
@@ -375,6 +630,108 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                       }
                     }).toList(),
                   ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 34),
+                        Text(
+                          'Réserve ta date',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(color: AppResources.colorDark),
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  ResponsiveSize.calculateCornerRadius(
+                                      12, context)),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x3F000000),
+                                blurRadius: 4,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: TableCalendar<Event>(
+                            headerStyle: HeaderStyle(
+                              titleTextStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                  color: AppResources.colorDark,
+                                  fontWeight: FontWeight.w700),
+                              formatButtonShowsNext: false,
+                              formatButtonVisible: false,
+                              titleCentered: true,
+                              headerPadding: EdgeInsets.only(
+                                  bottom: ResponsiveSize.calculateHeight(
+                                      16, context)),
+                              headerMargin: EdgeInsets.zero,
+                            ),
+                            firstDay: kFirstDay,
+                            lastDay: kLastDay,
+                            focusedDay: _focusedDay,
+                            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                            calendarFormat: _calendarFormat,
+                            eventLoader: _getEventsForDay,
+                            startingDayOfWeek: StartingDayOfWeek.monday,
+                            onDaySelected: _onDaySelected,
+                            onPageChanged: (focusedDay) {
+                              _focusedDay = focusedDay;
+                            },
+                            calendarStyle: CalendarStyle(
+                              selectedDecoration: BoxDecoration(
+                                color: AppResources.colorWhite,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: AppResources.colorVitamine,
+                                  width: 1.0,
+                                ),
+                              ),
+                              selectedTextStyle: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                  fontSize: 14,
+                                  color: AppResources.colorVitamine),
+                              markersMaxCount: 1,
+                              markerDecoration: const BoxDecoration(
+                                color: AppResources.colorVitamine,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Container(
+                          height: 350,
+                          child: ValueListenableBuilder<List<Event>>(
+                            valueListenable: _selectedEvents,
+                            builder: (context, value, _) {
+                              if (value.isEmpty) {
+                                return Center(
+                                  child: Text('No events for this day.'),
+                                );
+                              } else {
+                                return EventDetails(events: value, experienceData: widget.favorisResponse.experience,);
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 60),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -391,7 +748,10 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
               borderRadius: BorderRadius.circular(22),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", context);
+                Navigator.of(context).pop(true);
+              },
               icon: SvgPicture.asset('images/heart-filled.svg',),
             ),
           ),

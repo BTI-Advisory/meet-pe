@@ -7,7 +7,7 @@ import '../utils/_utils.dart';
 
 class EventDetails extends StatelessWidget {
   final List<Event> events;
-  final ExperienceModel experienceData;
+  final Experience experienceData;
 
   const EventDetails({Key? key, required this.events, required this.experienceData}) : super(key: key);
 
