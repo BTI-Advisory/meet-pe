@@ -33,6 +33,7 @@ import '../main.dart';
 import '../models/availability_list_response.dart';
 import '../models/code_validation_response.dart';
 import '../models/experience_model.dart';
+import '../models/favoris_data_response.dart';
 import '../models/modify_experience_data_model.dart';
 import '../models/register_response.dart';
 import '../models/matching_api_request_builder.dart';
@@ -732,6 +733,40 @@ class ApiClient {
         rethrow;
       }
     }();
+  }
+
+  /// Mark a get list favorite experience
+  /*Future<List<FavorisDataResponse>> getFavoriteExperience() async {
+    // Send request
+    final response = await () async {
+      try {
+        return await _send<List<dynamic>>(_httpMethodGet, 'api/get-favorite-experience-list');
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          throw const DisplayableException(
+              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
+    return response!.map((json) => FavorisDataResponse.fromJson(json as Map<String, dynamic>)).toList();
+  }*/
+  Future<List<FavorisDataResponse>> getFavoriteExperience() async {
+    final Map<String, String> headers = {
+      'Accept': 'application/json',
+      'api-key': '$_apiKey',
+      'Authorization': 'Bearer ${await SecureStorageService.readAccessToken()}' ?? 'none',
+    };
+
+    final response = await http.get(_buildUri('api/get-favorite-experience-list'), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => FavorisDataResponse.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load experiences');
+    }
   }
 
   /// Mark a get matching list

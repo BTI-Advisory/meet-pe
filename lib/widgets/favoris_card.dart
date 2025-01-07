@@ -40,7 +40,7 @@ class _FavorisCardState extends State<FavorisCard> {
               WidgetMask(
                 blendMode: BlendMode.srcATop,
                 childSaveLayer: true,
-                mask: Image.network(widget.favorisResponse.mainPhoto ?? '', width: 68, height: 68, fit: BoxFit.cover),
+                mask: Image.network(widget.favorisResponse.experience.photoprincipal.photoUrl ?? '', width: 68, height: 68, fit: BoxFit.cover),
                 child: Image.asset(
                   'images/mask_picture.png',
                   width: 68,
@@ -51,7 +51,7 @@ class _FavorisCardState extends State<FavorisCard> {
               SizedBox(
                 width: 176,
                 child: Text(
-                  widget.favorisResponse.title,
+                  widget.favorisResponse.experience.title,
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall
@@ -63,7 +63,7 @@ class _FavorisCardState extends State<FavorisCard> {
               const SizedBox(width: 43),
               IconButton(
                 onPressed: () {
-                  AppService.api.setFavoriteExperience(int.parse("widget.experienceData.experience.id"), "remove", context);
+                  AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", context);
                 },
                 icon: SvgPicture.asset('images/heart_outlined_fill.svg'),
               ),
