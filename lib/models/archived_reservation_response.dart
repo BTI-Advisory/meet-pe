@@ -11,7 +11,7 @@ class ArchivedReservationResponse {
   final String status;
   final int experienceId;
   final Voyageur voyageur;
-  final Experience experience;
+  final Experiencess experience;
 
   ArchivedReservationResponse({
     required this.id,
@@ -31,7 +31,7 @@ class ArchivedReservationResponse {
     var voyageurJson = json['voyageur'] as Map<String, dynamic>;
     Voyageur voyageur = Voyageur.fromJson(voyageurJson);
     var experienceJson = json['experience'] as Map<String, dynamic>;
-    Experience experience = Experience.fromJson(experienceJson);
+    Experiencess experience = Experiencess.fromJson(experienceJson);
 
     return ArchivedReservationResponse(
       id: json['id'],
@@ -120,7 +120,7 @@ class Voyageur {
   }
 }
 
-class Experience {
+class Experiencess {
   final int id;
   final String title;
   final String description;
@@ -145,7 +145,7 @@ class Experience {
   //final String lang;
   //final String lat;
 
-  Experience({
+  Experiencess({
     required this.id,
     required this.title,
     required this.description,
@@ -171,8 +171,8 @@ class Experience {
     //required this.lat,
   });
 
-  factory Experience.fromJson(Map<String, dynamic> json) {
-    return Experience(
+  factory Experiencess.fromJson(Map<String, dynamic> json) {
+    return Experiencess(
       id: json['id'],
       title: json['title'],
       description: json['description'],

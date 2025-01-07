@@ -10,7 +10,7 @@ import '../../widgets/themed/ep_app_bar.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({Key? key, required this.experienceData, required this.date, required this.time}) : super(key: key);
-  final ExperienceModel experienceData;
+  final Experience experienceData;
   final String date;
   final String time;
 
@@ -65,15 +65,15 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
 
   String calculPrice(int numberAdult, int numberKids) {
     // Retrieve prices
-    final prixParVoyageur = widget.experienceData.experience.prixParVoyageur;
-    final prixParEnfant = widget.experienceData.experience.prixParEnfant;
+    final prixParVoyageur = widget.experienceData.prixParVoyageur;
+    final prixParEnfant = widget.experienceData.prixParEnfant;
 
     // Check if prixParVoyageur is null
     if (prixParVoyageur == null) {
       return "0"; // Default value if prixParVoyageur is null
     }
 
-    if (widget.experienceData.experience.discountKids == "1") {
+    if (widget.experienceData.discountKids == "1") {
       // Check if prixParEnfant is null
       if (prixParEnfant == null) {
         return "0"; // Default value if prixParEnfant is null
@@ -105,7 +105,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.experienceData.experience.title,
+                    widget.experienceData.title,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -129,7 +129,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ?.copyWith(color: AppResources.colorDark),
                   ),
                   const SizedBox(height: 24,),
-                  if (widget.experienceData.experience.supportGroupPrive == "1")
+                  if (widget.experienceData.supportGroupPrive == "1")
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,7 +480,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         onPressed: () {
                           final _makeReservation = AppService.api.makeReservation(
                             ReservationRequest(
-                              experienceId: int.parse(widget.experienceData.experience.id),
+                              experienceId: int.parse(widget.experienceData.id),
                               dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
                               voyageursAdultes: _counter,
                               voyageursEnfants: _counterChild,

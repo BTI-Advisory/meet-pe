@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'experience_data_response.dart';
+import 'experience_model.dart';
 
 part 'favoris_data_response.g.dart';
 
@@ -8,7 +8,7 @@ class FavorisDataResponse {
   final int id;
   final int experienceId;
   final int userId;
-  final ExperienceDataResponse experience;
+  final Experience experience;
   final String createdAt;
 
   FavorisDataResponse({
