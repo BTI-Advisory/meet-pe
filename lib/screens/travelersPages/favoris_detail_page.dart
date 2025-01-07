@@ -60,7 +60,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                   height: ResponsiveSize.calculateHeight(
                                       592, context),
                                   child: Image.network(
-                                    widget.favorisResponse.mainPhoto,
+                                    widget.favorisResponse.experience.photoprincipal.photoUrl,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -177,7 +177,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        widget.favorisResponse.categories[0],
+                                        widget.favorisResponse.experience.categories[0].choix,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -205,7 +205,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '${widget.favorisResponse.pricePerTraveler}€/pers',
+                                        '${widget.favorisResponse.experience.prixParVoyageur}€/pers',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -264,49 +264,6 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                   SizedBox(
                                       width: ResponsiveSize.calculateWidth(
                                           8, context)),
-                                  if (widget
-                                      .favorisResponse.isProfessionalGuide)
-                                    IntrinsicWidth(
-                                      child: Container(
-                                        height: 28,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                ResponsiveSize.calculateWidth(
-                                                    12, context)),
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                          border: Border.all(
-                                              color:
-                                                  AppResources.colorBeigeLight),
-                                        ),
-                                        child: Center(
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                  'images/icon_badge.png'),
-                                              SizedBox(
-                                                  width: ResponsiveSize
-                                                      .calculateWidth(
-                                                          4, context)),
-                                              Text(
-                                                'Pro',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.copyWith(
-                                                      color: AppResources
-                                                          .colorBeigeLight,
-                                                      fontSize: 12,
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                 ],
                               )
                             ],
@@ -322,7 +279,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(319, context),
                     child: Text(
-                      widget.favorisResponse.title,
+                      widget.favorisResponse.experience.title,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
@@ -336,7 +293,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                     child: Opacity(
                       opacity: 0.50,
                       child: Text(
-                        widget.favorisResponse.description,
+                        widget.favorisResponse.experience.description,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.w400,
                             color: AppResources.colorDark),
@@ -368,7 +325,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                         SizedBox(
                           width: 318,
                           child: Text(
-                            'Un mot sur ${widget.favorisResponse.guideName}',
+                            'Un mot sur ${widget.favorisResponse.experience.nameGuide}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -381,7 +338,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                         SizedBox(
                           width: 319,
                           child: Text(
-                            widget.favorisResponse.aboutGuide,
+                            widget.favorisResponse.experience.descriptionGuide,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -407,38 +364,16 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                     crossAxisCount: 4,
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
-                    children: [
-                      if (widget.favorisResponse.image0 != null)
-                        StaggeredGridTile.fit(
+                    children: widget.favorisResponse.experience.photos.map((photo) {
+                      if (photo.photoUrl != null && photo.photoUrl.isNotEmpty) {
+                        return StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
-                          child: Image.network(widget.favorisResponse.image0!,
-                              fit: BoxFit.cover),
-                        ),
-                      if (widget.favorisResponse.image1 != null)
-                        StaggeredGridTile.fit(
-                          crossAxisCellCount: 4,
-                          child: Image.network(widget.favorisResponse.image1!,
-                              fit: BoxFit.cover),
-                        ),
-                      if (widget.favorisResponse.image2 != null)
-                        StaggeredGridTile.fit(
-                          crossAxisCellCount: 4,
-                          child: Image.network(widget.favorisResponse.image2!,
-                              fit: BoxFit.cover),
-                        ),
-                      if (widget.favorisResponse.image3 != null)
-                        StaggeredGridTile.fit(
-                          crossAxisCellCount: 4,
-                          child: Image.network(widget.favorisResponse.image3!,
-                              fit: BoxFit.cover),
-                        ),
-                      if (widget.favorisResponse.image4 != null)
-                        StaggeredGridTile.fit(
-                          crossAxisCellCount: 4,
-                          child: Image.network(widget.favorisResponse.image4!,
-                              fit: BoxFit.cover),
-                        ),
-                    ],
+                          child: Image.network(photo.photoUrl, fit: BoxFit.cover),
+                        );
+                      } else {
+                        return const SizedBox.shrink(); // Return an empty widget if photoUrl is null or empty
+                      }
+                    }).toList(),
                   ),
                 ],
               ),

@@ -895,7 +895,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/privacy'));
+                            navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://www.meetpe.fr/privacy/'));
                           },
                           child: accountRowDefault('sécurité & vie privée', '', true),
                         ),
