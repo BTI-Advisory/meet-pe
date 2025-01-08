@@ -1393,14 +1393,18 @@ class ApiClient {
   }
 
   /// Mark a set schedule absence
-  Future<bool> sendScheduleAbsence(Map<String, dynamic> absenceData) async {
+  Future<bool> sendScheduleAbsence(String dayFrom, String dayTo) async {
     bool isCreated = false;
+    final data = {
+      'day_from': dayFrom,
+      'day_to': dayTo,
+    };
 
     // Send request
     final response = await () async {
       try {
         return await _send<JsonObject>(_httpMethodPost, 'api/set-schedule-absence',
-            bodyJson: absenceData);
+            bodyJson: data);
       } catch (e) {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {
@@ -1421,14 +1425,19 @@ class ApiClient {
   }
 
   /// Mark a set update schedule absence
-  Future<bool> updateScheduleAbsence(Map<String, dynamic> absenceData) async {
+  Future<bool> updateScheduleAbsence(int id, String dayFrom, String dayTo) async {
     bool isCreated = false;
+    final data = {
+      'id': id,
+      'day_from': dayFrom,
+      'day_to': dayTo,
+    };
 
     // Send request
     final response = await () async {
       try {
         return await _send<JsonObject>(_httpMethodPost, 'api/update-schedule-absence',
-            bodyJson: absenceData);
+            bodyJson: data);
       } catch (e) {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {

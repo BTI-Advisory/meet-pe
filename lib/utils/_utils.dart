@@ -2,7 +2,6 @@ export 'abstracts/bloc_provider.dart';
 export 'abstracts/disposable.dart';
 export 'audio_player.dart';
 export 'audio_recorder.dart';
-export 'availability.dart';
 export 'countdown_timer.dart';
 export 'extensions.dart';
 export 'message.dart';
