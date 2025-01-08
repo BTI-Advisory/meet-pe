@@ -388,3 +388,18 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
 }
+
+class SearchByDate {
+  String dayFrom;
+  String dayTo;
+
+  SearchByDate({
+    required this.dayFrom,
+    required this.dayTo,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'day_from': dayFrom,
+    'day_to': dayTo,
+  };
+}

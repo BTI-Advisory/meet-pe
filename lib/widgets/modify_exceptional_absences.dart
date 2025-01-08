@@ -345,37 +345,11 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
 
 class ExceptionalAbsencesBloc with Disposable {
   int id = 0;
-  String day = '';
   String dayFrom = '';
   String dayTo = '';
 
   Future<bool> updateScheduleAbsence() async {
-
-    ModifyAbsence absence = ModifyAbsence(id: id, day: '', dayFrom: dayFrom, dayTo: dayTo);
-
-    if(dayTo == '') {
-      // Create an Absence object
-      absence = ModifyAbsence(
-        id: id,
-        day: dayFrom,
-        dayFrom: '',
-        dayTo: '',
-      );
-    } else {
-      // Create an Absence object
-      absence = ModifyAbsence(
-        id: id,
-        day: '',
-        dayFrom: dayFrom,
-        dayTo: dayTo,
-      );
-    }
-
-
-    // Convert the Availability object to JSON
-    Map<String, dynamic> json = absence.toJson();
-
-    bool isCreated = await AppService.api.updateScheduleAbsence(json);
+    bool isCreated = await AppService.api.updateScheduleAbsence(id, dayFrom, dayTo);
     return isCreated;
   }
 
