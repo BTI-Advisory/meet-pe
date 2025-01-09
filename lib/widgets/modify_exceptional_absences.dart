@@ -35,6 +35,72 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
 
   bool isRangeSelected = false;
 
+  void showCustomDialog(BuildContext context, String info) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Warning Icon
+                const Icon(
+                  Icons.warning_amber,
+                  size: 40,
+                  color: Colors.black,
+                ),
+                const SizedBox(height: 8),
+                // Warning Message
+                Text(
+                  info,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(
+                      color: AppResources.colorDark),
+                ),
+                const SizedBox(height: 19),
+                // Button to modify
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppResources.colorVitamine,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
+                  ),
+                  child: Text(
+                    "MODIFIER L'HORAIRE",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(
+                        color: AppResources.colorWhite),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,10 +114,27 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.updateScheduleAbsence,
+          onValidated: () async {
+            try {
+              String isCreated = await bloc.updateScheduleAbsence();
+              if (isCreated == "Une absence avec ces dates existe déjà.") {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                });
+              } else if (isCreated == "Vous avez au moins une expérience déjà bookée ce jour.") {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                });
+              } else {
+                widget.onAbsenceModified();
+                Navigator.pop(context);
+              }
+            } catch (e) {
+              print("Error: $e");
+            }
+          },
           onSuccess: () async {
-            widget.onAbsenceModified();
-            Navigator.pop(context);
+            //_onAbsenceAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -203,9 +286,9 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                         ),
                         const SizedBox(height: 27),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: 145,
                               height: 44,
                               child: TextButton(
                                 style: ButtonStyle(
@@ -276,9 +359,8 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 29),
+                            //const SizedBox(width: 29),
                             Container(
-                              width: 145,
                               height: 44,
                               child: TextButton(
                                 style: ButtonStyle(
@@ -348,9 +430,9 @@ class ExceptionalAbsencesBloc with Disposable {
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> updateScheduleAbsence() async {
-    bool isCreated = await AppService.api.updateScheduleAbsence(id, dayFrom, dayTo);
-    return isCreated;
+  Future<String> updateScheduleAbsence() async {
+    String response = await AppService.api.updateScheduleAbsence(id, dayFrom, dayTo);
+    return response;
   }
 
   Future<bool> deleteScheduleAbsence() async {

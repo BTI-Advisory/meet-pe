@@ -33,14 +33,97 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
     Navigator.pop(context, true);
   }
 
+  void showCustomDialog(BuildContext context, String info) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Warning Icon
+                const Icon(
+                  Icons.warning_amber,
+                  size: 40,
+                  color: Colors.black,
+                ),
+                const SizedBox(height: 8),
+                // Warning Message
+                Text(
+                  info,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(
+                      color: AppResources.colorDark),
+                ),
+                const SizedBox(height: 19),
+                // Button to modify
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppResources.colorVitamine,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
+                  ),
+                  child: Text(
+                    "MODIFIER L'HORAIRE",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(
+                        color: AppResources.colorWhite),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: AsyncForm(
-          onValidated: bloc.sendScheduleAbsence,
+          onValidated: () async {
+            try {
+              String isCreated = await bloc.sendScheduleAbsence();
+              if (isCreated == "Une absence avec ces dates existe déjà.") {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                });
+              } else if (isCreated == "Vous avez au moins une expérience déjà bookée ce jour.") {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                });
+              } else {
+                _onAbsenceAdded();
+              }
+            } catch (e) {
+              print("Error: $e");
+            }
+          },
           onSuccess: () async {
-            _onAbsenceAdded();
+            //_onAbsenceAdded();
           },
           builder: (context, validate) {
             return SingleChildScrollView(
@@ -317,9 +400,9 @@ class ExceptionalAbsencesBloc with Disposable {
   String dayFrom = '';
   String dayTo = '';
 
-  Future<bool> sendScheduleAbsence() async {
-    bool isCreated = await AppService.api.sendScheduleAbsence(dayFrom, dayTo);
-    return isCreated;
+  Future<String> sendScheduleAbsence() async {
+    String response = await AppService.api.sendScheduleAbsence(dayFrom, dayTo);
+    return response;
   }
 
   @override

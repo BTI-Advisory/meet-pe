@@ -1393,8 +1393,7 @@ class ApiClient {
   }
 
   /// Mark a set schedule absence
-  Future<bool> sendScheduleAbsence(String dayFrom, String dayTo) async {
-    bool isCreated = false;
+  Future<String> sendScheduleAbsence(String dayFrom, String dayTo) async {
     final data = {
       'day_from': dayFrom,
       'day_to': dayTo,
@@ -1415,18 +1414,11 @@ class ApiClient {
       }
     }();
 
-    if (VerifyCode.fromJson(response!).verified == 'absence has been saved successfully') {
-      isCreated = true;
-    } else {
-      isCreated = false;
-    }
-
-    return isCreated;
+    return VerifyCode.fromJson(response!).verified;
   }
 
   /// Mark a set update schedule absence
-  Future<bool> updateScheduleAbsence(int id, String dayFrom, String dayTo) async {
-    bool isCreated = false;
+  Future<String> updateScheduleAbsence(int id, String dayFrom, String dayTo) async {
     final data = {
       'id': id,
       'day_from': dayFrom,
@@ -1448,13 +1440,7 @@ class ApiClient {
       }
     }();
 
-    if (VerifyCode.fromJson(response!).verified == 'absence has been updated successfully') {
-      isCreated = true;
-    } else {
-      isCreated = false;
-    }
-
-    return isCreated;
+    return VerifyCode.fromJson(response!).verified;
   }
 
   /// Mark a set update schedule absence
