@@ -7,7 +7,6 @@ class GuideReservationResponse {
   final String messageAuGuide;
   final bool isPayed;
   final int voyageurId;
-  final int guidId;
   final String createdAt;
   final String updatedAt;
   final String? dure; // Make this optional to handle null values
@@ -23,7 +22,6 @@ class GuideReservationResponse {
     required this.messageAuGuide,
     required this.isPayed,
     required this.voyageurId,
-    required this.guidId,
     required this.createdAt,
     required this.updatedAt,
     this.dure, // Optional field
@@ -46,7 +44,6 @@ class GuideReservationResponse {
       messageAuGuide: json['message_au_guide'],
       isPayed: json['is_payed'],
       voyageurId: json['voyageur_id'],
-      guidId: json['guid_id'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       dure: json['dure'], // Nullable

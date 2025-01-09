@@ -55,7 +55,7 @@ class _RequestCardState extends State<RequestCard> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                     side: BorderSide(
-                      color: (widget.guideReservationResponse.status == 'Pending') ? AppResources.colorVitamine : AppResources.colorWhite,
+                      color: (widget.guideReservationResponse.status == 'En attente') ? AppResources.colorVitamine : AppResources.colorWhite,
                       width: 1,
                     ),
                 ),
@@ -184,7 +184,7 @@ class _RequestCardState extends State<RequestCard> {
               ),
             ),
             Visibility(
-              visible: (widget.guideReservationResponse.status == 'Pending'),
+              visible: (widget.guideReservationResponse.status == 'En attente'),
               child: Positioned(
                   top: -5,
                   left: 63,
