@@ -163,7 +163,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             ],
                           ),
                         ),
-                        //back button
+                        ///back button
                         Positioned(
                           top: 48,
                           left: 28,
@@ -176,9 +176,9 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                               ),
                             ),
                             child: SizedBox(
-                              width: ResponsiveSize.calculateWidth(24, context),
+                              width: ResponsiveSize.calculateWidth(40, context),
                               height:
-                                  ResponsiveSize.calculateHeight(24, context),
+                                  ResponsiveSize.calculateHeight(40, context),
                               child: FloatingActionButton(
                                 backgroundColor: AppResources.colorWhite,
                                 onPressed: () {
@@ -190,7 +190,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                   style: TextStyle(
                                     inherit: false,
                                     color: AppResources.colorVitamine,
-                                    fontSize: 16.0,
+                                    fontSize: 20.0,
                                     fontWeight: FontWeight.w900,
                                     fontFamily: CupertinoIcons
                                         .exclamationmark_circle.fontFamily,
@@ -353,17 +353,20 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                       ),
                                       child: Center(
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             SvgPicture.asset('images/emoji_language.svg'),
                                             SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                                             ...widget.favorisResponse.experience.languages.map((url) {
                                               return Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                child: Image.network(
+                                                child: Text(
                                                   url.svg,
-                                                  height: 20.0,
-                                                  width: 20.0,
-                                                  fit: BoxFit.cover,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(fontSize: 20),
                                                 ),
                                               );
                                             }).toList(),

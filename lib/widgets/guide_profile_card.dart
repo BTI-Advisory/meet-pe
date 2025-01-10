@@ -303,31 +303,28 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                       IntrinsicWidth(
                                         child: Container(
                                             height: 28,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                ResponsiveSize.calculateWidth(
-                                                    12, context)),
+                                            padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
                                             decoration: BoxDecoration(
                                               color: Colors.transparent,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(20)),
-                                              border: Border.all(
-                                                  color:
-                                                  AppResources.colorBeigeLight),
+                                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                              border: Border.all(color: AppResources.colorBeigeLight),
                                             ),
                                             child: Center(
                                               child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
                                                   SvgPicture.asset('images/emoji_language.svg'),
                                                   SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                                                   ...widget.experienceData.experience.languages.map((url) {
                                                     return Padding(
                                                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                      child: Image.network(
+                                                      child: Text(
                                                         url.svg,
-                                                        height: 20.0,
-                                                        width: 20.0,
-                                                        fit: BoxFit.cover,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(fontSize: 20),
                                                       ),
                                                     );
                                                   }).toList(),
