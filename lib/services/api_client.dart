@@ -1301,9 +1301,6 @@ class ApiClient {
         rethrow;
       }
     }();
-
-    // Return data
-    IsFullAvailabilityResponse.fromJson(response!);
   }
 
   /// Mark a convert a list
@@ -1581,30 +1578,6 @@ class ApiClient {
     } else {
       throw Exception('Failed to load experiences list. Status code: ${response.statusCode}');
     }
-  }
-
-  /// Mark a get of experience detail
-  Future<ExperienceDataResponse> getExperienceDetail(int experienceID) async {
-    final data = {
-      'experience_id': experienceID
-    };
-
-    // Send request
-    final response = await () async {
-      try {
-        return await _send<JsonObject>(_httpMethodPost, 'api/get-experience',
-            bodyJson: data);
-      } catch (e) {
-        // Catch wrong user quality error
-        if (e is EpHttpResponseException && e.statusCode == 400) {
-          throw const DisplayableException(
-              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
-        }
-        rethrow;
-      }
-    }();
-
-    return ExperienceDataResponse.fromJson(response!);
   }
 
   /// Mark a update experience online
