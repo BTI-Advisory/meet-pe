@@ -705,36 +705,19 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
             Positioned(
               bottom: 20,
               right: 28,
-              child: Row(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppResources.colorWhite,
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset('images/share.svg',),
-                    ),
-                  ),
-                  SizedBox(width: ResponsiveSize.calculateWidth(14, context)),
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppResources.colorVitamine,
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        AppService.api.setFavoriteExperience(int.parse(widget.experienceData.experience.id), "add", context);
-                      },
-                      icon: SvgPicture.asset('images/heart-filled.svg',),
-                    ),
-                  ),
-                ],
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppResources.colorVitamine,
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    AppService.api.setFavoriteExperience(int.parse(widget.experienceData.experience.id), "add", context);
+                  },
+                  icon: SvgPicture.asset('images/heart-filled.svg',),
+                ),
               ),
             ),
           ],
