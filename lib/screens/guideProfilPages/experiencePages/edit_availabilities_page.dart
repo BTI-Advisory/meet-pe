@@ -24,6 +24,49 @@ class _EditAvailabilitiesPageState extends State<EditAvailabilitiesPage> {
   @override
   void initState() {
     super.initState();
+
+    _initializeSelectedDays();
+    print("sdfsdfsdfsd sdfsdfsf ${timeSlots}");
+  }
+
+  void _initializeSelectedDays() {
+    setState(() {
+      // Reset `timeSlots` and `selectedDays`
+      timeSlots = [];
+      selectedDays = [];
+
+      // Populate selectedDays with the unique dates from the planning
+      selectedDays = widget.planning.map((plan) {
+        return DateTime.parse(plan.startDate);
+      }).toList();
+
+      // Extract unique time slots from the first planning entry (since schedules are shared across all dates)
+      if (widget.planning.isNotEmpty) {
+        final schedules = widget.planning.first.schedules;
+
+        // Loop through each schedule and add unique time slots
+        for (var schedule in schedules) {
+          final start = TimeOfDay(
+            hour: int.parse(schedule.startTime.split(":")[0]),
+            minute: int.parse(schedule.startTime.split(":")[1]),
+          );
+          final end = TimeOfDay(
+            hour: int.parse(schedule.endTime.split(":")[0]),
+            minute: int.parse(schedule.endTime.split(":")[1]),
+          );
+
+          // Add time slot if it doesn't already exist in timeSlots
+          if (!timeSlots.any((slot) =>
+          slot["start"] == start && slot["end"] == end)) {
+            timeSlots.add({"start": start, "end": end});
+          }
+        }
+      }
+
+      // Debugging
+      print("Initialized selectedDays: $selectedDays");
+      print("Initialized timeSlots: $timeSlots");
+    });
   }
 
   @override
