@@ -26,6 +26,35 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
   @override
   void initState() {
     super.initState();
+    _initializeSelectedRanges();
+  }
+
+  void _initializeSelectedRanges() {
+    setState(() {
+      selectedRanges = widget.planning.map((plan) {
+        return {
+          "start": DateTime.parse(plan.startDate),
+          "end": DateTime.parse(plan.endDate),
+        };
+      }).toList();
+
+      if (widget.planning.isNotEmpty) {
+        // Use the first schedule for the time slots
+        final firstSchedule = widget.planning.first.schedules.first;
+        timeSlots = [
+          {
+            "start": TimeOfDay(
+              hour: int.parse(firstSchedule.startTime.split(":")[0]),
+              minute: int.parse(firstSchedule.startTime.split(":")[1]),
+            ),
+            "end": TimeOfDay(
+              hour: int.parse(firstSchedule.endTime.split(":")[0]),
+              minute: int.parse(firstSchedule.endTime.split(":")[1]),
+            ),
+          }
+        ];
+      }
+    });
   }
 
   @override
