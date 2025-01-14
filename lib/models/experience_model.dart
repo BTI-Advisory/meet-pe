@@ -4,7 +4,7 @@ part 'experience_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class ExperienceModel {
-  final String weightedMatchScore;
+  final int weightedMatchScore;
   final Experience experience;
 
   ExperienceModel({

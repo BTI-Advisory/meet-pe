@@ -7,9 +7,19 @@ class ArchivedReservationResponse {
   final String messageAuGuide;
   final bool isPayed;
   final int voyageurId;
-  final int guidId;
+  final String nom;
+  final String prenom;
+  final String phone;
+  final String createdAt;
+  final String updatedAt;
   final String status;
+  final String totalPrice;
+  final String? refundAmount;
+  final bool isGroup;
   final int experienceId;
+  final String? canceledAt;
+  final String? cancelReason;
+  final String? cancelDescription;
   final Voyageur voyageur;
   final Experiencess experience;
 
@@ -20,11 +30,21 @@ class ArchivedReservationResponse {
     required this.messageAuGuide,
     required this.isPayed,
     required this.voyageurId,
-    required this.guidId,
+    required this.nom,
+    required this.prenom,
+    required this.phone,
+    required this.createdAt,
+    required this.updatedAt,
     required this.status,
+    required this.totalPrice,
+    this.refundAmount,
+    required this.isGroup,
     required this.experienceId,
+    this.canceledAt,
+    this.cancelReason,
+    this.cancelDescription,
     required this.voyageur,
-    required this.experience
+    required this.experience,
   });
 
   factory ArchivedReservationResponse.fromJson(Map<String, dynamic> json) {
@@ -40,9 +60,19 @@ class ArchivedReservationResponse {
       messageAuGuide: json['message_au_guide'],
       isPayed: json['is_payed'],
       voyageurId: json['voyageur_id'],
-      guidId: json['guid_id'],
+      nom: json['nom'],
+      prenom: json['prenom'],
+      phone: json['phone'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       status: json['status'],
+      totalPrice: json['total_price'],
+      refundAmount: json['refund_amount'],
+      isGroup: json['is_group'] == 1,
       experienceId: json['experience_id'],
+      canceledAt: json['canceled_at'],
+      cancelReason: json['cancel_reason'],
+      cancelDescription: json['cancel_description'],
       voyageur: voyageur,
       experience: experience,
     );
@@ -53,21 +83,13 @@ class Voyageur {
   final int id;
   final String name;
   final String email;
-  //final String emailVerifiedAt;
   final String createdAt;
   final String updatedAt;
   final String otpCode;
-  //final String userType;
+  final String userType;
   final String profilePath;
-  //final String sirenNumber;
   final String phoneNumber;
   final bool isFullAvailable;
-  /*final String iBAN;
-  final String bIC;
-  final String nomDuTitulaire;
-  final String rue;
-  final String codePostal;
-  final String ville;*/
   final bool isVerified;
   final int numberOfExperiences;
 
@@ -75,21 +97,13 @@ class Voyageur {
     required this.id,
     required this.name,
     required this.email,
-    //required this.emailVerifiedAt,
     required this.createdAt,
     required this.updatedAt,
     required this.otpCode,
-    //required this.userType,
+    required this.userType,
     required this.profilePath,
-    //required this.sirenNumber,
     required this.phoneNumber,
     required this.isFullAvailable,
-    /*required this.iBAN,
-    required this.bIC,
-    required this.nomDuTitulaire,
-    required this.rue,
-    required this.codePostal,
-    required this.ville,*/
     required this.isVerified,
     required this.numberOfExperiences,
   });
@@ -99,21 +113,13 @@ class Voyageur {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      //emailVerifiedAt: json['email_verified_at'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       otpCode: json['otp_code'],
-      //userType: json['user_type'],
+      userType: json['user_type'],
       profilePath: json['profile_path'],
-      //sirenNumber: json['siren_number'],
       phoneNumber: json['phone_number'],
       isFullAvailable: json['is_full_available'],
-      /*iBAN: json['IBAN'],
-      bIC: json['BIC'],
-      nomDuTitulaire: json['nom_du_titulaire'],
-      rue: json['rue'],
-      codePostal: json['code_postal'],
-      ville: json['ville'],*/
       isVerified: json['is_verified'],
       numberOfExperiences: json['number_of_experiences'],
     );
@@ -126,15 +132,12 @@ class Experiencess {
   final String description;
   final String dure;
   final String prixParVoyageur;
-  //final String inclus;
-  final String nombreDesVoyageur;
-  //final String typeDesVoyageur;
+  final int nombreDesVoyageur;
   final String ville;
   final String addresse;
   final String codePostal;
   final String createdAt;
   final String updatedAt;
-  //final String audioFile;
   final int userId;
   final String status;
   final String country;
@@ -142,8 +145,13 @@ class Experiencess {
   final String guidePersonnesPeuvesParticiper;
   final String etAvecCa;
   final bool isOnline;
-  //final String lang;
-  //final String lat;
+  final String lang;
+  final String lat;
+  final bool supportGroupPrive;
+  final int priceGroupPrive;
+  final bool discountKidsBetween2And12;
+  final String dernierMinuteReservation;
+  final int maxGroupSize;
 
   Experiencess({
     required this.id,
@@ -151,15 +159,12 @@ class Experiencess {
     required this.description,
     required this.dure,
     required this.prixParVoyageur,
-    //required this.inclus,
     required this.nombreDesVoyageur,
-    //required this.typeDesVoyageur,
     required this.ville,
     required this.addresse,
     required this.codePostal,
     required this.createdAt,
     required this.updatedAt,
-    //required this.audioFile,
     required this.userId,
     required this.status,
     required this.country,
@@ -167,8 +172,13 @@ class Experiencess {
     required this.guidePersonnesPeuvesParticiper,
     required this.etAvecCa,
     required this.isOnline,
-    //required this.lang,
-    //required this.lat,
+    required this.lang,
+    required this.lat,
+    required this.supportGroupPrive,
+    required this.priceGroupPrive,
+    required this.discountKidsBetween2And12,
+    required this.dernierMinuteReservation,
+    required this.maxGroupSize,
   });
 
   factory Experiencess.fromJson(Map<String, dynamic> json) {
@@ -176,17 +186,14 @@ class Experiencess {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      dure: json['dure'],
+      dure: json['duree'],
       prixParVoyageur: json['prix_par_voyageur'],
-      //inclus: json['inclus'],
       nombreDesVoyageur: json['nombre_des_voyageur'],
-      //typeDesVoyageur: json['type_des_voyageur'],
       ville: json['ville'],
       addresse: json['addresse'],
       codePostal: json['code_postale'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      //audioFile: json['audio_file'],
       userId: json['user_id'],
       status: json['status'],
       country: json['country'],
@@ -194,8 +201,13 @@ class Experiencess {
       guidePersonnesPeuvesParticiper: json['guide_personnes_peuves_participer'],
       etAvecCa: json['et_avec_ça'],
       isOnline: json['is_online'],
-      //lang: json['lang'],
-      //lat: json['lat'],
+      lang: json['lang'],
+      lat: json['lat'],
+      supportGroupPrive: json['support_group_prive'],
+      priceGroupPrive: json['price_group_prive'],
+      discountKidsBetween2And12: json['discount_kids_between_2_and_12'],
+      dernierMinuteReservation: json['dernier_minute_reservation'] ?? false,
+      maxGroupSize: json['max_group_size'],
     );
   }
 }
@@ -204,4 +216,3 @@ List<ArchivedReservationResponse> parseArchivedReservation(String responseBody) 
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<ArchivedReservationResponse>((json) => ArchivedReservationResponse.fromJson(json)).toList();
 }
-

@@ -47,8 +47,25 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(GuideProfileCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if the experience data has changed
+    if (widget.experienceData != oldWidget.experienceData) {
+      // Repopulate the event list
+      _populateEventListFromPlanning();
+
+      // Update the events for the selected day
+      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    }
+  }
+
   /// Populate the custom event list from planning data
   void _populateEventListFromPlanning() {
+    // Clear the existing events
+    _customEventList.clear();
+
     // Extract planning from the API response
     final planningList = widget.experienceData.experience.planning;
 
@@ -58,24 +75,35 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
         final startDate = DateTime.parse(planning.startDate);
         final endDate = DateTime.parse(planning.endDate);
 
-        // Iterate through the range of dates from startDate to endDate
-        for (DateTime currentDate = startDate;
-        currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
-        currentDate = currentDate.add(const Duration(days: 1))) {
-          // Map each schedule to the current date
+        // Check if this is a single-day event
+        final isSingleDay = startDate.isAtSameMomentAs(endDate);
+
+        // If it's a single-day event, add only to the start date
+        if (isSingleDay) {
           for (final schedule in planning.schedules) {
             final event = Event(
-              currentDate.toIso8601String(),
+              startDate.toIso8601String(),
               '${schedule.startTime} - ${schedule.endTime}',
             );
 
-            // If the date already has events, append the new one; otherwise, create a new list
-            if (_customEventList.containsKey(currentDate)) {
-              _customEventList[currentDate]!.add(event);
-            } else {
-              _customEventList[currentDate] = [event];
+            _customEventList.putIfAbsent(startDate, () => []).add(event);
+          }
+          print("AZIUEUYAZUYE isSingleDay $_customEventList");
+        } else {
+          // For multi-day events, iterate through the range of dates
+          for (DateTime currentDate = startDate;
+          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+          currentDate = currentDate.add(const Duration(days: 1))) {
+            for (final schedule in planning.schedules) {
+              final event = Event(
+                currentDate.toIso8601String(),
+                '${schedule.startTime} - ${schedule.endTime}',
+              );
+
+              _customEventList.putIfAbsent(currentDate, () => []).add(event);
             }
           }
+          print("AZIUEUYAZUYE multi-day $_customEventList");
         }
       }
     }
