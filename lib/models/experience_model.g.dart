@@ -8,7 +8,7 @@ part of 'experience_model.dart';
 
 ExperienceModel _$ExperienceModelFromJson(Map<String, dynamic> json) =>
     ExperienceModel(
-      weightedMatchScore: json['weighted_match_score'] as String,
+      weightedMatchScore: (json['weighted_match_score'] as num).toInt(),
       experience:
           Experience.fromJson(json['experience'] as Map<String, dynamic>),
     );

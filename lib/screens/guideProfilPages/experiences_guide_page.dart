@@ -19,13 +19,16 @@ class ExperiencesGuidePage extends StatefulWidget {
 
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = false; // Track if it's currently "Request" or "Experience"
-  List<GuideReservationResponse> reservationList = [];
+  //List<GuideReservationResponse> reservationList = [];
+  late Map<String, List<GuideReservationResponse>> reservationList;
   List<ExperienceDataResponse> experiencesList = [];
   bool isLoading = false;
+  late Map<String, List<GuideReservationResponse>> groupedReservations;
 
   @override
   void initState() {
     super.initState();
+    groupedReservations = {};
     fetchGuideReservationData();
     fetchGuideExperiencesData();
   }
@@ -41,6 +44,11 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
       final response = await AppService.api.getGuideReservationList();
       setState(() {
         reservationList = response;
+        print("ZIEUREZURZIE ${reservationList}");
+        groupedReservations = reservationList.values.expand((reservations) => reservations).toList()
+            .groupBy(
+              (reservation) => reservation.dateTime.split(' ')[0],
+        );
       });
     } catch (e) {
       // Handle error
@@ -145,15 +153,21 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                   ),
                                 ),
                               ]
-                            : List.generate(
-                                reservationList.length,
-                                (index) => GestureDetector(
+                            : reservationList
+                              .entries
+                              .map(
+                                (entry) => ExpansionTile(
+                              title: Text(
+                                requestFrenchFormat(entry.key), // Date as the title
+                                style: Theme.of(context).textTheme.headlineSmall,
+                              ),
+                              children: entry.value.map((reservation) {
+                                return GestureDetector(
                                   onTap: () {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          _buildPopupDialog(
-                                              context, reservationList[index]),
+                                          _buildPopupDialog(context, reservation),
                                     ).then((value) {
                                       if (value == true) {
                                         // Refresh the data if changes were made
@@ -161,12 +175,17 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                       }
                                     });
                                   },
-                                  child: RequestCard(
-                                      guideReservationResponse:
-                                          reservationList[index],
-                                      onUpdateStatus: _updateReservation),
-                                ),
-                              ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: RequestCard(
+                                      guideReservationResponse: reservation,
+                                      onUpdateStatus: _updateReservation,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                              ).toList(),
                       )
                     : Column(
                         children: experiencesList.isEmpty
@@ -620,5 +639,16 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                 SizedBox(height: 20),
               ],
             )));
+  }
+}
+
+extension IterableExtensions<E> on Iterable<E> {
+  Map<K, List<E>> groupBy<K>(K Function(E) keySelector) {
+    final Map<K, List<E>> map = {};
+    for (var element in this) {
+      final key = keySelector(element);
+      map.putIfAbsent(key, () => []).add(element);
+    }
+    return map;
   }
 }

@@ -9,9 +9,8 @@ class GuideReservationResponse {
   final int voyageurId;
   final String createdAt;
   final String updatedAt;
-  final String? dure; // Make this optional to handle null values
   final String status;
-  final int experienceId; // Add missing field
+  final int experienceId;
   final Voyageur voyageur;
   final Experience experience;
 
@@ -24,19 +23,13 @@ class GuideReservationResponse {
     required this.voyageurId,
     required this.createdAt,
     required this.updatedAt,
-    this.dure, // Optional field
     required this.status,
-    required this.experienceId, // New field
+    required this.experienceId,
     required this.voyageur,
-    required this.experience
+    required this.experience,
   });
 
   factory GuideReservationResponse.fromJson(Map<String, dynamic> json) {
-    var voyageurJson = json['voyageur'] as Map<String, dynamic>;
-    Voyageur voyageur = Voyageur.fromJson(voyageurJson);
-    var experienceJson = json['experience'] as Map<String, dynamic>;
-    Experience experience = Experience.fromJson(experienceJson);
-
     return GuideReservationResponse(
       id: json['id'],
       dateTime: json['date_time'],
@@ -46,11 +39,10 @@ class GuideReservationResponse {
       voyageurId: json['voyageur_id'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      dure: json['dure'], // Nullable
       status: json['status'],
-      experienceId: json['experience_id'], // New field
-      voyageur: voyageur,
-      experience: experience,
+      experienceId: json['experience_id'],
+      voyageur: Voyageur.fromJson(json['voyageur']),
+      experience: Experience.fromJson(json['experience']),
     );
   }
 }
@@ -103,9 +95,9 @@ class Experience {
   final int id;
   final String title;
   final String description;
-  final String? dure; // Make this optional to handle null values
+  final String? dure; // Optional field
   final String prixParVoyageur;
-  final int nombreDesVoyageur; // Corrected type
+  final int nombreDesVoyageur;
   final String ville;
   final String addresse;
   final String codePostal;
@@ -123,9 +115,9 @@ class Experience {
     required this.id,
     required this.title,
     required this.description,
-    this.dure, // Optional field
+    this.dure,
     required this.prixParVoyageur,
-    required this.nombreDesVoyageur, // Corrected type
+    required this.nombreDesVoyageur,
     required this.ville,
     required this.addresse,
     required this.codePostal,
@@ -145,9 +137,9 @@ class Experience {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      dure: json['dure'], // Nullable
+      dure: json['dure'],
       prixParVoyageur: json['prix_par_voyageur'],
-      nombreDesVoyageur: json['nombre_des_voyageur'], // Corrected type
+      nombreDesVoyageur: json['nombre_des_voyageur'],
       ville: json['ville'],
       addresse: json['addresse'],
       codePostal: json['code_postale'],
@@ -164,7 +156,15 @@ class Experience {
   }
 }
 
-List<GuideReservationResponse> parseGuideReservationItem(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<GuideReservationResponse>((json) => GuideReservationResponse.fromJson(json)).toList();
+Map<String, List<GuideReservationResponse>> parseGuideReservationItem(
+    String responseBody) {
+  final Map<String, dynamic> parsed = jsonDecode(responseBody);
+
+  // Iterate over each key-value pair (date and list of reservations)
+  return parsed.map<String, List<GuideReservationResponse>>((date, reservations) {
+    var reservationList = (reservations as List)
+        .map((reservationJson) => GuideReservationResponse.fromJson(reservationJson))
+        .toList();
+    return MapEntry(date, reservationList);
+  });
 }

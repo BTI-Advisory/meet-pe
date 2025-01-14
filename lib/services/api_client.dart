@@ -1523,7 +1523,7 @@ class ApiClient {
   }
 
   /// Get list guide reservation
-  Future<List<GuideReservationResponse>> getGuideReservationList() async {
+  Future<Map<String, List<GuideReservationResponse>>> getGuideReservationList() async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -1539,16 +1539,6 @@ class ApiClient {
       throw Exception('Failed to load reservation list');
     }
   }
-
-  ///Todo replace
-  /*Future<List<GuideReservationResponse>> getGuideReservationList() async {
-    // Send request
-    final response = await _send<JsonObject>(_httpMethodGet, 'api/get-guide-reservation');
-    if (response == null) return const [];
-
-    // Return data
-    return response['data']!.map<GuideReservationResponse>((json) => GuideReservationResponse.fromJson(json)).toList(growable: false);
-  }*/
 
   Future<List<ExperienceDataResponse>> getGuideExperiencesList() async {
     final Map<String, String> headers = {
