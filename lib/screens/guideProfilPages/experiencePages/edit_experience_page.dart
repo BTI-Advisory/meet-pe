@@ -405,6 +405,9 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                               if (result.containsKey('price_group_prive')) {
                                                 data.priceGroupPrive = result['price_group_prive'];
                                               }
+                                              if (result.containsKey('support_group_prive')) {
+                                                data.supportGroupPrive = result['support_group_prive'].toString();
+                                              }
                                             });
                                           }
                                         }),

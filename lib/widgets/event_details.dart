@@ -55,6 +55,7 @@ class EventDetails extends StatelessWidget {
                     child: EventTimeSlot(
                       date: event.date,
                       time: event.time,
+                      duration: experienceData.duree!,
                       onPressed: () {
                         // Handle reservation
                         Navigator.of(context)
@@ -88,12 +89,14 @@ class EventDetails extends StatelessWidget {
 class EventTimeSlot extends StatelessWidget {
   final String date;
   final String time;
+  final String duration;
   final VoidCallback onPressed;
 
   const EventTimeSlot({
     Key? key,
     required this.date,
     required this.time,
+    required this.duration,
     required this.onPressed,
   }) : super(key: key);
 
@@ -114,10 +117,21 @@ class EventTimeSlot extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
           ),
           const SizedBox(height: 10),
-          Text(
-            formatTimeRange(time),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
-          ),
+          if (duration == '1d')
+            Text(
+              formatTimeRange(time),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
+            )
+          else if (duration == '2d')
+            Text(
+              '48 heures',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
+            )
+          else if (duration == '7d')
+              Text(
+                'Une semaine',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
+              ),
           const SizedBox(height: 5),
           ElevatedButton(
             onPressed: onPressed,

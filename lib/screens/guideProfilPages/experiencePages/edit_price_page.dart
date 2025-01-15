@@ -420,6 +420,7 @@ class _EditPricePageState extends State<EditPricePage> {
                                 Navigator.pop(context, {
                                   'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
                                   'discount_kids_between_2_and_12': 1,
+                                  'support_group_prive': 1,
                                   'max_group_size': _counter,
                                   'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
                                 });
@@ -427,6 +428,7 @@ class _EditPricePageState extends State<EditPricePage> {
                                 Navigator.pop(context, {
                                   'prix_par_voyageur': int.parse(_textEditingControllerPrice.text),
                                   'discount_kids_between_2_and_12': 0,
+                                  'support_group_prive': 1,
                                   'max_group_size': _counter,
                                   'price_group_prive': int.parse(_textEditingControllerPriceGroup.text)
                                 });
