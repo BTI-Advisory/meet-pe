@@ -37,7 +37,6 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
   @override
   void initState() {
     super.initState();
-    displayInfo();
   }
 
   Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
@@ -118,9 +117,8 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
     }
   }
 
-  Future<void> displayInfo() async {
-    await Future.delayed(const Duration(seconds: 1));
-    showDialog(
+  Future<void> displayInfo(BuildContext context) async {
+    return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Center(child: Text('Information')),
@@ -204,6 +202,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                   children: [
                                     GestureDetector(
                                       onTap: () async {
+                                        await displayInfo(context);
                                         await pickImageFromGallery(context, (imagePath) {
                                           setState(() {
                                             selectedImagePathPrincipal = imagePath;
@@ -483,7 +482,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                       onTap: () async {
                                         pickImageFromGallery(context, (imagePath) {
                                           setState(() {
-                                            selectedImagePath3 = imagePath;
+                                            selectedImagePath5 = imagePath;
                                           });
                                         });
                                       },
@@ -498,21 +497,21 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                               98, context),
                                           height: ResponsiveSize.calculateHeight(
                                               98, context),
-                                          child: selectedImagePath3.isEmpty
+                                          child: selectedImagePath5.isEmpty
                                               ? const Icon(
-                                                  Icons.add,
-                                                  color: AppResources.colorGray60,
-                                                )
+                                            Icons.add,
+                                            color: AppResources.colorGray60,
+                                          )
                                               : ClipRRect(
-                                                  borderRadius: BorderRadius
-                                                      .circular(ResponsiveSize
-                                                          .calculateCornerRadius(
-                                                              12, context)),
-                                                  child: Image.file(
-                                                    File(selectedImagePath3),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                            borderRadius: BorderRadius
+                                                .circular(ResponsiveSize
+                                                .calculateCornerRadius(
+                                                12, context)),
+                                            child: Image.file(
+                                              File(selectedImagePath5),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -520,7 +519,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                       bottom: 8,
                                       right: 7,
                                       child: Visibility(
-                                        visible: selectedImagePath3.isNotEmpty,
+                                        visible: selectedImagePath5.isNotEmpty,
                                         child: Container(
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
@@ -531,22 +530,22 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                               borderRadius: BorderRadius.circular(
                                                   ResponsiveSize
                                                       .calculateCornerRadius(
-                                                          40, context)),
+                                                      40, context)),
                                             ),
                                           ),
                                           child: FloatingActionButton(
-                                            heroTag: "btn5",
+                                            heroTag: "btn7",
                                             backgroundColor:
-                                                AppResources.colorWhite,
+                                            AppResources.colorWhite,
                                             onPressed: () async {
                                               pickImageFromGallery(context, (imagePath) {
                                                 setState(() {
-                                                  selectedImagePath3 = imagePath;
+                                                  selectedImagePath5 = imagePath;
                                                 });
                                               });
                                             },
                                             child:
-                                                Image.asset('images/pen_icon.png'),
+                                            Image.asset('images/pen_icon.png'),
                                           ),
                                         ),
                                       ),
@@ -641,7 +640,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                       onTap: () async {
                                         pickImageFromGallery(context, (imagePath) {
                                           setState(() {
-                                            selectedImagePath5 = imagePath;
+                                            selectedImagePath3 = imagePath;
                                           });
                                         });
                                       },
@@ -656,21 +655,21 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                               98, context),
                                           height: ResponsiveSize.calculateHeight(
                                               98, context),
-                                          child: selectedImagePath5.isEmpty
+                                          child: selectedImagePath3.isEmpty
                                               ? const Icon(
-                                                  Icons.add,
-                                                  color: AppResources.colorGray60,
-                                                )
+                                            Icons.add,
+                                            color: AppResources.colorGray60,
+                                          )
                                               : ClipRRect(
-                                                  borderRadius: BorderRadius
-                                                      .circular(ResponsiveSize
-                                                          .calculateCornerRadius(
-                                                              12, context)),
-                                                  child: Image.file(
-                                                    File(selectedImagePath5),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                            borderRadius: BorderRadius
+                                                .circular(ResponsiveSize
+                                                .calculateCornerRadius(
+                                                12, context)),
+                                            child: Image.file(
+                                              File(selectedImagePath3),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -678,7 +677,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                       bottom: 8,
                                       right: 7,
                                       child: Visibility(
-                                        visible: selectedImagePath5.isNotEmpty,
+                                        visible: selectedImagePath3.isNotEmpty,
                                         child: Container(
                                           width: ResponsiveSize.calculateWidth(
                                               24, context),
@@ -689,22 +688,22 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                               borderRadius: BorderRadius.circular(
                                                   ResponsiveSize
                                                       .calculateCornerRadius(
-                                                          40, context)),
+                                                      40, context)),
                                             ),
                                           ),
                                           child: FloatingActionButton(
-                                            heroTag: "btn7",
+                                            heroTag: "btn5",
                                             backgroundColor:
-                                                AppResources.colorWhite,
+                                            AppResources.colorWhite,
                                             onPressed: () async {
                                               pickImageFromGallery(context, (imagePath) {
                                                 setState(() {
-                                                  selectedImagePath5 = imagePath;
+                                                  selectedImagePath3 = imagePath;
                                                 });
                                               });
                                             },
                                             child:
-                                                Image.asset('images/pen_icon.png'),
+                                            Image.asset('images/pen_icon.png'),
                                           ),
                                         ),
                                       ),

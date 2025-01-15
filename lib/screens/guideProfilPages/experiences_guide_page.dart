@@ -44,7 +44,6 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
       final response = await AppService.api.getGuideReservationList();
       setState(() {
         reservationList = response;
-        print("ZIEUREZURZIE ${reservationList}");
         groupedReservations = reservationList.values.expand((reservations) => reservations).toList()
             .groupBy(
               (reservation) => reservation.dateTime.split(' ')[0],

@@ -46,13 +46,10 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
   @override
   void initState() {
     super.initState();
-
-    displayInfo();
   }
 
-  Future<void> displayInfo() async {
-    await Future.delayed(const Duration(seconds: 1));
-    showDialog(
+  Future<void> displayInfo(BuildContext context) async {
+    return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Center(child: Text('Information')),
@@ -205,6 +202,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
+                                    await displayInfo(context);
                                     pickImageFromGallery(context, (imagePath) {
                                       setState(() {
                                         _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
@@ -271,6 +269,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                                       backgroundColor:
                                       AppResources.colorWhite,
                                       onPressed: () async {
+                                        await displayInfo(context);
                                         pickImageFromGallery(context, (imagePath) {
                                           setState(() {
                                             _imageList.add(imagePath); // Assuming _imageList is a List<String> in your state
@@ -332,18 +331,18 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                           children: [
                             Expanded(
                               child: ImagePickerWidget(
-                                initialImage: widget.image3,
-                                selectedImagePath: selectedImagePath3,
-                                isUpdated: updatePhoto3,
+                                initialImage: widget.image5,
+                                selectedImagePath: selectedImagePath5,
+                                isUpdated: updatePhoto5,
                                 onImagePicked: (imagePath) {
                                   setState(() {
                                     _imageList.add(imagePath);
-                                    selectedImagePath3 = imagePath;
-                                    updatePhoto3 = true;
+                                    selectedImagePath5 = imagePath;
+                                    updatePhoto5 = true;
                                   });
                                 },
                                 pickImageFunction: pickImageFromGallery, // Pass the function
-                                heroTag: "btn5",
+                                heroTag: "btn7",
                               ),
                             ),
                             SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
@@ -366,18 +365,18 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                             SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                             Expanded(
                               child: ImagePickerWidget(
-                                initialImage: widget.image5,
-                                selectedImagePath: selectedImagePath5,
-                                isUpdated: updatePhoto5,
+                                initialImage: widget.image3,
+                                selectedImagePath: selectedImagePath3,
+                                isUpdated: updatePhoto3,
                                 onImagePicked: (imagePath) {
                                   setState(() {
                                     _imageList.add(imagePath);
-                                    selectedImagePath5 = imagePath;
-                                    updatePhoto5 = true;
+                                    selectedImagePath3 = imagePath;
+                                    updatePhoto3 = true;
                                   });
                                 },
                                 pickImageFunction: pickImageFromGallery, // Pass the function
-                                heroTag: "btn7",
+                                heroTag: "btn5",
                               ),
                             ),
                           ],
