@@ -66,6 +66,7 @@ class _PasswordFieldState extends State<PasswordField> {
             },
             child: Icon(
               _showPassword ? Icons.visibility : Icons.visibility_off,
+              size: 20,
             ),
           )),
       obscureText: !_showPassword,

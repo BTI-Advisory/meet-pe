@@ -1635,6 +1635,7 @@ class ApiClient {
     if (data.priceGroupPrive != null) request.fields['price_group_prive'] = data.priceGroupPrive.toString();
     if (data.maxNumberOfPersons != null) request.fields['max_group_size'] = data.maxNumberOfPersons.toString();
     if (data.discountKidsBetween2And12 != null) request.fields['discount_kids_between_2_and_12'] = data.discountKidsBetween2And12.toString();
+    if (data.supportGroupPrive != null) request.fields['support_group_prive'] = data.supportGroupPrive.toString();
 
     // Helper function to add image if path is valid
     Future<void> addImage(String field, String? imagePath) async {
@@ -1655,6 +1656,8 @@ class ApiClient {
     await addImage('image_2', data.image3);
     await addImage('image_3', data.image4);
     await addImage('image_4', data.image5);
+
+    print("EIRZIERIZEIUR ${request.fields}");
 
     // Send the request
     final streamedResponse = await request.send();

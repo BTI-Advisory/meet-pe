@@ -22,6 +22,7 @@ class CreateExpStep4 extends StatefulWidget {
 class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<CreateExpStep4, CreateExpStep4Bloc> {
   late Future<List<StepListResponse>> _choicesFuture;
   late List<Voyage> myList = [];
+  String descriptionChoice = '';
 
   @override
   initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.audioPath);
@@ -131,11 +132,26 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                       widget.myMap['duree']!.clear();
                                       widget.myMap['duree']!.add(item.id);
                                     }
+                                    if (item.id == 1) {
+                                      descriptionChoice = "Si tu choisis “horaire personnalisé” tu pourras nous transmettre tous tes créneaux par tranches horaires sur la journée.";
+                                    } else if (item.id == 2) {
+                                      descriptionChoice = "Ton expérience dure plus d'une journée tu peux choisir 48H";
+                                    } else if (item.id == 3) {
+                                      descriptionChoice = "Ton expérience dure plus d'une journée tu peux choisir une semaine";
+                                    } else {
+                                      descriptionChoice = "";
+                                    }
                                   });
                                 },
                               );
                             }).toList(),
                           ),
+                        ),
+                        SizedBox(
+                            height: ResponsiveSize.calculateHeight(16, context)),
+                        Text(
+                          descriptionChoice,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -176,9 +192,14 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                 ),
                               ),
                             ),
-                            onPressed: () {
+                            /*onPressed: () {
                               bloc.addDurationGuide(context);
-                            },
+                            },*/
+                            onPressed: widget.myMap['duree'] != null && widget.myMap['duree']!.isNotEmpty
+                                ? () {
+                                  bloc.addDurationGuide(context);
+                                }
+                                : null,
                             child: Image.asset('images/arrowLongRight.png'),
                           ),
                         ),

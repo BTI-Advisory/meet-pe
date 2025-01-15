@@ -546,7 +546,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 ],
                               ),
                                 const SizedBox(height: 12),
-                              if (widget.experienceData.experience.prixParGroup != "")
+                              if (widget.experienceData.experience.supportGroupPrive == "1")
                                 Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [

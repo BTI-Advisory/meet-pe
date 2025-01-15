@@ -113,7 +113,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                 });
               } else if (isCreated == "Tu as au moins une expérience déjà bookée sur ces jours.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                  showCustomDialog(context, 'Oups tu as déjà des résas sur ce créneau ! On compte sur toi 🤜🏼🤛🏼'); // Ensure this runs after the widget tree is built
                 });
               } else {
                 _onAbsenceAdded();
@@ -153,7 +153,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci le voyageur ne pourra pas réserver d’expérience.',
+                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci les voyageurs ne pourront pas réserver d’expérience.',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
