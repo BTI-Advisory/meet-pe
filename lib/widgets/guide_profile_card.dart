@@ -73,37 +73,16 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
       // Loop through all schedules within the planning
       for (final planning in planningList) {
         final startDate = DateTime.parse(planning.startDate);
-        final endDate = DateTime.parse(planning.endDate);
 
-        // Check if this is a single-day event
-        final isSingleDay = startDate.isAtSameMomentAs(endDate);
+        // Only add events to the startDate
+        for (final schedule in planning.schedules) {
+          final event = Event(
+            startDate.toIso8601String(),
+            '${schedule.startTime} - ${schedule.endTime}',
+          );
 
-        // If it's a single-day event, add only to the start date
-        if (isSingleDay) {
-          for (final schedule in planning.schedules) {
-            final event = Event(
-              startDate.toIso8601String(),
-              '${schedule.startTime} - ${schedule.endTime}',
-            );
-
-            _customEventList.putIfAbsent(startDate, () => []).add(event);
-          }
-          print("AZIUEUYAZUYE isSingleDay $_customEventList");
-        } else {
-          // For multi-day events, iterate through the range of dates
-          for (DateTime currentDate = startDate;
-          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
-          currentDate = currentDate.add(const Duration(days: 1))) {
-            for (final schedule in planning.schedules) {
-              final event = Event(
-                currentDate.toIso8601String(),
-                '${schedule.startTime} - ${schedule.endTime}',
-              );
-
-              _customEventList.putIfAbsent(currentDate, () => []).add(event);
-            }
-          }
-          print("AZIUEUYAZUYE multi-day $_customEventList");
+          // Add the event only to the startDate
+          _customEventList.putIfAbsent(startDate, () => []).add(event);
         }
       }
     }
@@ -567,12 +546,12 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 ],
                               ),
                                 const SizedBox(height: 12),
-                              if (widget.experienceData.experience.supportGroupPrive == "1")
+                              if (widget.experienceData.experience.prixParGroup != "")
                                 Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Prix de groupe (à partir de ${widget.experienceData.experience.nombreVoyageur} personnes)",
+                                    "Prix de groupe (à partir de ${widget.experienceData.experience.maxNbVoyageur} personnes)",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium

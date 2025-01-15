@@ -7,6 +7,7 @@ class ModifyExperienceDataModel {
   int? prixParVoyageur;
   int? priceGroupPrive;
   int? maxNumberOfPersons;
+  String? supportGroupPrive;
   String? discountKidsBetween2And12;
   String? imagePrincipale;
   String? image1;
@@ -24,6 +25,7 @@ class ModifyExperienceDataModel {
     this.prixParVoyageur,
     this.priceGroupPrive,
     this.maxNumberOfPersons,
+    this.supportGroupPrive,
     this.discountKidsBetween2And12,
     this.imagePrincipale,
     this.image1,
