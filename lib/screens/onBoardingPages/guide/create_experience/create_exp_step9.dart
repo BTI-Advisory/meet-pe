@@ -17,7 +17,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
   double valueSlider = 15;
   bool isKidsAvailable = false;
   bool isGroupeAvailable = false;
-  int _counter = 3;
+  int _counter = 0;
   late TextEditingController _textEditingControllerPrice;
   late TextEditingController _textEditingControllerPriceGroup;
 
