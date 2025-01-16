@@ -171,6 +171,7 @@ class _MatchingPageState extends State<MatchingPage> {
                                     );
                                     if (result != null) {
                                       setState(() {
+                                        _textEditingController.text = "";
                                         double latitude = result['latitude'];
                                         double longitude = result['longitude'];
                                         int radius = result['radius'];
