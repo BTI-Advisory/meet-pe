@@ -82,14 +82,6 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                               .headlineMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
-                        Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et par defaut toutes nos expériences sont disponibles en français',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                              fontSize: 12, color: const Color(0xFF979797)),
-                        ),
                         const SizedBox(height: 31),
                         Container(
                           width: ResponsiveSize.calculateWidth(319, context),

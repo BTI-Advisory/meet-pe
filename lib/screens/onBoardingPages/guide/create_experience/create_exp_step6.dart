@@ -189,7 +189,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'Plonge-nous dans ton univers et fais-nous rêver ! Quoi de mieux que des photos pour mettre en avant ton expérience ?',
+                          'Plonge-nous dans ton univers et fais-nous rêver ! Quoi de mieux que des photos pour mettre en avant ton expérience !',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         SizedBox(

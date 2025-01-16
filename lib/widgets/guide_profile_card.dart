@@ -358,7 +358,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Icon(
-                                                  Icons.location_city, // Replace with your desired icon
+                                                  Icons.pin_drop,
                                                   color: AppResources.colorWhite,
                                                   size: 20.0,
                                                 ),
