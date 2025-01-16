@@ -340,6 +340,50 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                             ),
                                           ),
                                       ),
+                                      SizedBox(
+                                          width: ResponsiveSize.calculateWidth(
+                                              8, context)),
+                                      IntrinsicWidth(
+                                        child: Container(
+                                          height: 28,
+                                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                            border: Border.all(color: AppResources.colorBeigeLight),
+                                          ),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.location_city, // Replace with your desired icon
+                                                  color: AppResources.colorWhite,
+                                                  size: 20.0,
+                                                ),
+                                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                SizedBox(
+                                                  width: 70,
+                                                  child: Text(
+                                                    widget.experienceData.experience.ville!.capitalized,
+                                                    textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.copyWith(
+                                                      color: AppResources
+                                                          .colorBeigeLight,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                       ///Todo remove comment when avis is ready
                                       /*if(experienceData.isProfessionalGuide)
                                           SizedBox(
