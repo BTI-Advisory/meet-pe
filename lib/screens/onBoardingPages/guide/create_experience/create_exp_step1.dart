@@ -22,7 +22,6 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
   @override
   void initState() {
     super.initState();
-    //_choicesFuture = AppService.api.fetchChoices('guide_categorie_de_lexperience');
     _choicesFuture = AppService.api.fetchChoices('voyageur_experiences');
     _loadChoices();
   }
@@ -106,7 +105,7 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                                 alignment: WrapAlignment.center,
                                 spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
                                 runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                children: myList.map((item) {
+                                children: myList.sublist(0, myList.length - 1).map((item) {
                                   return ItemWidget(
                                     id: item.id,
                                     text: item.title,

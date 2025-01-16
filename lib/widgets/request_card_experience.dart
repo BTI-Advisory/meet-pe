@@ -80,12 +80,16 @@ class _RequestCardState extends State<RequestCard> {
                             child: Image.network(widget.guideReservationResponse.voyageur.profilePath, width: 38, height: 38, fit: BoxFit.cover),
                           ),
                           const SizedBox(height: 2),
-                          Text(
-                            widget.guideReservationResponse.voyageur.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                          SizedBox(
+                            width: 90,
+                            child: Text(
+                              widget.guideReservationResponse.voyageur.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                            ),
                           )
                         ],
                       ),
