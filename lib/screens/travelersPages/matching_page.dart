@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:meet_pe/models/matching_api_request_builder.dart';
@@ -23,6 +24,9 @@ class _MatchingPageState extends State<MatchingPage> {
   late TextEditingController _textEditingController;
   bool _showButton = false;
   bool tappedScreen = false;
+
+  int _currentIndex = 0;
+  List<ExperienceModel> filteredProfiles = [];
 
   @override
   void initState() {
@@ -67,6 +71,33 @@ class _MatchingPageState extends State<MatchingPage> {
     });
   }
 
+  bool _onSwipe(int previousIndex, int? currentIndex, CardSwiperDirection direction) {
+    if (direction == CardSwiperDirection.left) {
+      // Swipe left: Show the next card
+      if (_currentIndex < filteredProfiles.length - 1) {
+        _currentIndex++;  // Update the current index directly
+        debugPrint("Swiped to the next card: $_currentIndex");
+        return false; // Allow the swipe
+      } else {
+        debugPrint("Reached the last card. Cannot swipe further.");
+        return true; // Block the swipe when reached the last card
+      }
+    } else if (direction == CardSwiperDirection.right) {
+      // Swipe right: Show the previous card
+      if (_currentIndex > 0) {
+        _currentIndex--;  // Update the current index directly
+        debugPrint("Swiped to the previous card: $_currentIndex");
+        return false; // Allow the swipe
+      } else {
+        debugPrint("Reached the first card. Cannot swipe further.");
+        return true; // Block the swipe when reached the first card
+      }
+    }
+
+    // Default return: Allow swipe by default
+    return false;
+  }
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
@@ -91,7 +122,7 @@ class _MatchingPageState extends State<MatchingPage> {
             } else if (!snapshot.hasData || snapshot.data == null) {
               return Center(child: Text('No matching experiences found.'));
             } else {
-              final filteredProfiles = snapshot.data!;
+              filteredProfiles = snapshot.data!;
               return Stack(
                 children: [
                   filteredProfiles.isNotEmpty ?
@@ -100,11 +131,39 @@ class _MatchingPageState extends State<MatchingPage> {
                     height: size.height,
                     child: AbsorbPointer(
                       absorbing: tappedScreen,
-                      child: CardSwiper(
-                        cardsCount: filteredProfiles.length,
-                        cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+                      /*child: Swiper(
+                        itemBuilder: (BuildContext context,int index){
                           return GuideProfileCard(
                             experienceData: filteredProfiles[index],
+                            onCardTapped: (tapped) {
+                              setState(() {
+                                tappedScreen = tapped;
+                              });
+                            },
+                          );
+                        },
+                        itemCount: filteredProfiles.length,
+                        control: SwiperControl(),
+                        fade: 1,
+                        curve: Curves.ease,
+                        scale: 0.8,
+                        customLayoutOption: CustomLayoutOption(startIndex: -1, stateCount: 3)
+                          ..addRotate([-25.0 / 180, 0.0, 25.0 / 180])
+                          ..addTranslate(
+                            [
+                              const Offset(-350.0, 0.0),
+                              Offset.zero,
+                              const Offset(350.0, 0.0),
+                            ],
+                          ),
+                      ),*/
+                      child: CardSwiper(
+                        controller: CardSwiperController(),
+                        cardsCount: filteredProfiles.length,
+                        onSwipe: _onSwipe,
+                        cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+                          return GuideProfileCard(
+                            experienceData: filteredProfiles[_currentIndex],
                             onCardTapped: (tapped) {
                               setState(() {
                                 tappedScreen = tapped;
@@ -251,18 +310,34 @@ class _MatchingPageState extends State<MatchingPage> {
                                         final filtreCategorie = result['filtre_categorie'] ?? "";
                                         final filtreLangue = result['filtre_langue'] ?? "";
 
-                                        // Make API call with filters
-                                        _matchingListFuture = AppService.api.fetchExperiences(
-                                          FiltersRequest(
-                                            filtreNbAdult: filtreNbAdultes,
-                                            filtreNbEnfant: filtreNbEnfants,
-                                            filtreNbBebes: filtreNbBebes,
-                                            filtrePrixMin: filtrePrixMin,
-                                            filtrePrixMax: filtrePrixMax,
-                                            filtreCategorie: filtreCategorie,
-                                            filtreLangue: filtreLangue,
-                                          ),
-                                        );
+                                        if (_textEditingController.text != '') {
+                                          // Make API call with filters
+                                          _matchingListFuture = AppService.api.fetchExperiences(
+                                            FiltersRequest(
+                                              filtreNbAdult: filtreNbAdultes,
+                                              filtreNbEnfant: filtreNbEnfants,
+                                              filtreNbBebes: filtreNbBebes,
+                                              filtrePrixMin: filtrePrixMin,
+                                              filtrePrixMax: filtrePrixMax,
+                                              filtreCategorie: filtreCategorie,
+                                              filtreLangue: filtreLangue,
+                                              filtreVille: _textEditingController.text,
+                                            ),
+                                          );
+                                        } else {
+                                          // Make API call with filters
+                                          _matchingListFuture = AppService.api.fetchExperiences(
+                                            FiltersRequest(
+                                              filtreNbAdult: filtreNbAdultes,
+                                              filtreNbEnfant: filtreNbEnfants,
+                                              filtreNbBebes: filtreNbBebes,
+                                              filtrePrixMin: filtrePrixMin,
+                                              filtrePrixMax: filtrePrixMax,
+                                              filtreCategorie: filtreCategorie,
+                                              filtreLangue: filtreLangue,
+                                            ),
+                                          );
+                                        }
                                       });
                                     }
                                   },

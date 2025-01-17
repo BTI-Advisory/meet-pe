@@ -36,11 +36,12 @@ dependencies:
   flutter_datetime_picker_plus: ^2.2.0
   flutter_svg: ^2.0.10+1
   info_popup: ^4.3.1
-  flutter_card_swiper: ^7.0.1
+  flutter_card_swiper: ^7.0.2
+  card_swiper: ^3.0.1
 
   # Web
   http: ^1.2.2
-  connectivity_plus: ^6.0.5
+  connectivity_plus: ^6.1.2
   firebase_core: ^3.5.0
   firebase_auth: ^5.3.0
   firebase_crashlytics: ^4.1.2
