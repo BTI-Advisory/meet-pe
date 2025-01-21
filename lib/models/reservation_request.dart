@@ -5,9 +5,9 @@ class ReservationRequest {
   int? voyageursEnfants;
   int? voyageursBebes;
   String? messageAuGuide;
-  String? nom;
   String? prenom;
-  String? phone;
+  bool isGroup;
+  double price;
 
   ReservationRequest({
     this.experienceId,
@@ -16,9 +16,9 @@ class ReservationRequest {
     this.voyageursEnfants,
     this.voyageursBebes,
     this.messageAuGuide,
-    this.nom,
     this.prenom,
-    this.phone,
+    required this.isGroup,
+    required this.price,
   });
 
   /// Converts the object into a Map (JSON format) with only non-null fields.
@@ -31,9 +31,9 @@ class ReservationRequest {
     if (voyageursEnfants != null) json['voyageurs_enfants'] = voyageursEnfants;
     if (voyageursBebes != null) json['voyageurs_bebes'] = voyageursBebes;
     if (messageAuGuide != null) json['message_au_guide'] = messageAuGuide;
-    if (nom != null) json['nom'] = nom;
     if (prenom != null) json['prenom'] = prenom;
-    if (phone != null) json['phone'] = phone;
+    json['is_group'] = isGroup;
+    json['total_price'] = price;
 
     return json;
   }

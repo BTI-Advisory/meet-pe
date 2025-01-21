@@ -20,7 +20,7 @@ class ExperiencesGuidePage extends StatefulWidget {
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = false; // Track if it's currently "Request" or "Experience"
   //List<GuideReservationResponse> reservationList = [];
-  late Map<String, List<GuideReservationResponse>> reservationList;
+  late Map<String, List<GuideReservationResponse>> reservationList = {};
   List<ExperienceDataResponse> experiencesList = [];
   bool isLoading = false;
   late Map<String, List<GuideReservationResponse>> groupedReservations;

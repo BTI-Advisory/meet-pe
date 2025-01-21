@@ -38,7 +38,7 @@ class _ReservationCardState extends State<ReservationCard> {
               WidgetMask(
                 blendMode: BlendMode.srcATop,
                 childSaveLayer: true,
-                mask: Image.network("widget.reservationResponse.mainPhoto" ?? '', width: 68, height: 68, fit: BoxFit.cover),
+                mask: Image.network(widget.reservationResponse.experience.photos.first.photoUrl, width: 68, height: 68, fit: BoxFit.cover),
                 child: Image.asset(
                   'images/mask_picture.png',
                   width: 68,
@@ -52,7 +52,7 @@ class _ReservationCardState extends State<ReservationCard> {
                   SizedBox(
                     width: 176,
                     child: Text(
-                      "widget.reservationResponse.title",
+                      widget.reservationResponse.experience.title,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
