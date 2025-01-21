@@ -145,7 +145,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                 ?.copyWith(color: AppResources.colorDark),
                           ),
                           Text(
-                            'Tu réserves l’expérience pour toi\net ton groupe uniquement.',
+                            'Tu réserves l’expérience pour toi\net ton groupe uniquement (${widget.experienceData.maxNbVoyageur} personnes).',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium,
@@ -153,226 +153,46 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ],
                       ),
                       Switch.adaptive(
-                        value: isKidsAvailable,
+                        value: isGroupeAvailable,
                         activeColor: AppResources.colorVitamine,
                         onChanged: (bool value) {
                           // Update the state immediately without awaiting the async operation
                           setState(() {
-                            isKidsAvailable = value;
+                            isGroupeAvailable = value;
+                            _counter = int.parse(widget.experienceData.maxNbVoyageur!);
+                            _counterChild = 0;
+                            _counterBaby = 0;
                           });
                         },
                       )
                     ],
                   ),
-                  const SizedBox(height: 16,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Adultes',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          ),
-                          Text(
-                            '12 ans et plus',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _decrementCounter,
-                              icon: Icon(Icons.remove,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Text(
-                            '$_counter',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(fontSize: 16),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _incrementCounter,
-                              icon: Icon(Icons.add,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  const SizedBox(height: 16),
+                  buildCounterRow(
+                    title: 'Adultes',
+                    subtitle: '12 ans et plus',
+                    count: _counter,
+                    onIncrement: () => _incrementCounter(),
+                    onDecrement: () => _decrementCounter(),
+                    isEnabled: !isGroupeAvailable,
                   ),
-                  const SizedBox(height: 16,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Enfants',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          ),
-                          Text(
-                            'De 2 ans à 12 ans',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _decrementCounterChild,
-                              icon: Icon(Icons.remove,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Text(
-                            '$_counterChild',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(fontSize: 16),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _incrementCounterChild,
-                              icon: Icon(Icons.add,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  const SizedBox(height: 16),
+                  buildCounterRow(
+                    title: 'Enfants',
+                    subtitle: 'De 2 ans à 12 ans',
+                    count: _counterChild,
+                    onIncrement: () => _incrementCounterChild(),
+                    onDecrement: () => _decrementCounterChild(),
+                    isEnabled: !isGroupeAvailable,
                   ),
-                  const SizedBox(height: 16,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Bébés (Gratuit)',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: AppResources.colorDark),
-                          ),
-                          Text(
-                            'Moins de 2 ans',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _decrementCounterBaby,
-                              icon: Icon(Icons.remove,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Text(
-                            '$_counterBaby',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(fontSize: 16),
-                          ),
-                          SizedBox(
-                              width: ResponsiveSize.calculateWidth(
-                                  8, context)),
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppResources.colorGray45,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _incrementCounterBaby,
-                              icon: Icon(Icons.add,
-                                  color: AppResources.colorGray75),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  const SizedBox(height: 16),
+                  buildCounterRow(
+                    title: 'Bébés (Gratuit)',
+                    subtitle: 'Moins de 2 ans',
+                    count: _counterBaby,
+                    onIncrement: () => _incrementCounterBaby(),
+                    onDecrement: () => _decrementCounterBaby(),
+                    isEnabled: !isGroupeAvailable,
                   ),
                   const SizedBox(height: 46,),
                   Text(
@@ -468,7 +288,9 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                 ?.copyWith(color: AppResources.colorDark),
                           ),
                           Text(
-                            calculPrice(_counter, _counterChild),
+                            isGroupeAvailable
+                                ? '${calculPrice(_counter, _counterChild)} €'
+                                : '${calculPrice(_counter, 0)} €',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
@@ -478,19 +300,27 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          final _makeReservation = AppService.api.makeReservation(
-                            ReservationRequest(
-                              experienceId: int.parse(widget.experienceData.id),
-                              dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
-                              voyageursAdultes: _counter,
-                              voyageursEnfants: _counterChild,
-                              voyageursBebes: _counterBaby,
-                              messageAuGuide: _textEditingControllerComment.text,
-                              nom: _textEditingControllerName.text,
-                              prenom: _textEditingControllerName.text,
-                              phone: "2332342343"
-                            ),
-                          );
+                          if(_textEditingControllerName.text == '') {
+                            showMessage(context, 'Il manque ton nom 😀');
+                          } else {
+                            final double price = isKidsAvailable
+                                ? double.parse(widget.experienceData.prixParGroup.toString())
+                                : double.parse(calculPrice(_counter, _counterChild));
+
+                            final _makeReservation = AppService.api.makeReservation(
+                              ReservationRequest(
+                                experienceId: int.parse(widget.experienceData.id),
+                                dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
+                                voyageursAdultes: _counter,
+                                voyageursEnfants: _counterChild,
+                                voyageursBebes: _counterBaby,
+                                messageAuGuide: _textEditingControllerComment.text,
+                                prenom: _textEditingControllerName.text,
+                                isGroup: isGroupeAvailable,
+                                price: price
+                              ),
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppResources.colorVitamine,
@@ -657,5 +487,82 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
         _counterBaby--;
       }
     });
+  }
+
+  Widget buildCounterRow({
+    required String title,
+    required String subtitle,
+    required int count,
+    required VoidCallback onIncrement,
+    required VoidCallback onDecrement,
+    bool isEnabled = true,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: AppResources.colorDark),
+            ),
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppResources.colorGray45,
+                  width: 1.0,
+                ),
+              ),
+              child: IconButton(
+                onPressed: isEnabled ? onDecrement : null,
+                icon: Icon(Icons.remove,
+                    color: isEnabled
+                        ? AppResources.colorGray75
+                        : AppResources.colorGray45),
+              ),
+            ),
+            SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+            Text(
+              '$count',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(fontSize: 16),
+            ),
+            SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppResources.colorGray45,
+                  width: 1.0,
+                ),
+              ),
+              child: IconButton(
+                onPressed: isEnabled ? onIncrement : null,
+                icon: Icon(Icons.add,
+                    color: isEnabled
+                        ? AppResources.colorGray75
+                        : AppResources.colorGray45),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
