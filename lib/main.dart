@@ -3,7 +3,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/authentification/launch_screen.dart';
@@ -57,6 +59,10 @@ void main() async {
 
   // Init app service
   await AppService.instance.init();
+
+  // Init Stripe
+  Stripe.publishableKey = 'pk_test_51OibV9Bi56apzlWcUAqe8b6uSFPpzjpnfPzFIeAU2QTVqGo1oVAtcfGcb18lgtucGrzYbOrJwNdCejsgVw7pWMWv00FpVE7SrS';
+  await dotenv.load(fileName: "assets/.env");
 
   // Init Analytics
   //await AnalyticsService.init();

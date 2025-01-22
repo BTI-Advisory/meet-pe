@@ -104,6 +104,9 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - geocoding_ios (1.0.5):
     - Flutter
   - geolocator_apple (1.2.0):
@@ -182,6 +185,62 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - Stripe (23.30.0):
+    - StripeApplePay (= 23.30.0)
+    - StripeCore (= 23.30.0)
+    - StripePayments (= 23.30.0)
+    - StripePaymentsUI (= 23.30.0)
+    - StripeUICore (= 23.30.0)
+  - stripe_ios (0.0.1):
+    - Flutter
+    - Stripe (~> 23.30.0)
+    - stripe_ios/stripe_ios (= 0.0.1)
+    - stripe_ios/stripe_objc (= 0.0.1)
+    - StripeApplePay (~> 23.30.0)
+    - StripeFinancialConnections (~> 23.30.0)
+    - StripePayments (~> 23.30.0)
+    - StripePaymentSheet (~> 23.30.0)
+    - StripePaymentsUI (~> 23.30.0)
+  - stripe_ios/stripe_ios (0.0.1):
+    - Flutter
+    - Stripe (~> 23.30.0)
+    - stripe_ios/stripe_objc
+    - StripeApplePay (~> 23.30.0)
+    - StripeFinancialConnections (~> 23.30.0)
+    - StripePayments (~> 23.30.0)
+    - StripePaymentSheet (~> 23.30.0)
+    - StripePaymentsUI (~> 23.30.0)
+  - stripe_ios/stripe_objc (0.0.1):
+    - Flutter
+    - Stripe (~> 23.30.0)
+    - StripeApplePay (~> 23.30.0)
+    - StripeFinancialConnections (~> 23.30.0)
+    - StripePayments (~> 23.30.0)
+    - StripePaymentSheet (~> 23.30.0)
+    - StripePaymentsUI (~> 23.30.0)
+  - StripeApplePay (23.30.0):
+    - StripeCore (= 23.30.0)
+  - StripeCore (23.30.0)
+  - StripeFinancialConnections (23.30.0):
+    - StripeCore (= 23.30.0)
+    - StripeUICore (= 23.30.0)
+  - StripePayments (23.30.0):
+    - StripeCore (= 23.30.0)
+    - StripePayments/Stripe3DS2 (= 23.30.0)
+  - StripePayments/Stripe3DS2 (23.30.0):
+    - StripeCore (= 23.30.0)
+  - StripePaymentSheet (23.30.0):
+    - StripeApplePay (= 23.30.0)
+    - StripeCore (= 23.30.0)
+    - StripePayments (= 23.30.0)
+    - StripePaymentsUI (= 23.30.0)
+  - StripePaymentsUI (23.30.0):
+    - StripeCore (= 23.30.0)
+    - StripePayments (= 23.30.0)
+    - StripeUICore (= 23.30.0)
+  - StripeUICore (23.30.0):
+    - StripeCore (= 23.30.0)
+  - Toast (4.1.1)
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -197,6 +256,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -208,6 +268,7 @@ DEPENDENCIES:
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
@@ -238,6 +299,15 @@ SPEC REPOS:
     - PromisesObjC
     - PromisesSwift
     - RecaptchaInterop
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeFinancialConnections
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
+    - StripeUICore
+    - Toast
 
 EXTERNAL SOURCES:
   audioplayers_darwin:
@@ -260,6 +330,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   geocoding_ios:
     :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
@@ -282,6 +354,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/record_darwin/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  stripe_ios:
+    :path: ".symlinks/plugins/stripe_ios/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
@@ -313,6 +387,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_facebook_auth: 48be46091bd1a5cc5a66055f1228a9d99a28bfaa
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
@@ -333,6 +408,16 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   record_darwin: df0a677188e5fed18472550298e675f19ddaffbe
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  Stripe: 9757efc154de1d9615cbea4836d590bc4034d3a4
+  stripe_ios: 0f7c3610b692868bae78cd5c3c4c219f60bce891
+  StripeApplePay: ca33933601302742623762157d587b79b942d073
+  StripeCore: 2af250a2366ff2bbf64d4243c5f9bbf2a98b2aaf
+  StripeFinancialConnections: 3ab1ef6182ec44e71c29e9a2100b663f9713ac20
+  StripePayments: 658a16bd34d20c8185aa281866227b9e1743300e
+  StripePaymentSheet: eac031f76d7fbb4f52df9b9c39be5be671ca4c07
+  StripePaymentsUI: 7d7cffb2ecfc0d6b5ac3a4488c02893a5ff6cc77
+  StripeUICore: bb102d453b1e1a10a37f810bc0a9aa0675fb17fd
+  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
 
 PODFILE CHECKSUM: 0c7b10039701f5d0f91d40cc7db8c5c9817593f0

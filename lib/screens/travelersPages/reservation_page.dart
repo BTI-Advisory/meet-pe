@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import '../../models/experience_model.dart';
 import '../../models/reservation_request.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
+import '../../services/stripe_payment_handle.dart';
 import '../../utils/_utils.dart';
 import '../../widgets/themed/ep_app_bar.dart';
 
@@ -299,27 +301,52 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if(_textEditingControllerName.text == '') {
                             showMessage(context, 'Il manque ton nom 😀');
                           } else {
-                            final double price = isKidsAvailable
+                            final double price = isGroupeAvailable
                                 ? double.parse(widget.experienceData.prixParGroup.toString())
                                 : double.parse(calculPrice(_counter, _counterChild));
 
-                            final _makeReservation = AppService.api.makeReservation(
+                            final reservationResponse = await AppService.api.makeReservation(
                               ReservationRequest(
-                                experienceId: int.parse(widget.experienceData.id),
-                                dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
-                                voyageursAdultes: _counter,
-                                voyageursEnfants: _counterChild,
-                                voyageursBebes: _counterBaby,
-                                messageAuGuide: _textEditingControllerComment.text,
-                                prenom: _textEditingControllerName.text,
-                                isGroup: isGroupeAvailable,
-                                price: price
+                                  experienceId: int.parse(widget.experienceData.id),
+                                  dateTime: "${yearsReservationFormat(widget.date)} ${widget.time.split(" - ")[0].substring(0, 5)}",
+                                  voyageursAdultes: _counter,
+                                  voyageursEnfants: _counterChild,
+                                  voyageursBebes: _counterBaby,
+                                  messageAuGuide: _textEditingControllerComment.text,
+                                  prenom: _textEditingControllerName.text,
+                                  isGroup: isGroupeAvailable,
+                                  price: price
                               ),
                             );
+                            if (reservationResponse.error != null) {
+                              debugPrint('Reservation failed: ${reservationResponse.error}');
+                              showMessage(context, reservationResponse.error!);
+                            } else {
+                              final billingDetails = BillingDetails(
+                                name: 'John Doe',
+                                email: 'john.doe@example.com',
+                                phone: '+1234567890',
+                                address: Address(
+                                  city: 'Paris',
+                                  country: 'FR',
+                                  line1: '18 rue de drouot',
+                                  line2: 'Apt 4B',
+                                  postalCode: '75009',
+                                  state: 'Paris',
+                                ),
+                              );
+                              final stripePaymentHandle = StripePaymentHandle();
+                              stripePaymentHandle.stripeMakePayment(
+                                clientSecret: reservationResponse.clientSecret!,
+                                billingDetails: billingDetails,
+                                context: context,
+                              );
+                              debugPrint('Reservation successful! Client Secret: ${reservationResponse.clientSecret}');
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
