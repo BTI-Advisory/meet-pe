@@ -1,6 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:meet_pe/models/matching_api_request_builder.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/utils/_utils.dart';
@@ -25,7 +24,6 @@ class _MatchingPageState extends State<MatchingPage> {
   bool _showButton = false;
   bool tappedScreen = false;
 
-  int _currentIndex = 0;
   List<ExperienceModel> filteredProfiles = [];
 
   @override
@@ -71,33 +69,6 @@ class _MatchingPageState extends State<MatchingPage> {
     });
   }
 
-  bool _onSwipe(int previousIndex, int? currentIndex, CardSwiperDirection direction) {
-    if (direction == CardSwiperDirection.left) {
-      // Swipe left: Show the next card
-      if (_currentIndex < filteredProfiles.length - 1) {
-        _currentIndex++;  // Update the current index directly
-        debugPrint("Swiped to the next card: $_currentIndex");
-        return false; // Allow the swipe
-      } else {
-        debugPrint("Reached the last card. Cannot swipe further.");
-        return true; // Block the swipe when reached the last card
-      }
-    } else if (direction == CardSwiperDirection.right) {
-      // Swipe right: Show the previous card
-      if (_currentIndex > 0) {
-        _currentIndex--;  // Update the current index directly
-        debugPrint("Swiped to the previous card: $_currentIndex");
-        return false; // Allow the swipe
-      } else {
-        debugPrint("Reached the first card. Cannot swipe further.");
-        return true; // Block the swipe when reached the first card
-      }
-    }
-
-    // Default return: Allow swipe by default
-    return false;
-  }
-
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
@@ -131,7 +102,7 @@ class _MatchingPageState extends State<MatchingPage> {
                     height: size.height,
                     child: AbsorbPointer(
                       absorbing: tappedScreen,
-                      /*child: Swiper(
+                      child: Swiper(
                         itemBuilder: (BuildContext context,int index){
                           return GuideProfileCard(
                             experienceData: filteredProfiles[index],
@@ -156,24 +127,6 @@ class _MatchingPageState extends State<MatchingPage> {
                               const Offset(350.0, 0.0),
                             ],
                           ),
-                      ),*/
-                      child: CardSwiper(
-                        controller: CardSwiperController(),
-                        cardsCount: filteredProfiles.length,
-                        onSwipe: _onSwipe,
-                        cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-                          return GuideProfileCard(
-                            experienceData: filteredProfiles[_currentIndex],
-                            onCardTapped: (tapped) {
-                              setState(() {
-                                tappedScreen = tapped;
-                              });
-                            },
-                          );
-                        },
-                        allowedSwipeDirection: AllowedSwipeDirection.symmetric(vertical: false, horizontal: true),
-                        padding: const EdgeInsets.all(0),
-                        numberOfCardsDisplayed: 1,
                       ),
                     ),
                   )
