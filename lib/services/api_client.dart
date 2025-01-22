@@ -791,9 +791,31 @@ class ApiClient {
   /// Send reservation for experience.
   Future<ReservationRequestResponse> makeReservation(ReservationRequest reservationRequest) async {
     // Send request
-    final response = await _send<JsonObject>(_httpMethodPost, 'api/make-reservation', bodyJson: reservationRequest.toJson());
-
-    // Return data
+    final response = await () async {
+      try {
+        return await _send<JsonObject>(_httpMethodPost, 'api/make-reservation', bodyJson: reservationRequest.toJson());
+      } catch (e) {
+        // Catch wrong user quality error
+        if (e is EpHttpResponseException && e.statusCode == 400) {
+          showMessage(App.navigatorContext, 'Le créneau est complet.', isError: true);
+          throw const DisplayableException('Le créneau est complet.');
+        }
+        if (e is EpHttpResponseException && e.statusCode == 404) {
+          showMessage(App.navigatorContext, 'Un des elements est non trouvé.', isError: true);
+          throw const DisplayableException('Un des elements est non trouvé.');
+        }
+        if (e is EpHttpResponseException && e.statusCode == 422) {
+          showMessage(App.navigatorContext, "La date et l'heure sélectionnées ne correspondent à aucun créneau disponible.", isError: true);
+          throw const DisplayableException("La date et l'heure sélectionnées ne correspondent à aucun créneau disponible.");
+        }
+        if (e is EpHttpResponseException && e.statusCode == 401) {
+          AppService.instance.logOut();
+          //throw const DisplayableException(
+          //'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+        }
+        rethrow;
+      }
+    }();
     return ReservationRequestResponse.fromJson(response!);
   }
 

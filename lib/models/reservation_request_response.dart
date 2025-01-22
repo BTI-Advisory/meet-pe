@@ -12,12 +12,18 @@ class ReservationRequestResponse {
 
   @JsonKey(name: 'clientSecret')
   final String? clientSecret;
+
   @JsonKey(name: 'payment_intent_id')
   final String? paymentIntentId;
 
   @JsonKey(name: 'error')
   final String? error;
 
-  factory ReservationRequestResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReservationRequestResponseFromJson(json);
+  factory ReservationRequestResponse.fromJson(Map<String, dynamic> json) {
+    return ReservationRequestResponse(
+      clientSecret: json['clientSecret'] as String?,
+      paymentIntentId: json['payment_intent_id'] as String?,
+      error: json['error'] as String?,
+    );
+  }
 }
