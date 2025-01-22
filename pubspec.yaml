@@ -38,6 +38,7 @@ dependencies:
   info_popup: ^4.3.1
   flutter_card_swiper: ^7.0.2
   card_swiper: ^3.0.1
+  map_launcher: ^3.5.0
 
   # Web
   http: ^1.2.2

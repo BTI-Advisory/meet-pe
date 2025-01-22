@@ -31,6 +31,7 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 import '../models/availability_list_response.dart';
+import '../models/cancel_reservation_response.dart';
 import '../models/code_validation_response.dart';
 import '../models/experience_model.dart';
 import '../models/favoris_data_response.dart';
@@ -812,6 +813,20 @@ class ApiClient {
     } else {
       throw Exception('Failed to load reservation list');
     }
+  }
+
+  /// Cancel reservation.
+  Future<CancelReservationResponse> cancelReservation(int idReservation, String motif, String description) async {
+    final data = {
+      'experience_id': idReservation,
+      "motif": motif,
+      "description": description
+    };
+
+    final response = await _send<JsonObject>(_httpMethodPost, 'api/reservations/$idReservation/cancel', bodyJson: data);
+
+    // Return data
+    return CancelReservationResponse.fromJson(response!);
   }
 
   /// Mark a Create experience Guide
