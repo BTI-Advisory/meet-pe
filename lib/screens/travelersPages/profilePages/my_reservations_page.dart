@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/reservation_detail_page.dart';
 
 import '../../../models/reservation_list_response.dart';
@@ -16,12 +17,15 @@ class MyReservationsPage extends StatefulWidget {
 
 class _MyReservationsPageState extends State<MyReservationsPage> {
   late Future<List<ReservationListResponse>> _reservationFuture;
+  bool isFormValid = false;
+  List<String> _categories = ['Je ne suis plus disponible sur ce créneaux', 'Le guide n’a pas confirmé la réservation', 'J’aimerai ajouter/supprimer des voyageurs', 'J’ai trouvé une meilleure expérience', 'Autre'];
 
   @override
   void initState() {
     super.initState();
     _reservationFuture = AppService.api.getReservation();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +145,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "Chez Alex, lieu dit Meetpe",
+                          "Chez ${reservation.experience.user.name}, lieu dit Meetpe",
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppResources.colorDark,
                           ),
@@ -161,6 +165,21 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                         GestureDetector(
                           onTap: () {
                             // Add your map navigation logic here
+                            final latitude = double.parse(reservation.experience.lat);
+                            final longitude = double.parse(reservation.experience.lang);
+                            int zoom = 18;
+
+                            MapsSheet.show(
+                              context: context,
+                              onMapTap: (map) {
+                                map.showMarker(
+                                  coords: Coords(latitude, longitude),
+                                  title: reservation.experience.title,
+                                  zoom: zoom,
+                                );
+                              },
+                            );
+
                           },
                           child: Text(
                             'Voir sur le plan',
@@ -180,7 +199,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                 if (reservation.status == 'En attente' || reservation.status == 'Accepté')
                   TextButton(
                     onPressed: () {
-                      // Add cancellation logic here
+                      _showCancellationBottomSheet(context, reservation);
                     },
                     child: Text(
                       'Annuler ma réservation',
@@ -300,5 +319,240 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
         ],
       );
     }
+  }
+
+  void _showCancellationBottomSheet(BuildContext context, ReservationListResponse reservation) {
+    final TextEditingController guideNoteController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (BuildContext context) {
+        bool _isDropdownOpened = false;
+        String? selectedReason;
+
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Annulation",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 17),
+                  Text(
+                    "Conformément à nos Conditions Générales des frais d’annulation peuvent s’appliquer si l’annulation intervient moins de 72h avant le début de l’expérience.",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(color: AppResources.colorGray, fontSize: 12),
+                  ),
+                  SizedBox(height: 24),
+                  InkWell(
+                    onTap: () {
+                      setModalState(() {
+                        _isDropdownOpened = !_isDropdownOpened;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              selectedReason ?? "Sélectionnez une raison",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorGray60),
+                            ),
+                            Icon(
+                              _isDropdownOpened
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                              size: 24,
+                              color: Color(0xFF1C1B1F),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: 1,
+                          color: AppResources.colorGray15,
+                        ),
+                        if (_isDropdownOpened)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _categories.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  title: Text(_categories[index]),
+                                  onTap: () {
+                                    setModalState(() {
+                                      selectedReason = _categories[index];
+                                      _isDropdownOpened = false; // Close dropdown
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  TextFormField(
+                    controller: guideNoteController,
+                    keyboardType: TextInputType.text,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppResources.colorDark),
+                    decoration: InputDecoration(
+                      filled: false,
+                      hintText: 'Un mot pour le guide',
+                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                      contentPadding: EdgeInsets.only(
+                        top: ResponsiveSize.calculateHeight(20, context),
+                        bottom: ResponsiveSize.calculateHeight(10, context),
+                      ),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppResources.colorGray15),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppResources.colorGray15),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      // Trigger a state update when the text field changes
+                      setModalState(() {});
+                    },
+                  ),
+                  SizedBox(height: 82),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: ResponsiveSize.calculateHeight(44, context)),
+                      child: Container(
+                        width: ResponsiveSize.calculateWidth(264, context),
+                        height: ResponsiveSize.calculateHeight(48, context),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return AppResources.colorWhite;
+                                }
+                                return AppResources.colorVitamine;
+                              },
+                            ),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: BorderSide(
+                                  color: selectedReason != null &&
+                                      guideNoteController.text.isNotEmpty
+                                      ? AppResources.colorVitamine
+                                      : AppResources.colorGray,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: selectedReason != null && guideNoteController.text.isNotEmpty
+                              ? () async {
+                            // Call the cancelReservation API
+                            final result = await AppService.api.cancelReservation(
+                              reservation.id,
+                              selectedReason!,
+                              guideNoteController.text,
+                            );
+
+                            // Display an alert dialog with the response
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(result.error == null ? 'Success' : 'Error'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (result.message != null)
+                                        Text('Message: ${result.message}'),
+                                      if (result.refundAmount != null)
+                                        Text('Refund Amount: ${result.refundAmount}'),
+                                      if (result.status != null)
+                                        Text('Status: ${result.status}'),
+                                      if (result.error != null)
+                                        Text('Error: ${result.error}', style: TextStyle(color: Colors.red)),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(); // Close the dialog
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                              : null,
+                          child: Text(
+                            "ANNULER MA RÉSERVATION",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                              color: selectedReason != null &&
+                                  guideNoteController.text.isNotEmpty
+                                  ? AppResources.colorWhite
+                                  : AppResources.colorGray30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

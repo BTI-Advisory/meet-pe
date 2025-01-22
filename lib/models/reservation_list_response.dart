@@ -84,11 +84,11 @@ class Experience {
   final String lang;
   final String lat;
   final bool supportGroupPrive;
-  final int priceGroupPrive;
+  final int? priceGroupPrive;
   final String? prixGroupePrivePayeParVoyageur;
   final bool discountKidsBetween2And12;
   final String? dernierMinuteReservation;
-  final int maxGroupSize;
+  final int? maxGroupSize;
   final String? day;
   final String? heure;
   final String? raison;
@@ -122,11 +122,11 @@ class Experience {
     required this.lang,
     required this.lat,
     required this.supportGroupPrive,
-    required this.priceGroupPrive,
+    this.priceGroupPrive,
     required this.prixGroupePrivePayeParVoyageur,
     required this.discountKidsBetween2And12,
     required this.dernierMinuteReservation,
-    required this.maxGroupSize,
+    this.maxGroupSize,
     required this.day,
     required this.heure,
     required this.raison,
