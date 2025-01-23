@@ -196,7 +196,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                 SizedBox(height: 22),
                 Divider(color: AppResources.colorImputStroke),
                 SizedBox(height: 26),
-                if (reservation.status == 'En attente' || reservation.status == 'Accepté')
+                if (reservation.status == 'En attente' || reservation.status == 'Acceptée')
                   TextButton(
                     onPressed: () {
                       _showCancellationBottomSheet(context, reservation);
@@ -299,6 +299,21 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                 .textTheme
                 .bodyMedium
                 ?.copyWith(color: AppResources.colorDark),
+          ),
+        ],
+      );
+    } else if (status == 'Refusée') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.close, size: 17, color: Colors.red),
+          const SizedBox(width: 5),
+          Text(
+            status!,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.red),
           ),
         ],
       );
@@ -521,7 +536,12 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop(); // Close the dialog
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          _reservationFuture = AppService.api.getReservation(); // Refresh the reservation list
+                                        });
                                       },
                                       child: const Text('OK'),
                                     ),
