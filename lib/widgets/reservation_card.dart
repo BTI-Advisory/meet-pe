@@ -91,7 +91,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         )
                       ],
                     ),
-                  if(widget.reservationResponse.status == 'Accepté')
+                  if(widget.reservationResponse.status == 'Acceptée')
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -118,6 +118,21 @@ class _ReservationCardState extends State<ReservationCard> {
                               .textTheme
                               .bodyMedium
                               ?.copyWith(color: AppResources.colorGray30),
+                        )
+                      ],
+                    ),
+                  if(widget.reservationResponse.status == 'Refusée')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.close, size: 17, color: Colors.red),
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.reservationResponse.status!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: Colors.red),
                         )
                       ],
                     )

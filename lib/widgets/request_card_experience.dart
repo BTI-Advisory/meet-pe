@@ -140,7 +140,7 @@ class _RequestCardState extends State<RequestCard> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 19),
+                            const SizedBox(width: 15),
                             GestureDetector(
                               onTap: () async {
                                 await _updateStatus('Refusée'); // Update status asynchronously
@@ -168,7 +168,7 @@ class _RequestCardState extends State<RequestCard> {
                         visible: (widget.guideReservationResponse.status == 'Acceptée'),
                         child: Row(
                           children: [
-                            const SizedBox(width: 40),
+                            const SizedBox(width: 35),
                             const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
                             const SizedBox(width: 8),
                             Text(

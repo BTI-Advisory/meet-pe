@@ -14,6 +14,7 @@ class EventDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -70,16 +71,6 @@ class EventDetails extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 21.0),
-            child: Text(
-              'Le rendez-vous a lieu au coeur du 7eme arrondissement à proximité du métro Champs de Mars - Tour Eiffel. Le lieu exact sera communiqué après la réservation.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorGray45, fontWeight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(height: 16),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import '../models/experience_model.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/_utils.dart';
+import 'animated_icon_button.dart';
 import 'event_details.dart';
 
 class GuideProfileCard extends StatefulWidget {
@@ -729,7 +730,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               ),
                               const SizedBox(height: 8.0),
                               Container(
-                                height: 350,
+                                height: 270,
                                 child: ValueListenableBuilder<List<Event>>(
                                   valueListenable: _selectedEvents,
                                   builder: (context, value, _) {
@@ -763,11 +764,14 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                   color: AppResources.colorVitamine,
                   borderRadius: BorderRadius.circular(22),
                 ),
-                child: IconButton(
+                child: AnimatedIconButton(
                   onPressed: () {
-                    AppService.api.setFavoriteExperience(int.parse(widget.experienceData.experience.id), "add", context);
+                    AppService.api.setFavoriteExperience(
+                      int.parse(widget.experienceData.experience.id),
+                      "add",
+                      context,
+                    );
                   },
-                  icon: SvgPicture.asset('images/heart-filled.svg',),
                 ),
               ),
             ),
