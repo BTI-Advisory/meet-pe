@@ -100,12 +100,12 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
       }
 
       // Parse prices as double and calculate the total
-      final total = (double.parse(prixParVoyageur) * numberAdult) +
-          (double.parse(prixParEnfant) * numberKids);
+      final total = ((double.parse(prixParVoyageur) * numberAdult) +
+          (double.parse(prixParEnfant) * numberKids) + 5);
       return total.toStringAsFixed(2); // Return the total as a string with two decimal places
     } else {
       // Parse prices as double and calculate the total
-      final total = double.parse(prixParVoyageur) * (numberAdult + numberKids);
+      final total = (double.parse(prixParVoyageur) * (numberAdult + numberKids) + 5);
       return total.toStringAsFixed(2); // Return the total as a string with two decimal places
     }
   }
