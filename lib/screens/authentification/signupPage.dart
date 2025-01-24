@@ -9,6 +9,7 @@ import '../../resources/resources.dart';
 import '../../services/app_service.dart';
 import '../../services/secure_storage_service.dart';
 import '../../utils/_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.email});
@@ -91,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Crée ton compte',
+                                      AppLocalizations.of(context)!.create_account_text,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium,
@@ -143,9 +144,9 @@ class _SignUpPageState extends State<SignUpPage>
                                           7, context),
                                     ),
                                     if (validationMessage != null)
-                                      const Text(
-                                        'Ⓧ 6 caractères minimum',
-                                        style: TextStyle(
+                                      Text(
+                                        AppLocalizations.of(context)!.minimum_password_text,
+                                        style: const TextStyle(
                                           color: Color(0xFFFF0000),
                                           fontSize: 10,
                                           fontFamily: 'Outfit',
@@ -207,8 +208,8 @@ class _SignUpPageState extends State<SignUpPage>
                                             Text.rich(
                                               TextSpan(
                                                 children: [
-                                                  const TextSpan(
-                                                    text: 'J’accepte les ',
+                                                  TextSpan(
+                                                    text: AppLocalizations.of(context)!.signup_1_text,
                                                     style: TextStyle(
                                                       color: Color(0xFF979797),
                                                       fontSize: 12,
@@ -219,8 +220,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                     ),
                                                   ),
                                                   TextSpan(
-                                                    text:
-                                                        'Conditions Générales',
+                                                    text: AppLocalizations.of(context)!.signup_2_text,
                                                     style: const TextStyle(
                                                       color: Color(0xFFFF4C00),
                                                       fontSize: 12,
@@ -241,8 +241,8 @@ class _SignUpPageState extends State<SignUpPage>
                                                                         'https://meetpe.fr/conditions-generales'));
                                                           },
                                                   ),
-                                                  const TextSpan(
-                                                    text: ' et ',
+                                                  TextSpan(
+                                                    text: AppLocalizations.of(context)!.signup_3_text,
                                                     style: TextStyle(
                                                       color: Color(0xFF979797),
                                                       fontSize: 12,
@@ -258,8 +258,8 @@ class _SignUpPageState extends State<SignUpPage>
                                             ),
                                             Text.rich(
                                               TextSpan(children: [
-                                                const TextSpan(
-                                                  text: ' la ',
+                                                TextSpan(
+                                                  text: AppLocalizations.of(context)!.signup_4_text,
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
                                                     fontSize: 12,
@@ -270,7 +270,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                      'Politique de Confidentialité',
+                                                  AppLocalizations.of(context)!.signup_5_text,
                                                   style: const TextStyle(
                                                     color: Color(0xFFFF4C00),
                                                     fontSize: 12,
@@ -302,8 +302,8 @@ class _SignUpPageState extends State<SignUpPage>
                                                     height: 0,
                                                   ),
                                                 ),
-                                                const TextSpan(
-                                                  text: 'Meet People',
+                                                TextSpan(
+                                                  text: AppLocalizations.of(context)!.login_5_text,
                                                   style: TextStyle(
                                                     color: Color(0xFF979797),
                                                     fontSize: 12,
@@ -324,8 +324,8 @@ class _SignUpPageState extends State<SignUpPage>
                                           17, context),
                                     ),
                                     if (!_showErrorMessage)
-                                      const Text(
-                                        'ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER',
+                                      Text(
+                                        AppLocalizations.of(context)!.check_1_text,
                                         style: TextStyle(
                                           color: Color(0xFFFF0000),
                                           fontSize: 10,
@@ -374,8 +374,8 @@ class _SignUpPageState extends State<SignUpPage>
                                           ),
                                         ),
                                         const SizedBox(width: 12),
-                                        const Text(
-                                          'J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles \nexpériences, tips et newsletter)',
+                                        Text(
+                                          AppLocalizations.of(context)!.check_2_text,
                                           style: TextStyle(
                                             color: Color(0xFF979797),
                                             fontSize: 12,
@@ -451,7 +451,7 @@ class _SignUpPageState extends State<SignUpPage>
                                           }
                                         : null,
                                     child: Text(
-                                      'CREER UN COMPTE',
+                                      AppLocalizations.of(context)!.create_account_button,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

@@ -1,0 +1,56 @@
+{
+  "language": "Français",
+  "@language": {
+    "description": "The current Language"
+  },
+
+  "move": "Move",
+  "move_desc": "Explore le monde\n d’une nouvelle manière",
+  "meet": "Meet",
+  "meet_desc": "Rencontre nos locaux\n passionnés où que tu sois",
+  "share": "Share",
+  "share_desc": "Partage des moments de vie uniques\n avec notre communauté",
+  "passer_button": "PASSER",
+
+  "login_1_text": "En continuant avec Google, Apple ou Facebook vous accepter ",
+  "login_2_text": "les Conditions Générales",
+  "login_3_text": " et la ",
+  "login_4_text": "Politique de Confidentialité",
+  "login_5_text": " Meet People",
+
+  "verify_email_button": "CONTINUER AVEC CET EMAIL",
+
+  "connexion_text": "Connexion",
+  "champs_invalid_text": "CHAMPS INVALIDE",
+  "mot_de_passe_oublie_text": "mot de passe oublié ?",
+  "connection_button": "SE CONNECTER",
+
+  "create_account_text": "Crée ton compte",
+  "minimum_password_text": "Ⓧ 6 caractères minimum",
+  "signup_1_text": "J’accepte les ",
+  "signup_2_text": "Conditions Générales",
+  "signup_3_text": " et ",
+  "signup_4_text": " la ",
+  "signup_5_text": "Politique de Confidentialité",
+  "check_1_text": "ACCEPTE LES CONDITIONS GENERALES POUR CONTINUER",
+  "check_2_text": "J’accepte de recevoir les dernières\n nouveautés Meet People (nouvelles \nexpériences, tips et newsletter)",
+  "create_account_button": "CREER UN COMPTE",
+
+  "information_title_text": "Information",
+  "information_descr_text": "⚠\uFE0F Spam Alerte ça nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part, nous serons plus forts que le côté obscur de la Force \uD83D\uDCAA\uD83C\uDFFC",
+  "ok_text": "OK",
+  "aye_text": "Aye!!",
+  "verify_code_text": "Verifiez le code!",
+  "received_text": "Tu viens de recevoir un code !",
+  "enter_code_text": "Entre le pour vérifier que c’est bien toi !",
+  "sended_code_text": "code renvoyé",
+  "resend_code_text": "Renvoyer le code",
+  "valider_text": "VALIDER",
+
+  "welcome_title_text": "Notre p'tit truc en plus : un Matching instantané",
+  "welcome_descr_text": "Chez nous c'est toi la star ! Notre système de Matching va te proposer des expériences sur mesure. Laisse toi guider par ceux qui y vivent et crée des souvenirs qui te ressemblent  🚀",
+  "guide_welcome_text": "Tu veux partager tes passions ?",
+  "guide_welcome_button": "DEVIENS GUIDE MEET PEOPLE",
+  "travelers_welcome_text": "Tu veux rencontrer des locaux passionnés ?",
+  "travelers_welcome_button": "VOYAGE AVEC MEET PEOPLE"
+}

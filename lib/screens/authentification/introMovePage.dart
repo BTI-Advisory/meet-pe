@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../resources/resources.dart';
-import '../../utils/responsive_size.dart';
-import '../../utils/utils.dart';
+import '../../utils/_utils.dart';
 import 'loginPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntroMovePage extends StatefulWidget {
   const IntroMovePage({super.key});
@@ -42,43 +42,6 @@ class _IntroMovePageState extends State<IntroMovePage> {
     super.initState();
     controller = PageController();
     _curr = 0;
-    _list = [
-      Center(
-        child: Pages(
-          text: "Move",
-          description: 'Explore le monde\n d’une nouvelle manière',
-          imageName: 'introMove',
-          ellipseOne: ellipseFullContainer,
-          ellipseTow: ellipseEmptyContainer,
-          ellipseThree: ellipseEmptyContainer,
-          buttonShow: false,
-          onNextPage: navigateToNextPage,
-        ),
-      ),
-      Center(
-          child: Pages(
-            text: "Meet",
-            description: 'Rencontre nos locaux\n passionnés où que tu sois',
-            imageName: 'introMeet',
-            ellipseOne: ellipseEmptyContainer,
-            ellipseTow: ellipseFullContainer,
-            ellipseThree: ellipseEmptyContainer,
-            buttonShow: false,
-            onNextPage: navigateToNextPage,
-          )),
-      Center(
-        child: Pages(
-          text: "Share",
-          description: 'Partage des moments de vie uniques\n avec notre communauté',
-          imageName: 'introShare',
-          ellipseOne: ellipseEmptyContainer,
-          ellipseTow: ellipseEmptyContainer,
-          ellipseThree: ellipseFullContainer,
-          buttonShow: true,
-          onNextPage: () {},
-        ),
-      )
-    ];
   }
 
   void navigateToNextPage() {
@@ -93,6 +56,43 @@ class _IntroMovePageState extends State<IntroMovePage> {
 
   @override
   Widget build(BuildContext context) {
+    _list = [
+      Center(
+        child: Pages(
+          text: AppLocalizations.of(context)!.move,
+          description: AppLocalizations.of(context)!.move_desc,
+          imageName: 'introMove',
+          ellipseOne: ellipseFullContainer,
+          ellipseTow: ellipseEmptyContainer,
+          ellipseThree: ellipseEmptyContainer,
+          buttonShow: false,
+          onNextPage: navigateToNextPage,
+        ),
+      ),
+      Center(
+          child: Pages(
+            text: AppLocalizations.of(context)!.meet,
+            description: AppLocalizations.of(context)!.meet_desc,
+            imageName: 'introMeet',
+            ellipseOne: ellipseEmptyContainer,
+            ellipseTow: ellipseFullContainer,
+            ellipseThree: ellipseEmptyContainer,
+            buttonShow: false,
+            onNextPage: navigateToNextPage,
+          )),
+      Center(
+        child: Pages(
+          text: AppLocalizations.of(context)!.share,
+          description: AppLocalizations.of(context)!.share_desc,
+          imageName: 'introShare',
+          ellipseOne: ellipseEmptyContainer,
+          ellipseTow: ellipseEmptyContainer,
+          ellipseThree: ellipseFullContainer,
+          buttonShow: true,
+          onNextPage: () {},
+        ),
+      )
+    ];
     return Scaffold(
       body: Stack(
         children: [
@@ -125,7 +125,7 @@ class _IntroMovePageState extends State<IntroMovePage> {
                 navigateTo(context, (_) => const LoginPage());
               },
               child: Text(
-                'PASSER',
+                AppLocalizations.of(context)!.passer_button,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),

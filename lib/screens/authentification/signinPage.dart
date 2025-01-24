@@ -9,8 +9,8 @@ import '../../services/app_service.dart';
 import '../../services/secure_storage_service.dart';
 import '../../services/storage_service.dart';
 import '../../utils/_utils.dart';
-import '../../widgets/async_form.dart';
-import '../../widgets/password_field.dart';
+import '../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key, required this.email});
@@ -77,7 +77,7 @@ class _SignInPageState extends State<SignInPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Connexion',
+                                      AppLocalizations.of(context)!.connexion_text,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium,
@@ -124,9 +124,9 @@ class _SignInPageState extends State<SignInPage>
                                       height: 7,
                                     ),
                                     if (validationMessage != null)
-                                      const Text(
-                                        'CHAMPS INVALIDE',
-                                        style: TextStyle(
+                                      Text(
+                                        AppLocalizations.of(context)!.champs_invalid_text,
+                                        style: const TextStyle(
                                           color: Color(0xFFFF0000),
                                           fontSize: 10,
                                           fontFamily: 'Outfit',
@@ -142,7 +142,7 @@ class _SignInPageState extends State<SignInPage>
                                         navigateTo(context, (_) => VerifEmailForgotPassword(email: widget.email));
                                       },
                                       child: Text(
-                                        'mot de passe oublié ?',
+                                        AppLocalizations.of(context)!.mot_de_passe_oublie_text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall
@@ -186,7 +186,7 @@ class _SignInPageState extends State<SignInPage>
                                     ),
                                     onPressed: validate,
                                     child: Text(
-                                      'SE CONNECTER',
+                                      AppLocalizations.of(context)!.connection_button,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

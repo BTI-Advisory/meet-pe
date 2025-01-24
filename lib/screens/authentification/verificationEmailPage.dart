@@ -6,6 +6,7 @@ import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerificationEmailPage extends StatefulWidget {
   const VerificationEmailPage({super.key});
@@ -169,7 +170,7 @@ class _VerificationEmailPageState extends State<VerificationEmailPage>
                                 ),
                                 onPressed: validate,
                                 child: Text(
-                                  'CONTINUER AVEC CET EMAIL',
+                                  AppLocalizations.of(context)!.verify_email_button,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
