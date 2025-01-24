@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:intl/intl.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/authentification/launch_screen.dart';
 import 'package:meet_pe/services/app_service.dart';
@@ -18,6 +17,8 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   // Init Flutter
@@ -47,9 +48,6 @@ void main() async {
     }
   };
 
-  // Set default intl package locale
-  Intl.defaultLocale = App.defaultLocale.toString();
-
   // Set default TimeAgo package locale
   timeago.setLocaleMessages(
       'en', timeago.FrShortMessages()); // Set default timeAgo local to fr
@@ -74,9 +72,6 @@ void main() async {
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
-
-  // Default locale
-  static const defaultLocale = Locale('fr');
 
   /// Global key for the App's main navigator
   static final GlobalKey<NavigatorState> _navigatorKey =
@@ -106,8 +101,13 @@ static Widget buildLaunchPage() =>
       ),
       child: MaterialApp(
         title: 'Meet-Pe',
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        supportedLocales: const [defaultLocale],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: L10n.all,
         theme: buildAppTheme(),
         darkTheme: buildAppTheme(darkMode: false),
         navigatorKey: _navigatorKey,

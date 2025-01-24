@@ -2,21 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/authentification/verificationEmailPage.dart';
-import 'package:meet_pe/screens/authentification/welcomePage.dart';
-import 'package:meet_pe/services/app_service.dart';
 import 'package:meet_pe/widgets/web_view_container.dart';
-//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
-import '../../services/secure_storage_service.dart';
 import '../../utils/_utils.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:meet_pe/firebase_options.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
-import '../guideProfilPages/main_guide_page.dart';
-import '../travelersPages/main_travelers_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -179,8 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text.rich(
                       TextSpan(
                         children: [
-                          const TextSpan(
-                            text: 'En continuant avec Google, Apple ou Facebook vous accepter ',
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.login_1_text,
                             style: TextStyle(
                               color: Color(0xFF979797),
                               fontSize: 14,
@@ -190,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           TextSpan(
-                            text: 'les Conditions Générales',
+                            text: AppLocalizations.of(context)!.login_2_text,
                             style: const TextStyle(
                               color: Color(0xFFFF4C00),
                               fontSize: 14,
@@ -204,8 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                               navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/conditions-generales'));
                             },
                           ),
-                          const TextSpan(
-                            text: ' et la ',
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.login_3_text,
                             style: TextStyle(
                               color: Color(0xFF979797),
                               fontSize: 14,
@@ -215,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           TextSpan(
-                            text: 'Politique de Confidentialité',
+                            text: AppLocalizations.of(context)!.login_4_text,
                             style: const TextStyle(
                               color: Color(0xFFFF4C00),
                               fontSize: 14,
@@ -229,8 +217,8 @@ class _LoginPageState extends State<LoginPage> {
                                 navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://www.meetpe.fr/privacy'));
                               },
                           ),
-                          const TextSpan(
-                            text: ' Meet People',
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.login_5_text,
                             style: TextStyle(
                               color: Color(0xFF979797),
                               fontSize: 14,

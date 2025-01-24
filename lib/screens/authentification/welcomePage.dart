@@ -5,6 +5,7 @@ import 'package:meet_pe/utils/_utils.dart';
 import '../../resources/resources.dart';
 import '../../services/app_service.dart';
 import '../../services/secure_storage_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key, required this.fromCode});
@@ -31,15 +32,14 @@ class _WelcomePageState extends State<WelcomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Center(child: Text('Information')),
-        content: const Text(
-            '⚠️ Spam Alerte ça nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part, nous serons plus forts que le côté obscur de la Force 💪🏼'),
+        title: Center(child: Text(AppLocalizations.of(context)!.information_title_text)),
+        content: Text(AppLocalizations.of(context)!.information_descr_text),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok_text),
           ),
         ],
       ),
@@ -76,7 +76,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         child: SizedBox(
                           width: double.infinity,
                           child: Text(
-                            "Notre p'tit truc en plus : un Matching instantané",
+                            AppLocalizations.of(context)!.welcome_title_text,
                             style: TextStyle(
                               color: AppResources.colorBeigeLight,
                               fontSize: ResponsiveSize.calculateTextSize(38, context),
@@ -93,7 +93,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         child: SizedBox(
                           width: ResponsiveSize.calculateWidth(double.infinity, context),
                           child: Text(
-                            "Chez nous c'est toi la star ! Notre système de Matching va te proposer des expériences sur mesure. Laisse toi guider par ceux qui y vivent et crée des souvenirs qui te ressemblent  🚀",
+                            AppLocalizations.of(context)!.welcome_descr_text,
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, fontSize: 18),
                           ),
                         ),
@@ -105,7 +105,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              'Tu veux partager tes passions ?',
+                              AppLocalizations.of(context)!.guide_welcome_text,
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, height: 1.5),
                               textAlign: TextAlign.center,
                             ),
@@ -137,7 +137,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 });
                               },
                               child: Text(
-                                'DEVIENS GUIDE MEET PEOPLE',
+                                AppLocalizations.of(context)!.guide_welcome_button,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                               ),
                             ),
@@ -146,7 +146,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           SizedBox(
                             width: ResponsiveSize.calculateWidth(327, context),
                             child: Text(
-                              'Tu veux rencontrer des locaux passionnés ?',
+                              AppLocalizations.of(context)!.travelers_welcome_text,
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, fontSize: ResponsiveSize.calculateTextSize(16, context)),
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
@@ -178,7 +178,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 });
                               },
                               child: Text(
-                                'VOYAGE AVEC MEET PEOPLE',
+                                AppLocalizations.of(context)!.travelers_welcome_button,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                               ),
                             ),
