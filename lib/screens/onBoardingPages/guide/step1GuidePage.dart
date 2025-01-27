@@ -5,6 +5,7 @@ import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step1GuidePage extends StatefulWidget {
   final int totalSteps;
@@ -93,19 +94,13 @@ class _Step1GuidePageState extends State<Step1GuidePage> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Ton truc à toi c’est…',
+                      AppLocalizations.of(context)!.your_truc_text,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium
                           ?.copyWith(color: AppResources.colorGray100),
                     ),
-                    ///Todo: Remove comment when it's added in profile
-                    /*SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
-                    Text(
-                      'Tu peux modifier ces critères à tous \nmoments depuis ton profil.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),*/
                     SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
                     Container(
                       width: 319,

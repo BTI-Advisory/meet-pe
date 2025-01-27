@@ -5,6 +5,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../../resources/resources.dart';
 import 'create_exp_step6.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep5 extends StatefulWidget {
   CreateExpStep5({super.key, required this.name, required this.description, required this.infoMap});
@@ -66,7 +67,7 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Étape 4 sur 11',
+                            AppLocalizations.of(context)!.step_5_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -75,13 +76,13 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(8, context)),
                           Text(
-                            'Horaire & dates de l’expérience',
+                            AppLocalizations.of(context)!.step_5_title_text,
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           SizedBox(
                               height: ResponsiveSize.calculateHeight(16, context)),
                           Text(
-                            'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
+                            AppLocalizations.of(context)!.step_5_desc_text,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           SizedBox(
@@ -100,11 +101,11 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                   TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: 'Durée de l’expérience : ',
+                                        text: AppLocalizations.of(context)!.duration_text,
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                       ),
                                       TextSpan(
-                                        text: 'Horaire personalisé',
+                                        text: AppLocalizations.of(context)!.schedule_1_text,
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
                                       ),
                                     ],
@@ -193,13 +194,13 @@ class _CreateExpStep5State extends State<CreateExpStep5> with BlocProvider<Creat
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Dates de l’expérience',
+                                    AppLocalizations.of(context)!.dates_text,
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
                                   ),
                                   Row(
                                     children: [
                                       Text(
-                                        selectedDays.isNotEmpty ? 'Renseigné' : 'Non renseigné',
+                                        selectedDays.isNotEmpty ? AppLocalizations.of(context)!.informed_text : AppLocalizations.of(context)!.not_informed_text,
                                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: selectedDays.isNotEmpty ? AppResources.colorVitamine : AppResources.colorDark ),
                                       ),
                                       Image.asset('images/chevron_right.png',

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import '../../../../widgets/_widgets.dart';
 import 'create_exp_step12.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep11 extends StatefulWidget {
   CreateExpStep11({super.key, required this.sendListMap});
@@ -101,25 +101,25 @@ class _CreateExpStep11State extends State<CreateExpStep11> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Étape 10 sur 11',
+                                  AppLocalizations.of(context)!.step_10_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(fontSize: 10, fontWeight: FontWeight.w400),
                                 ),
-                                const PopupView(contentTitle: "Tips : plus tu encourageras de « l’instant Booking » en réduisant ce timing plus tu auras l’occasion de remplir ton expérience 💪🏼")
+                                PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_last_minute_text)
                               ],
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(8, context)),
                             Text(
-                              'Réservation de dernière minute',
+                              AppLocalizations.of(context)!.step_10_title_text,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'Combien de temps avant le début de l’expérience le voyageur peut-il réserver?',
+                              AppLocalizations.of(context)!.step_10_desc_text,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             SizedBox(

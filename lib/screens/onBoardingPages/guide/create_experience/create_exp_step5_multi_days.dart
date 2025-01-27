@@ -5,6 +5,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../../resources/resources.dart';
 import 'create_exp_step6.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep5MultiDays extends StatefulWidget {
   CreateExpStep5MultiDays({super.key, required this.name, required this.description, required this.infoMap, required this.duration});
@@ -70,7 +71,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 4 sur 11',
+                              AppLocalizations.of(context)!.step_5_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -79,13 +80,13 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(8, context)),
                             Text(
-                              'Horaire & dates de l’expérience',
+                              AppLocalizations.of(context)!.step_5_title_text,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
+                              AppLocalizations.of(context)!.step_5_desc_text,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             SizedBox(
@@ -104,11 +105,11 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                                     TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: 'Durée de l’expérience : ',
+                                          text: AppLocalizations.of(context)!.duration_text,
                                           style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                         ),
                                         TextSpan(
-                                          text: widget.duration == 2 ? "48 h" : "7 jours",
+                                          text: widget.duration == 2 ? AppLocalizations.of(context)!.schedule_2_text : AppLocalizations.of(context)!.schedule_3_text,
                                           style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
                                         ),
                                       ],
@@ -181,8 +182,8 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'L’expérience commence à ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
-                                  'et se termine ${widget.duration == 2 ? "48 h" : "7 jours"} après à ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
+                              '${AppLocalizations.of(context)!.info_duration_1_text} ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
+                                  '${AppLocalizations.of(context)!.info_duration_2_text} ${widget.duration == 2 ? AppLocalizations.of(context)!.schedule_2_text : AppLocalizations.of(context)!.schedule_3_text} ${AppLocalizations.of(context)!.info_duration_3_text} ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray60),
                             ),
                             SizedBox(
@@ -211,7 +212,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                                 }
                               },
                               child: Text(
-                                '+ Ajouter des dates',
+                                AppLocalizations.of(context)!.add_dates_text,
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorVitamine),
                               ),
                             ),
@@ -237,7 +238,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                               selectedRanges.removeAt(rangeIndex); // Remove the item from the list
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Date range removed')),
+                              SnackBar(content: Text(AppLocalizations.of(context)!.date_removed_text,)),
                             );
                           },
                           child: GestureDetector(

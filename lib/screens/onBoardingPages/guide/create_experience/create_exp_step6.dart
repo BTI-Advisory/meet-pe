@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../resources/resources.dart';
 import 'create_exp_step7.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -55,13 +56,13 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -74,7 +75,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             // Process the image
             String imagePath = pickedFile.path;
@@ -87,10 +88,10 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -99,7 +100,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           // Process the image
           String imagePath = pickedFile.path;
@@ -112,7 +113,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -121,16 +122,14 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Center(child: Text('Information')),
-        content: const Text(
-            'Ici, nous souhaitons une photo de toi avec ton plus beau sourire 😃'
-        ),
+        title: Center(child: Text(AppLocalizations.of(context)!.information_title_text)),
+        content: Text(AppLocalizations.of(context)!.profile_photo_text),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok_text),
           ),
         ],
       ),
@@ -171,25 +170,25 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Étape 5 sur 11',
+                                AppLocalizations.of(context)!.step_6_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
                                     ?.copyWith(
                                         fontSize: 10, fontWeight: FontWeight.w400),
                               ),
-                              const PopupView(contentTitle: "Capture l'Action 💥 /  Montre l'Authenticité 🌟 / Explore la Diversité 🌈 / Joue avec la Lumière ☀️ et Engage tes futurs Participants 🎉 \n\nN’oublie jamais la way of life de Meet People lors du choix de tes photos 📸, du partage, des échanges et des sourires !\n ",)
+                              PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_photo_text,)
                             ]),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(8, context)),
                         Text(
-                          'Photos de l’expérience',
+                          AppLocalizations.of(context)!.step_6_title_text,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'Plonge-nous dans ton univers et fais-nous rêver ! Quoi de mieux que des photos pour mettre en avant ton expérience !',
+                          AppLocalizations.of(context)!.step_6_desc_text,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         SizedBox(
@@ -232,7 +231,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                                             .colorGray60,
                                                       ),
                                                       Text(
-                                                        'Photo principale',
+                                                        AppLocalizations.of(context)!.main_photo_text,
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyLarge
@@ -241,7 +240,7 @@ class _CreateExpStep6State extends State<CreateExpStep6> {
                                                                     .colorGray60),
                                                       ),
                                                       Text(
-                                                        'Fais nous ton plus beau \nsourire 😉',
+                                                        AppLocalizations.of(context)!.main_photo_desc_text,
                                                         textAlign: TextAlign.center,
                                                         style: Theme.of(context)
                                                             .textTheme

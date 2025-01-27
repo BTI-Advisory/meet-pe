@@ -6,6 +6,7 @@ import '../../../../services/app_service.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep1 extends StatefulWidget {
   const CreateExpStep1({super.key});
@@ -82,7 +83,7 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 1 sur 11',
+                              AppLocalizations.of(context)!.step_1_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -90,12 +91,12 @@ class _CreateExpStep1State extends State<CreateExpStep1> {
                             ),
                             SizedBox(height: ResponsiveSize.calculateHeight(8, context)),
                             Text(
-                              'Catégorie de l’expérience',
+                              AppLocalizations.of(context)!.step_1_title_text,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'Dis-nous quel type d’expérience, tu proposes',
+                              AppLocalizations.of(context)!.step_1_desc_text,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             SizedBox(height: ResponsiveSize.calculateHeight(40, context)),

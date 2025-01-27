@@ -5,6 +5,7 @@ import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/_utils.dart';
 import 'created_experience.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep12 extends StatefulWidget {
   CreateExpStep12({super.key, required this.sendListMap});
@@ -97,7 +98,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Étape 11 sur 11',
+                        AppLocalizations.of(context)!.step_11_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -106,13 +107,13 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(8, context)),
                       Text(
-                        'On se retrouve où ?',
+                        AppLocalizations.of(context)!.step_11_title_text,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(16, context)),
                       Text(
-                        'Ou se situe votre expérience ?',
+                        AppLocalizations.of(context)!.step_11_desc_text,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       SizedBox(
@@ -126,7 +127,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                             ?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
-                          hintText: 'Adresse',
+                          hintText: AppLocalizations.of(context)!.address_hint_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
@@ -174,7 +175,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                             ?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
-                          hintText: 'Ville',
+                          hintText: AppLocalizations.of(context)!.city_hint_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
@@ -222,7 +223,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                             ?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
-                          hintText: 'Code postal',
+                          hintText: AppLocalizations.of(context)!.zip_code_hint_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
@@ -270,7 +271,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                             ?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
-                          hintText: 'Pays',
+                          hintText: AppLocalizations.of(context)!.country_hint_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
@@ -376,7 +377,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                           child: isLoading
                               ? CircularProgressIndicator() // Show loader when isLoading is true
                               : Text(
-                            'POSTER MON EXPÉRIENCE',
+                            AppLocalizations.of(context)!.post_experience_text,
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 color: AppResources.colorWhite),
                           ),

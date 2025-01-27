@@ -6,6 +6,7 @@ import 'package:widget_mask/widget_mask.dart';
 import '../../../../resources/resources.dart';
 import '../../../../utils/_utils.dart';
 import 'create_exp_step8.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep7 extends StatefulWidget {
   CreateExpStep7({super.key, required this.photo, required this.imageArray, required this.infoMap, required this.name, required this.description});
@@ -134,7 +135,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                       width: ResponsiveSize.calculateWidth(
                                           8, context)),
                                   Text(
-                                    'Mode visualisation',
+                                    AppLocalizations.of(context)!.visual_mode_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineMedium
@@ -187,7 +188,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                     SizedBox(
                       width: ResponsiveSize.calculateWidth(319, context),
                       child: Text(
-                        'Gallery',
+                        AppLocalizations.of(context)!.gallery_text,
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium
@@ -271,7 +272,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                       navigateTo(context, (_) => CreateExpStep8(photo: widget.photo, imageArray: widget.imageArray, infoMap: widget.infoMap));
                     },
                     child: Text(
-                      'VALIDER LE VISUEL',
+                      AppLocalizations.of(context)!.visual_valid_text,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                     ),
                   ),
