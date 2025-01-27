@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../resources/resources.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 import '../../travelersPages/tutorial/tutorial_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -50,7 +50,7 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'On cherche\nles expériences faites pour toi ...',
+                AppLocalizations.of(context)!.traveler_profile_created_text,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

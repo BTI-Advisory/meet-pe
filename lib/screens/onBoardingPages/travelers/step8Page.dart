@@ -5,6 +5,7 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/travelers/step9Page.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step8Page extends StatefulWidget {
   Step8Page({super.key, required this.myMap});
@@ -120,7 +121,7 @@ class _Step8PageState extends State<Step8Page> {
           children: [
             SizedBox(height: ResponsiveSize.calculateHeight(158, context)),
             Text(
-              'Tu pars où ?',
+              AppLocalizations.of(context)!.traveler_step_8_title_text,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -150,12 +151,12 @@ class _Step8PageState extends State<Step8Page> {
                       await _getCurrentLocation();
                       if (_currentCity.isNotEmpty && _currentCountry.isNotEmpty) {
                         setState(() {
-                          _textEditingController.text = 'Autour de moi';
+                          _textEditingController.text = AppLocalizations.of(context)!.around_me;
                         });
                       }
                     },
                     label: Text(
-                      'Autour de moi',
+                      AppLocalizations.of(context)!.around_me,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -217,7 +218,7 @@ class _Step8PageState extends State<Step8Page> {
                       },
                       child: _textEditingController.text.isEmpty
                           ? Text(
-                              'SURPRENDS MOI',
+                              AppLocalizations.of(context)!.surprise_me_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

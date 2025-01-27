@@ -10,6 +10,7 @@ import 'package:widget_mask/widget_mask.dart';
 import '../../../services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -62,13 +63,13 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -81,7 +82,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             String imagePath = pickedFile?.path ?? '';
 
@@ -94,10 +95,10 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -106,7 +107,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           String imagePath = pickedFile?.path ?? '';
 
@@ -119,7 +120,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -134,7 +135,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
             if (success) {
               navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));
             } else {
-              showMessage(context, "Échec du téléchargement de l'image. Veuillez réessayer.");
+              showMessage(context, AppLocalizations.of(context)!.error_upload_text);
             }
           },
           builder: (BuildContext context, void Function() validate) {
@@ -157,7 +158,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                     children: [
                       SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
                       Text(
-                        'On m’a dit que les prénoms cool commencaient par la première lettre de ton prénom...',
+                        AppLocalizations.of(context)!.info_travelers_text,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -228,7 +229,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                     ?.copyWith(color: AppResources.colorGray100),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Ton prénom',
+                                  hintText: AppLocalizations.of(context)!.your_name_text,
                                   hintStyle:
                                   Theme.of(context).textTheme.bodyMedium,
                                   contentPadding: EdgeInsets.only(
@@ -274,7 +275,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                     ?.copyWith(color: AppResources.colorGray100),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Ton numéro de téléphone',
+                                  hintText: AppLocalizations.of(context)!.your_phone_text,
                                   hintStyle:
                                   Theme.of(context).textTheme.bodyMedium,
                                   contentPadding: EdgeInsets.only(
