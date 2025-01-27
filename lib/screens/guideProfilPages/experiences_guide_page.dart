@@ -9,6 +9,7 @@ import '../../services/app_service.dart';
 import '../../widgets/_widgets.dart';
 import '../onBoardingPages/guide/create_experience/create_exp_step1.dart';
 import 'experiencePages/edit_experience_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExperiencesGuidePage extends StatefulWidget {
   const ExperiencesGuidePage({super.key});
@@ -113,12 +114,12 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                   children: [
                     const SizedBox(height: 73),
                     Text(
-                      'Mes Expériences',
+                      AppLocalizations.of(context)!.my_experiences_text,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Retrouve ici toutes les demandes pour tes expériences. Crée, modifie et gère tes expériences facilement ici.',
+                      AppLocalizations.of(context)!.no_experiences_text,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppResources.colorGray30),
@@ -142,7 +143,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                 ),
                                 Center(
                                   child: Text(
-                                    "Pas de réservations pour le moment ? Ne t'inquiète pas, ça arrive 😉⏳",
+                                    AppLocalizations.of(context)!.no_reservations_text,
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
@@ -195,7 +196,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                 ),
                                 Center(
                                   child: Text(
-                                    "Aucune expérience ? N'hésite pas à en créer une 🚀",
+                                    AppLocalizations.of(context)!.noo_experiences_text,
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
@@ -254,7 +255,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                 children: [
                   const Icon(Icons.add, color: AppResources.colorWhite),
                   Text(
-                    'CREER',
+                    AppLocalizations.of(context)!.create_exp_text,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -286,7 +287,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Text('Demandes',
+                child: Text(AppLocalizations.of(context)!.request_text,
                     style: isRequest
                         ? Theme.of(context)
                             .textTheme
@@ -339,7 +340,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Text('Mes expériences',
+                child: Text(AppLocalizations.of(context)!.my_experiences_text,
                     style: isRequest
                         ? Theme.of(context)
                             .textTheme
@@ -465,7 +466,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                         width: ResponsiveSize.calculateWidth(
                                             4, context)),
                                     Text(
-                                      'Vérifié',
+                                      AppLocalizations.of(context)!.verified_text,
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
@@ -486,7 +487,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                   width: ResponsiveSize.calculateWidth(
                                       41, context))),
                           Text(
-                            'expériences vécues',
+                            AppLocalizations.of(context)!.lived_experience,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -505,7 +506,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'Expérience réservée le ${yearsFrenchFormat(reservation.createdAt)}',
+                        '${AppLocalizations.of(context)!.experience_reserved_text} ${yearsFrenchFormat(reservation.createdAt)}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppResources.colorDark, fontSize: 12),
                       ),
@@ -523,7 +524,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Nombre de voyageurs',
+                            AppLocalizations.of(context)!.number_traveler_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -545,7 +546,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Créneau réservé',
+                            AppLocalizations.of(context)!.reserved_slot_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -599,7 +600,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Accepter',
+                                AppLocalizations.of(context)!.accept_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
@@ -622,7 +623,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Refuser',
+                                AppLocalizations.of(context)!.refuse_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge

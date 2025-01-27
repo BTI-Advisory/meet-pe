@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
-import '../../../utils/responsive_size.dart';
 import '../../../widgets/_widgets.dart';
 import 'package:meet_pe/utils/_utils.dart';
-import '../../../widgets/web_view_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HelpSupportPage extends StatefulWidget {
   const HelpSupportPage({super.key});
@@ -20,8 +19,8 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
   String? validationMessageFeedBack = '';
   bool isFormValid = false;
   bool _isDropdownOpened = false;
-  List<String> _categories = ['Assistance avec une expérience', 'Assistance avec mon compte', 'Assistance avec l’application', 'Feedback sur Meet People', 'Autre'];
-  String _selectedCategory = 'Motif de la demande';
+  List<String> _categories = [];
+  String _selectedCategory = '';
 
   @override
   void initState() {
@@ -51,9 +50,11 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
 
   @override
   Widget build(BuildContext context) {
+    _categories = [AppLocalizations.of(context)!.category_1_text, AppLocalizations.of(context)!.category_2_text, AppLocalizations.of(context)!.category_3_text, AppLocalizations.of(context)!.category_4_text, AppLocalizations.of(context)!.category_5_text];
+    _selectedCategory = AppLocalizations.of(context)!.motif_request_text;
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'FAQ & Assistance',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.faq_assistance_text,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -65,7 +66,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'FAQ',
+                    AppLocalizations.of(context)!.faq_text,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -73,19 +74,19 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Ici découvre les réponses à toutes les questions les plus cool et les plus fréquemment posées 🤜🏼🤛🏼',
+                    AppLocalizations.of(context)!.faq_desc_text,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocHelp('FAQ Voyageurs', 'https://meetpe.fr/FAQVoyageurs'),
-                  blocHelp('FAQ Guides', 'https://meetpe.fr/FAQGuides'),
-                  blocHelp('FAQ Photos', 'https://meetpe.fr/FAQPhotos'),
-                  blocHelp('Customer Expériences', 'https://meetpe.fr/Customer_Exp%C3%A9riences'),
+                  blocHelp(AppLocalizations.of(context)!.faq_traveler_text, 'https://meetpe.fr/FAQVoyageurs'),
+                  blocHelp(AppLocalizations.of(context)!.faq_guide_text, 'https://meetpe.fr/FAQGuides'),
+                  blocHelp(AppLocalizations.of(context)!.faq_photo_text, 'https://meetpe.fr/FAQPhotos'),
+                  blocHelp(AppLocalizations.of(context)!.faq_customer_text, 'https://meetpe.fr/Customer_Exp%C3%A9riences'),
                   const SizedBox(height: 15),
                   Text(
-                    'Assistance',
+                    AppLocalizations.of(context)!.assistance_text,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -93,13 +94,13 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Tu as une question concernant le fonctionnement de Meet People ? Tu peux nous contacter via le formulaire suivant :',
+                    AppLocalizations.of(context)!.assistance_desc_text,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
                   ),
                   const SizedBox(height: 30),
-                  blocAssistance('Nous contacter'),
+                  blocAssistance(AppLocalizations.of(context)!.contact_us_text),
                 ],
               ),
             ),
@@ -182,7 +183,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                               ],
                             ),
                             Text(
-                              'Nous contacter',
+                              AppLocalizations.of(context)!.contact_us_text,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             const SizedBox(height: 40,),
@@ -241,7 +242,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   ?.copyWith(color: AppResources.colorDark),
                               decoration: InputDecoration(
                                 filled: false,
-                                hintText: 'On t’écoute ici, dis nous en plus sur ta demande',
+                                hintText: AppLocalizations.of(context)!.feedback_text,
                                 hintStyle: Theme.of(context).textTheme.bodyMedium,
                                 contentPadding: EdgeInsets.only(
                                     top: ResponsiveSize.calculateHeight(20, context),
@@ -296,7 +297,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   ),
                                 ),
                                 child: Text(
-                                  'ENVOYER',
+                                  AppLocalizations.of(context)!.send_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -306,13 +307,13 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                                   // Call the asynchronous operation and handle its completion
                                   AppService.api.sendFeedBack(_selectedCategory, _textEditingControllerFeedBack.text,).then((_) {
                                     // Optionally, you can perform additional actions after the operation completes
-                                    showMessage(context, 'Ton message est bien envoyé');
+                                    showMessage(context, AppLocalizations.of(context)!.message_send_text);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   }).catchError((error) {
                                     // Handle any errors that occur during the asynchronous operation
                                     print('Error: $error');
-                                    showMessage(context, "Ton message n'est pas envoyé");
+                                    showMessage(context, AppLocalizations.of(context)!.no_message_send_text);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     if(error.toString() != "type 'Null' is not a subtype of type 'bool' in type cast") {
