@@ -6,6 +6,7 @@ import '../../../../services/app_service.dart';
 import '../../../../utils/_utils.dart';
 import '../../../../widgets/_widgets.dart';
 import 'create_exp_step11.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep10 extends StatefulWidget {
   CreateExpStep10({super.key, required this.sendListMap});
@@ -123,7 +124,7 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Étape 9 sur 11',
+                              AppLocalizations.of(context)!.step_9_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -132,13 +133,13 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(8, context)),
                             Text(
-                              'Et avec ça ?',
+                              AppLocalizations.of(context)!.step_9_title_text,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
                             Text(
-                              'Renseigne ce qui est inclus dans ton expérience.',
+                              AppLocalizations.of(context)!.step_9_desc_text,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             SizedBox(

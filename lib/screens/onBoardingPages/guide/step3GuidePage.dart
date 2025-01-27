@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/screens/onBoardingPages/guide/step4GuidePage.dart';
 import '../../../utils/_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step3GuidePage extends StatefulWidget {
   final int totalSteps;
@@ -97,7 +98,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                 ),
                 SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                 Text(
-                  'A propos de toi',
+                  AppLocalizations.of(context)!.about_you_title_text,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -108,7 +109,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 28),
                   child: Text(
-                    "C'est le moment idéal pour donner une touche personnelle à ton profil qui sera vu par tous nos voyageurs. Partage nous quelque chose de spécial sur toi. Tu es la star de notre équipe, c’est à toi 🎙️",
+                    AppLocalizations.of(context)!.about_you_desc_text,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -130,7 +131,7 @@ class _Step3GuidePageState extends State<Step3GuidePage> {
                         ?.copyWith(color: AppResources.colorDark),
                     decoration: InputDecoration(
                       filled: false,
-                      hintText: 'Hello la communauté Meet People, je suis Sacha\npassionné par la food de ma région...',
+                      hintText: AppLocalizations.of(context)!.about_you_hint_text,
                       hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray45),
                       contentPadding: EdgeInsets.only(
                         top: ResponsiveSize.calculateHeight(20, context),

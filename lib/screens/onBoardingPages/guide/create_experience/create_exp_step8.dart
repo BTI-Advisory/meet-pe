@@ -6,6 +6,7 @@ import '../../../../services/app_service.dart';
 import '../../../../utils/_utils.dart';
 import '../../../../widgets/_widgets.dart';
 import 'create_exp_step9.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep8 extends StatefulWidget {
   CreateExpStep8(
@@ -112,7 +113,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Étape 7 sur 11',
+                                AppLocalizations.of(context)!.step_7_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
@@ -124,14 +125,14 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   height:
                                       ResponsiveSize.calculateHeight(8, context)),
                               Text(
-                                'Et avec qui ?',
+                                AppLocalizations.of(context)!.step_7_title_text,
                                 style: Theme.of(context).textTheme.headlineMedium,
                               ),
                               SizedBox(
                                   height: ResponsiveSize.calculateHeight(
                                       16, context)),
                               Text(
-                                'A 2, à 3, à 4 ou plus ? Dis-nous combien de voyageurs peuvent venir vivre ton expérience',
+                                AppLocalizations.of(context)!.step_7_desc_text,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               SizedBox(
@@ -186,7 +187,7 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                   height: ResponsiveSize.calculateHeight(
                                       56, context)),
                               Text(
-                                'Sélectionne les personnes qui peuvent participer à ton expérience : ',
+                                AppLocalizations.of(context)!.step_7_desc_2_text,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               SizedBox(

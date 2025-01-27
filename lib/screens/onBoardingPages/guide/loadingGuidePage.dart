@@ -5,6 +5,7 @@ import '../../../services/secure_storage_service.dart';
 import '../../../utils/responsive_size.dart';
 import '../../../utils/utils.dart';
 import '../../guideProfilPages/main_guide_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadingGuidePage extends StatefulWidget {
   const LoadingGuidePage({super.key});
@@ -39,7 +40,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                 Image.asset('images/verified_guide.png', width: ResponsiveSize.calculateWidth(100, context), height: ResponsiveSize.calculateHeight(100, context),),
                 SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
                 Text(
-                  'Ton profil guide \nest créé !',
+                  AppLocalizations.of(context)!.create_profile_guide_text,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -48,7 +49,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                 ),
                 SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
                 Text(
-                  'Prêt à faire vivre \ndes expériences uniques ?',
+                  AppLocalizations.of(context)!.create_profile_guide_desc_text,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -74,7 +75,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                           navigateTo(context, (_) => MainGuidePage(initialPage: 2,));
                         },
                         child: Text(
-                          'PARCOURIR L’APPLICATION',
+                          AppLocalizations.of(context)!.parcourir_text,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                         ),
                       ),
@@ -98,7 +99,7 @@ class _LoadingGuidePageState extends State<LoadingGuidePage> {
                           navigateTo(context, (_) => const CreateExpStep1());
                         },
                         child: Text(
-                          'CRÉER UNE EXPÈRIENCE',
+                          AppLocalizations.of(context)!.create_experience_text,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
                         ),
                       ),

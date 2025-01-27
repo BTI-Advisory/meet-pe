@@ -10,6 +10,7 @@ import '../../../services/app_service.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 import 'loadingGuidePage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -75,13 +76,13 @@ class _Step4GuidePageState extends State<Step4GuidePage>
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -94,7 +95,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             String imagePath = pickedFile?.path ?? '';
 
@@ -107,10 +108,10 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -119,7 +120,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           String imagePath = pickedFile?.path ?? '';
 
@@ -132,7 +133,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -164,7 +165,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
             if (success) {
               navigateTo(context, (_) => LoadingGuidePage());
             } else {
-              showMessage(context, "Échec du téléchargement de l'image. Veuillez réessayer.");
+              showMessage(context, AppLocalizations.of(context)!.error_upload_text);
             }
           },
           builder: (BuildContext context, void Function() validate) {
@@ -198,7 +199,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                       ),
                       SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                       Text(
-                        'Quelques informations...',
+                        AppLocalizations.of(context)!.some_information_text,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -269,7 +270,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     ?.copyWith(color: AppResources.colorGray100),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Ton prénom',
+                                  hintText: AppLocalizations.of(context)!.your_name_text,
                                   hintStyle:
                                       Theme.of(context).textTheme.bodyMedium,
                                   contentPadding: EdgeInsets.only(
@@ -315,7 +316,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     ?.copyWith(color: AppResources.colorGray100),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Ton numéro de téléphone',
+                                  hintText: AppLocalizations.of(context)!.your_phone_text,
                                   hintStyle:
                                       Theme.of(context).textTheme.bodyMedium,
                                   contentPadding: EdgeInsets.only(
@@ -385,7 +386,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 ),
                                 SizedBox(width: ResponsiveSize.calculateWidth(12, context)),
                                 Text(
-                                  'Je suis professionnel',
+                                  AppLocalizations.of(context)!.profession_text,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray45),
                                 )
                               ],
@@ -402,7 +403,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Nom de l’entreprise',
+                                  hintText: AppLocalizations.of(context)!.name_society_text,
                                   hintStyle: isChecked
                                       ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
                                       : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),
@@ -453,7 +454,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                     ?.copyWith(color: isChecked ? AppResources.colorGray100 : AppResources.colorGray15),
                                 decoration: InputDecoration(
                                   filled: false,
-                                  hintText: 'Numéro SIREN',
+                                  hintText: AppLocalizations.of(context)!.number_siren_text,
                                   hintStyle: isChecked
                                     ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60)
                                   : Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray15),

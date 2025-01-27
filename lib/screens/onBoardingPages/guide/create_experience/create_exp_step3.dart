@@ -5,10 +5,10 @@ import '../../../../resources/resources.dart';
 import '../../../../services/app_service.dart';
 import '../../../../utils/audio_player.dart';
 import '../../../../utils/audio_recorder.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import '../../../../widgets/_widgets.dart';
 import 'create_exp_step4.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep3 extends StatefulWidget {
   CreateExpStep3({super.key, required this.myMap, required this.name, required this.description});
@@ -85,7 +85,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Étape 3 sur 11',
+                        AppLocalizations.of(context)!.step_3_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -94,7 +94,7 @@ class _CreateExpStep3State extends State<CreateExpStep3> {
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(8, context)),
                       Text(
-                        'Langue de ton expérience',
+                        AppLocalizations.of(context)!.step_3_title_text,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       SizedBox(

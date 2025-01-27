@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
 import 'create_exp_step3.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep2 extends StatefulWidget {
   CreateExpStep2({super.key, required this.myMap});
@@ -90,20 +89,20 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Étape 2 sur 11',
+                          AppLocalizations.of(context)!.step_2_text,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: 10, fontWeight: FontWeight.w400),
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(8, context)),
                         Text(
-                          'Description de l’expérience',
+                          AppLocalizations.of(context)!.step_2_title_text,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'C’est la première information que l’on va voir sur ton éxperience. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                          AppLocalizations.of(context)!.step_2_desc_text,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         SizedBox(
@@ -118,7 +117,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                               ?.copyWith(color: AppResources.colorDark),
                           decoration: InputDecoration(
                             filled: false,
-                            hintText: 'Titre de ton expérience',
+                            hintText: AppLocalizations.of(context)!.title_exp_hint_text,
                             hintStyle: Theme.of(context).textTheme.bodyMedium,
                             contentPadding: EdgeInsets.only(
                                 top: ResponsiveSize.calculateHeight(20, context),
@@ -172,7 +171,7 @@ class _CreateExpStep2State extends State<CreateExpStep2> {
                               ?.copyWith(color: AppResources.colorDark),
                           decoration: InputDecoration(
                             filled: false,
-                            hintText: 'La petite description',
+                            hintText: AppLocalizations.of(context)!.desc_exp_hint_text,
                             hintStyle: Theme.of(context).textTheme.bodyMedium,
                             contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),

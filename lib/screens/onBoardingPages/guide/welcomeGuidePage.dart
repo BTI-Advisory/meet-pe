@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../resources/resources.dart';
-import '../../../utils/responsive_size.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/_utils.dart';
 import 'step1GuidePage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomeGuidePage extends StatefulWidget {
   const WelcomeGuidePage({super.key});
@@ -39,7 +39,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        'Prêt(e) pour rejoindre notre team de super héros',
+                        AppLocalizations.of(context)!.hero_title_text,
                         //'PRÊT \nPOUR \nDEVENIR \nUN SUPER \nGUIDE ?',
                         style: TextStyle(
                           color: AppResources.colorBeigeLight,
@@ -54,7 +54,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        'Ta ville n’a aucun secret pour toi, tu connais des pépites qui sortent des sentiers battus et tu aimes faire découvrir tes passions ? \n \nRejoins la communauté de guides Meet People et partage des moments uniques avec des voyageurs curieux du monde entier !\n',
+                        AppLocalizations.of(context)!.hero_desc_text,
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, height: ResponsiveSize.calculateHeight(1.4, context)),
                       ),
                     ),
@@ -84,7 +84,7 @@ class _WelcomeGuidePageState extends State<WelcomeGuidePage> {
                                 navigateTo(context, (_) => const Step1GuidePage(totalSteps: 4, currentStep: 1,));
                               }, // Disable the button if no item is selected
                               child: Text(
-                                'COMMENCE PAR TE PRÉSENTER',
+                                AppLocalizations.of(context)!.start_present_text,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
                               ),
                             ),

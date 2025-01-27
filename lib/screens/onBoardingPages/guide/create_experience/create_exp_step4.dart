@@ -6,6 +6,7 @@ import '../../../../models/step_list_response.dart';
 import '../../../../resources/resources.dart';
 import 'create_exp_step5.dart';
 import 'create_exp_step5_multi_days.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep4 extends StatefulWidget {
   CreateExpStep4({super.key, required this.myMap, required this.name, required this.description, required this.audioPath});
@@ -31,9 +32,9 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   void initState() {
     super.initState();
     _choicesFuture = Future.value([
-      StepListResponse(id: 1, choiceTxt: "Horaire personalisé", svg: ''),
-      StepListResponse(id: 2, choiceTxt: "48 heures", svg: ''),
-      StepListResponse(id: 3, choiceTxt: "7 jours", svg: ''),
+      StepListResponse(id: 1, choiceTxt: AppLocalizations.of(context)!.schedule_1_text, svg: ''),
+      StepListResponse(id: 2, choiceTxt: AppLocalizations.of(context)!.schedule_2_text, svg: ''),
+      StepListResponse(id: 3, choiceTxt: AppLocalizations.of(context)!.schedule_3_text, svg: ''),
     ]);
     _loadChoices();
   }
@@ -84,7 +85,7 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Étape 4 sur 11',
+                          AppLocalizations.of(context)!.step_4_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -93,13 +94,13 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(8, context)),
                         Text(
-                          'Durée de l’expérience',
+                          AppLocalizations.of(context)!.step_4_title_text,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'Donnes-nous une estimation pour que tes hôtes soient prêts !',
+                          AppLocalizations.of(context)!.step_4_desc_text,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         SizedBox(
@@ -133,11 +134,11 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
                                       widget.myMap['duree']!.add(item.id);
                                     }
                                     if (item.id == 1) {
-                                      descriptionChoice = "Si tu choisis “horaire personnalisé” tu pourras nous transmettre tous tes créneaux par tranches horaires sur la journée.";
+                                      descriptionChoice = AppLocalizations.of(context)!.schedule_1_desc_text;
                                     } else if (item.id == 2) {
-                                      descriptionChoice = "Ton expérience dure plus d'une journée tu peux choisir 48H";
+                                      descriptionChoice = AppLocalizations.of(context)!.schedule_2_desc_text;
                                     } else if (item.id == 3) {
-                                      descriptionChoice = "Ton expérience dure plus d'une journée tu peux choisir une semaine";
+                                      descriptionChoice = AppLocalizations.of(context)!.schedule_3_desc_text;
                                     } else {
                                       descriptionChoice = "";
                                     }

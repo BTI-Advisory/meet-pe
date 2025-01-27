@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../../utils/responsive_size.dart';
-import '../../../../utils/utils.dart';
+import '../../../../utils/_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreatedExperience extends StatefulWidget {
   const CreatedExperience({super.key});
@@ -58,7 +58,7 @@ class _CreatedExperienceState extends State<CreatedExperience> with TickerProvid
               ),
               SizedBox(height: ResponsiveSize.calculateHeight(27, context)),
               Text(
-                'Expérience créée 🎉 !',
+                AppLocalizations.of(context)!.experience_created_text,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -67,7 +67,7 @@ class _CreatedExperienceState extends State<CreatedExperience> with TickerProvid
               ),
               SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
               Text(
-                'Nous vérifions ton expérience au plus vite, cela peut prendre jusqu’à 72h. Tu recevras une notification dès qu’elle sera disponible pour les voyageurs!',
+                AppLocalizations.of(context)!.experience_created_desc_text,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),

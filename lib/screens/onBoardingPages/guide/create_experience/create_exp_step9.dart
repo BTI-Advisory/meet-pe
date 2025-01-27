@@ -4,6 +4,7 @@ import 'package:meet_pe/utils/_utils.dart';
 import '../../../../resources/resources.dart';
 import '../../../../widgets/popup_view.dart';
 import 'create_exp_step10.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateExpStep9 extends StatefulWidget {
   CreateExpStep9({super.key, required this.sendListMap});
@@ -103,7 +104,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Étape 8 sur 11',
+                          AppLocalizations.of(context)!.step_8_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -112,13 +113,13 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(8, context)),
                         Text(
-                          'Ça coûte combien ?',
+                          AppLocalizations.of(context)!.step_8_title_text,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         SizedBox(
                             height: ResponsiveSize.calculateHeight(16, context)),
                         Text(
-                          'Renseigne le prix de ton expérience',
+                          AppLocalizations.of(context)!.step_8_desc_text,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Row(
@@ -128,7 +129,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               'par personne.',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            const PopupView(contentTitle: "Soit tu slides soit tu écris ton prix 😃")
+                            PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_price_text)
                           ],
                         ),
                         SizedBox(
@@ -173,7 +174,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter a value';
+                                    return AppLocalizations.of(context)!.enter_value_text;
                                   }
                                   return null;
                                 },
@@ -203,10 +204,10 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Revenus estimés ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                                '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                               ),
-                              const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
+                              PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_estimate_income_text)
                             ],
                           ),
                         ),
@@ -218,10 +219,10 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Réduction 30% enfants 2-12ans',
+                                  AppLocalizations.of(context)!.discount_kids_text,
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
                                 ),
-                                const PopupView(contentTitle: "Si tu coches cette case il y aura directement une remise de 30% qui s’appliquera pour les enfants.")
+                                PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_discount_text)
                               ],
                             ),
                             Switch.adaptive(
@@ -243,10 +244,10 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Prix Groupe Privé',
+                                  AppLocalizations.of(context)!.price_group_text,
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: AppResources.colorDark),
                                 ),
-                                const PopupView(contentTitle: "Ici détermine le prix minimum lié à ton expérience pour un groupe privé ou 1 personne.")
+                                PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_price_group_text)
                               ],
                             ),
                             Switch.adaptive(
@@ -267,13 +268,13 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                             children: [
                               SizedBox(height: ResponsiveSize.calculateHeight(15, context)),
                               Text(
-                                'Un voyageur peut réserver l’expérience rien que pour lui et ses proches.',
+                                AppLocalizations.of(context)!.price_group_desc_text,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    'Nombre de personne max.',
+                                    AppLocalizations.of(context)!.max_person_text,
                                     style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                   SizedBox(
@@ -327,7 +328,7 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Prix Groupe Privé',
+                                    AppLocalizations.of(context)!.price_group_text,
                                     style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                   IntrinsicWidth(
@@ -377,10 +378,10 @@ class _CreateExpStep9State extends State<CreateExpStep9> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Revenus estimés ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                                    '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                   ),
-                                  const PopupView(contentTitle: 'Revenus estimés, frais de plateforme déduits')
+                                  PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_estimate_income_text)
                                 ],
                               ),
                             ],
