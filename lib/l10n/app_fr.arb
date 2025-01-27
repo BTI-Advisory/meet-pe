@@ -52,5 +52,13 @@
   "guide_welcome_text": "Tu veux partager tes passions ?",
   "guide_welcome_button": "DEVIENS GUIDE MEET PEOPLE",
   "travelers_welcome_text": "Tu veux rencontrer des locaux passionnés ?",
-  "travelers_welcome_button": "VOYAGE AVEC MEET PEOPLE"
+  "travelers_welcome_button": "VOYAGE AVEC MEET PEOPLE",
+
+  "change_password_title_text": "Changement de mot de passe",
+  "new_password_text": "Nouveau mot de passe",
+  "confirm_password_text": "confirmation du mot de passe",
+  "enregister_text": "ENREGISTRER",
+
+  "forgot_password_text": "Mot de passe oublié",
+  "send_code_text": "ENVOYER MON CODE"
 }
