@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_pe/screens/authentification/forgotPassword/verification_code_forgot_password_page.dart';
-import 'package:meet_pe/screens/guideProfilPages/main_guide_page.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerifEmailForgotPassword extends StatefulWidget {
   const VerifEmailForgotPassword({super.key, required this.email});
@@ -68,7 +68,7 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Mot de passe oublié',
+                                  AppLocalizations.of(context)!.forgot_password_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineMedium,
@@ -125,7 +125,7 @@ class _VerifEmailForgotPasswordState extends State<VerifEmailForgotPassword>
                                     ),
                                     onPressed: validate,
                                     child: Text(
-                                      'ENVOYER MON CODE',
+                                      AppLocalizations.of(context)!.send_code_text,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

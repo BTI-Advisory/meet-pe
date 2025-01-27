@@ -6,6 +6,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key, required this.email});
@@ -70,7 +71,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Changement de mot de passe',
+                                      AppLocalizations.of(context)!.change_password_title_text,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium,
@@ -84,7 +85,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                       child: PasswordField(
                                         //onFieldSubmitted: (value) => validate(),
                                         controller: bloc.passwordController,
-                                        hint: 'Nouveau mot de passe',
+                                        hint: AppLocalizations.of(context)!.new_password_text,
                                         onChanged: (value) {
                                           setState(() {
                                             validationMessage =
@@ -103,7 +104,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                       child: PasswordField(
                                         //onFieldSubmitted: (value) => validate(),
                                         controller: bloc.confirmationPasswordController,
-                                        hint: 'confirmation du mot de passe',
+                                        hint: AppLocalizations.of(context)!.confirm_password_text,
                                         onChanged: (value) {
                                           setState(() {
                                             validationMessage =
@@ -117,8 +118,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                       height: 7,
                                     ),
                                     if (validationMessage != null)
-                                      const Text(
-                                        'CHAMPS INVALIDE',
+                                      Text(
+                                        AppLocalizations.of(context)!.champs_invalid_text,
                                         style: TextStyle(
                                           color: Color(0xFFFF0000),
                                           fontSize: 10,
@@ -161,7 +162,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
                                     ),
                                     onPressed: validate,
                                     child: Text(
-                                      'ENREGISTRER',
+                                      AppLocalizations.of(context)!.enregister_text,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

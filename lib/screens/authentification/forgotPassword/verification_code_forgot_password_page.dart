@@ -8,6 +8,7 @@ import '../../../services/app_service.dart';
 import '../../../resources/resources.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerificationCodeForgotPasswordPage extends StatefulWidget {
   final String email;
@@ -50,15 +51,14 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Center(child: Text('Information')),
-        content: const Text(
-            '⚠️ Spam Alerte ça nous arrive de nous perdre dans tes SPAM ! Mais avec un bon check de ta part, nous serons plus forts que le côté obscur de la Force 💪🏼'),
+        title: Center(child: Text(AppLocalizations.of(context)!.information_title_text,)),
+        content: Text(AppLocalizations.of(context)!.information_descr_text,),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok_text,),
           ),
         ],
       ),
@@ -76,7 +76,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
               setState(() {
                 hasError = false;
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Aye!!"),
+                  content: Text(AppLocalizations.of(context)!.aye_text,),
                   duration: Duration(seconds: 2),
                 ));
               });
@@ -87,7 +87,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
               setState(() {
                 hasError = true;
               });
-              showMessage(context, 'Verifiez le code!');
+              showMessage(context, AppLocalizations.of(context)!.verify_code_text);
             }
           },
           builder: (context, validate) {
@@ -107,7 +107,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Tu viens de recevoir un code !',
+                            AppLocalizations.of(context)!.received_text,
                             style:
                             Theme.of(context).textTheme.headlineMedium,
                           ),
@@ -116,7 +116,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
                             ResponsiveSize.calculateHeight(16, context),
                           ),
                           Text(
-                            'Entre le pour vérifier que c’est bien toi !',
+                            AppLocalizations.of(context)!.enter_code_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -171,10 +171,10 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
                           TextButton(
                             onPressed: () {
                               bloc.resendCode(widget.email);
-                              showMessage(context, 'code renvoyé');
+                              showMessage(context, AppLocalizations.of(context)!.sended_code_text);
                             },
                             child: Text(
-                              'Renvoyer le code',
+                              AppLocalizations.of(context)!.resend_code_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
@@ -217,7 +217,7 @@ class _VerificationCodeForgotPasswordPageState extends State<VerificationCodeFor
                               ),
                               onPressed: validate,
                               child: Text(
-                                'VALIDER',
+                                AppLocalizations.of(context)!.valider_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
