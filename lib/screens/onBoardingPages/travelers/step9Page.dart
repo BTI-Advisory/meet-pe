@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import 'loadingPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step9Page extends StatefulWidget {
   Step9Page({super.key, required this.myMap});
@@ -53,7 +54,7 @@ class _Step9PageState extends State<Step9Page> {
             children: [
               SizedBox(height: ResponsiveSize.calculateHeight(158, context)),
               Text(
-                'Tu viens quand ?',
+                AppLocalizations.of(context)!.traveler_step_9_title_text,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -193,7 +194,7 @@ class _Step9PageState extends State<Step9Page> {
                         ),
                         onPressed: () async {
                           if (_rangeStart!.isBefore(DateTime.now())) {
-                            showMessage(context, 'Error date select');
+                            showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                           } else {
                             if (_rangeStart != null) {
                               widget.myMap['date_arrivee'] ??= Set<String>(); // Initialize if null
@@ -221,12 +222,12 @@ class _Step9PageState extends State<Step9Page> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: Text('Erreur'),
-                                content: Text("Probleme au niveau de serveur."),
+                                title: Text(AppLocalizations.of(context)!.error_text),
+                                content: Text(AppLocalizations.of(context)!.error_server_text),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.of(context).pop(),
-                                    child: Text('OK'),
+                                    child: Text(AppLocalizations.of(context)!.ok_text),
                                   ),
                                 ],
                               ),

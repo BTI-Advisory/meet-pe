@@ -162,5 +162,24 @@
   "country_hint_text": "Pays",
   "post_experience_text": "POSTER MON EXPÉRIENCE",
   "experience_created_text": "Expérience créée \uD83C\uDF89 !",
-  "experience_created_desc_text": "Nous vérifions ton expérience au plus vite, cela peut prendre jusqu’à 72h. Tu recevras une notification dès qu’elle sera disponible pour les voyageurs!"
+  "experience_created_desc_text": "Nous vérifions ton expérience au plus vite, cela peut prendre jusqu’à 72h. Tu recevras une notification dès qu’elle sera disponible pour les voyageurs!",
+
+  "info_travelers_text": "On m’a dit que les prénoms cool commencaient par la première lettre de ton prénom...",
+
+  "traveler_step_1_title_text": "Tu es un voyageur plutôt…",
+  "traveler_step_1_desc_text": "Tu peux modifier ces critères à tout \nmoments depuis ton profil.",
+  "traveler_step_2_title_text": "Tu aimes voyager...",
+  "traveler_step_3_title_text": "Tu prefères être...",
+  "traveler_step_4_title_text": "On dit de toi que tu es...",
+  "traveler_step_5_title_text": "Tu cherches des expériences...",
+  "traveler_step_6_title_text": "Tu parles...",
+  "traveler_step_7_title_text": "Tu te déplaces comment...",
+  "traveler_step_8_title_text": "Tu pars où ?",
+  "around_me": "Autour de moi",
+  "surprise_me_text": "SURPRENDS MOI",
+  "traveler_step_9_title_text": "Tu viens quand ?",
+  "error_date_select_text": "Error date select",
+  "error_text": "Erreur",
+  "error_server_text": "Probleme au niveau de serveur.",
+  "traveler_profile_created_text": "On cherche\nles expériences faites pour toi ..."
 }

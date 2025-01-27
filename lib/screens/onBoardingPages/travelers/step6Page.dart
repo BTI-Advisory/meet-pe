@@ -5,6 +5,7 @@ import '../../../models/step_list_response.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step6Page extends StatefulWidget {
   final int totalSteps;
@@ -94,7 +95,7 @@ class _Step6PageState extends State<Step6Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
                     Text(
-                      'Tu parles...',
+                      AppLocalizations.of(context)!.traveler_step_6_title_text,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -103,7 +104,7 @@ class _Step6PageState extends State<Step6Page> {
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
                     Text(
-                      'Tu peux modifier ces critères à tout \nmoments depuis ton profil.',
+                        AppLocalizations.of(context)!.traveler_step_1_desc_text,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
