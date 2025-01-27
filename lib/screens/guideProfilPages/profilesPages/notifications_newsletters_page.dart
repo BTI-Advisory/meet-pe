@@ -4,6 +4,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationsNewslettersPage extends StatefulWidget {
   const NotificationsNewslettersPage({super.key});
@@ -62,14 +63,14 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
 
     // Call the API method to send notification settings
     await AppService.api.sendNotificationSettings(notificationSettings);
-    showMessage(context, 'Nous avons pris en compte tes modifications');
+    showMessage(context, AppLocalizations.of(context)!.send_feedback_text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Notifications & Newsletters',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.notifications_and_newsletters_text,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -81,7 +82,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Notifications des réservations',
+                    AppLocalizations.of(context)!.notifications_request_text,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -90,7 +91,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Reçois des notifications lorsqu’un voyageur réserve, annule ou modifie une expérience.',
+                    AppLocalizations.of(context)!.notifications_request_desc_text,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
@@ -111,14 +112,14 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                       isSMSResAvailable = value;
                     });
                   }),
-                  activeNotification('Appel téléphonique', isCallMobileResAvailable, (bool value) {
+                  activeNotification(AppLocalizations.of(context)!.call_phone_text, isCallMobileResAvailable, (bool value) {
                     setState(() {
                       isCallMobileResAvailable = value;
                     });
                   }),
                   const SizedBox(height: 23),
                   Text(
-                    'Notifications  Meet People',
+                    AppLocalizations.of(context)!.notifications_apps_text,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -127,7 +128,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                   ),
                   const SizedBox(height: 17),
                   Text(
-                    'Reçois des nouveautés sur l’actualité de Meet People, toutes les dernières expériences et des conseils de voyage.',
+                    AppLocalizations.of(context)!.notifications_apps_desc_text,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppResources.colorGray30),
@@ -148,7 +149,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                       isSMSAvailable = value;
                     });
                   }),
-                  activeNotification('Appel téléphonique', isCallMobileAvailable, (bool value) {
+                  activeNotification(AppLocalizations.of(context)!.call_phone_text, isCallMobileAvailable, (bool value) {
                     setState(() {
                       isCallMobileAvailable = value;
                     });
@@ -174,7 +175,7 @@ class _NotificationsNewslettersPageState extends State<NotificationsNewslettersP
                         ),
                       ),
                       child: Text(
-                        'ENREGISTRER',
+                        AppLocalizations.of(context)!.enregister_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge

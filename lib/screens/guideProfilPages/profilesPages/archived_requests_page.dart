@@ -5,6 +5,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/themed/ep_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ArchivedRequestsPage extends StatefulWidget {
   const ArchivedRequestsPage({super.key});
@@ -24,8 +25,8 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Demandes archivées',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.archive_request_text,
       ),
       body: FutureBuilder<List<ArchivedReservationResponse>>(
         future: _archivedReservationFuture,
@@ -130,7 +131,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
               ],
             ),
             Text(
-              'Archivée',
+              AppLocalizations.of(context)!.archived_text,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -220,7 +221,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                                         width: ResponsiveSize.calculateWidth(
                                             4, context)),
                                     Text(
-                                      'Vérifié',
+                                      AppLocalizations.of(context)!.verified_text,
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
@@ -241,7 +242,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                                   width: ResponsiveSize.calculateWidth(
                                       41, context))),
                           Text(
-                            'expériences vécues',
+                            AppLocalizations.of(context)!.lived_experience,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -260,7 +261,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'Expérience réservée le ${yearsFrenchFormat(archivedReservation.createdAt)}',
+                        '${AppLocalizations.of(context)!.experience_reserved_text} ${yearsFrenchFormat(archivedReservation.createdAt)}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppResources.colorDark, fontSize: 12),
                       ),
@@ -278,7 +279,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Nombre de voyageurs',
+                            AppLocalizations.of(context)!.number_traveler_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -300,7 +301,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Créneau réservé',
+                            AppLocalizations.of(context)!.reserved_slot_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

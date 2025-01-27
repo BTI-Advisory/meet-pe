@@ -7,6 +7,7 @@ import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 import '../../../widgets/modify_exceptional_absences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AvailabilitiesPage extends StatefulWidget {
   const AvailabilitiesPage({super.key});
@@ -61,8 +62,8 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Mes absences',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.my_absences_text,
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -84,7 +85,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Absences exceptionnelles',
+                          AppLocalizations.of(context)!.exceptional_absences_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -93,7 +94,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                         ),
                         const SizedBox(height: 17),
                         Text(
-                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Renseigne ici tes absences exceptionnelles. Durant celles-ci les voyageurs ne pourront pas réserver tes expériences.',
+                          AppLocalizations.of(context)!.exceptional_absences_desc_text,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w500,
                               color: AppResources.colorGray30),
@@ -117,7 +118,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
                       }
                     },
                     child: Text(
-                      'Ajouter une absence',
+                      AppLocalizations.of(context)!.add_absence_text,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -173,7 +174,7 @@ class _AvailabilitiesPageState extends State<AvailabilitiesPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Du $startDate au $endDate',
+                  '${AppLocalizations.of(context)!.from_text} $startDate ${AppLocalizations.of(context)!.to_text} $endDate',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
                 ),
                 Icon(Icons.chevron_right, size: 27, color: AppResources.colorVitamine),

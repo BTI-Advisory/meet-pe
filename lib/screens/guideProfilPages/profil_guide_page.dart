@@ -18,6 +18,7 @@ import '../../services/app_service.dart';
 import '../../utils/_utils.dart';
 import '../travelersPages/main_travelers_page.dart';
 import 'main_guide_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef ImagePathCallback = void Function(String);
 
@@ -106,13 +107,13 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -125,7 +126,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             String imagePath = pickedFile?.path ?? '';
 
@@ -136,10 +137,10 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -148,7 +149,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           String imagePath = pickedFile?.path ?? '';
 
@@ -159,7 +160,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -175,7 +176,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           //return Center(child: Text('Error: ${snapshot.error}'));
-          return Center(child: Text('Problème de connexion avec le serveur, veuillez réessayer ultérieurement'));
+          return Center(child: Text(AppLocalizations.of(context)!.problem_server_text));
         } else {
           final userInfo = snapshot.data!;
           final initialImagePath = selectedImagePath ?? userInfo.profilePath ?? 'images/avatar_placeholder.png';
@@ -196,7 +197,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                           horizontal:
                               ResponsiveSize.calculateWidth(5, context)),
                       child: Text(
-                        'Profil',
+                        AppLocalizations.of(context)!.profile_text,
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
@@ -233,7 +234,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                           children: <Widget>[
                                             const SizedBox(height: 39),
                                             Text(
-                                              'Mon Profil',
+                                              AppLocalizations.of(context)!.my_profile_text,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headlineMedium,
@@ -330,7 +331,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                   ),
                                                 ),
                                                 child: Text(
-                                                  'ENREGISTRER',
+                                                  AppLocalizations.of(context)!.enregister_text,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge
@@ -342,7 +343,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                   final result = AppService.api.updatePhoto(selectedImagePath!);
                                                   if (await result) {
                                                     Navigator.pop(context);
-                                                    showMessage(context, 'Photo ✅');
+                                                    showMessage(context, AppLocalizations.of(context)!.photo_ok_text);
                                                     await Future.delayed(const Duration(seconds: 1));
                                                     setState(() {
                                                       _userInfoFuture = AppService.api.getUserInfo();
@@ -350,7 +351,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                                     //widget.onFetchUserInfo();
                                                   } else {
                                                     Navigator.pop(context);
-                                                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                    showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                                                   }
                                                 },
                                               ),
@@ -745,7 +746,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
             if (isActive) Icon(Icons.check_circle, color: AppResources.colorVitamine),
             if (isActive) SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
             Text(
-              role,
+              role == "Guide" ? AppLocalizations.of(context)!.guide_text : AppLocalizations.of(context)!.traveler_text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: isActive ? AppResources.colorVitamine : AppResources.colorGray45,
                 fontSize: isActive ? 14 : null,

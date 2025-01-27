@@ -6,6 +6,7 @@ import '../../../models/user_response.dart';
 import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -128,8 +129,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Mon Compte',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.my_account_text,
       ),
       body: FutureBuilder<UserResponse>(
         future: _userInfoFuture,
@@ -155,7 +156,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Informations de connexion',
+                          AppLocalizations.of(context)!.info_connection_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -196,7 +197,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                     ],
                                                   ),
                                                   Text(
-                                                    'Nom & Prénom',
+                                                    AppLocalizations.of(context)!.last_first_name_text,
                                                     style: Theme.of(context).textTheme.headlineMedium,
                                                   ),
                                                   Column(
@@ -210,7 +211,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                             ?.copyWith(color: AppResources.colorDark),
                                                         decoration: InputDecoration(
                                                           filled: false,
-                                                          hintText: 'Ton prénom',
+                                                          hintText: AppLocalizations.of(context)!.your_name_text,
                                                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                           contentPadding: EdgeInsets.only(
                                                               top: ResponsiveSize.calculateHeight(20, context),
@@ -254,7 +255,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                             ?.copyWith(color: AppResources.colorDark),
                                                         decoration: InputDecoration(
                                                           filled: false,
-                                                          hintText: 'Ton nom',
+                                                          hintText: AppLocalizations.of(context)!.your_last_name_text,
                                                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                           contentPadding: EdgeInsets.only(
                                                               top: ResponsiveSize.calculateHeight(20, context),
@@ -311,7 +312,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                         ),
                                                       ),
                                                       child: Text(
-                                                        'ENREGISTRER',
+                                                        AppLocalizations.of(context)!.enregister_text,
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyLarge
@@ -322,12 +323,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                         final result = AppService.api.updateName(_textEditingControllerFirstName.text, _textEditingControllerLastName.text);
                                                         if (await result) {
                                                           Navigator.pop(context);
-                                                          showMessage(context, 'Nom ✅');
+                                                          showMessage(context, AppLocalizations.of(context)!.name_ok_text);
                                                           await Future.delayed(const Duration(seconds: 3));
                                                           await fetchUserInfo();
                                                         } else {
                                                           Navigator.pop(context);
-                                                          showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                          showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                                                         }
                                                       },
                                                     ),
@@ -342,7 +343,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowDefault('Nom & prénom', userInfo.name, true)
+                            child: accountRowDefault(AppLocalizations.of(context)!.last_first_name_text, userInfo.name, true)
                         ),
                         ///Update phone number
                         InkWell(
@@ -378,7 +379,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  'Numéro de téléphone',
+                                                  AppLocalizations.of(context)!.phone_text,
                                                   style: Theme.of(context).textTheme.headlineMedium,
                                                 ),
                                                 Column(
@@ -449,7 +450,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      'ENREGISTRER',
+                                                        AppLocalizations.of(context)!.enregister_text,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge
@@ -460,12 +461,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       final result = AppService.api.updatePhone(_textEditingControllerPhoneNumber.text);
                                                       if (await result) {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Numero de téléphone ✅');
+                                                        showMessage(context, AppLocalizations.of(context)!.phone_ok_text);
                                                         await Future.delayed(const Duration(seconds: 3));
                                                         await fetchUserInfo();
                                                       } else {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                        showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                                                       }
                                                     },
                                                   ),
@@ -480,7 +481,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 }
                             );
                           },
-                          child: accountRowDefault('Numéro de téléphone', formatPhoneNumber(userInfo.phoneNumber), true),
+                          child: accountRowDefault(AppLocalizations.of(context)!.phone_text, formatPhoneNumber(userInfo.phoneNumber), true),
                         ),
                         accountRowDefault('e-mail', userInfo.email, false),
                         ///Update password
@@ -517,7 +518,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  'Mot de passe',
+                                                  AppLocalizations.of(context)!.password_text,
                                                   style: Theme.of(context).textTheme.headlineMedium,
                                                 ),
                                                 Column(
@@ -532,7 +533,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                           ?.copyWith(color: AppResources.colorDark),
                                                       decoration: InputDecoration(
                                                         filled: false,
-                                                        hintText: 'Mot de passe actuel',
+                                                        hintText: AppLocalizations.of(context)!.actual_password_hint_text,
                                                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                         contentPadding: EdgeInsets.only(
                                                             top: ResponsiveSize.calculateHeight(20, context),
@@ -577,7 +578,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                           ?.copyWith(color: AppResources.colorDark),
                                                       decoration: InputDecoration(
                                                         filled: false,
-                                                        hintText: 'Nouveau mot de passe',
+                                                        hintText: AppLocalizations.of(context)!.new_password_hint_text,
                                                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                         contentPadding: EdgeInsets.only(
                                                             top: ResponsiveSize.calculateHeight(20, context),
@@ -634,7 +635,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      'ENREGISTRER',
+                                                        AppLocalizations.of(context)!.enregister_text,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge
@@ -645,12 +646,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       final result = AppService.api.updatePassword(_textEditingControllerCurrentPassword.text, _textEditingControllerNewPassword.text);
                                                       if (await result) {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Mot de passe ✅');
+                                                        showMessage(context, AppLocalizations.of(context)!.password_ok_text);
                                                         await Future.delayed(const Duration(seconds: 3));
                                                         await fetchUserInfo();
                                                       } else {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                        showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                                                       }
                                                     },
                                                   ),
@@ -665,7 +666,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 }
                             );
                           },
-                          child: accountRowDefault('mot de passe', '********', true),
+                          child: accountRowDefault(AppLocalizations.of(context)!.password_text, '********', true),
                         ),
                         ///Update address
                         InkWell(
@@ -701,7 +702,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  'Adresse',
+                                                  AppLocalizations.of(context)!.address_hint_text,
                                                   style: Theme.of(context).textTheme.headlineMedium,
                                                 ),
                                                 Column(
@@ -715,7 +716,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                           ?.copyWith(color: AppResources.colorDark),
                                                       decoration: InputDecoration(
                                                         filled: false,
-                                                        hintText: 'rue',
+                                                        hintText: AppLocalizations.of(context)!.rue_text,
                                                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                         contentPadding: EdgeInsets.only(
                                                             top: ResponsiveSize.calculateHeight(20, context),
@@ -759,7 +760,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                           ?.copyWith(color: AppResources.colorDark),
                                                       decoration: InputDecoration(
                                                         filled: false,
-                                                        hintText: 'Ville',
+                                                        hintText: AppLocalizations.of(context)!.city_hint_text,
                                                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                         contentPadding: EdgeInsets.only(
                                                             top: ResponsiveSize.calculateHeight(20, context),
@@ -803,7 +804,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                           ?.copyWith(color: AppResources.colorDark),
                                                       decoration: InputDecoration(
                                                         filled: false,
-                                                        hintText: 'Code Postal',
+                                                        hintText: AppLocalizations.of(context)!.zip_code_hint_text,
                                                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                                                         contentPadding: EdgeInsets.only(
                                                             top: ResponsiveSize.calculateHeight(20, context),
@@ -860,7 +861,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      'ENREGISTRER',
+                                                        AppLocalizations.of(context)!.enregister_text,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge
@@ -871,12 +872,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       final result = AppService.api.updateAddressInfo(_textEditingControllerRue.text, _textEditingControllerVille.text, _textEditingControllerZip.text);
                                                       if (await result) {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Adresse ✅');
+                                                        showMessage(context, AppLocalizations.of(context)!.address_ok_text);
                                                         await Future.delayed(const Duration(seconds: 3));
                                                         await fetchUserInfo();
                                                       } else {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                        showMessage(context, AppLocalizations.of(context)!.problem_server_text,);
                                                       }
                                                     },
                                                   ),
@@ -891,13 +892,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 }
                             );
                           },
-                          child: accountRowDefault('adresse', userInfo.rue, true),
+                          child: accountRowDefault(AppLocalizations.of(context)!.address_hint_text, userInfo.rue, true),
                         ),
                         InkWell(
                           onTap: () {
                             navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://www.meetpe.fr/privacy/'));
                           },
-                          child: accountRowDefault('sécurité & vie privée', '', true),
+                          child: accountRowDefault(AppLocalizations.of(context)!.security_and_privacy_text, '', true),
                         ),
                         const SizedBox(height: 20),
                         Text(
@@ -1174,7 +1175,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Mes documents',
+                          AppLocalizations.of(context)!.my_documents_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -1183,7 +1184,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ),
                         const SizedBox(height: 17),
                         Text(
-                          'Renseigne ici les documents qui sont nécessaires au bon fonctionnement de ton activité.',
+                          AppLocalizations.of(context)!.my_documents_desc_text,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w500,
                               color: AppResources.colorGray30),
@@ -1208,7 +1209,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Ma pièce d’identité', userInfo.pieceIdentite, false)
+                            child: accountRowToComplete(AppLocalizations.of(context)!.my_id_text, userInfo.pieceIdentite, false)
                         ),
                         const SizedBox(height: 17),
                         if (userInfo.sirenNumber != null) ...[
@@ -1229,7 +1230,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Mon KBIS', userInfo.kbisFile, false),
+                            child: accountRowToComplete(AppLocalizations.of(context)!.my_kbis_text, userInfo.kbisFile, false),
                           ),
                           const SizedBox(height: 17),
                         ],
@@ -1252,7 +1253,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   }
                               );
                             },
-                            child: accountRowToComplete('Autres documents', documentTitle, true)
+                            child: accountRowToComplete(AppLocalizations.of(context)!.other_document_text, documentTitle, true)
                         ),
                         const SizedBox(height: 17),
                       ],
@@ -1264,7 +1265,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       AppService.instance.logOut;
                     },
                     child: Text(
-                        'Supprimer mon compte',
+                        AppLocalizations.of(context)!.delete_account_text,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorGray30)
                     ),
                   ),
@@ -1338,7 +1339,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 ),
                 Visibility(
                   visible: tooltip,
-                  child: const PopupView(contentTitle: "Ici tu vas pouvoir nous transmettre tous les documents spécifiques liés à la pratique de ton expérience: \nPermis bateaux, moto, voitures, ou d’avion de chasse 😜 🚀\nTes licences \nTes assurances")
+                  child: PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_other_document_text)
                 ),
               ]
             ),
@@ -1357,7 +1358,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       ),
                     ),
                     child: Text(
-                      'à compléter',
+                      AppLocalizations.of(context)!.to_complete_text,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
                     ),
                   ),
