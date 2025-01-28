@@ -7,9 +7,9 @@ import '../resources/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyCardExperience extends StatefulWidget {
-  //const MyCardExperience({Key? key}) : super(key: key, required this.guideExperiencesResponse);
-  MyCardExperience({super.key, required this.guideExperiencesResponse});
+  MyCardExperience({super.key, required this.guideExperiencesResponse, required this.parentContext});
   final ExperienceDataResponse guideExperiencesResponse;
+  final BuildContext parentContext;
 
   @override
   _MyCardExperienceState createState() => _MyCardExperienceState();
@@ -70,7 +70,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                       Visibility(
                         visible: widget.guideExperiencesResponse.status == 'en ligne',
                         child: Text(
-                          '${AppLocalizations.of(context)!.posted_on_text} ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
+                          '${AppLocalizations.of(widget.parentContext)!.posted_on_text} ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                         ),
                       ),

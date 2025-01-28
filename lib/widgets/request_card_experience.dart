@@ -9,11 +9,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RequestCard extends StatefulWidget {
   final GuideReservationResponse guideReservationResponse;
   final Function onUpdateStatus;
+  final BuildContext parentContext;
 
   RequestCard({
     super.key,
     required this.guideReservationResponse,
     required this.onUpdateStatus,
+    required this.parentContext
   });
 
   @override
@@ -132,7 +134,7 @@ class _RequestCardState extends State<RequestCard> {
                                       : Icon(Icons.check, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
-                                    AppLocalizations.of(context)!.accept_text,
+                                    AppLocalizations.of(widget.parentContext)!.accept_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -153,7 +155,7 @@ class _RequestCardState extends State<RequestCard> {
                                       : Icon(Icons.close, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
-                                    AppLocalizations.of(context)!.refuse_text,
+                                    AppLocalizations.of(widget.parentContext)!.refuse_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -173,7 +175,7 @@ class _RequestCardState extends State<RequestCard> {
                             const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
                             const SizedBox(width: 8),
                             Text(
-                              AppLocalizations.of(context)!.accepted_text,
+                              AppLocalizations.of(widget.parentContext)!.accepted_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
