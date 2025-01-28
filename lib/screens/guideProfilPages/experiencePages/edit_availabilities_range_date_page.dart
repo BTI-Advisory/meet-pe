@@ -5,6 +5,7 @@ import '../../../models/modify_experience_data_model.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
 import '../../../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditAvailabilitiesRangeDatePage extends StatefulWidget {
   const EditAvailabilitiesRangeDatePage({super.key, required this.planning, required this.duration});
@@ -140,12 +141,12 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                       ),
                       const SizedBox(height: 80),
                       Text(
-                        'Horaire & dates de l’expérience',
+                        AppLocalizations.of(context)!.step_5_title_text,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Renseigne les horaires de début et de fin de l’expérience ainsi que les dates de l’expérience.',
+                        AppLocalizations.of(context)!.step_5_desc_text,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       SizedBox(
@@ -164,11 +165,11 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'Durée de l’expérience : ',
+                                    text: AppLocalizations.of(context)!.duration_text,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                   ),
                                   TextSpan(
-                                    text: widget.duration == "2d" ? "48 h" : "7 jours",
+                                    text: widget.duration == "2d" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
                                   ),
                                 ],
@@ -191,8 +192,8 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                       SizedBox(
                           height: ResponsiveSize.calculateHeight(16, context)),
                       Text(
-                        'L’expérience commence à ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
-                            'et se termine ${widget.duration == "2d" ? "48 h" : "7 jours"} après à ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
+                        '${AppLocalizations.of(context)!.info_duration_1_text} ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
+                            '${AppLocalizations.of(context)!.info_duration_2_text} ${widget.duration == "2d" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text} ${AppLocalizations.of(context)!.info_duration_3_text} ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray60),
                       ),
                       SizedBox(
@@ -225,7 +226,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                           }
                         },
                         child: Text(
-                          '+ Ajouter des dates',
+                          AppLocalizations.of(context)!.add_dates_text,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorVitamine),
                         ),
                       ),
@@ -254,7 +255,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                       selectedRanges.removeAt(rangeIndex);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Date range removed')),
+                      SnackBar(content: Text(AppLocalizations.of(context)!.date_removed_text)),
                     );
                   },
                   child: GestureDetector(
@@ -333,7 +334,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                         }
                             : null,
                         child: Text(
-                          'ENREGISTRER',
+                          AppLocalizations.of(context)!.enregister_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -361,7 +362,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Du $startDate au $endDate',
+                '${AppLocalizations.of(context)!.from_text} $startDate ${AppLocalizations.of(context)!.to_text} $endDate',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: const Color(0xFF797979)),
               ),
               Icon(Icons.chevron_right, size: 27, color: Color(0xFFBBBBBB)),

@@ -269,5 +269,20 @@
   "notifications_request_desc_text": "Reçois des notifications lorsqu’un voyageur réserve, annule ou modifie une expérience.",
   "call_phone_text": "Appel téléphonique",
   "notifications_apps_text": "Notifications  Meet People",
-  "notifications_apps_desc_text": "Reçois des nouveautés sur l’actualité de Meet People, toutes les dernières expériences et des conseils de voyage."
+  "notifications_apps_desc_text": "Reçois des nouveautés sur l’actualité de Meet People, toutes les dernières expériences et des conseils de voyage.",
+
+  "description_experience_text": "C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !",
+  "description_text": "Description",
+  "limited_character_text": "Tu as dépassé le 3000 caractère",
+  "confirmation_text": "Confirmation",
+  "confirmation_desc_text": "Es-tu sûr de vouloir supprimer cette expérience ?",
+  "cancel_text": "Annuler",
+  "delete_text": "Supprimer",
+  "edit_mode_text": "Mode Edition",
+  "proposed_text": "Expérience proposée tous les",
+  "day_short_text": "'Lu, Ma, Me, Je, Ve, Sa, Di',",
+  "word_for_text": "Un mot sur",
+  "delete_up_text": "SUPPRIMER",
+  "the_best_moment_text": "C'est le moment idéal pour donner une touche",
+  "edit_photo_text": "Plonge-nous dans ton univers et fais-nous rêver ! Quoi de mieux que des photos pour mettre en avant ton expérience ?"
 }

@@ -29,14 +29,20 @@ class _CreateExpStep4State extends State<CreateExpStep4> with BlocProvider<Creat
   initBloc() => CreateExpStep4Bloc(widget.myMap, widget.name, widget.description, widget.audioPath);
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _choicesFuture = Future.value([
       StepListResponse(id: 1, choiceTxt: AppLocalizations.of(context)!.schedule_1_text, svg: ''),
       StepListResponse(id: 2, choiceTxt: AppLocalizations.of(context)!.schedule_2_text, svg: ''),
       StepListResponse(id: 3, choiceTxt: AppLocalizations.of(context)!.schedule_3_text, svg: ''),
     ]);
     _loadChoices();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // You can leave the Future initialization here for other setup tasks.
   }
 
   Future<void> _loadChoices() async {

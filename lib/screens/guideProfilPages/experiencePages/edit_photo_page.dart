@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../utils/_utils.dart';
 import '../../../resources/resources.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -52,16 +53,14 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Center(child: Text('Information')),
-        content: const Text(
-            'Ici, nous souhaitons une photo de toi avec ton plus beau sourire 😃'
-        ),
+        title: Center(child: Text(AppLocalizations.of(context)!.information_title_text)),
+        content: Text(AppLocalizations.of(context)!.profile_photo_text),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok_text),
           ),
         ],
       ),
@@ -84,13 +83,13 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -103,7 +102,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             // Process the image
             String imagePath = pickedFile.path;
@@ -112,10 +111,10 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
             callback(imagePath);
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -124,7 +123,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           // Process the image
           String imagePath = pickedFile.path;
@@ -133,7 +132,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
           callback(imagePath);
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -183,13 +182,13 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                     ),
                     const SizedBox(height: 80),
                     Text(
-                      'Photos de l’expérience',
+                      AppLocalizations.of(context)!.step_6_title_text,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(16, context)),
                     Text(
-                      'Plonge-nous dans ton univers et fais-nous rêver ! Quoi de mieux que des photos pour mettre en avant ton expérience ?',
+                      AppLocalizations.of(context)!.edit_photo_text,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(
@@ -410,7 +409,7 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
                       ),
                     ),
                     child: Text(
-                      'ENREGISTRER',
+                      AppLocalizations.of(context)!.enregister_text,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                     ),
                     onPressed: () {

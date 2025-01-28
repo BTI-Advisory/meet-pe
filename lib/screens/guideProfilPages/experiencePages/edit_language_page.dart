@@ -5,6 +5,7 @@ import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../resources/resources.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditLanguagePage extends StatefulWidget {
   const EditLanguagePage({super.key});
@@ -95,12 +96,12 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
                       ),
                       const SizedBox(height: 80),
                       Text(
-                        'Langue de ton expérience',
+                        AppLocalizations.of(context)!.step_3_title_text,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        "C'est le moment idéal pour donner une touche ",
+                        AppLocalizations.of(context)!.the_best_moment_text,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 20),
@@ -159,7 +160,7 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
                         ),
                       ),
                       child: Text(
-                        'ENREGISTRER',
+                        AppLocalizations.of(context)!.enregister_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
