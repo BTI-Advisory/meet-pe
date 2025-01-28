@@ -15,6 +15,7 @@ import 'edit_availabilities_range_date_page.dart';
 import 'edit_language_page.dart';
 import 'edit_photo_page.dart';
 import 'edit_price_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditExperiencePage extends StatefulWidget {
   const EditExperiencePage({super.key, required this.experienceData});
@@ -64,17 +65,17 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Es-tu sûr de vouloir supprimer cette expérience ?'),
+          title: Text(AppLocalizations.of(context)!.confirmation_text),
+          content: Text(AppLocalizations.of(context)!.confirmation_desc_text),
           actions: <Widget>[
             TextButton(
-              child: Text('Annuler'),
+              child: Text(AppLocalizations.of(context)!.cancel_text),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
             ),
             TextButton(
-              child: Text('Supprimer'),
+              child: Text(AppLocalizations.of(context)!.delete_text),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
                 _deleteExperience(int.parse(widget.experienceData.id)); // Delete the experience
@@ -90,8 +91,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Mode Edition',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.edit_mode_text,
         ///Todo: Remove comment and const
         /*actions: [
           Text(
@@ -250,14 +251,14 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 Column(
                                   children: [
                                     Text(
-                                        'Expérience proposée tous les',
+                                        AppLocalizations.of(context)!.proposed_text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall
                                             ?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorVitamine)
                                     ),
                                     Text(
-                                        'Lu, Ma, Me, Je, Ve, Sa, Di',
+                                        AppLocalizations.of(context)!.day_short_text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
@@ -444,7 +445,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                                     .calculateWidth(
                                                     4, context)),
                                             Text(
-                                              'Vérifié',
+                                              AppLocalizations.of(context)!.verified_text,
                                               textAlign: TextAlign.center,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -653,7 +654,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         SizedBox(
                           width: 318,
                           child: Text(
-                            'Un mot sur ${widget.experienceData.nameGuide}',
+                            '${AppLocalizations.of(context)!.word_for_text} ${widget.experienceData.nameGuide}',
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 32, color: AppResources.colorVitamine),
                           ),
                         ),
@@ -772,7 +773,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         _showConfirmationDialog(context);
                       },
                       child: Text(
-                        'SUPPRIMER',
+                        AppLocalizations.of(context)!.delete_up_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -809,7 +810,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         Navigator.maybePop(context);
                       },
                       child: Text(
-                        'ENREGISTRER',
+                        AppLocalizations.of(context)!.enregister_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge

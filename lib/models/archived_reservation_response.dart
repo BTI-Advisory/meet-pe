@@ -8,7 +8,6 @@ class ArchivedReservationResponse {
   final bool isPayed;
   final int voyageurId;
   final String nom;
-  final String prenom;
   final String phone;
   final String createdAt;
   final String updatedAt;
@@ -31,7 +30,6 @@ class ArchivedReservationResponse {
     required this.isPayed,
     required this.voyageurId,
     required this.nom,
-    required this.prenom,
     required this.phone,
     required this.createdAt,
     required this.updatedAt,
@@ -61,7 +59,6 @@ class ArchivedReservationResponse {
       isPayed: json['is_payed'],
       voyageurId: json['voyageur_id'],
       nom: json['nom'],
-      prenom: json['prenom'],
       phone: json['phone'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],

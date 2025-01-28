@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../utils/_utils.dart';
 import '../../../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditDescriptionPage extends StatefulWidget {
   const EditDescriptionPage({super.key});
@@ -92,12 +93,12 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                       ),
                       const SizedBox(height: 80),
                       Text(
-                        'Description de l’experience',
+                        AppLocalizations.of(context)!.step_2_title_text,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'C’est la première information que l’on va voir sur ton profil. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !',
+                        AppLocalizations.of(context)!.description_experience_text,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 20),
@@ -116,7 +117,7 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                             ?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
-                          hintText: 'Description',
+                          hintText: AppLocalizations.of(context)!.description_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
@@ -137,7 +138,7 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                         onChanged: (value) {
                           if (value.length > 3000) {
                             showMessage(
-                                context, 'Tu as dépassé le 3000 caractère');
+                                context, AppLocalizations.of(context)!.limited_character_text);
                           }
                           setState(() {
                             validationMessageDescription =
@@ -181,7 +182,7 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                         ),
                       ),
                       child: Text(
-                        'ENREGISTRER',
+                        AppLocalizations.of(context)!.enregister_text,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
