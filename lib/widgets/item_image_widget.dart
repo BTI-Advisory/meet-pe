@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../resources/resources.dart';
 import '../utils/responsive_size.dart';
@@ -43,10 +44,7 @@ class _ItemImageState extends State<ItemImage> {
             child: Row(
               children: [
                 widget.image != null && widget.image.isNotEmpty
-                    ? Image.network(
-                  widget.image,
-                  width: 10,
-                  height: 10,
+                    ? SvgPicture.network(widget.image, width: 16, height: 16,
                   color: widget.isSelected
                       ? Colors.white
                       : AppResources.colorGray100,

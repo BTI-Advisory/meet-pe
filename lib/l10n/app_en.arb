@@ -368,5 +368,6 @@
   "add_hour_text": "+ AJOUTER UN HORAIRE",
   "delete_hour_text": "- SUPPRIMER L'HORAIRE",
   "from_hour_text" : "De",
-  "to_hour_text": "À"
+  "to_hour_text": "À",
+  "category_detail_text": "Ta pépite en détail"
 }

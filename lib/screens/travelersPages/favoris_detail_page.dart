@@ -413,6 +413,22 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                     ),
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.category_detail_text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(color: AppResources.colorDark),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
                   Wrap(
                       alignment: WrapAlignment.center,
                       spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
@@ -431,7 +447,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                               child: Row(
                                 children: [
                                   if (item.svg.isNotEmpty)
-                                    Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                    SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
                                   if (item.svg.isNotEmpty)
                                     SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                                   Text(
@@ -459,7 +475,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                               child: Row(
                                 children: [
                                   if (item.svg.isNotEmpty)
-                                    Image.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover),
+                                    SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
                                   if (item.svg.isNotEmpty)
                                     SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                                   Text(
