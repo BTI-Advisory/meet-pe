@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
@@ -7,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
 import '../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModifyExceptionalAbsences extends StatefulWidget {
   ModifyExceptionalAbsences({super.key, required this.id, required this.firstFormatDate, required this.lastFormatDate, required this.onAbsenceModified});
@@ -85,7 +85,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                     ),
                   ),
                   child: Text(
-                    "MODIFIER L'HORAIRE",
+                    AppLocalizations.of(context)!.modify_time_text,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -119,11 +119,11 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
               String isCreated = await bloc.updateScheduleAbsence();
               if (isCreated == "Une absence avec ces dates existe déjà.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                  showCustomDialog(context, AppLocalizations.of(context)!.exist_absence_text); // Ensure this runs after the widget tree is built
                 });
               } else if (isCreated == "Vous avez au moins une expérience déjà bookée ce jour.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                  showCustomDialog(context, AppLocalizations.of(context)!.resa_absence_text); // Ensure this runs after the widget tree is built
                 });
               } else {
                 widget.onAbsenceModified();
@@ -157,14 +157,14 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Absences exceptionnelles',
+                          AppLocalizations.of(context)!.exceptional_absences_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          'Absence exceptionnelle du ${AppResources.formatterDate.format(DateTime.parse(widget.firstFormatDate))} au ${AppResources.formatterDate.format(DateTime.parse(widget.lastFormatDate))}.',
+                          '${AppLocalizations.of(context)!.absence_from_text} ${AppResources.formatterDate.format(DateTime.parse(widget.firstFormatDate))} ${AppLocalizations.of(context)!.to_text} ${AppResources.formatterDate.format(DateTime.parse(widget.lastFormatDate))}.',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -321,20 +321,20 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text("Confirmer la suppression"),
-                                        content: Text("Etes-vous sûr de vouloir supprimer cette absence exceptionnelle?"),
+                                        title: Text(AppLocalizations.of(context)!.confirm_delete_text),
+                                        content: Text(AppLocalizations.of(context)!.delete_absence_text),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop(false); // User canceled deletion
                                             },
-                                            child: Text("ANNULER"),
+                                            child: Text(AppLocalizations.of(context)!.cancel_text),
                                           ),
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop(true); // User confirmed deletion
                                             },
-                                            child: Text("SUPPRIMER"),
+                                            child: Text(AppLocalizations.of(context)!.delete_up_text),
                                           ),
                                         ],
                                       );
@@ -350,7 +350,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   }
                                 },
                                 child: Text(
-                                  'SUPPRIMER',
+                                  AppLocalizations.of(context)!.delete_up_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -389,7 +389,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                 ),
                                 onPressed: () {
                                   if (_rangeStart!.isBefore(DateTime.now())) {
-                                    showMessage(context, 'Error date select');
+                                    showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                                   } else {
                                     bloc.id = id;
                                     if(_rangeStart != null) {
@@ -402,7 +402,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                   }
                                 },
                                 child: Text(
-                                  'ENREGISTRER',
+                                  AppLocalizations.of(context)!.enregister_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge

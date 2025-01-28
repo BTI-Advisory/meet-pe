@@ -9,6 +9,7 @@ import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/responsive_size.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef ImagePathCallback = void Function(String);
@@ -43,13 +44,13 @@ class _IdCardWidgetState extends State<IdCardWidget> {
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -62,7 +63,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             String imagePath = pickedFile?.path ?? '';
             String filename = path.basename(pickedFile.path);
@@ -73,10 +74,10 @@ class _IdCardWidgetState extends State<IdCardWidget> {
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -85,7 +86,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           String imagePath = pickedFile?.path ?? '';
           String filename = path.basename(pickedFile.path);
@@ -96,7 +97,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
@@ -124,7 +125,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
               ],
             ),
             Text(
-              'Ma pièce d’identité',
+              AppLocalizations.of(context)!.identity_text,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 39),
@@ -149,7 +150,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                       Expanded(
                         child: Text(
                           cardIDRectoName.isEmpty
-                              ? 'Ajouter une pièce d’identité recto'
+                              ? AppLocalizations.of(context)!.add_recto_identity_text
                               : cardIDRectoName,
                           style: Theme.of(context)
                               .textTheme
@@ -191,7 +192,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                       Expanded(
                         child: Text(
                           cardIDVersoName.isEmpty
-                              ? 'Ajouter une pièce d’identité verso'
+                              ? AppLocalizations.of(context)!.add_verso_identity_text
                               : cardIDVersoName,
                           style: Theme.of(context)
                               .textTheme
@@ -232,7 +233,7 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                   ),
                 ),
                 child: Text(
-                  'ENREGISTRER',
+                  AppLocalizations.of(context)!.enregister_text,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -242,12 +243,12 @@ class _IdCardWidgetState extends State<IdCardWidget> {
                   final result = AppService.api.sendIdCard(cardIDRecto, cardIDVerso);
                   if (await result) {
                     Navigator.pop(context);
-                    showMessage(context, "Canon ta photo d'identité 🤩 Nous l'avons bien prise en compte !");
+                    showMessage(context, AppLocalizations.of(context)!.add_identity_ok_text);
                     await Future.delayed(const Duration(seconds: 3));
                     widget.onFetchUserInfo();
                   } else {
                     Navigator.pop(context);
-                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                    showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                   }
                 },
               ),

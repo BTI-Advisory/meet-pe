@@ -5,6 +5,7 @@ import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PositionFiltred extends StatefulWidget {
   const PositionFiltred({super.key});
@@ -96,7 +97,7 @@ class _PositionFiltredState extends State<PositionFiltred>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Position',
+                          AppLocalizations.of(context)!.position_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -110,7 +111,7 @@ class _PositionFiltredState extends State<PositionFiltred>
                         ),
                         const SizedBox(height: 40),
                         Text(
-                          'Autour de moi',
+                          AppLocalizations.of(context)!.around_me,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -168,7 +169,7 @@ class _PositionFiltredState extends State<PositionFiltred>
                               }
                             },
                             child: Text(
-                              'ENREGISTRER',
+                              AppLocalizations.of(context)!.enregister_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

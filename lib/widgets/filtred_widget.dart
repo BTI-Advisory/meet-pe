@@ -7,6 +7,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import '../models/step_list_response.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FiltredWidget extends StatefulWidget {
   const FiltredWidget({super.key});
@@ -144,7 +145,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Filtres',
+                          AppLocalizations.of(context)!.filter_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -158,7 +159,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                         ),
                         const SizedBox(height: 40),
                         Text(
-                          'Nombre de voyageurs',
+                          AppLocalizations.of(context)!.number_traveler_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -173,14 +174,14 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Adultes',
+                                  AppLocalizations.of(context)!.adult_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
                                 Text(
-                                  '12 ans et plus',
+                                  AppLocalizations.of(context)!.age_adult_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium,
@@ -243,14 +244,14 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Enfants',
+                                  AppLocalizations.of(context)!.kids_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
                                 Text(
-                                  'De 2 ans à 12 ans',
+                                  AppLocalizations.of(context)!.age_kids_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium,
@@ -313,14 +314,14 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Bébés (Gratuit)',
+                                  AppLocalizations.of(context)!.baby_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(color: AppResources.colorDark),
                                 ),
                                 Text(
-                                  'Moins de 2 ans',
+                                  AppLocalizations.of(context)!.age_baby_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium,
@@ -382,14 +383,14 @@ class _FiltredWidgetState extends State<FiltredWidget>
                         ),
                         const SizedBox(height: 40),
                         Text(
-                          'Prix',
+                          AppLocalizations.of(context)!.price_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
                               ?.copyWith(color: AppResources.colorDark),
                         ),
                         Text(
-                          'Le prix moyen d’une expérience est de 55 €',
+                          AppLocalizations.of(context)!.average_price_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium,
@@ -404,7 +405,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Minimum',
+                                  labelText: AppLocalizations.of(context)!.minimum_text,
                                   suffixText: '€',
                                 ),
                               ),
@@ -416,7 +417,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Maximum',
+                                  labelText: AppLocalizations.of(context)!.maximum_text,
                                   suffixText: '€',
                                 ),
                               ),
@@ -449,7 +450,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                'Quelles catégories d’expériences ?',
+                                AppLocalizations.of(context)!.what_category_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium,
@@ -495,7 +496,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                'Quelles langues pour les expériences ?',
+                                AppLocalizations.of(context)!.what_language_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium,
@@ -563,7 +564,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 });
                               },
                               child: Text(
-                                'PLUS DE FILTRES',
+                                AppLocalizations.of(context)!.more_filter_text,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: AppResources.colorVitamine),
                               ),
@@ -602,7 +603,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 });
                               },
                               child: Text(
-                                'ENREGISTRER',
+                                AppLocalizations.of(context)!.enregister_text,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: AppResources.colorWhite),
                               ),
@@ -641,7 +642,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                             _onFilterAdded(formatMyMap(myMap));
                           },
                           child: Text(
-                            'ENREGISTRER',
+                            AppLocalizations.of(context)!.enregister_text,
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 color: AppResources.colorWhite),
                           ),

@@ -3,6 +3,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../models/reservation_list_response.dart';
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReservationCard extends StatefulWidget {
   const ReservationCard({super.key, required this.reservationResponse});
@@ -68,7 +69,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         Icon(Icons.watch_later_outlined, size: 17, color: AppResources.colorVitamine),
                         const SizedBox(width: 5),
                         Text(
-                          'En attente de confirmation',
+                          AppLocalizations.of(context)!.pending_confirmation_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -83,7 +84,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         Icon(Icons.bookmark, size: 17, color: AppResources.colorDark),
                         const SizedBox(width: 5),
                         Text(
-                          widget.reservationResponse.status!,
+                          AppLocalizations.of(context)!.archived_confirmation_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -98,7 +99,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         Icon(Icons.check, size: 17, color: Color(0xFF33C579)),
                         const SizedBox(width: 5),
                         Text(
-                          widget.reservationResponse.status!,
+                          AppLocalizations.of(context)!.accepted_confirmation_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -113,7 +114,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         Icon(Icons.close, size: 17, color: AppResources.colorGray30),
                         const SizedBox(width: 5),
                         Text(
-                          widget.reservationResponse.status!,
+                          AppLocalizations.of(context)!.cancel_confirmation_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -128,7 +129,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         Icon(Icons.close, size: 17, color: Colors.red),
                         const SizedBox(width: 5),
                         Text(
-                          widget.reservationResponse.status!,
+                          AppLocalizations.of(context)!.refused_confirmation_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium

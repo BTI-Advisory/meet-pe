@@ -5,6 +5,7 @@ import 'package:searchfield/searchfield.dart';
 import 'package:http/http.dart' as http;
 
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NetworkSearchField extends StatefulWidget {
   final TextEditingController controller;
@@ -144,7 +145,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
             ),
           ),
           key: const Key('searchfield'),
-          hint: 'Recherche par ville',
+          hint: AppLocalizations.of(context)!.search_city_text,
           itemHeight: 63,
           scrollbarDecoration: ScrollbarDecoration(),
           //onTapOutside: (x) {},
