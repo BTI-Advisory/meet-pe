@@ -6,6 +6,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarMultiSelection extends StatefulWidget {
   const CalendarMultiSelection({super.key, this.initialSelectedDays = const []});
@@ -80,7 +81,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Date de l’expérience',
+                          AppLocalizations.of(context)!.date_of_experience_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -204,7 +205,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
                                   Navigator.pop(context);
                                 },
                                 child: Text(
-                                  'SUPPRIMER',
+                                  AppLocalizations.of(context)!.delete_up_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -237,7 +238,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
                                   validate();
                                 },
                                 child: Text(
-                                  'ENREGISTRER',
+                                  AppLocalizations.of(context)!.enregister_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -266,7 +267,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
                               ),
                             ),
                             child: Text(
-                              'ENREGISTRER',
+                              AppLocalizations.of(context)!.enregister_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -274,7 +275,7 @@ class _CalendarMultiSelectionState extends State<CalendarMultiSelection>
                                   color: AppResources.colorDark),
                             ),
                             onPressed: () {
-                              showMessage(context, 'Select date!');
+                              showMessage(context, AppLocalizations.of(context)!.you_choice_date_text);
                             },
                           ),
                         ),

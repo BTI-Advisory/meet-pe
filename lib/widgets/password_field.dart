@@ -1,5 +1,6 @@
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
@@ -39,7 +40,7 @@ class _PasswordFieldState extends State<PasswordField> {
           .bodyLarge
           ?.copyWith(color: AppResources.colorDark),
       decoration: InputDecoration(
-          hintText: widget.hint ?? 'Ton mot de passe',
+          hintText: widget.hint ?? AppLocalizations.of(context)!.your_password_text,
           hintStyle: Theme.of(context).textTheme.bodyMedium,
           fillColor: Colors.transparent,
           contentPadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),

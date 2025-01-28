@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
@@ -7,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
 import '../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExceptionalAbsences extends StatefulWidget {
   const ExceptionalAbsences({super.key});
@@ -83,7 +83,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                     ),
                   ),
                   child: Text(
-                    "MODIFIER L'HORAIRE",
+                    AppLocalizations.of(context)!.modify_time_text,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -109,11 +109,11 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
               String isCreated = await bloc.sendScheduleAbsence();
               if (isCreated == "Une absence avec ces dates existe déjà.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCustomDialog(context, isCreated); // Ensure this runs after the widget tree is built
+                  showCustomDialog(context, AppLocalizations.of(context)!.exist_absence_text); // Ensure this runs after the widget tree is built
                 });
               } else if (isCreated == "Tu as au moins une expérience déjà bookée sur ces jours.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCustomDialog(context, 'Oups tu as déjà des résas sur ce créneau ! On compte sur toi 🤜🏼🤛🏼'); // Ensure this runs after the widget tree is built
+                  showCustomDialog(context, AppLocalizations.of(context)!.resa_absence_text); // Ensure this runs after the widget tree is built
                 });
               } else {
                 _onAbsenceAdded();
@@ -146,14 +146,14 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Absences exceptionnelles',
+                          AppLocalizations.of(context)!.exceptional_absences_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          'Tu prends des vacances ? Tu es absent pendant une longue période ? Rensigne ici tes absences exceptionnelles. Durant celles-ci les voyageurs ne pourront pas réserver d’expérience.',
+                          AppLocalizations.of(context)!.add_absence_desc_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -300,7 +300,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                         Navigator.pop(context);
                                       },
                                       child: Text(
-                                        'SUPPRIMER',
+                                        AppLocalizations.of(context)!.delete_up_text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -331,7 +331,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                       ),
                                       onPressed: () {
                                         if (_rangeStart!.isBefore(DateTime.now())) {
-                                          showMessage(context, 'Error date select');
+                                          showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                                         } else {
                                           if(_rangeStart != null) {
                                             bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
@@ -343,7 +343,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                         }
                                       },
                                       child: Text(
-                                        'ENREGISTRER',
+                                        AppLocalizations.of(context)!.enregister_text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -372,7 +372,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                     ),
                                   ),
                                   child: Text(
-                                    'ENREGISTRER',
+                                    AppLocalizations.of(context)!.enregister_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -380,7 +380,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                                             color: AppResources.colorDark),
                                   ),
                                   onPressed: () {
-                                    showMessage(context, 'Select date!');
+                                    showMessage(context, AppLocalizations.of(context)!.you_choice_date_text);
                                   },
                                 ),
                               ),

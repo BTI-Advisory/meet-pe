@@ -4,6 +4,7 @@ import 'package:meet_pe/screens/travelersPages/reservation_page.dart';
 import '../models/experience_model.dart';
 import '../resources/resources.dart';
 import '../utils/_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EventDetails extends StatelessWidget {
   final List<Event> events;
@@ -37,7 +38,7 @@ class EventDetails extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 21),
             child: Text(
-              'Choisir un horaire',
+              AppLocalizations.of(context)!.choice_time_text,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -115,12 +116,12 @@ class EventTimeSlot extends StatelessWidget {
             )
           else if (duration == '2d')
             Text(
-              '48 heures',
+              AppLocalizations.of(context)!.schedule_2_text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
             )
           else if (duration == '7d')
               Text(
-                'Une semaine',
+                AppLocalizations.of(context)!.schedule_4_text,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
               ),
           const SizedBox(height: 5),
@@ -130,7 +131,7 @@ class EventTimeSlot extends StatelessWidget {
               backgroundColor: AppResources.colorVitamine,
             ),
             child: Text(
-              'Réserver',
+              AppLocalizations.of(context)!.reserve_text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorWhite, fontWeight: FontWeight.w400),
             ),
           ),

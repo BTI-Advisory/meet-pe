@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimeSlotWidget extends StatefulWidget {
   final List<Map<String, TimeOfDay?>> initialTimeSlots;
@@ -54,8 +55,8 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
               !_isEndTimeAfterStartTime(timeSlots[index]["start"]!, timeSlots[index]["end"]!)) {
             timeSlots[index]["end"] = null;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("L'heure de fin a été réinitialisée. Elle doit être après l'heure de début."),
+              SnackBar(
+                content: Text(AppLocalizations.of(context)!.hour_condition_text),
               ),
             );
           }
@@ -63,8 +64,8 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
           if (timeSlots[index]["start"] != null &&
               !_isEndTimeAfterStartTime(timeSlots[index]["start"]!, adjustedTime)) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("L'heure de fin doit être après l'heure de début."),
+              SnackBar(
+                content: Text(AppLocalizations.of(context)!.hour_condition_2_text),
               ),
             );
           } else {
@@ -111,7 +112,7 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
               });
             },
             child: Text(
-              timeSlots.length == 1 ? "+ AJOUTER UN HORAIRE" : "- SUPPRIMER L'HORAIRE",
+              timeSlots.length == 1 ? AppLocalizations.of(context)!.add_hour_text : AppLocalizations.of(context)!.delete_hour_text,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
@@ -121,7 +122,7 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
   }
 
   Widget _buildTimePicker(BuildContext context, int index, {required bool isStartTime}) {
-    final String label = isStartTime ? "De" : "À";
+    final String label = isStartTime ? AppLocalizations.of(context)!.from_hour_text : AppLocalizations.of(context)!.to_hour_text;
     final TimeOfDay? time = timeSlots[index][isStartTime ? "start" : "end"];
     return Expanded(
       child: Container(

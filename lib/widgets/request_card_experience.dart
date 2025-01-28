@@ -4,6 +4,7 @@ import '../models/guide_reservation_response.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestCard extends StatefulWidget {
   final GuideReservationResponse guideReservationResponse;
@@ -131,7 +132,7 @@ class _RequestCardState extends State<RequestCard> {
                                       : Icon(Icons.check, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Accepter',
+                                    AppLocalizations.of(context)!.accept_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -152,7 +153,7 @@ class _RequestCardState extends State<RequestCard> {
                                       : Icon(Icons.close, size: 24,),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Refuser',
+                                    AppLocalizations.of(context)!.refuse_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -172,7 +173,7 @@ class _RequestCardState extends State<RequestCard> {
                             const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
                             const SizedBox(width: 8),
                             Text(
-                              'Accepté',
+                              AppLocalizations.of(context)!.accepted_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge

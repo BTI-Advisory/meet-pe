@@ -10,6 +10,7 @@ import '../services/app_service.dart';
 import '../utils/_utils.dart';
 import 'animated_icon_button.dart';
 import 'event_details.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GuideProfileCard extends StatefulWidget {
   const GuideProfileCard({super.key, required this.experienceData, required this.onCardTapped});
@@ -181,7 +182,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Recommandé à',
+                                    AppLocalizations.of(context)!.recommended_to_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -289,7 +290,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                                         .calculateWidth(
                                                         4, context)),
                                                 Text(
-                                                  'Vérifié',
+                                                  AppLocalizations.of(context)!.verified_text,
                                                   textAlign: TextAlign.center,
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -533,7 +534,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               ),
                               SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
                               Text(
-                                'Un mot sur ${widget.experienceData.experience.nameGuide}',
+                                '${AppLocalizations.of(context)!.word_for_text} ${widget.experienceData.experience.nameGuide}',
                                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 32, color: AppResources.colorVitamine),
                               ),
                               const SizedBox(height: 12),
@@ -543,7 +544,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               ),
                               const SizedBox(height: 40),
                               Text(
-                                'Tarifs de l’expérience',
+                                AppLocalizations.of(context)!.price_experience_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
@@ -554,7 +555,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Prix par adulte",
+                                    AppLocalizations.of(context)!.price_adult_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -575,7 +576,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Prix par enfant",
+                                    AppLocalizations.of(context)!.price_kids_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -596,7 +597,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Prix de groupe (à partir de ${widget.experienceData.experience.maxNbVoyageur} personnes)",
+                                    "${AppLocalizations.of(context)!.price_group_match_1_text} ${widget.experienceData.experience.maxNbVoyageur} ${AppLocalizations.of(context)!.price_group_match_2_text}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -618,7 +619,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               ),
                               const SizedBox(height: 24),
                               Text(
-                                'Gallery',
+                                AppLocalizations.of(context)!.gallery_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
@@ -654,7 +655,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                             children: [
                               const SizedBox(height: 34),
                               Text(
-                                'Réserve ta date',
+                                AppLocalizations.of(context)!.reserve_date_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
@@ -736,7 +737,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                   builder: (context, value, _) {
                                     if (value.isEmpty) {
                                       return Center(
-                                        child: Text('No events for this day.'),
+                                        child: Text(AppLocalizations.of(context)!.no_events_text),
                                       );
                                     } else {
                                       return EventDetails(events: value, experienceData: widget.experienceData.experience,);

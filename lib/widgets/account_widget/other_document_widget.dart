@@ -9,6 +9,7 @@ import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/responsive_size.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Define the callback function type
 typedef OtherDocumentPathCallback = void Function(String);
@@ -25,8 +26,8 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
   String otherDocument = '';
   String otherDocumentName = '';
   bool _isDropdownOpened = false;
-  List<String> _categories = ['Permis', 'Licence professionnelle', 'Assurance', 'Autres'];
-  String _selectedCategory = 'Catégorie du document';
+  List<String> _categories = [];
+  String _selectedCategory = "";
 
   Future<void> pickImage(OtherDocumentPathCallback callback, OtherDocumentPathCallback callbackName) async {
     final picker = ImagePicker();
@@ -44,13 +45,13 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
         statuses[Permission.photos] = await Permission.photos.request();
 
         if (statuses[Permission.photos]!.isDenied) {
-          showMessage(context, "L'autorisation d'accéder aux photos est refusée. Veuillez l'activer à partir des paramètres.");
+          showMessage(context, AppLocalizations.of(context)!.access_refuse_text);
           return;
         }
       }
 
       if (statuses[Permission.photos]!.isPermanentlyDenied) {
-        showMessage(context, "L'autorisation d'accéder aux photos est définitivement refusée. Veuillez l'activer à partir des paramètres.");
+        showMessage(context, AppLocalizations.of(context)!.access_refuse_all_text);
         // Optionally, you could navigate the user to the app settings:
         // openAppSettings();
         return;
@@ -63,7 +64,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
         if (pickedFile != null) {
           // Check the size of the picked image
           if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-            showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+            showMessage(context, AppLocalizations.of(context)!.image_size_text);
           } else {
             String imagePath = pickedFile?.path ?? '';
             String filename = path.basename(pickedFile.path);
@@ -74,10 +75,10 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
             });
           }
         } else {
-          showMessage(context, 'Aucune image sélectionnée.');
+          showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
         }
       } else {
-        showMessage(context, "Impossible d'accéder aux photos. Veuillez vérifier vos paramètres d'autorisation.");
+        showMessage(context, AppLocalizations.of(context)!.impossible_access_text);
       }
     } else if (Platform.isAndroid) {
       // If permission is granted, proceed to pick the image
@@ -86,7 +87,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
       if (pickedFile != null) {
         // Check the size of the picked image
         if ((await pickedFile.readAsBytes()).lengthInBytes > 8388608) {
-          showMessage(context, 'Oups, ta 📸 est top, mais trop lourde pour nous, 8MO max stp 🙏🏻');
+          showMessage(context, AppLocalizations.of(context)!.image_size_text);
         } else {
           String imagePath = pickedFile?.path ?? '';
           String filename = path.basename(pickedFile.path);
@@ -97,13 +98,15 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
           });
         }
       } else {
-        showMessage(context, 'Aucune image sélectionnée.');
+        showMessage(context, AppLocalizations.of(context)!.no_image_selected_text);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _categories = [AppLocalizations.of(context)!.permis_text, AppLocalizations.of(context)!.license_text, AppLocalizations.of(context)!.assurance_text, AppLocalizations.of(context)!.other_text];
+    _selectedCategory = AppLocalizations.of(context)!.category_document_text;
     return Container(
       width: double.infinity,
       height: 439,
@@ -125,7 +128,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
               ],
             ),
             Text(
-              'Autres documents',
+              AppLocalizations.of(context)!.other_document_text,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 39),
@@ -197,7 +200,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
                       Expanded(
                         child: Text(
                           otherDocumentName.isEmpty
-                              ? 'Ajouter un document'
+                              ? AppLocalizations.of(context)!.add_document_text
                               : otherDocumentName,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                           overflow: TextOverflow.ellipsis,
@@ -235,7 +238,7 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
                   ),
                 ),
                 child: Text(
-                  'ENREGISTRER',
+                    AppLocalizations.of(context)!.enregister_text,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -245,12 +248,12 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
                   final result = AppService.api.sendOtherDocument(_selectedCategory, otherDocument);
                   if (await result) {
                     Navigator.pop(context);
-                    showMessage(context, 'Autres documents ✅');
+                    showMessage(context, AppLocalizations.of(context)!.add_other_document_ok_text);
                     await Future.delayed(const Duration(seconds: 3));
                     widget.onFetchUserInfo();
                   } else {
                     Navigator.pop(context);
-                    showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                    showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                   }
                 },
               ),

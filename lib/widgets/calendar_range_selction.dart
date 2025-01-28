@@ -5,6 +5,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarRangeSelection extends StatefulWidget {
   final DateTime? initialStartDate;
@@ -76,7 +77,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Date de l’expérience',
+                          AppLocalizations.of(context)!.date_of_experience_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -229,7 +230,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                   Navigator.pop(context);
                                 },
                                 child: Text(
-                                  'SUPPRIMER',
+                                  AppLocalizations.of(context)!.delete_up_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -260,7 +261,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                 ),
                                 onPressed: () {
                                   if (_rangeStart!.isBefore(DateTime.now())) {
-                                    showMessage(context, 'Error date select');
+                                    showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                                   } else {
                                     if(_rangeStart != null) {
                                       bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
@@ -272,7 +273,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                   }
                                 },
                                 child: Text(
-                                  'ENREGISTRER',
+                                  AppLocalizations.of(context)!.enregister_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -301,7 +302,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                               ),
                             ),
                             child: Text(
-                              'ENREGISTRER',
+                              AppLocalizations.of(context)!.enregister_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -309,7 +310,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                   color: AppResources.colorDark),
                             ),
                             onPressed: () {
-                              showMessage(context, 'Select date!');
+                              showMessage(context, AppLocalizations.of(context)!.you_choice_date_text);
                             },
                           ),
                         ),

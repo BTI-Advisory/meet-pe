@@ -5,6 +5,7 @@ import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarMatching extends StatefulWidget {
   const CalendarMatching({super.key});
@@ -36,7 +37,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
       };
       Navigator.pop(context, result);
     } else {
-      showMessage(context, 'Please select a valid date range!');
+      showMessage(context, AppLocalizations.of(context)!.select_valid_range_text);
     }
   }
 
@@ -70,7 +71,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Calendrier',
+                          AppLocalizations.of(context)!.calendar_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -84,7 +85,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                         ),
                         const SizedBox(height: 40),
                         Text(
-                          'Choisis une date',
+                          AppLocalizations.of(context)!.choice_date_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -215,7 +216,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                   Navigator.pop(context);
                                 },
                                 child: Text(
-                                  'SUPPRIMER',
+                                  AppLocalizations.of(context)!.delete_up_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -244,7 +245,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                 ),
                                 onPressed: () {
                                   if (_rangeStart != null && _rangeStart!.isBefore(DateTime.now())) {
-                                    showMessage(context, 'Error date select');
+                                    showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                                   } else {
                                     if (_rangeStart != null) {
                                       bloc.dayFrom = DateFormat('yyyy-MM-dd').format(_rangeStart!);
@@ -256,7 +257,7 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                   }
                                 },
                                 child: Text(
-                                  'ENREGISTRER',
+                                  AppLocalizations.of(context)!.enregister_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge

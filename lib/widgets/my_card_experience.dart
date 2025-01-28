@@ -4,6 +4,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../models/experience_data_response.dart';
 import '../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyCardExperience extends StatefulWidget {
   //const MyCardExperience({Key? key}) : super(key: key, required this.guideExperiencesResponse);
@@ -69,7 +70,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                       Visibility(
                         visible: widget.guideExperiencesResponse.status == 'en ligne',
                         child: Text(
-                          'Postée le ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
+                          '${AppLocalizations.of(context)!.posted_on_text} ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                         ),
                       ),
@@ -110,7 +111,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                             const Icon(Icons.file_copy, size: 17, color: AppResources.colorVitamine),
                             const SizedBox(width: 5),
                             Text(
-                              'Autres documents nécessaires',
+                              AppLocalizations.of(context)!.other_document_required_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
