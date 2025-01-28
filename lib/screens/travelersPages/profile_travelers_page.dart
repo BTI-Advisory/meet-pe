@@ -21,6 +21,7 @@ import '../../utils/utils.dart';
 import '../guideProfilPages/main_guide_page.dart';
 import '../onBoardingPages/travelers/step1Page.dart';
 import 'main_travelers_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef ImagePathCallback = void Function(String);
 
@@ -176,8 +177,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              //return Center(child: Text('Error: ${snapshot.error}'));
-              return Center(child: Text('Problème de connexion avec le serveur, veuillez réessayer ultérieurement'));
+              return Center(child: Text(AppLocalizations.of(context)!.problem_server_text));
             } else {
               final userInfo = snapshot.data!;
               final initialImagePath = selectedImagePath ?? userInfo.profilePath ?? 'images/avatar_placeholder.png';
@@ -198,7 +198,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               horizontal:
                               ResponsiveSize.calculateWidth(5, context)),
                           child: Text(
-                            'Profil',
+                            AppLocalizations.of(context)!.profile_text,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -235,7 +235,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                               children: <Widget>[
                                                 const SizedBox(height: 39),
                                                 Text(
-                                                  'Mon Profil',
+                                                  AppLocalizations.of(context)!.my_profile_text,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headlineMedium,
@@ -332,7 +332,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      'ENREGISTRER',
+                                                      AppLocalizations.of(context)!.enregister_text,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge
@@ -344,7 +344,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                                       final result = AppService.api.updatePhoto(selectedImagePath!);
                                                       if (await result) {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Photo ✅');
+                                                        showMessage(context, AppLocalizations.of(context)!.photo_ok_text);
                                                         await Future.delayed(const Duration(seconds: 1));
                                                         setState(() {
                                                           _userInfoFuture = AppService.api.getUserInfo();
@@ -352,7 +352,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                                         //widget.onFetchUserInfo();
                                                       } else {
                                                         Navigator.pop(context);
-                                                        showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
+                                                        showMessage(context, AppLocalizations.of(context)!.problem_server_text);
                                                       }
                                                     },
                                                   ),
@@ -473,28 +473,28 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               ResponsiveSize.calculateWidth(8.0, context)),
                           child: Column(
                             children: [
-                              sectionProfile('Mon compte', Icons.person, true, () {
+                              sectionProfile(AppLocalizations.of(context)!.my_account_text, Icons.person, true, () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyAccountPage()),).then((_) {
                                   // This code runs after returning from MyAccountPage
                                   _userInfoFuture = AppService.api.getUserInfo(); // Refresh user info
                                   setState(() {}); // Trigger a rebuild to reflect changes
                                 });
                               }),
-                              sectionProfile('Mes réservations', Icons.bookmark, true,
+                              sectionProfile(AppLocalizations.of(context)!.my_reservation_text, Icons.bookmark, true,
                                       () {
                                     navigateTo(context, (_) => const MyReservationsPage());
                                   }),
-                              sectionProfile('Mes choix', Icons.tune, true,
+                              sectionProfile(AppLocalizations.of(context)!.my_choice_text, Icons.tune, true,
                                       () {
                                 navigateTo(context, (_) => const Step1Page(totalSteps: 7, currentStep: 1,));
                                   }),
-                              sectionProfile('Notifications & newsletters',
+                              sectionProfile(AppLocalizations.of(context)!.notifications_and_newsletters_text,
                                   Icons.notifications, true, () {
                                     navigateTo(context,
                                             (_) => const NotificationsTravelersPage());
                                   }),
                               sectionProfile(
-                                  'FAQ & assistance', Icons.contact_support, true, () {
+                                  AppLocalizations.of(context)!.faq_assistance_text, Icons.contact_support, true, () {
                                 navigateTo(context, (_) => const HelpSupportPage());
                               }),
                             ],
@@ -510,7 +510,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                               child: TextButton(
                                 onPressed: AppService.instance.logOut,
                                 child: Text(
-                                  'Se déconnecter',
+                                  AppLocalizations.of(context)!.logout_text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
@@ -526,7 +526,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                 AppService.instance.logOut;
                               },
                               child: Text(
-                                'Supprimer mon compte',
+                                AppLocalizations.of(context)!.delete_account_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -601,7 +601,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                         ),
                       ),
                       child: Text(
-                        'à compléter',
+                        AppLocalizations.of(context)!.to_complete_text,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
                       ),
                     ),
@@ -655,7 +655,7 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
             if (isActive) Icon(Icons.check_circle, color: AppResources.colorVitamine),
             if (isActive) SizedBox(width: ResponsiveSize.calculateWidth(6, context)),
             Text(
-              role,
+              role == "Guide" ? AppLocalizations.of(context)!.guide_text : AppLocalizations.of(context)!.traveler_text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: isActive ? AppResources.colorVitamine : AppResources.colorGray45,
                 fontSize: isActive ? 14 : null,

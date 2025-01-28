@@ -11,6 +11,7 @@ import '../../models/favoris_data_response.dart';
 import '../../services/app_service.dart';
 import '../../utils/_utils.dart';
 import '../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavorisDetailPage extends StatefulWidget {
   FavorisDetailPage({super.key, required this.favorisResponse});
@@ -211,7 +212,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Recommandé à',
+                                AppLocalizations.of(context)!.recommended_to_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
@@ -319,7 +320,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                                     .calculateWidth(
                                                         4, context)),
                                             Text(
-                                              'Vérifié',
+                                              AppLocalizations.of(context)!.verified_text,
                                               textAlign: TextAlign.center,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -500,7 +501,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                         SizedBox(
                           width: 318,
                           child: Text(
-                            'Un mot sur ${widget.favorisResponse.experience.nameGuide}',
+                            '${AppLocalizations.of(context)!.word_for_text} ${widget.favorisResponse.experience.nameGuide}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -530,7 +531,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Tarifs de l’expérience',
+                          AppLocalizations.of(context)!.price_experience_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -541,7 +542,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Prix par adulte",
+                              AppLocalizations.of(context)!.price_adult_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -562,7 +563,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Prix par enfant",
+                                AppLocalizations.of(context)!.price_kids_text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -583,7 +584,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Prix de groupe (à partir de ${widget.favorisResponse.experience.nombreVoyageur} personnes)",
+                                "${AppLocalizations.of(context)!.price_group_match_1_text} ${widget.favorisResponse.experience.nombreVoyageur} ${AppLocalizations.of(context)!.price_group_match_2_text}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -610,7 +611,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                   SizedBox(
                     width: ResponsiveSize.calculateWidth(319, context),
                     child: Text(
-                      'Gallery',
+                      AppLocalizations.of(context)!.gallery_text,
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium
@@ -641,7 +642,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                       children: [
                         const SizedBox(height: 34),
                         Text(
-                          'Réserve ta date',
+                          AppLocalizations.of(context)!.reserve_date_text,
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -723,7 +724,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             builder: (context, value, _) {
                               if (value.isEmpty) {
                                 return Center(
-                                  child: Text('No events for this day.'),
+                                  child: Text(AppLocalizations.of(context)!.no_events_text),
                                 );
                               } else {
                                 return EventDetails(events: value, experienceData: widget.favorisResponse.experience,);

@@ -10,6 +10,7 @@ import '../../services/app_service.dart';
 import '../../services/stripe_payment_handle.dart';
 import '../../utils/_utils.dart';
 import '../../widgets/themed/ep_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({Key? key, required this.experienceData, required this.date, required this.time}) : super(key: key);
@@ -29,7 +30,6 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
   int _counterChild = 0;
   int _counterBaby = 0;
   late TextEditingController _textEditingControllerName;
-  late TextEditingController _textEditingControllerComment;
   String? validationMessageName = '';
   bool isFormValid = false;
   UserResponse? _userInfo;
@@ -41,8 +41,6 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
     _controller = AnimationController(vsync: this);
     _textEditingControllerName = TextEditingController();
     _textEditingControllerName.addListener(_onTextChanged);
-    _textEditingControllerComment = TextEditingController();
-    _textEditingControllerComment.addListener(_onTextChanged);
   }
 
   Future<void> _loadUserInfo() async {
@@ -65,8 +63,6 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
     _controller.dispose();
     _textEditingControllerName.removeListener(_onTextChanged);
     _textEditingControllerName.dispose();
-    _textEditingControllerComment.removeListener(_onTextChanged);
-    _textEditingControllerComment.dispose();
     super.dispose();
   }
 
@@ -117,8 +113,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: const EpAppBar(
-          title: 'Réservation',
+        appBar: EpAppBar(
+          title: AppLocalizations.of(context)!.reservation_text,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -138,7 +134,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 31,),
                     Text(
-                      'Le rendez-vous à lieu au ${widget.experienceData.ville}-${widget.experienceData.codePostal}. Le lieu exact sera communiqué après la réservation.',
+                      '${AppLocalizations.of(context)!.address_for_exp_text} ${widget.experienceData.ville}-${widget.experienceData.codePostal}. ${AppLocalizations.of(context)!.exact_address_text}',
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -146,7 +142,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 42,),
                     Text(
-                      'Nombre de voyageurs',
+                      AppLocalizations.of(context)!.number_traveler_text,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
@@ -162,14 +158,14 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Groupe Privé',
+                              AppLocalizations.of(context)!.private_group_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(color: AppResources.colorDark),
                             ),
                             Text(
-                              'Tu réserves l’expérience pour toi\net ton groupe uniquement (${widget.experienceData.maxNbVoyageur} personnes).',
+                              '${AppLocalizations.of(context)!.reserved_experience_group_text} (${widget.experienceData.maxNbVoyageur} ${AppLocalizations.of(context)!.person_text}).',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium,
@@ -193,8 +189,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 16),
                     buildCounterRow(
-                      title: 'Adultes',
-                      subtitle: '12 ans et plus',
+                      title: AppLocalizations.of(context)!.adult_text,
+                      subtitle: AppLocalizations.of(context)!.age_adult_text,
                       count: _counter,
                       onIncrement: () => _incrementCounter(),
                       onDecrement: () => _decrementCounter(),
@@ -202,8 +198,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 16),
                     buildCounterRow(
-                      title: 'Enfants',
-                      subtitle: 'De 2 ans à 12 ans',
+                      title: AppLocalizations.of(context)!.kids_text,
+                      subtitle: AppLocalizations.of(context)!.age_kids_text,
                       count: _counterChild,
                       onIncrement: () => _incrementCounterChild(),
                       onDecrement: () => _decrementCounterChild(),
@@ -211,8 +207,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 16),
                     buildCounterRow(
-                      title: 'Bébés (Gratuit)',
-                      subtitle: 'Moins de 2 ans',
+                      title: AppLocalizations.of(context)!.baby_text,
+                      subtitle: AppLocalizations.of(context)!.age_baby_text,
                       count: _counterBaby,
                       onIncrement: () => _incrementCounterBaby(),
                       onDecrement: () => _decrementCounterBaby(),
@@ -220,7 +216,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                     ),
                     const SizedBox(height: 46,),
                     Text(
-                      'Informations (celui qui réserve)',
+                      AppLocalizations.of(context)!.info_traveler_text,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
@@ -241,7 +237,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                           ?.copyWith(color: AppResources.colorDark),
                       decoration: InputDecoration(
                         filled: false,
-                        hintText: 'Ton prénom',
+                        hintText: AppLocalizations.of(context)!.your_name_text,
                         hintStyle: Theme.of(context).textTheme.bodyMedium,
                         contentPadding: EdgeInsets.only(
                           top: ResponsiveSize.calculateHeight(20, context),
@@ -282,7 +278,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Horaire réservé',
+                          AppLocalizations.of(context)!.reserve_hour_text,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -305,7 +301,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Total',
+                              AppLocalizations.of(context)!.total_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -325,7 +321,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ElevatedButton(
                           onPressed: () async {
                             if(_textEditingControllerName.text == '') {
-                              showMessage(context, 'Il manque ton nom 😀');
+                              showMessage(context, AppLocalizations.of(context)!.need_your_name_total);
                             } else {
                               final double price = isGroupeAvailable
                                   ? double.parse(widget.experienceData.prixParGroup.toString())
@@ -338,7 +334,6 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                     voyageursAdultes: _counter,
                                     voyageursEnfants: _counterChild,
                                     voyageursBebes: _counterBaby,
-                                    messageAuGuide: _textEditingControllerComment.text,
                                     prenom: _textEditingControllerName.text,
                                     isGroup: isGroupeAvailable,
                                     price: price
@@ -375,84 +370,11 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                             backgroundColor: AppResources.colorVitamine,
                           ),
                           child: Text(
-                            'Payer et réserver',
+                            AppLocalizations.of(context)!.pay_and_reserve_text,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorWhite, fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 29,),
-                    Text(
-                      'Message au guide',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(color: AppResources.colorDark),
-                    ),
-                    const SizedBox(height: 15,),
-                    Text(
-                      'Si vous souhaitez adresser une demande particulière au guide, c’est ici !',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(fontSize: 12, color: AppResources.colorGray),
-                    ),
-                    const SizedBox(height: 22,),
-                    Container(
-                      width: 309,
-                      height: 216,
-                      child: TextField(
-                        controller: _textEditingControllerComment,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppResources.colorDeactivate,
-                              width: 1.0, // Set the border width
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4.0),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppResources.colorDeactivate,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4.0),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppResources.colorDeactivate,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4.0),
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppResources.colorDeactivate,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4.0),
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppResources.colorDeactivate,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4.0),
-                            ),
-                          ),
-                        ),
-                        maxLines: null, // Allows the TextField to expand vertically
-                        expands: true, // Makes the TextField fill the height of its parent Container
-                      ),
                     ),
                     const SizedBox(height: 60,),
                   ],

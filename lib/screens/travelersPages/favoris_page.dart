@@ -6,6 +6,7 @@ import '../../resources/resources.dart';
 import '../../utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'favoris_detail_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavorisPage extends StatefulWidget {
   const FavorisPage({super.key});
@@ -83,7 +84,7 @@ class _FavorisPageState extends State<FavorisPage> {
                   padding: EdgeInsets.symmetric(
                       horizontal: ResponsiveSize.calculateWidth(5, context)),
                   child: Text(
-                    'Mes Favoris',
+                    AppLocalizations.of(context)!.my_favorites_text,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -107,9 +108,9 @@ class _FavorisPageState extends State<FavorisPage> {
                       filterSearchResults(value);
                     },
                     controller: editingController,
-                    decoration: const InputDecoration(
-                        labelText: "Recherche des expériences",
-                        hintText: "Recherche des expériences",
+                    decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.search_experience_text,
+                        hintText: AppLocalizations.of(context)!.search_experience_text,
                         prefixIcon: Icon(Icons.search),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30.0)))
@@ -126,7 +127,7 @@ class _FavorisPageState extends State<FavorisPage> {
                           ),
                           Center(
                             child: Text(
-                              "Aucun favoris ? \nN’hésite pas à en ajouter ! ",
+                              AppLocalizations.of(context)!.no_favorites_text,
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
