@@ -180,6 +180,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                     child: RequestCard(
                                       guideReservationResponse: reservation,
                                       onUpdateStatus: _updateReservation,
+                                      parentContext: context,
                                     ),
                                   ),
                                 );
@@ -224,8 +225,8 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                     });
                                   },
                                   child: MyCardExperience(
-                                    guideExperiencesResponse:
-                                        experiencesList[index],
+                                    guideExperiencesResponse: experiencesList[index],
+                                    parentContext: context,
                                   ),
                                 ),
                               ),

@@ -107,8 +107,8 @@ class Experience {
   final String status;
   final String country;
   final String categorie;
-  final String guidePersonnesPeuvesParticiper;
-  final String etAvecCa;
+  final String? guidePersonnesPeuvesParticiper;
+  final String? etAvecCa;
   final bool isOnline;
 
   Experience({
@@ -127,8 +127,8 @@ class Experience {
     required this.status,
     required this.country,
     required this.categorie,
-    required this.guidePersonnesPeuvesParticiper,
-    required this.etAvecCa,
+    this.guidePersonnesPeuvesParticiper,
+    this.etAvecCa,
     required this.isOnline,
   });
 
@@ -137,7 +137,7 @@ class Experience {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      dure: json['dure'],
+      dure: json['duree'],
       prixParVoyageur: json['prix_par_voyageur'],
       nombreDesVoyageur: json['nombre_des_voyageur'],
       ville: json['ville'],
