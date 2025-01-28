@@ -8,6 +8,7 @@ import 'package:meet_pe/widgets/guide_profile_card.dart';
 
 import '../../models/experience_model.dart';
 import '../../services/app_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MatchingPage extends StatefulWidget {
   const MatchingPage({super.key});
@@ -91,7 +92,7 @@ class _MatchingPageState extends State<MatchingPage> {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data == null) {
-              return Center(child: Text('No matching experiences found.'));
+              return Center(child: Text(AppLocalizations.of(context)!.no_match_experience_text));
             } else {
               filteredProfiles = snapshot.data!;
               return Stack(
@@ -133,7 +134,7 @@ class _MatchingPageState extends State<MatchingPage> {
                   :
                   Center(
                     child: Text(
-                      "Oups désolé ! Nous ne sommes pas encore présent dans cette ville. Stay tuned, on est déjà sur le coup pour te dénicher les meilleurs pépites de cette région 🚀",
+                      AppLocalizations.of(context)!.no_experience_city_text,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme

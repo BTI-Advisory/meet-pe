@@ -7,6 +7,7 @@ import 'package:meet_pe/utils/_utils.dart';
 
 import '../../resources/icons/font_awesome_flutter/fa_icon.dart';
 import '../../resources/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EpTabbedTravelersPage extends StatefulWidget {
   const EpTabbedTravelersPage.bottomBar({
@@ -143,7 +144,7 @@ class _EpTabbedTravelersPageState extends State<EpTabbedTravelersPage> {
                         AppResources.colorGray90, BlendMode.srcIn),
                     child: SvgPicture.asset('images/match.svg'),
                   ),
-                  label: 'Matchs'),
+                  label: AppLocalizations.of(context)!.match_text),
               BottomNavigationBarItem(
                   icon: ColorFiltered(
                     colorFilter: _index == 1
@@ -153,7 +154,7 @@ class _EpTabbedTravelersPageState extends State<EpTabbedTravelersPage> {
                         AppResources.colorGray90, BlendMode.srcIn),
                     child: SvgPicture.asset('images/heart_outlined.svg'),
                   ),
-                  label: 'Favoris'),
+                  label: AppLocalizations.of(context)!.favoris_text),
               BottomNavigationBarItem(
                   icon: ColorFiltered(
                     colorFilter: _index == 2
@@ -163,7 +164,7 @@ class _EpTabbedTravelersPageState extends State<EpTabbedTravelersPage> {
                         AppResources.colorGray90, BlendMode.srcIn),
                     child: SvgPicture.asset('images/message_svg.svg'),
                   ),
-                  label: 'Messages'),
+                  label: AppLocalizations.of(context)!.messages_bar_text),
               BottomNavigationBarItem(
                   icon: ColorFiltered(
                     colorFilter: _index == 3
@@ -173,7 +174,7 @@ class _EpTabbedTravelersPageState extends State<EpTabbedTravelersPage> {
                         AppResources.colorGray90, BlendMode.srcIn),
                     child: SvgPicture.asset('images/user_svg.svg'),
                   ),
-                  label: 'Profil')
+                  label: AppLocalizations.of(context)!.profile_bar_text)
             ],
             currentIndex: _index,
             onTap: setIndex,
