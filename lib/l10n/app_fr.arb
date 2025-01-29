@@ -374,5 +374,10 @@
   "delete_hour_text": "- SUPPRIMER L'HORAIRE",
   "from_hour_text" : "De",
   "to_hour_text": "À",
-  "category_detail_text": "Ta pépite en détail"
+  "category_detail_text": "Ta pépite en détail",
+
+  "switch_traveler_inscription_text": "Tu es sur le pas de switcher vers le voyageur ? Mais tu dois d'abord créer ton compte !",
+  "switch_traveler_text": "Tu es sur le pas de switcher vers le voyageur ?",
+  "switch_guide_inscription_text": "Tu es sur le pas de switcher vers le guide ? Mais tu dois d'abord créer ton compte !",
+  "switch_guide_text": "Tu es sur le pas de switcher vers le guide ?"
 }

@@ -14,9 +14,8 @@ class UserResponse {
     required this.profilePath,
     required this.phoneNumber,
     required this.isFullAvailable,
-    required this.IBAN,
-    required this.BIC,
-    required this.nomDuTitulaire,
+    required this.voyageurVerified,
+    required this.guideVerified,
     required this.rue,
     required this.codePostal,
     required this.ville,
@@ -48,12 +47,10 @@ class UserResponse {
   final String phoneNumber;
   @JsonKey(name: 'is_full_available')
   final bool isFullAvailable;
-  @JsonKey(name: 'IBAN')
-  final String? IBAN;
-  @JsonKey(name: 'BIC')
-  final String? BIC;
-  @JsonKey(name: 'nom_du_titulaire')
-  final String? nomDuTitulaire;
+  @JsonKey(name: 'is_voyageur_verified')
+  final bool voyageurVerified;
+  @JsonKey(name: 'is_guide_verified')
+  final bool guideVerified;
   @JsonKey(name: 'rue')
   final String? rue;
   @JsonKey(name: 'code_postal')
