@@ -33,6 +33,7 @@ import '../main.dart';
 import '../models/availability_list_response.dart';
 import '../models/cancel_reservation_response.dart';
 import '../models/code_validation_response.dart';
+import '../models/default_model_response.dart';
 import '../models/experience_model.dart';
 import '../models/favoris_data_response.dart';
 import '../models/modify_experience_data_model.dart';
@@ -1551,8 +1552,8 @@ class ApiClient {
     }();
 
     // Return data
-    VerifyCode.fromJson(response!);
-    if (VerifyCode.fromJson(response!).verified == 'operation done') {
+    DefaultModelResponse.fromJson(response!);
+    if (DefaultModelResponse.fromJson(response!).message == 'operation done') {
       return true;
     } else {
       return false;
@@ -1569,8 +1570,6 @@ class ApiClient {
     };
 
     final response = await http.get(_buildUri('api/get-guide-reservation'), headers: headers);
-    print("AIUZAEUI ${response.statusCode}");
-    print("AIUZAEUI ${response.body}");
 
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);
