@@ -24,9 +24,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late TextEditingController _textEditingControllerPhoneNumber;
   late TextEditingController _textEditingControllerCurrentPassword;
   late TextEditingController _textEditingControllerNewPassword;
-  late TextEditingController _textEditingControllerIBAN;
-  late TextEditingController _textEditingControllerBIC;
-  late TextEditingController _textEditingControllerNameTitulaire;
   late TextEditingController _textEditingControllerRue;
   late TextEditingController _textEditingControllerVille;
   late TextEditingController _textEditingControllerZip;
@@ -35,9 +32,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String? validationMessagePhoneNumber = '';
   String? validationMessageCurrentPassword = '';
   String? validationMessageNewPassword = '';
-  String? validationMessageIBAN = '';
-  String? validationMessageBIC = '';
-  String? validationMessageNameTitulaire = '';
   String? validationMessageRue = '';
   String? validationMessageVille = '';
   String? validationMessageZip = '';
@@ -61,12 +55,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerCurrentPassword.addListener(_onTextChanged);
     _textEditingControllerNewPassword = TextEditingController();
     _textEditingControllerNewPassword.addListener(_onTextChanged);
-    _textEditingControllerIBAN = TextEditingController();
-    _textEditingControllerIBAN.addListener(_onTextChanged);
-    _textEditingControllerBIC = TextEditingController();
-    _textEditingControllerBIC.addListener(_onTextChanged);
-    _textEditingControllerNameTitulaire = TextEditingController();
-    _textEditingControllerNameTitulaire.addListener(_onTextChanged);
     _textEditingControllerRue = TextEditingController();
     _textEditingControllerRue.addListener(_onTextChanged);
     _textEditingControllerVille = TextEditingController();
@@ -87,12 +75,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _textEditingControllerCurrentPassword.dispose();
     _textEditingControllerNewPassword.removeListener(_onTextChanged);
     _textEditingControllerNewPassword.dispose();
-    _textEditingControllerIBAN.removeListener(_onTextChanged);
-    _textEditingControllerIBAN.dispose();
-    _textEditingControllerBIC.removeListener(_onTextChanged);
-    _textEditingControllerBIC.dispose();
-    _textEditingControllerNameTitulaire.removeListener(_onTextChanged);
-    _textEditingControllerNameTitulaire.dispose();
     _textEditingControllerRue.removeListener(_onTextChanged);
     _textEditingControllerRue.dispose();
     _textEditingControllerVille.removeListener(_onTextChanged);
@@ -901,271 +883,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           child: accountRowDefault(AppLocalizations.of(context)!.security_and_privacy_text, '', true),
                         ),
                         const SizedBox(height: 20),
-                        Text(
-                          'Informations bancaires',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(
-                              fontSize: 20, color: AppResources.colorDark),
-                        ),
-                        const SizedBox(height: 17),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet<void>(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: MediaQuery.of(context).viewInsets.bottom),
-                              child: StatefulBuilder(
-                                builder: (BuildContext context,
-                                    StateSetter setState) {
-                                  return Container(
-                                    width: double.infinity,
-                                    height: 452,
-                                    color: AppResources.colorWhite,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          const SizedBox(height: 39),
-                                          Text(
-                                            'Informations bancaires',
-                                            style: Theme.of(context).textTheme.headlineMedium,
-                                          ),
-                                          const SizedBox(height: 24),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.lock, size: 17, color: AppResources.colorGray30,),
-                                              SizedBox(width: 4,),
-                                              Flexible(
-                                                child: Text(
-                                                  'Pour recevoir tes paiements en toute sécurité, renseigne ici ton RIB 😃',
-                                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray, fontSize: 12),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Visibility(
-                                            visible: userInfo.IBAN == null,
-                                            child: Container(
-                                              width: 73,
-                                              height: 21,
-                                              alignment: Alignment.center,
-                                              decoration: ShapeDecoration(
-                                                color: Color(0xFFFFECAB),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                'à compléter',
-                                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFFC89C00)),
-                                              ),
-                                            ),
-                                          ),
-                                          Column(
-                                            children: [
-                                              TextFormField(
-                                                controller: _textEditingControllerIBAN,
-                                                keyboardType: TextInputType.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(color: AppResources.colorDark),
-                                                decoration: InputDecoration(
-                                                  filled: false,
-                                                  hintText: userInfo.IBAN ?? 'IBAN',
-                                                  hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                  contentPadding: EdgeInsets.only(
-                                                      top: ResponsiveSize.calculateHeight(20, context),
-                                                      bottom:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  // Adjust padding
-                                                  suffix: SizedBox(
-                                                      height:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  enabledBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  focusedBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  errorBorder: const UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.red),
-                                                  ),
-                                                ),
-                                                textInputAction: TextInputAction.done,
-                                                //onFieldSubmitted: (value) => validate(),
-                                                validator: AppResources.validatorNotEmpty,
-                                                //onSaved: (value) => bloc.name = value,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    validationMessageIBAN =
-                                                        AppResources.validatorNotEmpty(value);
-                                                    updateFormValidity();
-                                                  });
-                                                },
-                                              ),
-                                              const SizedBox(height: 20),
-                                              TextFormField(
-                                                controller: _textEditingControllerBIC,
-                                                keyboardType: TextInputType.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(color: AppResources.colorDark),
-                                                decoration: InputDecoration(
-                                                  filled: false,
-                                                  hintText: userInfo.BIC ?? 'BIC',
-                                                  hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                  contentPadding: EdgeInsets.only(
-                                                      top: ResponsiveSize.calculateHeight(20, context),
-                                                      bottom:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  // Adjust padding
-                                                  suffix: SizedBox(
-                                                      height:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  enabledBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  focusedBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  errorBorder: const UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.red),
-                                                  ),
-                                                ),
-                                                textInputAction: TextInputAction.done,
-                                                //onFieldSubmitted: (value) => validate(),
-                                                validator: AppResources.validatorNotEmpty,
-                                                //onSaved: (value) => bloc.name = value,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    validationMessageBIC =
-                                                        AppResources.validatorNotEmpty(value);
-                                                    updateFormValidity();
-                                                  });
-                                                },
-                                              ),
-                                              const SizedBox(height: 20),
-                                              TextFormField(
-                                                controller: _textEditingControllerNameTitulaire,
-                                                keyboardType: TextInputType.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(color: AppResources.colorDark),
-                                                decoration: InputDecoration(
-                                                  filled: false,
-                                                  hintText: userInfo.nomDuTitulaire ?? 'Nom du titulaire du compte',
-                                                  hintStyle: Theme.of(context).textTheme.bodyMedium,
-                                                  contentPadding: EdgeInsets.only(
-                                                      top: ResponsiveSize.calculateHeight(20, context),
-                                                      bottom:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  // Adjust padding
-                                                  suffix: SizedBox(
-                                                      height:
-                                                      ResponsiveSize.calculateHeight(10, context)),
-                                                  enabledBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  focusedBorder: const UnderlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: AppResources.colorGray15),
-                                                  ),
-                                                  errorBorder: const UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.red),
-                                                  ),
-                                                ),
-                                                textInputAction: TextInputAction.done,
-                                                //onFieldSubmitted: (value) => validate(),
-                                                validator: AppResources.validatorNotEmpty,
-                                                //onSaved: (value) => bloc.name = value,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    validationMessageNameTitulaire =
-                                                        AppResources.validatorNotEmpty(value);
-                                                    updateFormValidity();
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 24),
-                                          Container(
-                                            width: ResponsiveSize.calculateWidth(319, context),
-                                            height: ResponsiveSize.calculateHeight(44, context),
-                                            child: TextButton(
-                                              style: ButtonStyle(
-                                                padding:
-                                                MaterialStateProperty.all<EdgeInsets>(
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(12, context))),
-                                                backgroundColor: MaterialStateProperty.all(
-                                                    Colors.transparent),
-                                                shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                    side: BorderSide(width: 1, color: AppResources.colorDark),
-                                                    borderRadius: BorderRadius.circular(40),
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                'ENREGISTRER',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.copyWith(color: AppResources.colorDark),
-                                              ),
-                                              onPressed: () async {
-                                                // Call the asynchronous operation and handle its completion
-                                                final result = AppService.api.updateBankInfo(_textEditingControllerIBAN.text, _textEditingControllerBIC.text, _textEditingControllerNameTitulaire.text);
-                                                if (await result) {
-                                                  Navigator.pop(context);
-                                                  showMessage(context, 'Informations bancaires ✅');
-                                                  await Future.delayed(const Duration(seconds: 3));
-                                                  await fetchUserInfo();
-                                                } else {
-                                                  Navigator.pop(context);
-                                                  showMessage(context, 'Problème de connexion avec le serveur, veuillez réessayer ultérieurement');
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(25, context)),
-                          child: accountRowToComplete('Informations de compte bancaire', userInfo.IBAN, false),
-                        ),
-                        const SizedBox(height: 19),
                       ],
                     ),
                   ),

@@ -11,11 +11,14 @@ import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/my_account_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/notifications_newsletters_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../../services/app_service.dart';
 import '../../utils/_utils.dart';
+import '../onBoardingPages/guide/step1GuidePage.dart';
+import '../onBoardingPages/travelers/step1Page.dart';
 import '../travelersPages/main_travelers_page.dart';
 import 'main_guide_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -67,21 +70,51 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     });
   }
 
-  void toggleRole(String selectedRole) {
-    setState(() {
-      isGuide = (selectedRole == "Guide");
-    });
+  void toggleRole(String selectedRole, bool userVerified) {
+    bool newRoleIsGuide = (selectedRole == "Guide"); // Store desired role change
 
-    // Use addPostFrameCallback to navigate after the UI updates
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isGuide && selectedRole == "Guide") {
-        navigateTo(context, (_) => MainGuidePage(initialPage: 2));
-      } else if (!isGuide && selectedRole == "Voyageur") {
-        navigateTo(context, (_) => MainTravelersPage(initialPage: 3));
-      }
-    });
+    // Show confirmation dialog before updating isGuide
+    PanaraConfirmDialog.showAnimatedGrow(
+      context,
+      title: AppLocalizations.of(context)!.information_title_text,
+      message: newRoleIsGuide
+          ? (userVerified
+          ? AppLocalizations.of(context)!.switch_guide_text
+          : AppLocalizations.of(context)!.switch_guide_inscription_text)
+          : (userVerified
+          ? AppLocalizations.of(context)!.switch_traveler_text
+          : AppLocalizations.of(context)!.switch_traveler_inscription_text),
+      confirmButtonText: AppLocalizations.of(context)!.confirmation_text,
+      cancelButtonText: AppLocalizations.of(context)!.cancel_text,
+      onTapCancel: () {
+        Navigator.pop(context); // Close dialog without changing state
+      },
+      onTapConfirm: () {
+        Navigator.pop(context); // Close dialog first
+        setState(() {
+          isGuide = newRoleIsGuide; // Apply change only after confirmation
+        });
+
+        // Navigate to appropriate page
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (newRoleIsGuide) {
+            navigateTo(
+                context,
+                    (_) => userVerified
+                    ? MainGuidePage(initialPage: 2)
+                    : const Step1GuidePage(totalSteps: 4, currentStep: 1));
+          } else {
+            navigateTo(
+                context,
+                    (_) => userVerified
+                    ? MainTravelersPage(initialPage: 3)
+                    : const Step1Page(totalSteps: 7, currentStep: 1));
+          }
+        });
+      },
+      panaraDialogType: PanaraDialogType.normal,
+    );
   }
-
 
   Future<void> getFullVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -455,8 +488,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                               ),
                               child: Row(
                                 children: [
-                                  buildRoleButton("Voyageur", isActive: !isGuide),
-                                  buildRoleButton("Guide", isActive: isGuide),
+                                  buildRoleButton("Voyageur", userInfo.voyageurVerified, isActive: !isGuide),
+                                  buildRoleButton("Guide", userInfo.guideVerified, isActive: isGuide),
                                 ],
                               ),
                             ),
@@ -466,90 +499,6 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                     ),
                     SizedBox(
                         height: ResponsiveSize.calculateHeight(24, context)),
-
-                    /// Messages Alerts
-                    Visibility(
-                      visible: (userInfo.hasUpdatedHesSchedule == false &&
-                          userInfo.IBAN == null),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                ResponsiveSize.calculateWidth(8, context)),
-                        child: Container(
-                          height: ResponsiveSize.calculateHeight(65, context),
-                          padding: EdgeInsets.only(
-                            top: ResponsiveSize.calculateHeight(12, context),
-                            left: ResponsiveSize.calculateWidth(12, context),
-                            right: ResponsiveSize.calculateWidth(12, context),
-                            bottom: ResponsiveSize.calculateHeight(16, context),
-                          ),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 1, color: AppResources.colorVitamine),
-                              borderRadius: BorderRadius.circular(
-                                  ResponsiveSize.calculateCornerRadius(
-                                      8, context)),
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset('images/info_icon.svg'),
-                              SizedBox(
-                                  width: ResponsiveSize.calculateWidth(
-                                      8, context)),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Tu as plusieurs informations à compléter:',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppResources.colorVitamine,
-                                            height: 0.14),
-                                  ),
-                                  Visibility(
-                                    visible: userInfo.IBAN == null,
-                                    child: Text(
-                                      '   .   Renseigne ton RIB',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible: userInfo.IBAN == null,
-                                    child: Text(
-                                      '   .   Renseigne tes infos (Mon compte)',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppResources.colorVitamine,
-                                              height: 0.14),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal:
@@ -560,7 +509,7 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   () {
                                 navigateTo(context, (_) => const AvailabilitiesPage());
                               }),
-                          sectionProfile('Mon compte', Icons.person, (userInfo.IBAN != null && userInfo.pieceIdentite != null), () {
+                          sectionProfile('Mon compte', Icons.person, (userInfo.kbisFile != null && userInfo.pieceIdentite != null), () {
                             Navigator.of(context)
                                 .push(
                               MaterialPageRoute(
@@ -720,12 +669,12 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
     );
   }
 
-  Widget buildRoleButton(String role, {required bool isActive}) {
+  Widget buildRoleButton(String role, bool userVerified, {required bool isActive}) {
     return GestureDetector(
       onTap: () {
         // Call toggleRole with the selected role name
         if ((role == "Guide" && !isGuide) || (role == "Voyageur" && isGuide)) {
-          toggleRole(role);
+          toggleRole(role, userVerified);
         }
       },
       child: Container(

@@ -1,17 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/models/user_response.dart';
 import 'package:meet_pe/resources/_resources.dart';
-import 'package:meet_pe/screens/guideProfilPages/profilesPages/archived_requests_page.dart';
 import 'package:meet_pe/screens/guideProfilPages/profilesPages/help_support_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/my_account_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/my_reservations_page.dart';
 import 'package:meet_pe/screens/travelersPages/profilePages/notifications_travelers_page.dart';
 import 'package:meet_pe/utils/responsive_size.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -19,6 +18,7 @@ import '../../services/app_service.dart';
 import '../../utils/message.dart';
 import '../../utils/utils.dart';
 import '../guideProfilPages/main_guide_page.dart';
+import '../onBoardingPages/guide/step1GuidePage.dart';
 import '../onBoardingPages/travelers/step1Page.dart';
 import 'main_travelers_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,19 +70,50 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
     });
   }
 
-  void toggleRole(String selectedRole) {
-    setState(() {
-      isGuide = (selectedRole == "Guide");
-    });
+  void toggleRole(String selectedRole, bool userVerified) {
+    bool newRoleIsGuide = (selectedRole == "Guide"); // Store desired role change
 
-    // Use addPostFrameCallback to navigate after the UI updates
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isGuide && selectedRole == "Guide") {
-        navigateTo(context, (_) => MainGuidePage(initialPage: 2));
-      } else if (!isGuide && selectedRole == "Voyageur") {
-        navigateTo(context, (_) => MainTravelersPage(initialPage: 3));
-      }
-    });
+    // Show confirmation dialog before updating isGuide
+    PanaraConfirmDialog.showAnimatedGrow(
+      context,
+      title: AppLocalizations.of(context)!.information_title_text,
+      message: newRoleIsGuide
+          ? (userVerified
+          ? AppLocalizations.of(context)!.switch_guide_text
+          : AppLocalizations.of(context)!.switch_guide_inscription_text)
+          : (userVerified
+          ? AppLocalizations.of(context)!.switch_traveler_text
+          : AppLocalizations.of(context)!.switch_traveler_inscription_text),
+      confirmButtonText: AppLocalizations.of(context)!.confirmation_text,
+      cancelButtonText: AppLocalizations.of(context)!.cancel_text,
+      onTapCancel: () {
+        Navigator.pop(context); // Close dialog without changing state
+      },
+      onTapConfirm: () {
+        Navigator.pop(context); // Close dialog first
+        setState(() {
+          isGuide = newRoleIsGuide; // Apply change only after confirmation
+        });
+
+        // Navigate to appropriate page
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (newRoleIsGuide) {
+            navigateTo(
+                context,
+                    (_) => userVerified
+                    ? MainGuidePage(initialPage: 2)
+                    : const Step1GuidePage(totalSteps: 4, currentStep: 1));
+          } else {
+            navigateTo(
+                context,
+                    (_) => userVerified
+                    ? MainTravelersPage(initialPage: 3)
+                    : const Step1Page(totalSteps: 7, currentStep: 1));
+          }
+        });
+      },
+      panaraDialogType: PanaraDialogType.normal,
+    );
   }
 
   Future<void> getFullVersion() async {
@@ -456,8 +487,8 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                   ),
                                   child: Row(
                                     children: [
-                                      buildRoleButton("Voyageur", isActive: !isGuide),
-                                      buildRoleButton("Guide", isActive: isGuide),
+                                      buildRoleButton("Voyageur", userInfo.voyageurVerified, isActive: !isGuide),
+                                      buildRoleButton("Guide", userInfo.guideVerified, isActive: isGuide),
                                     ],
                                   ),
                                 ),
@@ -629,12 +660,12 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
     );
   }
 
-  Widget buildRoleButton(String role, {required bool isActive}) {
+  Widget buildRoleButton(String role, bool userVerified, {required bool isActive}) {
     return GestureDetector(
       onTap: () {
         // Call toggleRole with the selected role name
         if ((role == "Guide" && !isGuide) || (role == "Voyageur" && isGuide)) {
-          toggleRole(role);
+          toggleRole(role, userVerified);
         }
       },
       child: Container(
