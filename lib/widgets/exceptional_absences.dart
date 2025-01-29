@@ -111,7 +111,7 @@ class _ExceptionalAbsencesState extends State<ExceptionalAbsences>
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showCustomDialog(context, AppLocalizations.of(context)!.exist_absence_text); // Ensure this runs after the widget tree is built
                 });
-              } else if (isCreated == "Tu as au moins une expérience déjà bookée sur ces jours.") {
+              } else if (isCreated == "Vous avez au moins une exp\u00e9rience d\u00e9j\u00e0 book\u00e9e ce jour.") {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showCustomDialog(context, AppLocalizations.of(context)!.resa_absence_text); // Ensure this runs after the widget tree is built
                 });

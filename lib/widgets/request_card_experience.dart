@@ -84,14 +84,17 @@ class _RequestCardState extends State<RequestCard> {
                           ),
                           const SizedBox(height: 2),
                           SizedBox(
-                            width: 90,
-                            child: Text(
-                              widget.guideReservationResponse.voyageur.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                            width: 60,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                widget.guideReservationResponse.voyageur.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                              ),
                             ),
                           )
                         ],
@@ -108,7 +111,7 @@ class _RequestCardState extends State<RequestCard> {
                                 ?.copyWith(fontSize: 14, color: AppResources.colorDark),
                           ),
                           SizedBox(
-                            width: 120,
+                            width: 140,
                             child: Text(
                               widget.guideReservationResponse.experience.title,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
