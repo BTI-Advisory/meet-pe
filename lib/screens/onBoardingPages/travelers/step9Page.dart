@@ -183,8 +183,18 @@ class _Step9PageState extends State<Step9Page> {
                           padding: MaterialStateProperty.all<EdgeInsets>(
                               EdgeInsets.symmetric(
                                   horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                          backgroundColor: MaterialStateProperty.all(
-                              AppResources.colorVitamine),
+                          backgroundColor:
+                          MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states
+                                  .contains(MaterialState.disabled)) {
+                                return AppResources
+                                    .colorGray15; // Change to your desired grey color
+                              }
+                              return AppResources
+                                  .colorVitamine; // Your enabled color
+                            },
+                          ),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
@@ -192,7 +202,9 @@ class _Step9PageState extends State<Step9Page> {
                             ),
                           ),
                         ),
-                        onPressed: () async {
+                        onPressed: (_rangeStart == null || _rangeEnd == null)
+                            ? null
+                            : () async {
                           if (_rangeStart!.isBefore(DateTime.now())) {
                             showMessage(context, AppLocalizations.of(context)!.error_date_select_text);
                           } else {
