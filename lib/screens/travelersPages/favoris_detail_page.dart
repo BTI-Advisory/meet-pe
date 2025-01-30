@@ -225,7 +225,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '88 %',
+                                    '${widget.favorisResponse.matchingPercentage}%',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineSmall
@@ -769,7 +769,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
             ),
             child: IconButton(
               onPressed: () {
-                AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", context);
+                AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", "", context);
                 Navigator.of(context).pop(true);
               },
               icon: SvgPicture.asset('images/heart-filled.svg',),

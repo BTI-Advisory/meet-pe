@@ -449,11 +449,22 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                 color: AppResources.colorGray15,
                               ),
                               const SizedBox(height: 20),
-                              Text(
-                                AppLocalizations.of(context)!.what_category_text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.what_category_text,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!.what_category_desc_text,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 20),
                               Container(

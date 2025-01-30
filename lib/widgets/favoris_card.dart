@@ -66,7 +66,7 @@ class _FavorisCardState extends State<FavorisCard> {
                 onPressed: () {
                   // Notify the parent widget that the experience is removed
                   widget.onRemoveFavorite(widget.favorisResponse);
-                  AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", context);
+                  AppService.api.setFavoriteExperience(widget.favorisResponse.experienceId, "remove", "", context);
                 },
                 icon: SvgPicture.asset('images/heart_outlined_fill.svg'),
               ),
