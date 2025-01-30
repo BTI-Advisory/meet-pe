@@ -28,6 +28,7 @@ import 'package:meet_pe/utils/exceptions/unauthorized_exception.dart';
 import 'package:fetcher/src/exceptions/connectivity_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 import '../main.dart';
 import '../models/availability_list_response.dart';
@@ -1831,7 +1832,7 @@ class ApiClient {
   }
 
   /// Update delete user
-  Future<void> deleteUser() async {
+  Future<void> deleteUser(BuildContext context) async {
 
     // Send request
     final response = await () async {
@@ -1871,6 +1872,18 @@ class ApiClient {
 
       // Go back to connexion page
       navigateTo(App.navigatorContext, (_) => const LoginPage(), clearHistory: true);
+    } else if(result.verified == 'Tu peux pas supprimer ton compte, tu as des r\u00e9servations en cours') {
+      PanaraInfoDialog.show(
+        context,
+        title: "Oops",
+        message: "Tu peux pas supprimer ton compte, tu as des r\u00e9servations en cours",
+        buttonText: "Okay",
+        onTapDismiss: () {
+          Navigator.pop(context);
+        },
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: false, // optional parameter (default is true)
+      );
     }
   }
 
