@@ -778,6 +778,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                     AppService.api.setFavoriteExperience(
                       int.parse(widget.experienceData.experience.id),
                       "add",
+                      "${widget.experienceData.weightedMatchScore}",
                       context,
                     );
                   },

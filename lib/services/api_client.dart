@@ -708,10 +708,11 @@ class ApiClient {
   }
 
   /// Mark a set favorite experience
-  Future<void> setFavoriteExperience(int experienceId, String action, BuildContext context) async {
+  Future<void> setFavoriteExperience(int experienceId, String action, String matchingPercentage, BuildContext context) async {
     final data = {
       'experience_id': experienceId,
-      "action": action
+      "action": action,
+      "matching_percentage": matchingPercentage
     };
 
     // Send request
@@ -768,7 +769,7 @@ class ApiClient {
       final List<dynamic> jsonData = jsonDecode(response.body);
       return jsonData.map((json) => FavorisDataResponse.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to load experiences');
+      throw Exception('Failed to load favoris experiences');
     }
   }
 

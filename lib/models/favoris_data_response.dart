@@ -7,6 +7,7 @@ part 'favoris_data_response.g.dart';
 class FavorisDataResponse {
   final int id;
   final int experienceId;
+  final int matchingPercentage;
   final int userId;
   final Experience experience;
   final String createdAt;
@@ -14,6 +15,7 @@ class FavorisDataResponse {
   FavorisDataResponse({
     required this.id,
     required this.experienceId,
+    required this.matchingPercentage,
     required this.userId,
     required this.experience,
     required this.createdAt,
