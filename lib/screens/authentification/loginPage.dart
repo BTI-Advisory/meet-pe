@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://meetpe.fr/conditions-generales'));
+                              navigateTo(context, (_) => const WebViewContainer(webUrl: 'https://www.meetpe.fr/conditions-generales'));
                             },
                           ),
                           TextSpan(

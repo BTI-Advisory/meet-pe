@@ -55,6 +55,7 @@ class _TutorialPageState extends State<TutorialPage> {
     'images/tutorial3.png',
     'images/tutorial4.png',
     'images/tutorial5.png',
+    'images/tutorial6.png',
   ];
 
   void _nextImage() {

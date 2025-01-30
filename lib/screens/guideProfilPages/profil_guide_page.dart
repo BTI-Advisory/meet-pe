@@ -112,7 +112,8 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
           }
         });
       },
-      panaraDialogType: PanaraDialogType.normal,
+      panaraDialogType: PanaraDialogType.custom,
+      color: AppResources.colorVitamine
     );
   }
 

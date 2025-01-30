@@ -543,7 +543,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
                               Text(
                                 '${AppLocalizations.of(context)!.word_for_text} ${widget.experienceData.experience.nameGuide}',
-                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 32, color: AppResources.colorVitamine),
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorVitamine),
                               ),
                               const SizedBox(height: 12),
                               Text(
