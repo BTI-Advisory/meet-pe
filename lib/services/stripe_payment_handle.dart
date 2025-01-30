@@ -6,6 +6,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
+import '../screens/travelersPages/main_travelers_page.dart';
+import '../screens/travelersPages/profilePages/my_reservations_page.dart';
+import '../utils/_utils.dart';
+
 class StripePaymentHandle {
 
   Future<void> stripeMakePayment({
@@ -52,6 +56,9 @@ class StripePaymentHandle {
               ),
             ));
 
+        Navigator.pop(context);
+        navigateTo(context, (_) => MainTravelersPage(initialPage: 3));
+        navigateTo(context, (_) => const MyReservationsPage());
       }).onError((error, stackTrace) {
         throw Exception(error);
       });

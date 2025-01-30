@@ -12,6 +12,8 @@ import '../../utils/_utils.dart';
 import '../../widgets/themed/ep_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'main_travelers_page.dart';
+
 class ReservationPage extends StatefulWidget {
   const ReservationPage({Key? key, required this.experienceData, required this.date, required this.time}) : super(key: key);
   final Experience experienceData;

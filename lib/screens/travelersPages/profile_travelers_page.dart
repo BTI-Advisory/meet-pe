@@ -112,7 +112,8 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
           }
         });
       },
-      panaraDialogType: PanaraDialogType.normal,
+      panaraDialogType: PanaraDialogType.custom,
+      color: AppResources.colorVitamine
     );
   }
 

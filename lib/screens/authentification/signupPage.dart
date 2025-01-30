@@ -238,7 +238,7 @@ class _SignUpPageState extends State<SignUpPage>
                                                                 context,
                                                                 (_) => const WebViewContainer(
                                                                     webUrl:
-                                                                        'https://meetpe.fr/conditions-generales'));
+                                                                        'https://www.meetpe.fr/conditions-generales'));
                                                           },
                                                   ),
                                                   TextSpan(
