@@ -17,9 +17,6 @@ class Step8Page extends StatefulWidget {
 }
 
 class _Step8PageState extends State<Step8Page> {
-  late List<Voyage> myList = [
-    Voyage(id: 1, title: "Des Guides Professionnels"),
-  ];
 
   late FocusNode _focusNode;
   late TextEditingController _textEditingController;
@@ -179,8 +176,18 @@ class _Step8PageState extends State<Step8Page> {
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             EdgeInsets.symmetric(
                                 horizontal: ResponsiveSize.calculateHeight(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                        backgroundColor: MaterialStateProperty.all(
-                            AppResources.colorVitamine),
+                        backgroundColor:
+                        MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            if (states
+                                .contains(MaterialState.disabled)) {
+                              return AppResources
+                                  .colorGray15; // Change to your desired grey color
+                            }
+                            return AppResources
+                                .colorVitamine; // Your enabled color
+                          },
+                        ),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
@@ -188,7 +195,9 @@ class _Step8PageState extends State<Step8Page> {
                           ),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: _textEditingController.text.isEmpty
+                          ? null
+                          : () {
                         setState(() {
                           if (widget.myMap['ville'] == null && widget.myMap['pays'] == null && widget.myMap['lat'] == null && widget.myMap['long'] == null) {
                             widget.myMap['ville'] = Set<String>(); // Initialize if null
@@ -199,7 +208,6 @@ class _Step8PageState extends State<Step8Page> {
 
                           // Insert _textEditingController.text into myMap with key 'Step8'
                           if (_textEditingController.text.isNotEmpty) {
-                            // Assuming the value to be inserted is a String
                             if (_textEditingController.text == 'Autour de moi') {
                               widget.myMap['ville']!.add(_currentCity);
                               widget.myMap['pays']!.add(_currentCountry);
@@ -216,15 +224,7 @@ class _Step8PageState extends State<Step8Page> {
                           navigateTo(context, (_) => Step9Page(myMap: widget.myMap));
                         });
                       },
-                      child: _textEditingController.text.isEmpty
-                          ? Text(
-                              AppLocalizations.of(context)!.surprise_me_text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: AppResources.colorWhite),
-                            )
-                          : Image.asset('images/arrowLongRight.png'),
+                      child: Image.asset('images/arrowLongRight.png'),
                     ),
                   ),
                 ),
