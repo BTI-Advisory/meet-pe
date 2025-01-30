@@ -884,7 +884,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        await AppService.api.deleteUser();
+                        await AppService.api.deleteUser(context);
                         AppService.instance.logOut;
                       },
                       child: Text(
