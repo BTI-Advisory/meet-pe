@@ -147,161 +147,158 @@ class _MatchingPageState extends State<MatchingPage> {
                     top: 45,
                     left: 0,
                     right: 0,
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 200,
-                            //height: 40,
-                            child: SingleChildScrollView(
-                              child: NetworkSearchField(
-                                controller: _textEditingController,
-                                focusNode: _focusNode,
-                                onCitySelected: _onCitySelected,
-                              ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: ResponsiveSize.calculateWidth(200, context),
+                          //height: 40,
+                          child: SingleChildScrollView(
+                            child: NetworkSearchField(
+                              controller: _textEditingController,
+                              focusNode: _focusNode,
+                              onCitySelected: _onCitySelected,
                             ),
                           ),
-                          const SizedBox(width: 10,),
-                          Container(
-                            width: ResponsiveSize.calculateWidth(140, context),
-                            height: ResponsiveSize.calculateHeight(40, context),
-                            decoration: BoxDecoration(
-                              color: AppResources.colorWhite,
-                              borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () async {
-                                    final result = await showModalBottomSheet<Map<String, dynamic>>(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return PositionFiltred();
-                                      },
-                                    );
-                                    if (result != null) {
-                                      setState(() {
-                                        _textEditingController.text = "";
-                                        double latitude = result['latitude'];
-                                        double longitude = result['longitude'];
-                                        int radius = result['radius'];
+                        ),
+                        SizedBox(width: ResponsiveSize.calculateWidth(10, context),),
+                        Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppResources.colorWhite,
+                            borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  final result = await showModalBottomSheet<Map<String, dynamic>>(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return PositionFiltred();
+                                    },
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      _textEditingController.text = "";
+                                      double latitude = result['latitude'];
+                                      double longitude = result['longitude'];
+                                      int radius = result['radius'];
 
+                                      _matchingListFuture = AppService.api.fetchExperiences(
+                                        FiltersRequest(
+                                          filtreLat: latitude.toString(),
+                                          filtreLang: longitude.toString(),
+                                          filtreDistance: radius.toString()
+                                        ),
+                                      );
+                                    });
+                                  }
+                                },
+                                icon: const Icon(Icons.gps_fixed, size: 20,),
+                              ),
+                              const VerticalDivider(
+                                color: Colors.grey, // Adjust the color to your preference
+                                thickness: 1, // Adjust the thickness as needed
+                                width: 0, // Adjust the width to control the space taken by the divider
+                                indent: 8, // Adjust the indent to control the space from the top
+                                endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  final result = await showModalBottomSheet<Map<String, String>>(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return CalendarMatching();
+                                    },
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
+                                        // Handle range selection
+                                        final rangeStart = result['rangeStart'];
+                                        final rangeEnd = result['rangeEnd'];
+                                        print('Selected Range: $rangeStart to $rangeEnd');
                                         _matchingListFuture = AppService.api.fetchExperiences(
                                           FiltersRequest(
-                                            filtreLat: latitude.toString(),
-                                            filtreLang: longitude.toString(),
-                                            filtreDistance: radius.toString()
+                                            filtreDateDebut: rangeStart,
+                                            filtreDateFin: rangeEnd,
                                           ),
                                         );
-                                      });
-                                    }
-                                  },
-                                  icon: const Icon(Icons.gps_fixed, size: 20,),
-                                ),
-                                const VerticalDivider(
-                                  color: Colors.grey, // Adjust the color to your preference
-                                  thickness: 1, // Adjust the thickness as needed
-                                  width: 0, // Adjust the width to control the space taken by the divider
-                                  indent: 8, // Adjust the indent to control the space from the top
-                                  endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    final result = await showModalBottomSheet<Map<String, String>>(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return CalendarMatching();
-                                      },
-                                    );
-                                    if (result != null) {
-                                      setState(() {
-                                        if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
-                                          // Handle range selection
-                                          final rangeStart = result['rangeStart'];
-                                          final rangeEnd = result['rangeEnd'];
-                                          print('Selected Range: $rangeStart to $rangeEnd');
-                                          _matchingListFuture = AppService.api.fetchExperiences(
-                                            FiltersRequest(
-                                              filtreDateDebut: rangeStart,
-                                              filtreDateFin: rangeEnd,
-                                            ),
-                                          );
-                                        }
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(Icons.date_range, size: 20,),
-                                ),
-                                const VerticalDivider(
-                                  color: Colors.grey, // Adjust the color to your preference
-                                  thickness: 1, // Adjust the thickness as needed
-                                  width: 0, // Adjust the width to control the space taken by the divider
-                                  indent: 8, // Adjust the indent to control the space from the top
-                                  endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    final result = await showModalBottomSheet<Map<String, String>>(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return const FiltredWidget();
-                                      },
-                                    );
+                                      }
+                                    });
+                                  }
+                                },
+                                icon: Icon(Icons.date_range, size: 20,),
+                              ),
+                              const VerticalDivider(
+                                color: Colors.grey, // Adjust the color to your preference
+                                thickness: 1, // Adjust the thickness as needed
+                                width: 0, // Adjust the width to control the space taken by the divider
+                                indent: 8, // Adjust the indent to control the space from the top
+                                endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  final result = await showModalBottomSheet<Map<String, String>>(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return const FiltredWidget();
+                                    },
+                                  );
 
-                                    if (result != null) {
-                                      setState(() {
-                                        // Extract values with fallback to defaults
-                                        final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
-                                        final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
-                                        final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
-                                        final filtrePrixMin = result['filtre_prix_min'] ?? "0";
-                                        final filtrePrixMax = result['filtre_prix_max'] ?? "0";
-                                        final filtreCategorie = result['filtre_categorie'] ?? "";
-                                        final filtreLangue = result['filtre_langue'] ?? "";
+                                  if (result != null) {
+                                    setState(() {
+                                      // Extract values with fallback to defaults
+                                      final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
+                                      final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
+                                      final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
+                                      final filtrePrixMin = result['filtre_prix_min'] ?? "0";
+                                      final filtrePrixMax = result['filtre_prix_max'] ?? "0";
+                                      final filtreCategorie = result['filtre_categorie'] ?? "";
+                                      final filtreLangue = result['filtre_langue'] ?? "";
 
-                                        if (_textEditingController.text != '') {
-                                          // Make API call with filters
-                                          _matchingListFuture = AppService.api.fetchExperiences(
-                                            FiltersRequest(
-                                              filtreNbAdult: filtreNbAdultes,
-                                              filtreNbEnfant: filtreNbEnfants,
-                                              filtreNbBebes: filtreNbBebes,
-                                              filtrePrixMin: filtrePrixMin,
-                                              filtrePrixMax: filtrePrixMax,
-                                              filtreCategorie: filtreCategorie,
-                                              filtreLangue: filtreLangue,
-                                              filtreVille: _textEditingController.text,
-                                            ),
-                                          );
-                                        } else {
-                                          // Make API call with filters
-                                          _matchingListFuture = AppService.api.fetchExperiences(
-                                            FiltersRequest(
-                                              filtreNbAdult: filtreNbAdultes,
-                                              filtreNbEnfant: filtreNbEnfants,
-                                              filtreNbBebes: filtreNbBebes,
-                                              filtrePrixMin: filtrePrixMin,
-                                              filtrePrixMax: filtrePrixMax,
-                                              filtreCategorie: filtreCategorie,
-                                              filtreLangue: filtreLangue,
-                                            ),
-                                          );
-                                        }
-                                      });
-                                    }
-                                  },
-                                  icon: const Icon(Icons.tune, size: 20),
-                                ),
-                              ],
-                            ),
+                                      if (_textEditingController.text != '') {
+                                        // Make API call with filters
+                                        _matchingListFuture = AppService.api.fetchExperiences(
+                                          FiltersRequest(
+                                            filtreNbAdult: filtreNbAdultes,
+                                            filtreNbEnfant: filtreNbEnfants,
+                                            filtreNbBebes: filtreNbBebes,
+                                            filtrePrixMin: filtrePrixMin,
+                                            filtrePrixMax: filtrePrixMax,
+                                            filtreCategorie: filtreCategorie,
+                                            filtreLangue: filtreLangue,
+                                            filtreVille: _textEditingController.text,
+                                          ),
+                                        );
+                                      } else {
+                                        // Make API call with filters
+                                        _matchingListFuture = AppService.api.fetchExperiences(
+                                          FiltersRequest(
+                                            filtreNbAdult: filtreNbAdultes,
+                                            filtreNbEnfant: filtreNbEnfants,
+                                            filtreNbBebes: filtreNbBebes,
+                                            filtrePrixMin: filtrePrixMin,
+                                            filtrePrixMax: filtrePrixMax,
+                                            filtreCategorie: filtreCategorie,
+                                            filtreLangue: filtreLangue,
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  }
+                                },
+                                icon: const Icon(Icons.tune, size: 20),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   )
                 ],
