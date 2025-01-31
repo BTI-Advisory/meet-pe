@@ -1,5 +1,9 @@
 {
   "language": "English",
+  "@language": {
+    "description": "The current Language"
+  },
+
   "move": "Move",
   "move_desc": "Explore the world\n in a new way",
   "meet": "Meet",
@@ -85,7 +89,7 @@
 
   "step_1_text": "Étape 1 sur 11",
   "step_1_title_text": "Catégorie de l’expérience",
-  "step_1_desc_text": "Dis-nous quel type d’expérience tu proposes",
+  "step_1_desc_text": "Penses à mettre le maximum de catégories qui correspondent à ton expérience pour matcher un max avec nos voyageurs !",
   "step_2_text": "Étape 2 sur 11",
   "step_2_title_text": "Description de l’expérience",
   "step_2_desc_text": "C’est la première information que l’on va voir sur ton éxperience. Alors écris un titre et un descriptif qui donnent “l’envie d’avoir envie” !",
@@ -293,7 +297,7 @@
   "price_group_match_2_text": "personnes)",
   "reserve_date_text": "Réserve ta date",
   "no_events_text": "No events for this day.",
-  "my_favorites_text": "Mes Favoris",
+  "my_favorites_text": "My Favorites",
   "search_experience_text": "Recherche des expériences",
   "no_favorites_text": "Aucun favoris ? \nN’hésite pas à en ajouter !",
   "no_match_experience_text": "No matching experiences found.",

@@ -6,6 +6,7 @@ import 'package:meet_pe/utils/responsive_size.dart';
 
 import '../../services/secure_storage_service.dart';
 import '../../utils/utils.dart';
+import '../onBoardingPages/travelers/info_travelers_page.dart';
 import '../travelersPages/main_travelers_page.dart';
 import 'introMovePage.dart';
 
@@ -42,7 +43,11 @@ class _LaunchScreenState extends State<LaunchScreen>
     print('readCompleted ${await SecureStorageService.readCompleted()}');
     if (await SecureStorageService.readAccessToken() != null) {
       if (await SecureStorageService.readRole() == '1') {
-        controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0,)));
+        if (await SecureStorageService.readCompleted() == 'true') {
+          controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0,)));
+        } else {
+          controller.forward().whenComplete(() => navigateTo(context, (_) => InfoTravelersPage()));
+        }
       } else if (await SecureStorageService.readRole() == '2')  {
         if (await SecureStorageService.readCompleted() == 'true') {
           controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 2)));

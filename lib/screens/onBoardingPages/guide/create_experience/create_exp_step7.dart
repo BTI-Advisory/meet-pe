@@ -47,8 +47,8 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                       mask: Stack(
                         children: [
                           Container(
-                            width: ResponsiveSize.calculateWidth(375, context),
-                            height: ResponsiveSize.calculateHeight(576, context),
+                            //width: ResponsiveSize.calculateWidth(375, context),
+                            //height: ResponsiveSize.calculateHeight(576, context),
                             child: Stack(
                               children: [
                                 Positioned(

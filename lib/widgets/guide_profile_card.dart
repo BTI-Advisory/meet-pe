@@ -133,8 +133,8 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                         mask: Stack(
                           children: [
                             Container(
-                              width: ResponsiveSize.calculateWidth(375, context),
-                              height: ResponsiveSize.calculateHeight(576, context),
+                              //width: ResponsiveSize.calculateWidth(375, context),
+                              //height: ResponsiveSize.calculateHeight(576, context),
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -176,8 +176,8 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                             ),
                             ///bloc info in the bottom
                             Positioned(
-                              top: 425,
                               left: 28,
+                              bottom: 60,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -366,7 +366,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                                 ),
                                                 SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
                                                 SizedBox(
-                                                  width: 70,
+                                                  width: ResponsiveSize.calculateWidth(70, context),
                                                   child: Text(
                                                     widget.experienceData.experience.ville!.capitalized,
                                                     textAlign: TextAlign.center,
