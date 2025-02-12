@@ -294,7 +294,7 @@
   "price_group_match_1_text": "Prix de groupe (à partir de",
   "price_group_match_2_text": "personnes)",
   "reserve_date_text": "Réserve ta date",
-  "no_events_text": "No events for this day.",
+  "no_events_text": "Aucun créneau pour ce jour.",
   "my_favorites_text": "Mes Favoris",
   "search_experience_text": "Recherche des expériences",
   "no_favorites_text": "Aucun favoris ? \nN’hésite pas à en ajouter !",
@@ -320,6 +320,7 @@
   "total_text": "Total",
   "need_your_name_total": "Il manque ton nom \uD83D\uDE00",
   "pay_and_reserve_text": "Payer et réserver",
+  "info_price_text": "Le prix affiché, c’est le tarif fixé par ton guide + les frais pour faire tourner la machine (paiement sécurisé, plateforme, etc.). Transparence, toujours \uD83D\uDE80",
 
   "identity_text": "Ma pièce d’identité",
   "add_recto_identity_text": "Ajouter une pièce d’identité recto",
@@ -377,5 +378,18 @@
   "switch_traveler_inscription_text": "Tu es sûr le point de switcher vers le mode voyageur ? Mais tu dois d'abord créer ton compte !",
   "switch_traveler_text": "Tu es sûr le point de switcher vers le mode voyageur ?",
   "switch_guide_inscription_text": "Tu es sûr le point de switcher vers le mode guide ? Mais tu dois d'abord créer ton compte !",
-  "switch_guide_text": "Tu es sûr le point de switcher vers le mode guide ?"
+  "switch_guide_text": "Tu es sûr le point de switcher vers le mode guide ?",
+
+  "tutorial_step_1_title_text": "Ajoute cette expérience à tes favoris",
+  "tutorial_step_1_descr_text": "Ne passe pas à côté de cette expérience ! Ajoute la dans tes favoris et retrouve la n’importe où, n’importe quand en te connectant à ton compte.",
+  "tutorial_step_2_title_text": "Découvre ton pourcentage de matching",
+  "tutorial_step_2_descr_text": "Plus le pourcentage est élevé, plus l’expérience correspond à tes critères, tes goûts, tes envies et tes attentes !",
+  "tutorial_step_3_title_text": "Trouve une expérience dans une ville",
+  "tutorial_step_3_descr_text": "Parmi toutes les expériences proposées par nos guides, il y en a forcément une faite pour toi.",
+  "tutorial_step_4_title_text": "Autour de moi",
+  "tutorial_step_4_descr_text": "Trouves des expériences jusqu’à 100km autour de toi.",
+  "tutorial_step_5_title_text": "Ajoute ou modifie tes critères",
+  "tutorial_step_5_descr_text": "Que ce soit pour changer la date ou changer d’envie, c’est ici que tu modifies tes critères pour trouver l’expérience qu’il te faut.",
+  "tutorial_button_1_text": "Suivant",
+  "tutorial_button_2_text": "Explorer"
 }

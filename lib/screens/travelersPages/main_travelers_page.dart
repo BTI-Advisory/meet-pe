@@ -16,6 +16,11 @@ class MainTravelersPage extends StatefulWidget {
   MainTravelersPage({super.key, required this.initialPage});
 
   var initialPage = 0;
+  final GlobalKey favorKey = GlobalKey();
+  final GlobalKey percentKey = GlobalKey();
+  final GlobalKey searchCityKey = GlobalKey();
+  final GlobalKey aroundMeKey = GlobalKey();
+  final GlobalKey filtersKey = GlobalKey();
 
   @override
   State<MainTravelersPage> createState() => _MainTravelersPageState();
@@ -33,7 +38,7 @@ class _MainTravelersPageState extends State<MainTravelersPage>
         pageController: bloc.pageController,
         initialPage: widget.initialPage,
         pages: [
-          const EpTabbedTravelersPageItem(Icons.backpack, MatchingPage()),
+          EpTabbedTravelersPageItem(Icons.backpack, MatchingPage(favorKey: widget.favorKey, percentKey: widget.percentKey, searchCityKey: widget.searchCityKey, aroundMeKey: widget.aroundMeKey, filtersKey: widget.filtersKey)),
           const EpTabbedTravelersPageItem(Icons.favorite_border, FavorisPage()),
           EpTabbedTravelersPageItem(FontAwesomeIcons.envelope, const MessagesTravelersPage(),
                   (context, child) {

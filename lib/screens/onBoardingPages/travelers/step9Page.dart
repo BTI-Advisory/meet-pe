@@ -64,8 +64,6 @@ class _Step9PageState extends State<Step9Page> {
               SizedBox(height: ResponsiveSize.calculateHeight(57, context)),
               Container(
                 width: ResponsiveSize.calculateWidth(319, context),
-                //height: ResponsiveSize.calculateHeight(411, context),
-                height: 360,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
