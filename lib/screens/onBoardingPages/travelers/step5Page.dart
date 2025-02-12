@@ -55,6 +55,38 @@ class _Step5PageState extends State<Step5Page> {
     return widget.currentStep / widget.totalSteps;
   }
 
+  void _onItemTap(int itemId) {
+    setState(() {
+      if (widget.myMap['voyageur_experiences'] == null) {
+        widget.myMap['voyageur_experiences'] = {};
+      }
+
+      // Check if the tapped item is already selected
+      final bool isSelected = widget.myMap['voyageur_experiences']!.contains(itemId);
+
+      // If it's the last item and it's already selected, deselect it
+      if (itemId == myList.last.id && isSelected) {
+        widget.myMap['voyageur_experiences']!.remove(itemId);
+      } else {
+        // If it's the last item, deselect all other items
+        if (itemId == myList.last.id) {
+          widget.myMap['voyageur_experiences'] = {itemId};
+        } else {
+          // Deselect the last item if it's currently selected
+          if (widget.myMap['voyageur_experiences']!.contains(myList.last.id)) {
+            widget.myMap['voyageur_experiences']!.remove(myList.last.id);
+          }
+          // Toggle selection for the tapped item
+          if (isSelected) {
+            widget.myMap['voyageur_experiences']!.remove(itemId);
+          } else {
+            widget.myMap['voyageur_experiences']!.add(itemId);
+          }
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double progress = calculateProgress();
@@ -119,21 +151,7 @@ class _Step5PageState extends State<Step5Page> {
                             isSelected: widget.myMap['voyageur_experiences'] != null
                                 ? widget.myMap['voyageur_experiences']!.contains(item.id)
                                 : false,
-                            onTap: () {
-                              setState(() {
-                                if (widget.myMap['voyageur_experiences'] == null) {
-                                  widget.myMap['voyageur_experiences'] =
-                                      Set<int>(); // Initialize if null
-                                }
-
-                                if (widget.myMap['voyageur_experiences']!
-                                    .contains(item.id)) {
-                                  widget.myMap['voyageur_experiences']!.remove(item.id);
-                                } else {
-                                  widget.myMap['voyageur_experiences']!.add(item.id);
-                                }
-                              });
-                            },
+                            onTap: () => _onItemTap(item.id),
                           );
                         }).toList(),
                       ),
