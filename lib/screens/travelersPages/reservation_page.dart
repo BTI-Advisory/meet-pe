@@ -378,7 +378,14 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                         ),
                       ],
                     ),
-                    const SizedBox(height: 60,),
+                    const SizedBox(height: 30,),
+                    Text(
+                      AppLocalizations.of(context)!.info_price_text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppResources.colorGray),
+                    ),
                   ],
                 ),
               )

@@ -11,7 +11,13 @@ import '../../services/app_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MatchingPage extends StatefulWidget {
-  const MatchingPage({super.key});
+  final GlobalKey favorKey;
+  final GlobalKey percentKey;
+  final GlobalKey searchCityKey;
+  final GlobalKey aroundMeKey;
+  final GlobalKey filtersKey;
+
+  MatchingPage({Key? key, required this.favorKey, required this.percentKey, required this.searchCityKey, required this.aroundMeKey, required this.filtersKey,}) : super(key: key);
 
   @override
   State<MatchingPage> createState() => _MatchingPageState();
@@ -112,6 +118,8 @@ class _MatchingPageState extends State<MatchingPage> {
                                 tappedScreen = tapped;
                               });
                             },
+                            favorKey: widget.favorKey,
+                            percentKey: widget.percentKey,
                           );
                         },
                         itemCount: filteredProfiles.length,
@@ -151,6 +159,7 @@ class _MatchingPageState extends State<MatchingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
+                          key: widget.searchCityKey,
                           width: ResponsiveSize.calculateWidth(200, context),
                           //height: 40,
                           child: SingleChildScrollView(
@@ -172,6 +181,7 @@ class _MatchingPageState extends State<MatchingPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               IconButton(
+                                key: widget.aroundMeKey,
                                 onPressed: () async {
                                   final result = await showModalBottomSheet<Map<String, dynamic>>(
                                     context: context,
@@ -206,94 +216,99 @@ class _MatchingPageState extends State<MatchingPage> {
                                 indent: 8, // Adjust the indent to control the space from the top
                                 endIndent: 8, // Adjust the endIndent to control the space from the bottom
                               ),
-                              IconButton(
-                                onPressed: () async {
-                                  final result = await showModalBottomSheet<Map<String, String>>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return CalendarMatching();
-                                    },
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
-                                        // Handle range selection
-                                        final rangeStart = result['rangeStart'];
-                                        final rangeEnd = result['rangeEnd'];
-                                        print('Selected Range: $rangeStart to $rangeEnd');
-                                        _matchingListFuture = AppService.api.fetchExperiences(
-                                          FiltersRequest(
-                                            filtreDateDebut: rangeStart,
-                                            filtreDateFin: rangeEnd,
-                                          ),
-                                        );
+                              Row(
+                                key: widget.filtersKey,
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      final result = await showModalBottomSheet<Map<String, String>>(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (BuildContext context) {
+                                          return CalendarMatching();
+                                        },
+                                      );
+                                      if (result != null) {
+                                        setState(() {
+                                          if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
+                                            // Handle range selection
+                                            final rangeStart = result['rangeStart'];
+                                            final rangeEnd = result['rangeEnd'];
+                                            print('Selected Range: $rangeStart to $rangeEnd');
+                                            _matchingListFuture = AppService.api.fetchExperiences(
+                                              FiltersRequest(
+                                                filtreDateDebut: rangeStart,
+                                                filtreDateFin: rangeEnd,
+                                              ),
+                                            );
+                                          }
+                                        });
                                       }
-                                    });
-                                  }
-                                },
-                                icon: Icon(Icons.date_range, size: 20,),
-                              ),
-                              const VerticalDivider(
-                                color: Colors.grey, // Adjust the color to your preference
-                                thickness: 1, // Adjust the thickness as needed
-                                width: 0, // Adjust the width to control the space taken by the divider
-                                indent: 8, // Adjust the indent to control the space from the top
-                                endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  final result = await showModalBottomSheet<Map<String, String>>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return const FiltredWidget();
                                     },
-                                  );
+                                    icon: Icon(Icons.date_range, size: 20,),
+                                  ),
+                                  const VerticalDivider(
+                                    color: Colors.grey, // Adjust the color to your preference
+                                    thickness: 1, // Adjust the thickness as needed
+                                    width: 0, // Adjust the width to control the space taken by the divider
+                                    indent: 8, // Adjust the indent to control the space from the top
+                                    endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      final result = await showModalBottomSheet<Map<String, String>>(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (BuildContext context) {
+                                          return const FiltredWidget();
+                                        },
+                                      );
 
-                                  if (result != null) {
-                                    setState(() {
-                                      // Extract values with fallback to defaults
-                                      final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
-                                      final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
-                                      final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
-                                      final filtrePrixMin = result['filtre_prix_min'] ?? "0";
-                                      final filtrePrixMax = result['filtre_prix_max'] ?? "0";
-                                      final filtreCategorie = result['filtre_categorie'] ?? "";
-                                      final filtreLangue = result['filtre_langue'] ?? "";
+                                      if (result != null) {
+                                        setState(() {
+                                          // Extract values with fallback to defaults
+                                          final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
+                                          final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
+                                          final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
+                                          final filtrePrixMin = result['filtre_prix_min'] ?? "0";
+                                          final filtrePrixMax = result['filtre_prix_max'] ?? "0";
+                                          final filtreCategorie = result['filtre_categorie'] ?? "";
+                                          final filtreLangue = result['filtre_langue'] ?? "";
 
-                                      if (_textEditingController.text != '') {
-                                        // Make API call with filters
-                                        _matchingListFuture = AppService.api.fetchExperiences(
-                                          FiltersRequest(
-                                            filtreNbAdult: filtreNbAdultes,
-                                            filtreNbEnfant: filtreNbEnfants,
-                                            filtreNbBebes: filtreNbBebes,
-                                            filtrePrixMin: filtrePrixMin,
-                                            filtrePrixMax: filtrePrixMax,
-                                            filtreCategorie: filtreCategorie,
-                                            filtreLangue: filtreLangue,
-                                            filtreVille: _textEditingController.text,
-                                          ),
-                                        );
-                                      } else {
-                                        // Make API call with filters
-                                        _matchingListFuture = AppService.api.fetchExperiences(
-                                          FiltersRequest(
-                                            filtreNbAdult: filtreNbAdultes,
-                                            filtreNbEnfant: filtreNbEnfants,
-                                            filtreNbBebes: filtreNbBebes,
-                                            filtrePrixMin: filtrePrixMin,
-                                            filtrePrixMax: filtrePrixMax,
-                                            filtreCategorie: filtreCategorie,
-                                            filtreLangue: filtreLangue,
-                                          ),
-                                        );
+                                          if (_textEditingController.text != '') {
+                                            // Make API call with filters
+                                            _matchingListFuture = AppService.api.fetchExperiences(
+                                              FiltersRequest(
+                                                filtreNbAdult: filtreNbAdultes,
+                                                filtreNbEnfant: filtreNbEnfants,
+                                                filtreNbBebes: filtreNbBebes,
+                                                filtrePrixMin: filtrePrixMin,
+                                                filtrePrixMax: filtrePrixMax,
+                                                filtreCategorie: filtreCategorie,
+                                                filtreLangue: filtreLangue,
+                                                filtreVille: _textEditingController.text,
+                                              ),
+                                            );
+                                          } else {
+                                            // Make API call with filters
+                                            _matchingListFuture = AppService.api.fetchExperiences(
+                                              FiltersRequest(
+                                                filtreNbAdult: filtreNbAdultes,
+                                                filtreNbEnfant: filtreNbEnfants,
+                                                filtreNbBebes: filtreNbBebes,
+                                                filtrePrixMin: filtrePrixMin,
+                                                filtrePrixMax: filtrePrixMax,
+                                                filtreCategorie: filtreCategorie,
+                                                filtreLangue: filtreLangue,
+                                              ),
+                                            );
+                                          }
+                                        });
                                       }
-                                    });
-                                  }
-                                },
-                                icon: const Icon(Icons.tune, size: 20),
+                                    },
+                                    icon: const Icon(Icons.tune, size: 20),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

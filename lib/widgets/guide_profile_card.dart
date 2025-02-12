@@ -13,9 +13,11 @@ import 'event_details.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GuideProfileCard extends StatefulWidget {
-  const GuideProfileCard({super.key, required this.experienceData, required this.onCardTapped});
+  const GuideProfileCard({super.key, required this.experienceData, required this.onCardTapped, required this.favorKey, required this.percentKey});
   final ExperienceModel experienceData;
   final void Function(bool tapped) onCardTapped;
+  final GlobalKey favorKey;
+  final GlobalKey percentKey;
 
   @override
   _GuideProfileCardState createState() => _GuideProfileCardState();
@@ -195,6 +197,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
+                                        key: widget.percentKey,
                                         '${widget.experienceData.weightedMatchScore} %',
                                         style: Theme.of(context)
                                             .textTheme
@@ -767,6 +770,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
               bottom: 20,
               right: 28,
               child: Container(
+                key: widget.favorKey,
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(

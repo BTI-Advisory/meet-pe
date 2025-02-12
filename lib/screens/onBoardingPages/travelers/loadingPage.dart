@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../resources/resources.dart';
+import '../../../services/secure_storage_service.dart';
 import '../../../utils/_utils.dart';
+import '../../travelersPages/main_travelers_page.dart';
 import '../../travelersPages/tutorial/tutorial_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,8 +27,17 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
       setState(() {});
     });
     //controller.repeat(reverse: true);
-    controller.forward().whenComplete(() => navigateTo(context, (_) => TutorialPage()));
+    _checkFirstLaunch();
     super.initState();
+  }
+
+  Future<void> _checkFirstLaunch() async {
+    if (await SecureStorageService.readIsFirstLaunch() == null) {
+      SecureStorageService.saveIsFirstLaunch('true');
+      navigateTo(context, (_) => TutorialPage(mainTravelersPage: MainTravelersPage(initialPage: 0)));
+    } else {
+      navigateTo(context, (_) => MainTravelersPage(initialPage: 0,));
+    }
   }
 
   @override
