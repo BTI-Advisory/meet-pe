@@ -159,7 +159,6 @@ class _MatchingPageState extends State<MatchingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          key: widget.searchCityKey,
                           width: ResponsiveSize.calculateWidth(200, context),
                           //height: 40,
                           child: SingleChildScrollView(
@@ -167,6 +166,7 @@ class _MatchingPageState extends State<MatchingPage> {
                               controller: _textEditingController,
                               focusNode: _focusNode,
                               onCitySelected: _onCitySelected,
+                              searchCityKey: widget.searchCityKey,
                             ),
                           ),
                         ),
