@@ -59,6 +59,7 @@ class Voyageur {
   final bool isFullAvailable;
   final bool isVerified;
   final int numberOfExperiences;
+  final int livedExperiences;
 
   Voyageur({
     required this.id,
@@ -72,6 +73,7 @@ class Voyageur {
     required this.isFullAvailable,
     required this.isVerified,
     required this.numberOfExperiences,
+    required this.livedExperiences,
   });
 
   factory Voyageur.fromJson(Map<String, dynamic> json) {
@@ -87,6 +89,7 @@ class Voyageur {
       isFullAvailable: json['is_full_available'],
       isVerified: json['is_verified'],
       numberOfExperiences: json['number_of_experiences'],
+      livedExperiences: json['lived_experiences'],
     );
   }
 }

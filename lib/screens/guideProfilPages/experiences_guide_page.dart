@@ -495,7 +495,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                           SizedBox(
                               width: ResponsiveSize.calculateWidth(5, context)),
                           Text(
-                            reservation.voyageur.numberOfExperiences.toString(),
+                            "${reservation.voyageur.livedExperiences}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
