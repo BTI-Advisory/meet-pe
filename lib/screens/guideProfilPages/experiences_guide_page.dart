@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_pe/utils/_utils.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 import '../../models/experience_data_response.dart';
 import '../../models/guide_reservation_response.dart';
@@ -590,8 +591,23 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            await _updateReservationStatus(
-                                reservation.id, 'Acceptée');
+                            PanaraConfirmDialog.showAnimatedGrow(
+                              context,
+                              title: AppLocalizations.of(context)!.are_you_sure_text,
+                              message: AppLocalizations.of(context)!.are_you_sure_desc_acc_text,
+                              confirmButtonText: AppLocalizations.of(context)!.confirmation_text,
+                              cancelButtonText: AppLocalizations.of(context)!.cancel_text,
+                              onTapCancel: () {
+                                Navigator.pop(context); // Close dialog without changing state
+                              },
+                              onTapConfirm: () {
+                                Navigator.pop(context); // Close dialog first
+                                setState(() async {
+                                  await _updateReservationStatus(reservation.id, 'Acceptée');
+                                });
+                              },
+                              panaraDialogType: PanaraDialogType.success,
+                            );
                           },
                           child: Column(
                             children: [
@@ -613,8 +629,23 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                         const SizedBox(width: 19),
                         GestureDetector(
                           onTap: () async {
-                            await _updateReservationStatus(
-                                reservation.id, 'Refusée');
+                            PanaraConfirmDialog.showAnimatedGrow(
+                              context,
+                              title: AppLocalizations.of(context)!.are_you_sure_text,
+                              message: AppLocalizations.of(context)!.are_you_sure_desc_ref_text,
+                              confirmButtonText: AppLocalizations.of(context)!.confirmation_text,
+                              cancelButtonText: AppLocalizations.of(context)!.cancel_text,
+                              onTapCancel: () {
+                                Navigator.pop(context); // Close dialog without changing state
+                              },
+                              onTapConfirm: () {
+                                Navigator.pop(context); // Close dialog first
+                                setState(() async {
+                                  await _updateReservationStatus(reservation.id, 'Refusée');
+                                });
+                              },
+                              panaraDialogType: PanaraDialogType.error,
+                            );
                           },
                           child: Column(
                             children: [
