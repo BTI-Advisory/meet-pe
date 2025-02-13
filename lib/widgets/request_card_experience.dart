@@ -34,8 +34,12 @@ class _RequestCardState extends State<RequestCard> {
     try {
       bool result = await AppService.api.updateReservationStatus(widget.guideReservationResponse.id, newStatus);
       if (result) {
-        widget.onUpdateStatus(); // Notify the parent about the change
+        print("Status updated successfully!");
+      } else {
+        print("Failed to update status.");
       }
+
+      widget.onUpdateStatus();
     } catch (e) {
       print('Error updating reservation status: $e');
     } finally {
