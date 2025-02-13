@@ -170,10 +170,7 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                       builder: (BuildContext context) =>
                                           _buildPopupDialog(context, reservation),
                                     ).then((value) {
-                                      if (value == true) {
-                                        // Refresh the data if changes were made
-                                        fetchGuideReservationData();
-                                      }
+                                      fetchGuideReservationData();
                                     });
                                   },
                                   child: Padding(
