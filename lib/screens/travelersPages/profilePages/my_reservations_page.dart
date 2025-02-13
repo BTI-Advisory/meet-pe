@@ -339,6 +339,10 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
   void _showCancellationBottomSheet(BuildContext context, ReservationListResponse reservation) {
     final TextEditingController guideNoteController = TextEditingController();
 
+    // Move these outside StatefulBuilder so they persist
+    bool _isDropdownOpened = false;
+    String? selectedReason;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -346,9 +350,6 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (BuildContext context) {
-        bool _isDropdownOpened = false;
-        String? selectedReason;
-
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
@@ -380,12 +381,14 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                   SizedBox(height: 17),
                   Text(
                     "Conformément à nos Conditions Générales des frais d’annulation peuvent s’appliquer si l’annulation intervient moins de 72h avant le début de l’expérience.",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: AppResources.colorGray, fontSize: 12),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: AppResources.colorGray,
+                      fontSize: 12,
+                    ),
                   ),
                   SizedBox(height: 24),
+
+                  /// Dropdown
                   InkWell(
                     onTap: () {
                       setModalState(() {
@@ -393,16 +396,16 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                       });
                     },
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               selectedReason ?? "Sélectionnez une raison",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorGray60),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppResources.colorGray60,
+                              ),
                             ),
                             Icon(
                               _isDropdownOpened
@@ -413,7 +416,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Container(
                           height: 1,
                           color: AppResources.colorGray15,
@@ -443,40 +446,44 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                       ],
                     ),
                   ),
+
                   SizedBox(height: 40),
+
+                  /// Text Field for additional note
                   TextFormField(
                     controller: guideNoteController,
                     keyboardType: TextInputType.text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: AppResources.colorDark),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppResources.colorDark,
+                    ),
                     decoration: InputDecoration(
-                      filled: false,
                       hintText: 'Un mot pour le guide',
                       hintStyle: Theme.of(context).textTheme.bodyMedium,
                       contentPadding: EdgeInsets.only(
                         top: ResponsiveSize.calculateHeight(20, context),
                         bottom: ResponsiveSize.calculateHeight(10, context),
                       ),
-                      enabledBorder: const UnderlineInputBorder(
+                      enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: AppResources.colorGray15),
                       ),
-                      focusedBorder: const UnderlineInputBorder(
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: AppResources.colorGray15),
                       ),
                     ),
                     onChanged: (value) {
-                      // Trigger a state update when the text field changes
-                      setModalState(() {});
+                      setModalState(() {}); // Keep state updated
                     },
                   ),
+
                   SizedBox(height: 82),
+
+                  /// Cancel button
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          bottom: ResponsiveSize.calculateHeight(44, context)),
+                        bottom: ResponsiveSize.calculateHeight(44, context),
+                      ),
                       child: Container(
                         width: ResponsiveSize.calculateWidth(264, context),
                         height: ResponsiveSize.calculateHeight(48, context),
@@ -506,14 +513,12 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                           ),
                           onPressed: selectedReason != null && guideNoteController.text.isNotEmpty
                               ? () async {
-                            // Call the cancelReservation API
                             final result = await AppService.api.cancelReservation(
                               reservation.id,
                               selectedReason!,
                               guideNoteController.text,
                             );
 
-                            // Display an alert dialog with the response
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -521,7 +526,6 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                                   title: Text(result.error == null ? 'Success' : 'Error'),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       if (result.message != null)
                                         Text('Message: ${result.message}'),
@@ -540,7 +544,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                         setState(() {
-                                          _reservationFuture = AppService.api.getReservation(); // Refresh the reservation list
+                                          _reservationFuture = AppService.api.getReservation();
                                         });
                                       },
                                       child: const Text('OK'),
@@ -553,10 +557,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                               : null,
                           child: Text(
                             "ANNULER MA RÉSERVATION",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: selectedReason != null &&
                                   guideNoteController.text.isNotEmpty
                                   ? AppResources.colorWhite
