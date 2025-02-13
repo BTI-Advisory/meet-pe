@@ -193,7 +193,7 @@ class _EditPricePageState extends State<EditPricePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                          '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPrice.text) ?? 0) * 0.80).toStringAsFixed(2)} €/pers',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                         ),
                         PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_estimate_income_text)
@@ -367,7 +367,7 @@ class _EditPricePageState extends State<EditPricePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.82).toStringAsFixed(2)} €/pers',
+                              '${AppLocalizations.of(context)!.estimate_income_text} ${((double.tryParse(_textEditingControllerPriceGroup.text) ?? 0) * 0.80).toStringAsFixed(2)} €/pers',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                             ),
                             PopupView(contentTitle: AppLocalizations.of(context)!.pop_view_estimate_income_text)
