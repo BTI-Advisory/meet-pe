@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 import '../models/guide_reservation_response.dart';
 import '../resources/resources.dart';
@@ -127,8 +128,24 @@ class _RequestCardState extends State<RequestCard> {
                         child: Row(
                           children: [
                             GestureDetector(
-                              onTap: () async {
-                                await _updateStatus('Acceptée'); // Update status asynchronously
+                              onTap: () {
+                                PanaraConfirmDialog.showAnimatedGrow(
+                                  widget.parentContext,
+                                    title: AppLocalizations.of(widget.parentContext)!.are_you_sure_text,
+                                    message: AppLocalizations.of(widget.parentContext)!.are_you_sure_desc_acc_text,
+                                    confirmButtonText: AppLocalizations.of(widget.parentContext)!.confirmation_text,
+                                    cancelButtonText: AppLocalizations.of(widget.parentContext)!.cancel_text,
+                                    onTapCancel: () {
+                                      Navigator.pop(widget.parentContext); // Close dialog without changing state
+                                    },
+                                    onTapConfirm: () {
+                                      Navigator.pop(widget.parentContext); // Close dialog first
+                                      setState(() async {
+                                        await _updateStatus('Acceptée'); // Update status asynchronously
+                                      });
+                                    },
+                                    panaraDialogType: PanaraDialogType.success,
+                                );
                               },
                               child: Column(
                                 children: [
@@ -148,8 +165,24 @@ class _RequestCardState extends State<RequestCard> {
                             ),
                             const SizedBox(width: 15),
                             GestureDetector(
-                              onTap: () async {
-                                await _updateStatus('Refusée'); // Update status asynchronously
+                              onTap: () {
+                                PanaraConfirmDialog.showAnimatedGrow(
+                                  widget.parentContext,
+                                  title: AppLocalizations.of(widget.parentContext)!.are_you_sure_text,
+                                  message: AppLocalizations.of(widget.parentContext)!.are_you_sure_desc_ref_text,
+                                  confirmButtonText: AppLocalizations.of(widget.parentContext)!.confirmation_text,
+                                  cancelButtonText: AppLocalizations.of(widget.parentContext)!.cancel_text,
+                                  onTapCancel: () {
+                                    Navigator.pop(widget.parentContext); // Close dialog without changing state
+                                  },
+                                  onTapConfirm: () {
+                                    Navigator.pop(widget.parentContext); // Close dialog first
+                                    setState(() async {
+                                      await _updateStatus('Refusée'); // Update status asynchronously
+                                    });
+                                  },
+                                  panaraDialogType: PanaraDialogType.error,
+                                );
                               },
                               child: Column(
                                 children: [
