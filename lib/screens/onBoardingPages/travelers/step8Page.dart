@@ -26,6 +26,7 @@ class _Step8PageState extends State<Step8Page> {
   String _currentCountry = '';
   String latitude = '';
   String longitude = '';
+  final GlobalKey searchCityKey = GlobalKey();
 
   @override
   void initState() {
@@ -133,6 +134,7 @@ class _Step8PageState extends State<Step8Page> {
                   controller: _textEditingController,
                   focusNode: _focusNode,
                   onCitySelected: _onCitySelected,
+                  searchCityKey: searchCityKey,
                 ),
               ),
             ),

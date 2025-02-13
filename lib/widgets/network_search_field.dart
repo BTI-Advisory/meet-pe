@@ -11,12 +11,14 @@ class NetworkSearchField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final Function(String? city, String? country) onCitySelected;
+  final GlobalKey searchCityKey;
 
   const NetworkSearchField({
     Key? key,
     required this.controller,
     required this.focusNode,
     required this.onCitySelected,
+    required this.searchCityKey,
   }) : super(key: key);
 
   @override
@@ -152,7 +154,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
           suggestionDirection: SuggestionDirection.down,
           suggestionStyle: const TextStyle(fontSize: 20, color: Colors.black),
           searchInputDecoration: SearchInputDecoration(
-            prefixIcon: const Icon(Icons.search, color: AppResources.colorGray75),
+            prefixIcon: Icon(key: widget.searchCityKey, Icons.search, color: AppResources.colorGray75),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: const BorderSide(

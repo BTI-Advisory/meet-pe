@@ -81,30 +81,41 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
     });
   }
 
-  String calculPrice(int numberAdult, int numberKids) {
+  String calculPrice(int numberAdult, int numberKids, bool isGroupAvailable) {
     // Retrieve prices
     final prixParVoyageur = widget.experienceData.prixParVoyageur;
     final prixParEnfant = widget.experienceData.prixParEnfant;
+    final prixParGroupe = widget.experienceData.prixParGroup;
 
     // Check if prixParVoyageur is null
     if (prixParVoyageur == null) {
       return "0"; // Default value if prixParVoyageur is null
     }
 
-    if (widget.experienceData.discountKids == "1") {
-      // Check if prixParEnfant is null
-      if (prixParEnfant == null) {
-        return "0"; // Default value if prixParEnfant is null
-      }
+    // Check if prixParGroupe is null
+    if (prixParGroupe == null) {
+      return "0"; // Default value if prixParGroupe is null
+    }
 
-      // Parse prices as double and calculate the total
-      final total = ((double.parse(prixParVoyageur) * numberAdult) +
-          (double.parse(prixParEnfant) * numberKids) + 5);
-      return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+    if (isGroupAvailable) {
+      final total = ((double.parse(prixParGroupe)) + 10);
+      return total.toStringAsFixed(2);
     } else {
-      // Parse prices as double and calculate the total
-      final total = (double.parse(prixParVoyageur) * (numberAdult + numberKids) + 5);
-      return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+      if (widget.experienceData.discountKids == "1") {
+        // Check if prixParEnfant is null
+        if (prixParEnfant == null) {
+          return "0"; // Default value if prixParEnfant is null
+        }
+
+        // Parse prices as double and calculate the total
+        final total = ((double.parse(prixParVoyageur) * numberAdult) +
+            (double.parse(prixParEnfant) * numberKids) + 5);
+        return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+      } else {
+        // Parse prices as double and calculate the total
+        final total = (double.parse(prixParVoyageur) * (numberAdult + numberKids) + 5);
+        return total.toStringAsFixed(2); // Return the total as a string with two decimal places
+      }
     }
   }
 
@@ -311,8 +322,8 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                             ),
                             Text(
                               isGroupeAvailable
-                                  ? '${calculPrice(_counter, _counterChild)} €'
-                                  : '${calculPrice(_counter, _counterChild)} €',
+                                  ? '${calculPrice(_counter, _counterChild, isGroupeAvailable)} €'
+                                  : '${calculPrice(_counter, _counterChild, isGroupeAvailable)} €',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineMedium
@@ -327,7 +338,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                             } else {
                               final double price = isGroupeAvailable
                                   ? double.parse(widget.experienceData.prixParGroup.toString())
-                                  : double.parse(calculPrice(_counter, _counterChild));
+                                  : double.parse(calculPrice(_counter, _counterChild, isGroupeAvailable));
 
                               final reservationResponse = await AppService.api.makeReservation(
                                 ReservationRequest(

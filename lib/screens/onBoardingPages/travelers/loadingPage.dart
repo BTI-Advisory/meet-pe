@@ -32,7 +32,7 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
   }
 
   Future<void> _checkFirstLaunch() async {
-    if (await SecureStorageService.readIsFirstLaunch() == null) {
+    if (await SecureStorageService.readIsFirstLaunch() != null) {
       SecureStorageService.saveIsFirstLaunch('true');
       navigateTo(context, (_) => TutorialPage(mainTravelersPage: MainTravelersPage(initialPage: 0)));
     } else {
