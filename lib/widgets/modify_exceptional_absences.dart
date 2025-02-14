@@ -206,6 +206,7 @@ class _ModifyExceptionalAbsencesState extends State<ModifyExceptionalAbsences>
                                       16, context)),
                               headerMargin: EdgeInsets.zero,
                             ),
+                            locale: 'fr_FR',
                             firstDay: kFirstDay,
                             lastDay: kLastDay,
                             focusedDay: _focusedDay,

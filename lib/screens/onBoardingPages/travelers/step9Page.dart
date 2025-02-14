@@ -84,6 +84,7 @@ class _Step9PageState extends State<Step9Page> {
                     headerPadding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(16, context)),
                     headerMargin: EdgeInsets.zero,
                   ),
+                  locale: 'fr_FR',
                   firstDay: kFirstDay,
                   lastDay: kLastDay,
                   focusedDay: _focusedDay,
