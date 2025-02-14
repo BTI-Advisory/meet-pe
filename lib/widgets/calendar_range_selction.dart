@@ -118,6 +118,7 @@ class _CalendarRangeSelectionState extends State<CalendarRangeSelection>
                                       16, context)),
                               headerMargin: EdgeInsets.zero,
                             ),
+                            locale: 'fr_FR',
                             firstDay: kFirstDay,
                             lastDay: kLastDay,
                             startingDayOfWeek: StartingDayOfWeek.monday,

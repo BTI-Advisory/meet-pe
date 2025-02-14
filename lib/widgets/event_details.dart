@@ -109,21 +109,21 @@ class EventTimeSlot extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorDark),
           ),
           const SizedBox(height: 10),
-          if (duration == '1d')
-            Text(
-              formatTimeRange(time),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
-            )
-          else if (duration == '2d')
+          if (duration == '2 jours')
             Text(
               AppLocalizations.of(context)!.schedule_2_text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
             )
-          else if (duration == '7d')
+          else if (duration == '7 jours')
               Text(
                 AppLocalizations.of(context)!.schedule_4_text,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
-              ),
+              )
+          else
+            Text(
+              formatTimeRange(time),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark, fontWeight: FontWeight.w400),
+            ),
           const SizedBox(height: 5),
           ElevatedButton(
             onPressed: onPressed,

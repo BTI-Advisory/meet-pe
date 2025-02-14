@@ -93,6 +93,7 @@ class Experience {
   final String? heure;
   final String? raison;
   final String languages;
+  final String duration;
   final List<Photo> photos;
   final User user;
 
@@ -131,6 +132,7 @@ class Experience {
     required this.heure,
     required this.raison,
     required this.languages,
+    required this.duration,
     required this.photos,
     required this.user,
   });
@@ -171,6 +173,7 @@ class Experience {
       heure: json['heure'],
       raison: json['raison'],
       languages: json['languages'],
+      duration: json['duration'],
       photos: (json['photos'] as List<dynamic>)
           .map((photoJson) => Photo.fromJson(photoJson))
           .toList(),

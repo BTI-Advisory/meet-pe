@@ -120,7 +120,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                 _buildDetailRow(
                     context, "Créneau réservé", requestFrenchFormat(reservation.dateTime)),
                 const SizedBox(height: 15),
-                _buildDetailRow(context, "Durée", _getDurationText(reservation.experience.duree)),
+                _buildDetailRow(context, "Durée", reservation.experience.duration),
                 const SizedBox(height: 15),
                 _buildDetailRow(
                   context,
@@ -145,7 +145,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "Chez ${reservation.experience.user.name}, lieu dit Meetpe",
+                          "Chez ${reservation.experience.user.name},",
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppResources.colorDark,
                           ),
