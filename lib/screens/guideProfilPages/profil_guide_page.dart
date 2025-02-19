@@ -506,11 +506,11 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                               ResponsiveSize.calculateWidth(8.0, context)),
                       child: Column(
                         children: [
-                          sectionProfile('Mes absences', Icons.calendar_month, true,
+                          sectionProfile(AppLocalizations.of(context)!.my_absences_text, Icons.calendar_month, true,
                                   () {
                                 navigateTo(context, (_) => const AvailabilitiesPage());
                               }),
-                          sectionProfile('Mon compte', Icons.person, (userInfo.kbisFile != null && userInfo.pieceIdentite != null), () {
+                          sectionProfile(AppLocalizations.of(context)!.my_account_text, Icons.person, (userInfo.kbisFile != null && userInfo.pieceIdentite != null), () {
                             Navigator.of(context)
                                 .push(
                               MaterialPageRoute(
@@ -524,59 +524,58 @@ class _ProfileGuidePageState extends State<ProfileGuidePage> {
                                   () {}); // Trigger a rebuild to reflect changes
                             });
                           }),
-                          sectionProfile('Demandes archivées', Icons.bookmark, true,
+                          sectionProfile(AppLocalizations.of(context)!.archive_request_text, Icons.bookmark, true,
                               () {
                             navigateTo(
                                 context, (_) => const ArchivedRequestsPage());
                           }),
-                          sectionProfile('Notifications & newsletters',
+                          sectionProfile(AppLocalizations.of(context)!.notifications_and_newsletters_text,
                               Icons.notifications, true, () {
                             navigateTo(context,
                                 (_) => const NotificationsNewslettersPage());
                           }),
                           sectionProfile(
-                              'FAQ & assistance', Icons.contact_support, true, () {
+                              AppLocalizations.of(context)!.faq_assistance_text, Icons.contact_support, true, () {
                             navigateTo(context, (_) => const HelpSupportPage());
                           }),
                         ],
                       ),
                     ),
                     const SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  ResponsiveSize.calculateWidth(24, context)),
-                          child: TextButton(
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
                             onPressed: AppService.instance.logOut,
                             child: Text(
-                              'Se déconnecter',
+                              AppLocalizations.of(context)!.logout_text,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
                                   ?.copyWith(
-                                      color: AppResources.colorDark,
-                                      decoration: TextDecoration.underline),
+                                  color: AppResources.colorDark,
+                                  decoration: TextDecoration.underline),
                             ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await AppService.api.deleteUser(context);
-                            AppService.instance.logOut;
-                          },
-                          child: Text(
-                              'Supprimer mon compte',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                color: AppResources.colorDark,
-                                decoration: TextDecoration.underline),
+                          TextButton(
+                            onPressed: () async {
+                              await AppService.api.deleteUser(context);
+                              AppService.instance.logOut;
+                            },
+                            child: Text(
+                                AppLocalizations.of(context)!.delete_account_text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                  color: AppResources.colorDark,
+                                  decoration: TextDecoration.underline),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10,),
                     Center(

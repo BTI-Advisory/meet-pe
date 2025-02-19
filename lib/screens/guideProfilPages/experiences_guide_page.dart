@@ -22,10 +22,10 @@ class ExperiencesGuidePage extends StatefulWidget {
 class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   bool isRequest = false; // Track if it's currently "Request" or "Experience"
   //List<GuideReservationResponse> reservationList = [];
-  late Map<String, List<GuideReservationResponse>> reservationList = {};
+  late Map<String, GuideReservationGroup> reservationList = {};
+  late Map<String, List<GuideReservationResponse>> groupedReservations;
   List<ExperienceDataResponse> experiencesList = [];
   bool isLoading = false;
-  late Map<String, List<GuideReservationResponse>> groupedReservations;
 
   @override
   void initState() {
@@ -44,16 +44,25 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
   Future<void> fetchGuideReservationData() async {
     try {
       final response = await AppService.api.getGuideReservationList();
+      print("🌍 Raw API Response: $response"); // Debugging
+
+      if (response.isEmpty) {
+        print("⚠️ API returned an empty response, setting empty map.");
+        setState(() {
+          reservationList = {};
+          groupedReservations = {};
+        });
+        return;
+      }
+
       setState(() {
         reservationList = response;
-        groupedReservations = reservationList.values.expand((reservations) => reservations).toList()
-            .groupBy(
-              (reservation) => reservation.dateTime.split(' ')[0],
-        );
+        groupedReservations = reservationList.map((date, group) => MapEntry(date, group.reservations));
       });
+
+      print("✅ Successfully fetched reservations: $reservationList");
     } catch (e) {
-      // Handle error
-      print('Error fetching reservation list: $e');
+      print("❌ Error fetching reservation list: $e");
     }
   }
 
@@ -154,38 +163,45 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
                                   ),
                                 ),
                               ]
-                            : reservationList
-                              .entries
-                              .map(
-                                (entry) => ExpansionTile(
-                              title: Text(
-                                requestFrenchFormat(entry.key), // Date as the title
-                                style: Theme.of(context).textTheme.headlineSmall,
-                              ),
-                              children: entry.value.map((reservation) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildPopupDialog(context, reservation),
-                                    ).then((value) {
-                                      fetchGuideReservationData();
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: RequestCard(
-                                      guideReservationResponse: reservation,
-                                      onUpdateStatus: _updateReservation,
-                                      parentContext: context,
+                            : reservationList.entries.map((entry) {
+                              GuideReservationGroup group = entry.value; // Extract the group
+
+                              return ExpansionTile(
+                                title: Text(
+                                  requestFrenchFormat(entry.key), // Date as the title
+                                  style: Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                subtitle: Text(
+                                  group.isPrivateGroup
+                                      ? 'Groupe privée'
+                                      : '${group.acceptedReservationsCount}/${group.reservations.isNotEmpty ? group.reservations.first.experience.nombreDesVoyageur : 0}',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                children: group.reservations.map((reservation) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            _buildPopupDialog(context, reservation),
+                                      ).then((value) {
+                                        fetchGuideReservationData();
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: RequestCard(
+                                        guideReservationResponse: reservation,
+                                        onUpdateStatus: _updateReservation,
+                                        parentContext: context,
+                                        isGroup: group.isPrivateGroup,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                              ).toList(),
-                      )
+                                  );
+                                }).toList(),
+                              );
+                            }).toList(),
+                )
                     : Column(
                         children: experiencesList.isEmpty
                             ? [

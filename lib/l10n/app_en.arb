@@ -1,4 +1,6 @@
 {
+  "@@locale": "en",
+
   "language": "English",
   "@language": {
     "description": "The current Language"
@@ -190,11 +192,11 @@
   "favoris_text": "Favoris",
 
   "problem_server_text": "Problème de connexion avec le serveur, veuillez réessayer ultérieurement",
-  "profile_text": "Profil",
-  "my_profile_text": "Mon Profil",
+  "profile_text": "Profile",
+  "my_profile_text": "My Profile",
   "photo_ok_text": "Photo ✅",
   "guide_text": "Guide",
-  "traveler_text": "Voyageur",
+  "traveler_text": "Traveler",
 
   "my_experiences_text": "Mes Expériences",
   "no_experiences_text": "Retrouve ici toutes les demandes pour tes expériences. Crée, modifie et gère tes expériences facilement ici.",
@@ -215,7 +217,7 @@
   "archive_request_text": "Demandes archivées",
   "archived_text": "Archivée",
 
-  "my_absences_text": "Mes absences",
+  "my_absences_text": "My absences",
   "exceptional_absences_text": "Absences exceptionnelles",
   "exceptional_absences_desc_text": "Tu prends des vacances ? Tu es absent pendant une longue période ? Renseigne ici tes absences. Durant celles-ci les voyageurs ne pourront pas réserver tes expériences.",
   "add_absence_text": "Ajouter une absence",
@@ -234,7 +236,6 @@
   "faq_traveler_text": "FAQ Voyageurs",
   "faq_guide_text": "FAQ Guides",
   "faq_photo_text": "FAQ Photos",
-  "faq_customer_text": "Customer Expériences",
   "assistance_text": "Assistance",
   "assistance_desc_text": "Tu as une question concernant le fonctionnement de Meet People ? Tu peux nous contacter via le formulaire suivant :",
   "contact_us_text": "Nous contacter",
@@ -243,7 +244,7 @@
   "message_send_text": "Ton message est bien envoyé",
   "no_message_send_text": "Ton message n'est pas envoyé",
 
-  "my_account_text": "Mon Compte",
+  "my_account_text": "My Account",
   "info_connection_text": "Informations de connexion",
   "last_first_name_text": "Nom & Prénom",
   "your_last_name_text": "Ton nom",
@@ -262,7 +263,7 @@
   "my_id_text": "Ma pièce d’identité",
   "my_kbis_text": "Mon KBIS",
   "other_document_text": "Autres documents",
-  "delete_account_text": "Supprimer mon compte",
+  "delete_account_text": "Delete my account",
   "pop_view_other_document_text": "Ici tu vas pouvoir nous transmettre tous les documents spécifiques liés à la pratique de ton expérience: \nPermis bateaux, moto, voitures, ou d’avion de chasse 😜 🚀\nTes licences \nTes assurances",
   "to_complete_text": "à compléter",
 
@@ -309,7 +310,7 @@
   "address_for_exp_text": "Le rendez-vous à lieu à",
   "exact_address_text": "Le lieu exact sera communiqué après la réservation.",
   "private_group_text": "Groupe Privé",
-  "reserved_experience_group_text": "Tu réserves l’expérience pour toi\net ton groupe uniquement",
+  "reserved_experience_group_text": "Tu réserves l’expérience pour toi ou ton \ngroupe uniquement",
   "person_text": "personnes",
   "adult_text": "Adultes",
   "age_adult_text": "12 ans et plus",

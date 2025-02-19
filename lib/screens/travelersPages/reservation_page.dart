@@ -177,12 +177,24 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                                   .bodyLarge
                                   ?.copyWith(color: AppResources.colorDark),
                             ),
-                            Text(
-                              '${AppLocalizations.of(context)!.reserved_experience_group_text} (${widget.experienceData.maxNbVoyageur} ${AppLocalizations.of(context)!.person_text}).',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium,
-                            ),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '${AppLocalizations.of(context)!.reserved_experience_group_text} (${widget.experienceData.maxNbVoyageur} ${AppLocalizations.of(context)!.person_text} ',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: 'MAX',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  TextSpan(
+                                    text: ')',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         Switch.adaptive(
@@ -336,9 +348,7 @@ class _ReservationPageState extends State<ReservationPage> with SingleTickerProv
                             if(_textEditingControllerName.text == '') {
                               showMessage(context, AppLocalizations.of(context)!.need_your_name_total);
                             } else {
-                              final double price = isGroupeAvailable
-                                  ? double.parse(widget.experienceData.prixParGroup.toString())
-                                  : double.parse(calculPrice(_counter, _counterChild, isGroupeAvailable));
+                              final double price = double.parse(calculPrice(_counter, _counterChild, isGroupeAvailable));
 
                               final reservationResponse = await AppService.api.makeReservation(
                                 ReservationRequest(
