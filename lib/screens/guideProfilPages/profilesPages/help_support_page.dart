@@ -83,7 +83,6 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   blocHelp(AppLocalizations.of(context)!.faq_traveler_text, 'https://www.meetpe.fr/FAQ'),
                   blocHelp(AppLocalizations.of(context)!.faq_guide_text, 'https://www.meetpe.fr/FAQ'),
                   blocHelp(AppLocalizations.of(context)!.faq_photo_text, 'https://www.meetpe.fr/FAQ'),
-                  blocHelp(AppLocalizations.of(context)!.faq_customer_text, 'https://www.meetpe.fr/FAQ'),
                   const SizedBox(height: 15),
                   Text(
                     AppLocalizations.of(context)!.assistance_text,

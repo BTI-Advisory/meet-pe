@@ -10,6 +10,7 @@ class GuideReservationResponse {
   final String createdAt;
   final String updatedAt;
   final String status;
+  final int isGroup;
   final int experienceId;
   final Voyageur voyageur;
   final Experience experience;
@@ -24,6 +25,7 @@ class GuideReservationResponse {
     required this.createdAt,
     required this.updatedAt,
     required this.status,
+    required this.isGroup,
     required this.experienceId,
     required this.voyageur,
     required this.experience,
@@ -40,6 +42,7 @@ class GuideReservationResponse {
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       status: json['status'],
+      isGroup: json['is_group'],
       experienceId: json['experience_id'],
       voyageur: Voyageur.fromJson(json['voyageur']),
       experience: Experience.fromJson(json['experience']),
@@ -159,15 +162,54 @@ class Experience {
   }
 }
 
-Map<String, List<GuideReservationResponse>> parseGuideReservationItem(
-    String responseBody) {
-  final Map<String, dynamic> parsed = jsonDecode(responseBody);
+Map<String, GuideReservationGroup> parseGuideReservationItem(String responseBody) {
+  final dynamic parsed = jsonDecode(responseBody);
 
-  // Iterate over each key-value pair (date and list of reservations)
-  return parsed.map<String, List<GuideReservationResponse>>((date, reservations) {
-    var reservationList = (reservations as List)
-        .map((reservationJson) => GuideReservationResponse.fromJson(reservationJson))
-        .toList();
-    return MapEntry(date, reservationList);
+  if (parsed is List) {
+    print("⚠️ API returned an empty list, returning an empty map.");
+    return {}; // ✅ Handle empty lists safely
+  }
+
+  if (parsed is! Map<String, dynamic>) {
+    throw Exception("❌ Unexpected API response format: $parsed");
+  }
+
+  return parsed.map<String, GuideReservationGroup>((date, data) {
+    if (data is! Map<String, dynamic>) {
+      throw Exception("❌ Invalid reservation data for date: $date -> $data");
+    }
+
+    return MapEntry(date, GuideReservationGroup.fromJson(data));
   });
+}
+
+class GuideReservationGroup {
+  final int acceptedReservationsCount;
+  final bool isPrivateGroup;
+  final List<GuideReservationResponse> reservations;
+
+  GuideReservationGroup({
+    required this.acceptedReservationsCount,
+    required this.isPrivateGroup,
+    required this.reservations,
+  });
+
+  factory GuideReservationGroup.fromJson(Map<String, dynamic> json) {
+    print("✅ Parsing GuideReservationGroup: $json");
+
+    if (!json.containsKey('accepted_reservations_count') || !json.containsKey('reservations')) {
+      throw Exception("❌ Missing required fields in GuideReservationGroup JSON: $json");
+    }
+
+    return GuideReservationGroup(
+      acceptedReservationsCount: json['accepted_reservations_count'] ?? 0,
+      isPrivateGroup: json['is_private_group'] ?? false,
+      reservations: (json['reservations'] as List)
+          .map((reservationJson) {
+        print("🔹 Parsing reservation: $reservationJson");
+        return GuideReservationResponse.fromJson(reservationJson);
+      })
+          .toList(),
+    );
+  }
 }

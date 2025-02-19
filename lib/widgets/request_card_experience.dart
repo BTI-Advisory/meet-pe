@@ -11,12 +11,14 @@ class RequestCard extends StatefulWidget {
   final GuideReservationResponse guideReservationResponse;
   final Function onUpdateStatus;
   final BuildContext parentContext;
+  final bool isGroup;
 
   RequestCard({
     super.key,
     required this.guideReservationResponse,
     required this.onUpdateStatus,
-    required this.parentContext
+    required this.parentContext,
+    required this.isGroup
   });
 
   @override
@@ -123,6 +125,13 @@ class _RequestCardState extends State<RequestCard> {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
+                          ),
+                          Text(
+                            widget.guideReservationResponse.isGroup == 1 ? "Groupe privée" : "${widget.guideReservationResponse.nombreDesVoyageurs} personnes",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(fontSize: 14, color: AppResources.colorDark),
                           ),
                         ],
                       ),

@@ -533,13 +533,12 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                           ),
                         ),
                         const SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                  ResponsiveSize.calculateWidth(24, context)),
-                              child: TextButton(
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(24, context)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
                                 onPressed: AppService.instance.logOut,
                                 child: Text(
                                   AppLocalizations.of(context)!.logout_text,
@@ -551,23 +550,23 @@ class _ProfileTravelersPageState extends State<ProfileTravelersPage> {
                                       decoration: TextDecoration.underline),
                                 ),
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await AppService.api.deleteUser(context);
-                                AppService.instance.logOut;
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.delete_account_text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                    color: AppResources.colorDark,
-                                    decoration: TextDecoration.underline),
+                              TextButton(
+                                onPressed: () async {
+                                  await AppService.api.deleteUser(context);
+                                  AppService.instance.logOut;
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context)!.delete_account_text,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                      color: AppResources.colorDark,
+                                      decoration: TextDecoration.underline),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 10,),
                         Center(

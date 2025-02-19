@@ -1563,7 +1563,7 @@ class ApiClient {
   }
 
   /// Get list guide reservation
-  Future<Map<String, List<GuideReservationResponse>>> getGuideReservationList() async {
+  Future<Map<String, GuideReservationGroup>> getGuideReservationList() async {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json',
@@ -1572,6 +1572,8 @@ class ApiClient {
     };
 
     final response = await http.get(_buildUri('api/get-guide-reservation'), headers: headers);
+    print("StatusCode API Response: ${response.statusCode}");
+    print("Raw API Response: ${response.body}");
 
     if (response.statusCode == 200) {
       return parseGuideReservationItem(response.body);
