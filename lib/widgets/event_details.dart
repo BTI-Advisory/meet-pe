@@ -72,6 +72,7 @@ class EventDetails extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );

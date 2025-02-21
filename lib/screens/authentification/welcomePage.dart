@@ -147,7 +147,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             width: ResponsiveSize.calculateWidth(327, context),
                             child: Text(
                               AppLocalizations.of(context)!.travelers_welcome_text,
-                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, fontSize: ResponsiveSize.calculateTextSize(16, context)),
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, height: 1.5),
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                             ),

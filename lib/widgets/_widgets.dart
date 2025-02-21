@@ -29,3 +29,4 @@ export 'calendar_range_selction.dart';
 export 'image_picker_widget.dart';
 export 'maps_sheet.dart';
 export 'animated_icon_button.dart';
+export 'reviews_item_widget.dart';

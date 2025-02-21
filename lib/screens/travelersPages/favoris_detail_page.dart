@@ -313,8 +313,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            Image.asset(
-                                                'images/icon_verified.png'),
+                                            SvgPicture.asset('images/icon_verified.svg'),
                                             SizedBox(
                                                 width: ResponsiveSize
                                                     .calculateWidth(
