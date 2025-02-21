@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../models/archived_reservation_response.dart';
 import '../../../resources/resources.dart';
@@ -215,8 +216,7 @@ class _ArchivedRequestsPageState extends State<ArchivedRequestsPage> {
                               child: Center(
                                 child: Row(
                                   children: [
-                                    Image.asset('images/icon_verified.png',
-                                        color: AppResources.colorDark),
+                                    SvgPicture.asset('images/icon_verified.svg', color: AppResources.colorDark),
                                     SizedBox(
                                         width: ResponsiveSize.calculateWidth(
                                             4, context)),

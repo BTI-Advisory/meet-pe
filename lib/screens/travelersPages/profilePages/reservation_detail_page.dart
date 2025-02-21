@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:meet_pe/resources/_resources.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -241,8 +242,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                                     child: Center(
                                       child: Row(
                                         children: [
-                                          Image.asset(
-                                              'images/icon_verified.png'),
+                                          SvgPicture.asset('images/icon_verified.svg'),
                                           SizedBox(
                                               width: ResponsiveSize
                                                   .calculateWidth(

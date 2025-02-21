@@ -8,6 +8,7 @@ import '../models/experience_model.dart';
 import '../resources/resources.dart';
 import '../services/app_service.dart';
 import '../utils/_utils.dart';
+import '../widgets/_widgets.dart';
 import 'animated_icon_button.dart';
 import 'event_details.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -286,8 +287,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                           child: Center(
                                             child: Row(
                                               children: [
-                                                Image.asset(
-                                                    'images/icon_verified.png'),
+                                                SvgPicture.asset('images/icon_verified.svg'),
                                                 SizedBox(
                                                     width: ResponsiveSize
                                                         .calculateWidth(
@@ -743,7 +743,6 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                               ),
                               const SizedBox(height: 8.0),
                               Container(
-                                height: 270,
                                 child: ValueListenableBuilder<List<Event>>(
                                   valueListenable: _selectedEvents,
                                   builder: (context, value, _) {
@@ -757,7 +756,71 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 60),
+                              const SizedBox(height: 47),
+                              if (widget.experienceData.experience.reviews.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.reviews_community_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      children: [
+                                        Text(
+                                            widget.experienceData.experience.reviewsAVG,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall
+                                                ?.copyWith(color: Colors.black.withOpacity(0.5))
+                                        ),
+                                        SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                        SvgPicture.asset('images/match.svg', color: AppResources.colorVitamine, width: 16, height: 16),
+                                        SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                        Text(
+                                            "(${widget.experienceData.experience.reviews.length} ${AppLocalizations.of(context)!.reviews_text})",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(color: Colors.black.withOpacity(0.5))
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 14),
+                                    ReviewsItemWidget(reviews: widget.experienceData.experience.reviews),
+                                    const SizedBox(height: 19),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 44,
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                          MaterialStateProperty.all(Colors.transparent),
+                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                width: 1,
+                                                color: AppResources.colorDark,
+                                              ),
+                                              borderRadius: BorderRadius.circular(40),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {},
+                                        child: Text(
+                                          AppLocalizations.of(context)!.see_all_reviews_text,
+                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                              color: AppResources.colorDark),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 38),
+                                  ],
+                                )
                             ],
                           ),
                         ),

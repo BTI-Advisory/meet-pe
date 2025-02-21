@@ -43,6 +43,8 @@ class Experience {
   final List<DernierMinute> dernierMinuteReservation;
   final String nameGuide;
   final String descriptionGuide;
+  final List<Reviews> reviews;
+  final String reviewsAVG;
 
   Experience({
     required this.id,
@@ -69,7 +71,9 @@ class Experience {
     this.prixParEnfant,
     required this.dernierMinuteReservation,
     required this.nameGuide,
-    required this.descriptionGuide
+    required this.descriptionGuide,
+    required this.reviews,
+    required this.reviewsAVG
   });
 
   factory Experience.fromJson(Map<String, dynamic> json) =>
@@ -170,4 +174,36 @@ class DernierMinute {
 
   factory DernierMinute.fromJson(Map<String, dynamic> json) =>
       _$DernierMinuteFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Reviews {
+  final Voyageur voyageur;
+  final int note;
+  final String? message;
+  final String createdAt;
+
+  Reviews({
+    required this.voyageur,
+    required this.note,
+    this.message,
+    required this.createdAt,
+  });
+
+  factory Reviews.fromJson(Map<String, dynamic> json) => _$ReviewsFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Voyageur {
+  final String name;
+  final String email;
+  final String profilePath;
+
+  Voyageur({
+    required this.name,
+    required this.email,
+    required this.profilePath,
+  });
+
+  factory Voyageur.fromJson(Map<String, dynamic> json) => _$VoyageurFromJson(json);
 }

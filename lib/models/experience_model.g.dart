@@ -54,6 +54,10 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
           .toList(),
       nameGuide: json['name_guide'] as String,
       descriptionGuide: json['description_guide'] as String,
+      reviews: (json['avis'] as List<dynamic>)
+          .map((e) => Reviews.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewsAVG: json['avisAVG'] as String,
     );
 
 Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
@@ -102,4 +106,17 @@ DernierMinute _$DernierMinuteFromJson(Map<String, dynamic> json) => DernierMinut
       id: (json['id'] as num).toInt(),
       choix: json['choix'] as String,
       svg: json['svg'] as String,
-);
+    );
+
+Reviews _$ReviewsFromJson(Map<String, dynamic> json) => Reviews(
+      voyageur: Voyageur.fromJson(json['voyageur'] as Map<String, dynamic>),
+      note: (json['note'] as num).toInt(),
+      message: json['message'] as String?,
+      createdAt: json['created_at'] as String,
+    );
+
+Voyageur _$VoyageurFromJson(Map<String, dynamic> json) => Voyageur(
+      name: json['name'] as String,
+      email: json['email'] as String,
+      profilePath: json['profile_path'] as String,
+    );
