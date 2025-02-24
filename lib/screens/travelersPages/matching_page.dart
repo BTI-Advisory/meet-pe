@@ -66,14 +66,16 @@ class _MatchingPageState extends State<MatchingPage> {
   }
 
   void _onCitySelected(String? city, String? country) {
-    setState(() {
-      _matchingListFuture = AppService.api.fetchExperiences(
-        FiltersRequest(
-          filtreVille: city,
-          filtrePays: country
-        ),
-      );
-    });
+    if (city != null && city.isNotEmpty) {
+      setState(() {
+        _matchingListFuture = AppService.api.fetchExperiences(
+          FiltersRequest(
+            filtreVille: city,
+            filtrePays: country,
+          ),
+        );
+      });
+    }
   }
 
   Widget build(BuildContext context) {

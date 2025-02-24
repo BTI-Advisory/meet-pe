@@ -6,6 +6,7 @@ import 'package:widget_mask/widget_mask.dart';
 
 import '../models/experience_model.dart';
 import '../resources/resources.dart';
+import '../screens/travelersPages/all_reviews_page.dart';
 import '../services/app_service.dart';
 import '../utils/_utils.dart';
 import '../widgets/_widgets.dart';
@@ -791,7 +792,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                       ],
                                     ),
                                     const SizedBox(height: 14),
-                                    ReviewsItemWidget(reviews: widget.experienceData.experience.reviews),
+                                    ReviewsItemWidget(reviews: widget.experienceData.experience.reviews.take(3).toList()),
                                     const SizedBox(height: 19),
                                     Container(
                                       width: double.infinity,
@@ -810,7 +811,9 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                             ),
                                           ),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          navigateTo(context, (_) => AllReviewsPage(reviews: widget.experienceData.experience.reviews, reviewsAVG: widget.experienceData.experience.reviewsAVG));
+                                        },
                                         child: Text(
                                           AppLocalizations.of(context)!.see_all_reviews_text,
                                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(

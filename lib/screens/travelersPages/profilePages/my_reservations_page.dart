@@ -7,6 +7,7 @@ import '../../../resources/resources.dart';
 import '../../../services/app_service.dart';
 import '../../../utils/_utils.dart';
 import '../../../widgets/_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyReservationsPage extends StatefulWidget {
   const MyReservationsPage({super.key});
@@ -29,8 +30,8 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EpAppBar(
-        title: 'Mes réservations',
+      appBar: EpAppBar(
+        title: AppLocalizations.of(context)!.my_reservation_text,
       ),
       body: FutureBuilder<List<ReservationListResponse>>(
           future: _reservationFuture,
