@@ -13,6 +13,8 @@ import '../../utils/_utils.dart';
 import '../../widgets/_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'all_reviews_page.dart';
+
 class FavorisDetailPage extends StatefulWidget {
   FavorisDetailPage({super.key, required this.favorisResponse});
 
@@ -121,8 +123,6 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                     mask: Stack(
                       children: [
                         Container(
-                          width: ResponsiveSize.calculateWidth(375, context),
-                          height: ResponsiveSize.calculateHeight(576, context),
                           child: Stack(
                             children: [
                               Positioned(
@@ -206,8 +206,8 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
 
                         ///bloc info in the bottom
                         Positioned(
-                          top: 425,
                           left: 28,
+                          bottom: 60,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -375,6 +375,48 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(8, context)),
+                                  IntrinsicWidth(
+                                    child: Container(
+                                      height: 28,
+                                      padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                        border: Border.all(color: AppResources.colorBeigeLight),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.pin_drop,
+                                              color: AppResources.colorWhite,
+                                              size: 20.0,
+                                            ),
+                                            SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                            SizedBox(
+                                              width: ResponsiveSize.calculateWidth(70, context),
+                                              child: Text(
+                                                widget.favorisResponse.experience.ville!.capitalized,
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                  color: AppResources
+                                                      .colorBeigeLight,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
@@ -491,50 +533,21 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                         }).toList(),
                       ]
                   ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
-                  Container(
-                    padding: const EdgeInsets.only(
-                      top: 28,
-                      left: 28,
-                      right: 28,
-                      bottom: 40,
-                    ),
-                    decoration: const ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                      ),
-                    ),
+                  SizedBox(height: 34),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 318,
-                          child: Text(
-                            '${AppLocalizations.of(context)!.word_for_text} ${widget.favorisResponse.experience.nameGuide}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                    fontSize: 32,
-                                    color: AppResources.colorVitamine),
-                          ),
+                        Text(
+                          '${AppLocalizations.of(context)!.word_for_text} ${widget.favorisResponse.experience.nameGuide}',
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorVitamine),
                         ),
                         const SizedBox(height: 12),
-                        SizedBox(
-                          width: 319,
-                          child: Text(
-                            widget.favorisResponse.experience.descriptionGuide,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: AppResources.colorGray60),
-                          ),
+                        Text(
+                          widget.favorisResponse.experience.descriptionGuide,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
                         ),
                       ],
                     ),
@@ -734,7 +747,6 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                         ),
                         const SizedBox(height: 8.0),
                         Container(
-                          height: 350,
                           child: ValueListenableBuilder<List<Event>>(
                             valueListenable: _selectedEvents,
                             builder: (context, value, _) {
@@ -748,7 +760,73 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 60),
+                        const SizedBox(height: 47),
+                        if (widget.favorisResponse.experience.reviews.isNotEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.reviews_community_text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(color: AppResources.colorDark),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Text(
+                                      widget.favorisResponse.experience.reviewsAVG,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.copyWith(color: Colors.black.withOpacity(0.5))
+                                  ),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                  SvgPicture.asset('images/match.svg', color: AppResources.colorVitamine, width: 16, height: 16),
+                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                  Text(
+                                      "(${widget.favorisResponse.experience.reviews.length} ${AppLocalizations.of(context)!.reviews_text})",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: Colors.black.withOpacity(0.5))
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 14),
+                              ReviewsItemWidget(reviews: widget.favorisResponse.experience.reviews.take(3).toList()),
+                              const SizedBox(height: 19),
+                              Container(
+                                width: double.infinity,
+                                height: 44,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(Colors.transparent),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          width: 1,
+                                          color: AppResources.colorDark,
+                                        ),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    navigateTo(context, (_) => AllReviewsPage(reviews: widget.favorisResponse.experience.reviews, reviewsAVG: widget.favorisResponse.experience.reviewsAVG));
+                                  },
+                                  child: Text(
+                                    AppLocalizations.of(context)!.see_all_reviews_text,
+                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        color: AppResources.colorDark),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 38),
+                            ],
+                          )
                       ],
                     ),
                   )

@@ -133,8 +133,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                     mask: Stack(
                       children: [
                         Container(
-                          width: ResponsiveSize.calculateWidth(375, context),
-                          height: ResponsiveSize.calculateHeight(576, context),
+                          //width: ResponsiveSize.calculateWidth(375, context),
+                          //height: ResponsiveSize.calculateHeight(576, context),
                           child: Stack(
                             children: [
                               /// Image principal
@@ -319,8 +319,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
 
                         ///bloc info in the bottom
                         Positioned(
-                          top: 425,
                           left: 28,
+                          bottom: 60,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
