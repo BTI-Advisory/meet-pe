@@ -76,6 +76,8 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
 
   void _showReservationBottomSheet(
       BuildContext context, ReservationListResponse reservation) {
+    print("FHUZHFZUEFZEHUFZHEF ${reservation.isGroup}");
+    print("FHUZHFZUEFZEHUFZHEF ${reservation.nombreDesVoyageurs}");
     showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -116,7 +118,7 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                 ),
                 SizedBox(height: 15),
                 _buildDetailRow(
-                    context, "Nombre de voyageurs", '${reservation.nombreDesVoyageurs}'),
+                    context, "Nombre de voyageurs", '${reservation.isGroup ? 'Groupe privée' : reservation.nombreDesVoyageurs}'),
                 const SizedBox(height: 15),
                 _buildDetailRow(
                     context, "Créneau réservé", requestFrenchFormat(reservation.dateTime)),
@@ -145,12 +147,6 @@ class _MyReservationsPageState extends State<MyReservationsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          "Chez ${reservation.experience.user.name},",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppResources.colorDark,
-                          ),
-                        ),
                         Text(
                           reservation.experience.addresse,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(

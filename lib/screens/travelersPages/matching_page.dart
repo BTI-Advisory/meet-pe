@@ -30,6 +30,8 @@ class _MatchingPageState extends State<MatchingPage> {
   late TextEditingController _textEditingController;
   bool _showButton = false;
   bool tappedScreen = false;
+  String _citySelected = '';
+  String _countrySelected = '';
 
   List<ExperienceModel> filteredProfiles = [];
 
@@ -68,6 +70,8 @@ class _MatchingPageState extends State<MatchingPage> {
   void _onCitySelected(String? city, String? country) {
     if (city != null && city.isNotEmpty) {
       setState(() {
+        _citySelected = city;
+        _countrySelected = country ?? '';
         _matchingListFuture = AppService.api.fetchExperiences(
           FiltersRequest(
             filtreVille: city,
@@ -237,12 +241,24 @@ class _MatchingPageState extends State<MatchingPage> {
                                             final rangeStart = result['rangeStart'];
                                             final rangeEnd = result['rangeEnd'];
                                             print('Selected Range: $rangeStart to $rangeEnd');
-                                            _matchingListFuture = AppService.api.fetchExperiences(
-                                              FiltersRequest(
-                                                filtreDateDebut: rangeStart,
-                                                filtreDateFin: rangeEnd,
-                                              ),
-                                            );
+                                            print('City and country: $_citySelected, $_countrySelected');
+                                            if (_textEditingController.text != '') {
+                                              _matchingListFuture = AppService.api.fetchExperiences(
+                                                FiltersRequest(
+                                                  filtreDateDebut: rangeStart,
+                                                  filtreDateFin: rangeEnd,
+                                                  filtreVille: _citySelected,
+                                                  filtrePays: _countrySelected,
+                                                ),
+                                              );
+                                            } else {
+                                              _matchingListFuture = AppService.api.fetchExperiences(
+                                                FiltersRequest(
+                                                  filtreDateDebut: rangeStart,
+                                                  filtreDateFin: rangeEnd,
+                                                ),
+                                              );
+                                            }
                                           }
                                         });
                                       }
@@ -288,7 +304,8 @@ class _MatchingPageState extends State<MatchingPage> {
                                                 filtrePrixMax: filtrePrixMax,
                                                 filtreCategorie: filtreCategorie,
                                                 filtreLangue: filtreLangue,
-                                                filtreVille: _textEditingController.text,
+                                                filtreVille: _citySelected,
+                                                filtrePays: _countrySelected,
                                               ),
                                             );
                                           } else {
