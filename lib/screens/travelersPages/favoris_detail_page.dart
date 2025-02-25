@@ -429,224 +429,208 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                     ),
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(32, context)),
-                  SizedBox(
-                    width: ResponsiveSize.calculateWidth(319, context),
-                    child: Text(
-                      widget.favorisResponse.experience.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(
-                              fontSize: 32, color: AppResources.colorDark),
-                    ),
-                  ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
-                  SizedBox(
-                    width: ResponsiveSize.calculateWidth(319, context),
-                    child: Opacity(
-                      opacity: 0.50,
-                      child: Text(
-                        widget.favorisResponse.experience.description,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppResources.colorDark),
+                  Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.favorisResponse.experience.title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                fontSize: 32, color: AppResources.colorDark),
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                          Opacity(
+                            opacity: 0.50,
+                            child: Text(
+                              widget.favorisResponse.experience.description,
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: AppResources.colorDark),
+                            ),
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                          if(widget.favorisResponse.experience.typeVoyageur.isNotEmpty || widget.favorisResponse.experience.options.isNotEmpty)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.category_detail_text,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                                SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                                Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                                    runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                                    children: [
+                                      ...widget.favorisResponse.experience.typeVoyageur.map((item) {
+                                        return IntrinsicWidth(
+                                          child: Container(
+                                            height: 40,
+                                            padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                              border: Border.all(color: AppResources.colorDark),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                if (item.svg.isNotEmpty)
+                                                  SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
+                                                if (item.svg.isNotEmpty)
+                                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                Text(
+                                                  item.choix,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(color: AppResources.colorDark),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      ...widget.favorisResponse.experience.options.map((item) {
+                                        return IntrinsicWidth(
+                                          child: Container(
+                                            height: 40,
+                                            padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                              border: Border.all(color: AppResources.colorDark),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                if (item.svg.isNotEmpty)
+                                                  SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
+                                                if (item.svg.isNotEmpty)
+                                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                Text(
+                                                  item.choix,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(color: AppResources.colorDark),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ]
+                                ),
+                                SizedBox(height: 34),
+                              ],
+                            ),
+                          Text(
+                            '${AppLocalizations.of(context)!.word_for_text} ${widget.favorisResponse.experience.nameGuide}',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorVitamine),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            widget.favorisResponse.experience.descriptionGuide,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                          ),
+                          const SizedBox(height: 40),
+                          Text(
+                            AppLocalizations.of(context)!.price_experience_text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(color: AppResources.colorDark),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.price_adult_text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                              ),
+                              Text(
+                                "${double.parse(widget.favorisResponse.experience.prixParVoyageur ?? '0').toInt()} €",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: AppResources.colorDark),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          if (widget.favorisResponse.experience.discountKids == "1")
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.price_kids_text,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                                ),
+                                Text(
+                                  "${widget.favorisResponse.experience.prixParEnfant} €",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                              ],
+                            ),
+                          const SizedBox(height: 12),
+                          if (widget.favorisResponse.experience.supportGroupPrive == "1")
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${AppLocalizations.of(context)!.price_group_match_1_text} ${widget.favorisResponse.experience.nombreVoyageur} ${AppLocalizations.of(context)!.price_group_match_2_text}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
+                                ),
+                                Text(
+                                  "${widget.favorisResponse.experience.prixParGroup} €",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: AppResources.colorDark),
+                                ),
+                              ],
+                            ),
+                          const SizedBox(height: 12),
+                          Container(
+                            height: 1,
+                            color: AppResources.colorGray15,
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            AppLocalizations.of(context)!.gallery_text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(color: AppResources.colorDark),
+                          ),
+                          SizedBox(height: ResponsiveSize.calculateHeight(12, context)),
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 28),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.category_detail_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(color: AppResources.colorDark),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
-                  Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                      runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                      children: [
-                        ...widget.favorisResponse.experience.typeVoyageur.map((item) {
-                          return IntrinsicWidth(
-                            child: Container(
-                              height: 40,
-                              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(color: AppResources.colorDark),
-                              ),
-                              child: Row(
-                                children: [
-                                  if (item.svg.isNotEmpty)
-                                    SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
-                                  if (item.svg.isNotEmpty)
-                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                  Text(
-                                    item.choix,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        ...widget.favorisResponse.experience.options.map((item) {
-                          return IntrinsicWidth(
-                            child: Container(
-                              height: 40,
-                              padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(color: AppResources.colorDark),
-                              ),
-                              child: Row(
-                                children: [
-                                  if (item.svg.isNotEmpty)
-                                    SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
-                                  if (item.svg.isNotEmpty)
-                                    SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                  Text(
-                                    item.choix,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ]
-                  ),
-                  SizedBox(height: 34),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${AppLocalizations.of(context)!.word_for_text} ${widget.favorisResponse.experience.nameGuide}',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorVitamine),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          widget.favorisResponse.experience.descriptionGuide,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.price_experience_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(color: AppResources.colorDark),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.price_adult_text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
-                            ),
-                            Text(
-                              "${double.parse(widget.favorisResponse.experience.prixParVoyageur ?? '0').toInt()} €",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: AppResources.colorDark),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        if (widget.favorisResponse.experience.discountKids == "1")
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.price_kids_text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
-                              ),
-                              Text(
-                                "${widget.favorisResponse.experience.prixParEnfant} €",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(color: AppResources.colorDark),
-                              ),
-                            ],
-                          ),
-                        const SizedBox(height: 12),
-                        if (widget.favorisResponse.experience.supportGroupPrive == "1")
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${AppLocalizations.of(context)!.price_group_match_1_text} ${widget.favorisResponse.experience.nombreVoyageur} ${AppLocalizations.of(context)!.price_group_match_2_text}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: AppResources.colorDark.withOpacity(0.5)),
-                              ),
-                              Text(
-                                "${widget.favorisResponse.experience.prixParGroup} €",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(color: AppResources.colorDark),
-                              ),
-                            ],
-                          ),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 1,
-                          color: AppResources.colorGray15,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: ResponsiveSize.calculateWidth(319, context),
-                    child: Text(
-                      AppLocalizations.of(context)!.gallery_text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: AppResources.colorDark),
-                    ),
-                  ),
-                  SizedBox(height: ResponsiveSize.calculateHeight(12, context)),
                   StaggeredGrid.count(
                     crossAxisCount: 4,
                     mainAxisSpacing: 4,

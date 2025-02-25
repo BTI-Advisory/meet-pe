@@ -895,8 +895,6 @@ class ApiClient {
 
     // Get response
     final response = await http.Response.fromStream(streamedResponse);
-    print('Final ${response.statusCode}');
-    print('Final ${response.body}');
 
     // Handle response
     if (response.statusCode == 200) {
@@ -913,8 +911,11 @@ class ApiClient {
     String categoriesString = categories.join(', ');
     List<int> languages = List<int>.from(initialData['experience_languages']);
     String languagesString = languages.join(', ');
-    List<int> avecCa = List<int>.from(initialData['et_avec_ça']);
-    String avecCaString = avecCa.join(', ');
+    List<int> avecCa = (initialData.containsKey('et_avec_ça') && initialData['et_avec_ça'] != null)
+        ? List<int>.from(initialData['et_avec_ça'])
+        : [];
+
+    String avecCaString = avecCa.isNotEmpty ? avecCa.join(', ') : '';
 
     List<int> dernierMinuteReservation = List<int>.from(initialData['dernier_minute_reservation']);
     String dernierMinuteReservationString = dernierMinuteReservation.join(', ');

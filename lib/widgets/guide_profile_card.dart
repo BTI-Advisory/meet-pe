@@ -473,78 +473,84 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                 ),
                               ),
                               SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
-                              Text(
-                                AppLocalizations.of(context)!.category_detail_text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(color: AppResources.colorDark),
-                              ),
-                              SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
-                              Wrap(
-                                  alignment: WrapAlignment.center,
-                                  spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                  runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                              if(widget.experienceData.experience.typeVoyageur.isNotEmpty || widget.experienceData.experience.options.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ...widget.experienceData.experience.typeVoyageur.map((item) {
-                                      return IntrinsicWidth(
-                                        child: Container(
-                                          height: 40,
-                                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                            border: Border.all(color: AppResources.colorDark),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              if (item.svg.isNotEmpty)
-                                                SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
-                                              if (item.svg.isNotEmpty)
-                                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                              Text(
-                                                item.choix,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(color: AppResources.colorDark),
+                                    Text(
+                                      AppLocalizations.of(context)!.category_detail_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    ),
+                                    SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                                    Wrap(
+                                        alignment: WrapAlignment.center,
+                                        spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                                        runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                                        children: [
+                                          ...widget.experienceData.experience.typeVoyageur.map((item) {
+                                            return IntrinsicWidth(
+                                              child: Container(
+                                                height: 40,
+                                                padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                  border: Border.all(color: AppResources.colorDark),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    if (item.svg.isNotEmpty)
+                                                      SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
+                                                    if (item.svg.isNotEmpty)
+                                                      SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                    Text(
+                                                      item.choix,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(color: AppResources.colorDark),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    ...widget.experienceData.experience.options.map((item) {
-                                      return IntrinsicWidth(
-                                        child: Container(
-                                          height: 40,
-                                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                            border: Border.all(color: AppResources.colorDark),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              if (item.svg.isNotEmpty)
-                                                SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
-                                              if (item.svg.isNotEmpty)
-                                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                              Text(
-                                                item.choix,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(color: AppResources.colorDark),
+                                            );
+                                          }).toList(),
+                                          ...widget.experienceData.experience.options.map((item) {
+                                            return IntrinsicWidth(
+                                              child: Container(
+                                                height: 40,
+                                                padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                  border: Border.all(color: AppResources.colorDark),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    if (item.svg.isNotEmpty)
+                                                      SvgPicture.network(item.svg, height: 16.0, width: 16.0, fit: BoxFit.cover, color: AppResources.colorDark),
+                                                    if (item.svg.isNotEmpty)
+                                                      SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                    Text(
+                                                      item.choix,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(color: AppResources.colorDark),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ]
-                              ),
-                              SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                                            );
+                                          }).toList(),
+                                        ]
+                                    ),
+                                    SizedBox(height: ResponsiveSize.calculateHeight(34, context)),
+                                  ],
+                                ),
                               Text(
                                 '${AppLocalizations.of(context)!.word_for_text} ${widget.experienceData.experience.nameGuide}',
                                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppResources.colorVitamine),

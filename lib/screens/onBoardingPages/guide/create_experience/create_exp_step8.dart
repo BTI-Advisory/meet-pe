@@ -208,29 +208,19 @@ class _CreateExpStep8State extends State<CreateExpStep8> {
                                       id: item.id,
                                       text: item.title,
                                       image: item.image,
-                                      isSelected: myMap[
-                                                  'guide_personnes_peuves_participer'] !=
-                                              null
-                                          ? myMap['guide_personnes_peuves_participer']!
-                                              .contains(item.id)
+                                      isSelected: myMap['guide_personnes_peuves_participer'] != null
+                                          ? myMap['guide_personnes_peuves_participer']!.contains(item.id)
                                           : false,
                                       onTap: () {
                                         setState(() {
-                                          if (myMap[
-                                                  'guide_personnes_peuves_participer'] ==
-                                              null) {
-                                            myMap['guide_personnes_peuves_participer'] =
-                                                Set<int>(); // Initialize if null
+                                          if (myMap['guide_personnes_peuves_participer'] == null) {
+                                            myMap['guide_personnes_peuves_participer'] = Set<int>(); // Initialize if null
                                           }
 
-                                          if (myMap[
-                                                  'guide_personnes_peuves_participer']!
-                                              .contains(item.id)) {
-                                            myMap['guide_personnes_peuves_participer']!
-                                                .remove(item.id);
+                                          if (myMap['guide_personnes_peuves_participer']!.contains(item.id)) {
+                                            myMap['guide_personnes_peuves_participer']!.remove(item.id);
                                           } else {
-                                            myMap['guide_personnes_peuves_participer']!
-                                                .add(item.id);
+                                            myMap['guide_personnes_peuves_participer']!.add(item.id);
                                           }
                                         });
                                       },
