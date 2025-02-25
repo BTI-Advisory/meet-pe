@@ -39,51 +39,10 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
           });
         }
       }
-      // Select the last item by default
-      if (myList.isNotEmpty) {
-        setState(() {
-          if (myMap['et_avec_ça'] == null) {
-            myMap['et_avec_ça'] = Set<int>();
-          }
-          myMap['et_avec_ça']!.add(myList.last.id);
-        });
-      }
     } catch (error) {
       // Handle error if fetching data fails
       print('Error: $error');
     }
-  }
-
-  void _onItemTap(int itemId) {
-    setState(() {
-      if (myMap['et_avec_ça'] == null) {
-        myMap['et_avec_ça'] = {};
-      }
-
-      // Check if the tapped item is already selected
-      final bool isSelected = myMap['et_avec_ça']!.contains(itemId);
-
-      // If it's the last item and it's already selected, deselect it
-      if (itemId == myList.last.id && isSelected) {
-        myMap['et_avec_ça']!.remove(itemId);
-      } else {
-        // If it's the last item, deselect all other items
-        if (itemId == myList.last.id) {
-          myMap['et_avec_ça'] = {itemId};
-        } else {
-          // Deselect the last item if it's currently selected
-          if (myMap['et_avec_ça']!.contains(myList.last.id)) {
-            myMap['et_avec_ça']!.remove(myList.last.id);
-          }
-          // Toggle selection for the tapped item
-          if (isSelected) {
-            myMap['et_avec_ça']!.remove(itemId);
-          } else {
-            myMap['et_avec_ça']!.add(itemId);
-          }
-        }
-      }
-    });
   }
 
   @override
@@ -158,7 +117,19 @@ class _CreateExpStep10State extends State<CreateExpStep10> {
                                     isSelected: myMap['et_avec_ça'] != null
                                         ? myMap['et_avec_ça']!.contains(item.id)
                                         : false,
-                                    onTap: () => _onItemTap(item.id),
+                                    onTap: () {
+                                      setState(() {
+                                        if (myMap['et_avec_ça'] == null) {
+                                          myMap['et_avec_ça'] = Set<int>(); // Initialize if null
+                                        }
+
+                                        if (myMap['et_avec_ça']!.contains(item.id)) {
+                                          myMap['et_avec_ça']!.remove(item.id);
+                                        } else {
+                                          myMap['et_avec_ça']!.add(item.id);
+                                        }
+                                      });
+                                    },
                                   );
                                 }).toList(),
                               ),
