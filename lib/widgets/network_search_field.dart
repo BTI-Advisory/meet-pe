@@ -131,12 +131,12 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
               ?.copyWith(color: AppResources.colorDark),*/
           suggestions: suggestions,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
+          /*validator: (value) {
             if (value == null || value.length < 4) {
               return 'error';
             }
             return null;
-          },
+          },*/
           emptyWidget: Container(
             decoration: suggestionDecoration,
             height: 200,

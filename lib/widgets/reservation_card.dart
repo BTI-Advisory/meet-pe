@@ -47,100 +47,39 @@ class _ReservationCardState extends State<ReservationCard> {
                 ),
               ),
               const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 176,
-                    child: Text(
-                      widget.reservationResponse.experience.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontSize: 14, color: widget.reservationResponse.status == 'Annulée' ? AppResources.colorGray30 : AppResources.colorDark),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        widget.reservationResponse.experience.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontSize: 14, color: widget.reservationResponse.status == 'Annulée' ? AppResources.colorGray30 : AppResources.colorDark),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                  if(widget.reservationResponse.status == 'En attente')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.watch_later_outlined, size: 17, color: AppResources.colorVitamine),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!.pending_confirmation_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorVitamine),
-                        )
-                      ],
-                    ),
-                  if(widget.reservationResponse.status == 'Archivée')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.bookmark, size: 17, color: AppResources.colorDark),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!.archived_confirmation_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorDark),
-                        )
-                      ],
-                    ),
-                  if(widget.reservationResponse.status == 'Acceptée')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check, size: 17, color: Color(0xFF33C579)),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!.accepted_confirmation_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: Color(0xFF33C579)),
-                        )
-                      ],
-                    ),
-                  if(widget.reservationResponse.status == 'Annulée')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.close, size: 17, color: AppResources.colorGray30),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!.cancel_confirmation_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppResources.colorGray30),
-                        )
-                      ],
-                    ),
-                  if(widget.reservationResponse.status == 'Refusée')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.close, size: 17, color: Colors.red),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!.refused_confirmation_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: Colors.red),
-                        )
-                      ],
-                    )
-                ],
+                    if (widget.reservationResponse.status == 'En attente')
+                      statusRow(context, Icons.watch_later_outlined, AppResources.colorVitamine, AppLocalizations.of(context)!.pending_confirmation_text),
+                    if (widget.reservationResponse.status == 'Archivée')
+                      statusRow(context, Icons.bookmark, AppResources.colorDark, AppLocalizations.of(context)!.archived_confirmation_text),
+                    if (widget.reservationResponse.status == 'Acceptée')
+                      statusRow(context, Icons.check, const Color(0xFF33C579), AppLocalizations.of(context)!.accepted_confirmation_text),
+                    if (widget.reservationResponse.status == 'Annulée')
+                      statusRow(context, Icons.close, AppResources.colorGray30, AppLocalizations.of(context)!.cancel_confirmation_text),
+                    if (widget.reservationResponse.status == 'Refusée')
+                      statusRow(context, Icons.close, Colors.red, AppLocalizations.of(context)!.refused_confirmation_text),
+                  ],
+                ),
               ),
-              const SizedBox(width: 43),
-              const Icon(Icons.chevron_right, size: 24, color: AppResources.colorDark,)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: const Icon(Icons.chevron_right, size: 24, color: AppResources.colorDark,),
+              )
             ],
           ),
         ),
@@ -148,4 +87,17 @@ class _ReservationCardState extends State<ReservationCard> {
       ],
     );
   }
+}
+
+Widget statusRow(BuildContext context, IconData icon, Color color, String text) {
+  return Row(
+    children: [
+      Icon(icon, size: 17, color: color),
+      const SizedBox(width: 5),
+      Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color),
+      )
+    ],
+  );
 }

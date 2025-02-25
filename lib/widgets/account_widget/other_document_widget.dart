@@ -29,6 +29,22 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
   List<String> _categories = [];
   String _selectedCategory = "";
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _categories = [
+      AppLocalizations.of(context)!.permis_text,
+      AppLocalizations.of(context)!.license_text,
+      AppLocalizations.of(context)!.assurance_text,
+      AppLocalizations.of(context)!.other_text
+    ];
+
+    if (_selectedCategory.isEmpty) {
+      _selectedCategory = AppLocalizations.of(context)!.category_document_text;
+    }
+  }
+
   Future<void> pickImage(OtherDocumentPathCallback callback, OtherDocumentPathCallback callbackName) async {
     final picker = ImagePicker();
 
@@ -105,8 +121,6 @@ class _OtherDocumentWidgetState extends State<OtherDocumentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _categories = [AppLocalizations.of(context)!.permis_text, AppLocalizations.of(context)!.license_text, AppLocalizations.of(context)!.assurance_text, AppLocalizations.of(context)!.other_text];
-    _selectedCategory = AppLocalizations.of(context)!.category_document_text;
     return Container(
       width: double.infinity,
       height: 439,
