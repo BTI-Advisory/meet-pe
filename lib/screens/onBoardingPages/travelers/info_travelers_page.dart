@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:birth_picker/birth_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';
@@ -29,6 +30,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
 
   String? validationMessageName = '';
   String? validationMessagePhone = '';
+  String? validationMessageBirthDate = '';
   bool isFormValid = false;
   bool imageSize = false;
 
@@ -42,8 +44,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
 
   void updateFormValidity() {
     setState(() {
-      isFormValid = validationMessageName == null &&
-          validationMessagePhone == null;
+      isFormValid = validationMessageName == null && validationMessagePhone == null && validationMessageBirthDate == null;
     });
   }
 
@@ -124,7 +125,6 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -310,6 +310,32 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                 },
                               ),
                             ),
+                            SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                            BirthPicker(
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: AppResources.colorGray15,
+                                    width: 1.0, // Largeur du trait
+                                  ),
+                                ),
+                              ),
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppResources.colorGray100),
+                              padding: EdgeInsets.only(left: 0),
+                              onChanged: (dateTime) {
+                                if (dateTime != null) {
+                                  print('Selected Date: ${dateTime.toIso8601String()}');
+                                  bloc.birthDate = dateTime.toIso8601String();
+                                  validationMessageBirthDate = AppResources.validatorNotEmpty(dateTime?.toIso8601String());
+                                  updateFormValidity();
+                                } else {
+                                  print('Invalid Date');
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -375,16 +401,17 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
 class InfoTravelersPageBloc with Disposable {
   String? name;
   String? phone;
+  String? birthDate;
   String? imagePath;
 
   InfoTravelersPageBloc();
 
   Future<bool> setVoyageurProfile() async {
     try {
-      if (name != null && phone != null) {
+      if (name != null && phone != null && birthDate != null) {
 
         // Perform the API call
-        final response = await AppService.api.setTravelersProfile(name!, phone!, imagePath?.isNotEmpty == true ? imagePath! : null);
+        final response = await AppService.api.setTravelersProfile(name!, phone!, birthDate!, imagePath?.isNotEmpty == true ? imagePath! : null);
         if (response == true) {
           return true;
         } else {

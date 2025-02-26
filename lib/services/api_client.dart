@@ -569,8 +569,8 @@ class ApiClient {
     }
   }
 
-  /// Mark a Send list of choice Guide
-  Future<bool> setTravelersProfile(String name, String phone, String? imageFilePath) async {
+  /// Mark a Send set traveler profile
+  Future<bool> setTravelersProfile(String name, String phone, String birthDate, String? imageFilePath) async {
     bool isVerified = false;
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
@@ -590,6 +590,7 @@ class ApiClient {
     // Add JSON data
     request.fields['name'] = name;
     request.fields['phone_number'] = phone;
+    request.fields['birth_date'] = birthDate;
 
     // Check if the imageFilePath is provided and not empty
     if (imageFilePath != null && imageFilePath.isNotEmpty) {
