@@ -24,7 +24,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
 
   double _minPrice = 15;
   double _maxPrice = 2000;
-  double _currentMin = 300;
+  double _currentMin = 15;
   double _currentMax = 1500;
 
   final TextEditingController _minController = TextEditingController();

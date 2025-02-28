@@ -60,13 +60,13 @@ class ApiClient {
   /// API url
   //static const _authorityProd = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
   //static const _authorityDev = 'ec2-13-38-218-140.eu-west-3.compute.amazonaws.com';
-  static const _authorityProd = 'dashboard.meetpe.fr';
+  static const _authorityProd = 'api-prod.meetpe.fr';
   static const _authorityDev = 'dashboard.meetpe.fr';
 
   static String get _authority =>
       AppService.instance.developerMode ? _authorityDev : _authorityProd;
 
-    static const _apiKeyProd = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
+  static const _apiKeyProd = '1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7A8B9C0D1E2F';
   static const _apiKeyDev = 'D5SnrgElCOndA8ruDJL21vdX1EQPZGxsSQ2k5fMosxrfWUZjzw92SuyKriazEgIS';
 
   static String get _apiKey =>
