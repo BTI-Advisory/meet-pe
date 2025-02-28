@@ -402,5 +402,7 @@
 
   "are_you_sure_text": "Tu es sûr?",
   "are_you_sure_desc_acc_text": "Tu es sur le point de valider cette demande?",
-  "are_you_sure_desc_ref_text": "Tu es sur le point de refuser cette demande?"
+  "are_you_sure_desc_ref_text": "Tu es sur le point de refuser cette demande?",
+
+  "age_text": "18 ans et plus"
 }

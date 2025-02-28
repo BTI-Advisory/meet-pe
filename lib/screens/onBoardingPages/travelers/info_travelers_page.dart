@@ -33,6 +33,8 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
   String? validationMessageBirthDate = '';
   bool isFormValid = false;
   bool imageSize = false;
+  DateTime selectedDate = DateTime.now().subtract(const Duration(days: 18 * 365));
+  String? errorMessage;
 
   @override
   initBloc() => InfoTravelersPageBloc();
@@ -44,7 +46,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
 
   void updateFormValidity() {
     setState(() {
-      isFormValid = validationMessageName == null && validationMessagePhone == null && validationMessageBirthDate == null;
+      isFormValid = validationMessageName == null && validationMessagePhone == null && validationMessageBirthDate == null && errorMessage == null;
     });
   }
 
@@ -327,15 +329,39 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                               padding: EdgeInsets.only(left: 0),
                               onChanged: (dateTime) {
                                 if (dateTime != null) {
-                                  print('Selected Date: ${dateTime.toIso8601String()}');
-                                  bloc.birthDate = dateTime.toIso8601String();
-                                  validationMessageBirthDate = AppResources.validatorNotEmpty(dateTime?.toIso8601String());
-                                  updateFormValidity();
+                                  final now = DateTime.now();
+                                  final minAgeDate = DateTime(now.year - 18, now.month, now.day); // 18 years ago
+
+                                  if (dateTime.isBefore(minAgeDate)) {
+                                    print('Selected Date: ${dateTime.toIso8601String()}');
+                                    setState(() {
+                                      selectedDate = dateTime;
+                                      errorMessage = null; // Remove error message
+                                    });
+                                    bloc.birthDate = dateTime.toIso8601String();
+                                    validationMessageBirthDate = AppResources.validatorNotEmpty(dateTime.toIso8601String());
+                                    updateFormValidity();
+                                  } else {
+                                    print('Invalid Date: Must be at least 18 years old');
+                                    setState(() {
+                                      errorMessage = '⚠️ Vous devez avoir au moins 18 ans.'; // Show error message
+                                    });
+                                    bloc.birthDate = null;
+                                    updateFormValidity();
+                                  }
                                 } else {
                                   print('Invalid Date');
                                 }
                               },
                             ),
+                            if (errorMessage != null)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0), // Space from BirthPicker
+                                child: Text(
+                                  errorMessage!,
+                                  style: TextStyle(color: Colors.red, fontSize: 14),
+                                ),
+                              ),
                           ],
                         ),
                       ),
