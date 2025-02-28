@@ -28,6 +28,7 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
     });
     //controller.repeat(reverse: true);
     _checkFirstLaunch();
+    SecureStorageService.saveCompleted('true');
     super.initState();
   }
 

@@ -425,7 +425,7 @@ class _FavorisDetailPageState extends State<FavorisDetailPage> {
                       ],
                     ),
                     child: Image.asset(
-                      'images/background_mask.png',
+                      'images/background_mask1.png',
                     ),
                   ),
                   SizedBox(height: ResponsiveSize.calculateHeight(32, context)),

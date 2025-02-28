@@ -362,7 +362,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                     ],
                   ),
                   child: Image.asset(
-                    'images/background_mask.png',
+                    'images/background_mask1.png',
                   ),
                 ),
                 SizedBox(height: ResponsiveSize.calculateHeight(32, context)),

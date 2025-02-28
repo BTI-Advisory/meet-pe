@@ -3,7 +3,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/filter_provider.dart';
 import '../resources/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,6 +24,13 @@ class _PositionFiltredState extends State<PositionFiltred>
 
   @override
   initBloc() => PositionFiltredBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    valueSlider = filterProvider.radius?.toDouble() ?? 30;
+  }
 
   void _onLocationAdded(double latitude, double longitude, int radius) {
     Navigator.pop(context, {

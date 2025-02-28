@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:meet_pe/providers/filter_provider.dart';
 import 'package:meet_pe/resources/app_theme.dart';
 import 'package:meet_pe/screens/authentification/launch_screen.dart';
 import 'package:meet_pe/services/app_service.dart';
@@ -13,6 +14,7 @@ import 'package:meet_pe/services/secure_storage_service.dart';
 import 'package:meet_pe/services/storage_service.dart';
 import 'package:meet_pe/utils/utils.dart';
 import 'package:meet_pe/widgets/value_stream_builder.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,7 +69,15 @@ void main() async {
 
   // Start App
   //runApp(const MyApp());
-  initializeDateFormatting().then((_) => runApp(App()));
+  //initializeDateFormatting().then((_) => runApp(App()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => FilterProvider()),
+      ],
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {

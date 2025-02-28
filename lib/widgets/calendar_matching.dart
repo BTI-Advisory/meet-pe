@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../providers/filter_provider.dart';
 import '../resources/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,6 +26,19 @@ class _CalendarMatchingState extends State<CalendarMatching>
   DateTime _focusedDay = DateTime.now();
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    _rangeStart = filterProvider.startDate != null
+        ? DateTime.tryParse(filterProvider.startDate!)
+        : null;
+    _rangeEnd = filterProvider.endDate != null
+        ? DateTime.tryParse(filterProvider.endDate!)
+        : null;
+  }
 
   String formatDate(DateTime date) {
     return DateFormat('yyyy-MM-dd').format(date);

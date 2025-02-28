@@ -148,7 +148,7 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                         ],
                       ),
                       child: Image.asset(
-                        'images/background_mask.png',
+                        'images/background_mask1.png',
                       ),
                     ),
                     SizedBox(height: ResponsiveSize.calculateHeight(32, context)),
