@@ -12,6 +12,8 @@ import '../../utils/_utils.dart';
 import '../../widgets/_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../travelersPages/main_travelers_page.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key, required this.email});
 
@@ -33,11 +35,15 @@ class _SignInPageState extends State<SignInPage>
     return Scaffold(
         body: AsyncForm(
             onValidated: bloc.login,
-            onSuccess: () {
+            onSuccess: () async {
               bloc.saveCredentials();
               SecureStorageService.saveCompleted('true');
-              return navigateTo(context, (_) => MainGuidePage(initialPage: 2),
-                  clearHistory: true);
+
+              if (await SecureStorageService.readRole() == '1') {
+                return navigateTo(context, (_) => MainTravelersPage(initialPage: 0), clearHistory: true);
+              } else {
+                return navigateTo(context, (_) => MainGuidePage(initialPage: 2), clearHistory: true);
+              }
             },
             builder: (context, validate) {
               bloc.setValidateForm(validate);

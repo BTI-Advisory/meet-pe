@@ -5,8 +5,10 @@ import 'package:meet_pe/resources/_resources.dart';
 import 'package:meet_pe/utils/_utils.dart';
 import 'package:meet_pe/widgets/_widgets.dart';
 import 'package:meet_pe/widgets/guide_profile_card.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/experience_model.dart';
+import '../../providers/filter_provider.dart';
 import '../../services/app_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -38,12 +40,26 @@ class _MatchingPageState extends State<MatchingPage> {
   @override
   void initState() {
     super.initState();
-    _matchingListFuture = AppService.api.fetchExperiences(FiltersRequest());
+
+    // Initialize _matchingListFuture to prevent LateInitializationError
+    _matchingListFuture = Future.value([]);
+
+    // Restore previous city filter from Provider
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    if(filterProvider.selectedCity == null || filterProvider.selectedCountry == null) {
+      _textEditingController = TextEditingController(text: "");
+    } else {
+      _textEditingController = TextEditingController(text: "${filterProvider.selectedCity}, ${filterProvider.selectedCountry}");
+    }
 
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChange);
-    _textEditingController = TextEditingController();
     _textEditingController.addListener(_onTextChanged);
+
+    // Fetch experiences after restoring filters
+    Future.delayed(Duration.zero, () {
+      _fetchMatchingExperiences();
+    });
   }
 
   @override
@@ -69,16 +85,45 @@ class _MatchingPageState extends State<MatchingPage> {
 
   void _onCitySelected(String? city, String? country) {
     if (city != null && city.isNotEmpty) {
+      Provider.of<FilterProvider>(context, listen: false).updateCity(city, country ?? '');
+      Provider.of<FilterProvider>(context, listen: false).updateLocationFilters(null, null, null);
+      _fetchMatchingExperiences();
+    }
+  }
+
+  void _fetchMatchingExperiences() async {
+    final filters = Provider.of<FilterProvider>(context, listen: false);
+
+    print("Fetching experiences with filters: ${filters.selectedCity}, ${filters.selectedCountry}, ${filters.startDate}, ${filters.endDate}");
+    print("Filters: ${filters.nbAdultes}, ${filters.nbEnfants}, ${filters.nbBebes}, ${filters.prixMin}, ${filters.prixMax}, ${filters.categorie}, ${filters.langue}, ${filters.latitude}, ${filters.longitude}, ${filters.radius}");
+
+    try {
+      final experiences = await AppService.api.fetchExperiences(
+        FiltersRequest(
+          filtreVille: filters.selectedCity,
+          filtrePays: filters.selectedCountry,
+          filtreDateDebut: filters.startDate,
+          filtreDateFin: filters.endDate,
+          filtreNbAdult: filters.nbAdultes,
+          filtreNbEnfant: filters.nbEnfants,
+          filtreNbBebes: filters.nbBebes,
+          filtrePrixMin: filters.prixMin,
+          filtrePrixMax: filters.prixMax,
+          filtreCategorie: filters.categorie,
+          filtreLangue: filters.langue,
+          filtreLat: filters.latitude?.toString(),
+          filtreLang: filters.longitude?.toString(),
+          filtreDistance: filters.radius?.toString(),
+        ),
+      );
+
+      print("Received ${experiences.length} experiences");
+
       setState(() {
-        _citySelected = city;
-        _countrySelected = country ?? '';
-        _matchingListFuture = AppService.api.fetchExperiences(
-          FiltersRequest(
-            filtreVille: city,
-            filtrePays: country,
-          ),
-        );
+        _matchingListFuture = Future.value(experiences);
       });
+    } catch (e) {
+      print("Error fetching experiences: $e");
     }
   }
 
@@ -101,245 +146,203 @@ class _MatchingPageState extends State<MatchingPage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data == null) {
-              return Center(child: Text(AppLocalizations.of(context)!.no_match_experience_text));
-            } else {
-              filteredProfiles = snapshot.data!;
-              return Stack(
-                children: [
-                  filteredProfiles.isNotEmpty ?
-                    Container(
-                    width: size.width,
-                    height: size.height,
-                    child: AbsorbPointer(
-                      absorbing: tappedScreen,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context,int index){
-                          return GuideProfileCard(
-                            experienceData: filteredProfiles[index],
-                            onCardTapped: (tapped) {
-                              setState(() {
-                                tappedScreen = tapped;
-                              });
-                            },
-                            favorKey: widget.favorKey,
-                            percentKey: widget.percentKey,
-                          );
-                        },
-                        itemCount: filteredProfiles.length,
-                        control: SwiperControl(),
-                        fade: 1,
-                        curve: Curves.ease,
-                        scale: 0.8,
-                        customLayoutOption: CustomLayoutOption(startIndex: -1, stateCount: 3)
-                          ..addRotate([-25.0 / 180, 0.0, 25.0 / 180])
-                          ..addTranslate(
-                            [
-                              const Offset(-350.0, 0.0),
-                              Offset.zero,
-                              const Offset(350.0, 0.0),
-                            ],
-                          ),
-                      ),
-                    ),
-                  )
-                  :
-                  Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.no_experience_city_text,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(
-                          color: AppResources.colorGray100),
-                    ),
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            }
+            if (!snapshot.hasData || snapshot.data == null) {
+              return Center(
+                child: Text(
+                  AppLocalizations.of(context)!.no_experience_city_text,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: AppResources.colorGray100,
                   ),
-                  Positioned(
-                    top: 45,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: ResponsiveSize.calculateWidth(200, context),
-                          //height: 40,
-                          child: SingleChildScrollView(
-                            child: NetworkSearchField(
-                              controller: _textEditingController,
-                              focusNode: _focusNode,
-                              onCitySelected: _onCitySelected,
-                              searchCityKey: widget.searchCityKey,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: ResponsiveSize.calculateWidth(10, context),),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: AppResources.colorWhite,
-                            borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                key: widget.aroundMeKey,
-                                onPressed: () async {
-                                  final result = await showModalBottomSheet<Map<String, dynamic>>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return PositionFiltred();
-                                    },
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      _textEditingController.text = "";
-                                      double latitude = result['latitude'];
-                                      double longitude = result['longitude'];
-                                      int radius = result['radius'];
-
-                                      _matchingListFuture = AppService.api.fetchExperiences(
-                                        FiltersRequest(
-                                          filtreLat: latitude.toString(),
-                                          filtreLang: longitude.toString(),
-                                          filtreDistance: radius.toString()
-                                        ),
-                                      );
-                                    });
-                                  }
-                                },
-                                icon: const Icon(Icons.gps_fixed, size: 20,),
-                              ),
-                              const VerticalDivider(
-                                color: Colors.grey, // Adjust the color to your preference
-                                thickness: 1, // Adjust the thickness as needed
-                                width: 0, // Adjust the width to control the space taken by the divider
-                                indent: 8, // Adjust the indent to control the space from the top
-                                endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                              ),
-                              Row(
-                                key: widget.filtersKey,
-                                children: [
-                                  IconButton(
-                                    onPressed: () async {
-                                      final result = await showModalBottomSheet<Map<String, String>>(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        builder: (BuildContext context) {
-                                          return CalendarMatching();
-                                        },
-                                      );
-                                      if (result != null) {
-                                        setState(() {
-                                          if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
-                                            // Handle range selection
-                                            final rangeStart = result['rangeStart'];
-                                            final rangeEnd = result['rangeEnd'];
-                                            print('Selected Range: $rangeStart to $rangeEnd');
-                                            print('City and country: $_citySelected, $_countrySelected');
-                                            if (_textEditingController.text != '') {
-                                              _matchingListFuture = AppService.api.fetchExperiences(
-                                                FiltersRequest(
-                                                  filtreDateDebut: rangeStart,
-                                                  filtreDateFin: rangeEnd,
-                                                  filtreVille: _citySelected,
-                                                  filtrePays: _countrySelected,
-                                                ),
-                                              );
-                                            } else {
-                                              _matchingListFuture = AppService.api.fetchExperiences(
-                                                FiltersRequest(
-                                                  filtreDateDebut: rangeStart,
-                                                  filtreDateFin: rangeEnd,
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        });
-                                      }
-                                    },
-                                    icon: Icon(Icons.date_range, size: 20,),
-                                  ),
-                                  const VerticalDivider(
-                                    color: Colors.grey, // Adjust the color to your preference
-                                    thickness: 1, // Adjust the thickness as needed
-                                    width: 0, // Adjust the width to control the space taken by the divider
-                                    indent: 8, // Adjust the indent to control the space from the top
-                                    endIndent: 8, // Adjust the endIndent to control the space from the bottom
-                                  ),
-                                  IconButton(
-                                    onPressed: () async {
-                                      final result = await showModalBottomSheet<Map<String, String>>(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        builder: (BuildContext context) {
-                                          return const FiltredWidget();
-                                        },
-                                      );
-
-                                      if (result != null) {
-                                        setState(() {
-                                          // Extract values with fallback to defaults
-                                          final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
-                                          final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
-                                          final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
-                                          final filtrePrixMin = result['filtre_prix_min'] ?? "0";
-                                          final filtrePrixMax = result['filtre_prix_max'] ?? "0";
-                                          final filtreCategorie = result['filtre_categorie'] ?? "";
-                                          final filtreLangue = result['filtre_langue'] ?? "";
-
-                                          if (_textEditingController.text != '') {
-                                            // Make API call with filters
-                                            _matchingListFuture = AppService.api.fetchExperiences(
-                                              FiltersRequest(
-                                                filtreNbAdult: filtreNbAdultes,
-                                                filtreNbEnfant: filtreNbEnfants,
-                                                filtreNbBebes: filtreNbBebes,
-                                                filtrePrixMin: filtrePrixMin,
-                                                filtrePrixMax: filtrePrixMax,
-                                                filtreCategorie: filtreCategorie,
-                                                filtreLangue: filtreLangue,
-                                                filtreVille: _citySelected,
-                                                filtrePays: _countrySelected,
-                                              ),
-                                            );
-                                          } else {
-                                            // Make API call with filters
-                                            _matchingListFuture = AppService.api.fetchExperiences(
-                                              FiltersRequest(
-                                                filtreNbAdult: filtreNbAdultes,
-                                                filtreNbEnfant: filtreNbEnfants,
-                                                filtreNbBebes: filtreNbBebes,
-                                                filtrePrixMin: filtrePrixMin,
-                                                filtrePrixMax: filtrePrixMax,
-                                                filtreCategorie: filtreCategorie,
-                                                filtreLangue: filtreLangue,
-                                              ),
-                                            );
-                                          }
-                                        });
-                                      }
-                                    },
-                                    icon: const Icon(Icons.tune, size: 20),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                ),
               );
             }
-          }
-        ),
+
+            return Stack(
+              children: [
+                snapshot.data!.isNotEmpty
+                ? Container(
+                  width: size.width,
+                  height: size.height,
+                  child: AbsorbPointer(
+                    absorbing: tappedScreen,
+                    child: Swiper(
+                      itemBuilder: (BuildContext context,int index){
+                        return GuideProfileCard(
+                          experienceData: snapshot.data![index],
+                          onCardTapped: (tapped) {
+                            setState(() {
+                              tappedScreen = tapped;
+                            });
+                          },
+                          favorKey: widget.favorKey,
+                          percentKey: widget.percentKey,
+                        );
+                      },
+                      itemCount: snapshot.data!.length,
+                      control: SwiperControl(),
+                      fade: 1,
+                      curve: Curves.ease,
+                      scale: 0.8,
+                      customLayoutOption: CustomLayoutOption(startIndex: -1, stateCount: 3)
+                        ..addRotate([-25.0 / 180, 0.0, 25.0 / 180])
+                        ..addTranslate(
+                          [
+                            const Offset(-350.0, 0.0),
+                            Offset.zero,
+                            const Offset(350.0, 0.0),
+                          ],
+                        ),
+                    ),
+                  ),
+                )
+                : Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.no_experience_city_text,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppResources.colorGray100,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 45,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: ResponsiveSize.calculateWidth(200, context),
+                        //height: 40,
+                        child: SingleChildScrollView(
+                          child: NetworkSearchField(
+                            controller: _textEditingController,
+                            focusNode: _focusNode,
+                            onCitySelected: _onCitySelected,
+                            searchCityKey: widget.searchCityKey,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: ResponsiveSize.calculateWidth(10, context),),
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: AppResources.colorWhite,
+                          borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(30, context)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              key: widget.aroundMeKey,
+                              onPressed: () async {
+                                final result = await showModalBottomSheet<Map<String, dynamic>>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return PositionFiltred();
+                                  },
+                                );
+                                if (result != null) {
+                                  Provider.of<FilterProvider>(context, listen: false).updateLocationFilters(
+                                    result['latitude'],
+                                    result['longitude'],
+                                    result['radius'],
+                                  );
+                                  _textEditingController.text = "Autour de moi";
+                                  _fetchMatchingExperiences();
+                                }
+                              },
+                              icon: const Icon(Icons.gps_fixed, size: 20,),
+                            ),
+                            const VerticalDivider(
+                              color: Colors.grey, // Adjust the color to your preference
+                              thickness: 1, // Adjust the thickness as needed
+                              width: 0, // Adjust the width to control the space taken by the divider
+                              indent: 8, // Adjust the indent to control the space from the top
+                              endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                            ),
+                            Row(
+                              key: widget.filtersKey,
+                              children: [
+                                IconButton(
+                                  onPressed: () async {
+                                    final result = await showModalBottomSheet<Map<String, String>>(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return CalendarMatching();
+                                      },
+                                    );
+                                    if (result != null) {
+                                      if (result.containsKey('rangeStart') && result.containsKey('rangeEnd')) {
+                                        Provider.of<FilterProvider>(context, listen: false).updateDateRange(
+                                          result['rangeStart'],
+                                          result['rangeEnd'],
+                                        );
+                                        _fetchMatchingExperiences();
+                                      }
+                                    }
+                                  },
+                                  icon: Icon(Icons.date_range, size: 20,),
+                                ),
+                                const VerticalDivider(
+                                  color: Colors.grey, // Adjust the color to your preference
+                                  thickness: 1, // Adjust the thickness as needed
+                                  width: 0, // Adjust the width to control the space taken by the divider
+                                  indent: 8, // Adjust the indent to control the space from the top
+                                  endIndent: 8, // Adjust the endIndent to control the space from the bottom
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    final result = await showModalBottomSheet<Map<String, String>>(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return const FiltredWidget();
+                                      },
+                                    );
+
+                                    if (result != null) {
+                                      final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
+                                      final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
+                                      final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
+                                      final filtrePrixMin = result['filtre_prix_min'] ?? "0";
+                                      final filtrePrixMax = result['filtre_prix_max'] ?? "0";
+                                      final filtreCategorie = result['filtre_categorie'] ?? "";
+                                      final filtreLangue = result['filtre_langue'] ?? "";
+
+                                      Provider.of<FilterProvider>(context, listen: false).updateFilters(
+                                        nbAdultes: filtreNbAdultes,
+                                        nbEnfants: filtreNbEnfants,
+                                        nbBebes: filtreNbBebes,
+                                        prixMin: filtrePrixMin,
+                                        prixMax: filtrePrixMax,
+                                        categorie: filtreCategorie,
+                                        langue: filtreLangue,
+                                      );
+                                      _fetchMatchingExperiences();
+                                    }
+                                  },
+                                  icon: const Icon(Icons.tune, size: 20),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+        )
       ),
     );
   }

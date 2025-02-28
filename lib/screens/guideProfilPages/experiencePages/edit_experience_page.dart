@@ -576,7 +576,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                       ],
                     ),
                     child: Image.asset(
-                      'images/background_mask.png',
+                      'images/background_mask1.png',
                     ),
                   ),
                   const SizedBox(height: 32),
