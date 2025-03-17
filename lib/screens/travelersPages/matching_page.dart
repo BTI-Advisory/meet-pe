@@ -151,12 +151,15 @@ class _MatchingPageState extends State<MatchingPage> {
               return Center(child: Text("Error: ${snapshot.error}"));
             }
             if (!snapshot.hasData || snapshot.data == null) {
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context)!.no_experience_city_text,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppResources.colorGray100,
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.no_experience_city_text,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppResources.colorGray100,
+                    ),
                   ),
                 ),
               );
@@ -200,12 +203,15 @@ class _MatchingPageState extends State<MatchingPage> {
                     ),
                   ),
                 )
-                : Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.no_experience_city_text,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppResources.colorGray100,
+                : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.no_experience_city_text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: AppResources.colorGray100,
+                      ),
                     ),
                   ),
                 ),
