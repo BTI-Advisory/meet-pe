@@ -111,7 +111,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                             const Icon(Icons.file_copy, size: 17, color: AppResources.colorVitamine),
                             const SizedBox(width: 5),
                             Text(
-                              AppLocalizations.of(context)!.other_document_required_text,
+                              'Autres documents nécessaires',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
