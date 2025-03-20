@@ -61,8 +61,11 @@ void main() async {
   await AppService.instance.init();
 
   // Init Stripe
-  Stripe.publishableKey = 'pk_test_51OibV9Bi56apzlWcUAqe8b6uSFPpzjpnfPzFIeAU2QTVqGo1oVAtcfGcb18lgtucGrzYbOrJwNdCejsgVw7pWMWv00FpVE7SrS';
-  await dotenv.load(fileName: "assets/.env");
+  // Détermine automatiquement l'environnement
+  String envFile = kReleaseMode ? "assets/.env" : "assets/.env.test";
+  await dotenv.load(fileName: envFile);
+
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
 
   // Init Analytics
   //await AnalyticsService.init();

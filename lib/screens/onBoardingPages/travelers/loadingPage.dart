@@ -27,7 +27,14 @@ class _LoadingPageState extends State<LoadingPage> with TickerProviderStateMixin
       setState(() {});
     });
     //controller.repeat(reverse: true);
-    _checkFirstLaunch();
+    controller.forward(); // Start animation
+
+    // Wait for animation to complete before navigating
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _checkFirstLaunch();
+      }
+    });
     SecureStorageService.saveCompleted('true');
     super.initState();
   }
