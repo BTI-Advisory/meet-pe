@@ -115,6 +115,38 @@ class _FiltredWidgetState extends State<FiltredWidget>
     }
   }
 
+  void _onItemTap(int itemId) {
+    setState(() {
+      if (myMap['filtre_categorie'] == null) {
+        myMap['filtre_categorie'] = {};
+      }
+
+      // Check if the tapped item is already selected
+      final bool isSelected = myMap['filtre_categorie']!.contains(itemId);
+
+      // If it's the last item and it's already selected, deselect it
+      if (itemId == myCategory.last.id && isSelected) {
+        myMap['filtre_categorie']!.remove(itemId);
+      } else {
+        // If it's the last item, deselect all other items
+        if (itemId == myCategory.last.id) {
+          myMap['filtre_categorie'] = {itemId};
+        } else {
+          // Deselect the last item if it's currently selected
+          if (myMap['filtre_categorie']!.contains(myCategory.last.id)) {
+            myMap['filtre_categorie']!.remove(myCategory.last.id);
+          }
+          // Toggle selection for the tapped item
+          if (isSelected) {
+            myMap['filtre_categorie']!.remove(itemId);
+          } else {
+            myMap['filtre_categorie']!.add(itemId);
+          }
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -480,21 +512,7 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                       isSelected: myMap['filtre_categorie'] != null
                                           ? myMap['filtre_categorie']!.contains(item.id)
                                           : false,
-                                      onTap: () {
-                                        setState(() {
-                                          if (myMap['filtre_categorie'] == null) {
-                                            myMap['filtre_categorie'] =
-                                                Set<int>(); // Initialize if null
-                                          }
-
-                                          if (myMap['filtre_categorie']!
-                                              .contains(item.id)) {
-                                            myMap['filtre_categorie']!.remove(item.id);
-                                          } else {
-                                            myMap['filtre_categorie']!.add(item.id);
-                                          }
-                                        });
-                                      },
+                                      onTap: () => _onItemTap(item.id),
                                     );
                                   }).toList(),
                                 ),
