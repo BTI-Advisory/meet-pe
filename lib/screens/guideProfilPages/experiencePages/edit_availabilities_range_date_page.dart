@@ -169,7 +169,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
                                   ),
                                   TextSpan(
-                                    text: widget.duration == "2d" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text,
+                                    text: widget.duration == "2 jours" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
                                   ),
                                 ],
@@ -193,7 +193,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                           height: ResponsiveSize.calculateHeight(16, context)),
                       Text(
                         '${AppLocalizations.of(context)!.info_duration_1_text} ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
-                            '${AppLocalizations.of(context)!.info_duration_2_text} ${widget.duration == "2d" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text} ${AppLocalizations.of(context)!.info_duration_3_text} ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
+                            '${AppLocalizations.of(context)!.info_duration_2_text} ${widget.duration == "2 jours" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text} ${AppLocalizations.of(context)!.info_duration_3_text} ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray60),
                       ),
                       SizedBox(
@@ -204,7 +204,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                             context: context,
                             isScrollControlled: true,
                             builder: (BuildContext context) {
-                              if (widget.duration == "2d") {
+                              if (widget.duration == "2 jours") {
                                 return CalendarRangeSelection(duration: 2,);
                               } else {
                                 return CalendarRangeSelection(duration: 7,);
@@ -265,7 +265,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                         isScrollControlled: true,
                         builder: (BuildContext context) {
                           return CalendarRangeSelection(
-                            duration: widget.duration == "2d" ? 2 : 7,
+                            duration: widget.duration == "2 jours" ? 2 : 7,
                             initialStartDate: startDate,
                             initialEndDate: endDate,
                           );
