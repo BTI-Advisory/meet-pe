@@ -270,8 +270,10 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                 editButton(
                                   onTap: () async {
                                     print('Edit availabilities');
+                                    print(widget.experienceData.duree);
+                                    print('Edit availabilities');
 
-                                    if(widget.experienceData.duree == "1d") {
+                                    if(widget.experienceData.duree != "2 jours" && widget.experienceData.duree != "7 jours") {
                                       // Navigate to the EditAvailabilitiesPage and wait for the result
                                       final result = await Navigator.push(
                                         context,
