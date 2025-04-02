@@ -50,6 +50,16 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
     });
   }
 
+  Widget displaySelectedImage(String imagePath) {
+    if (imagePath.startsWith('/')) {
+      // Local file path (from device)
+      return Image.file(File(imagePath), fit: BoxFit.cover);
+    } else {
+      // Asset image
+      return Image.asset(imagePath, fit: BoxFit.cover);
+    }
+  }
+
   Future<void> pickImageFromGallery(BuildContext context, Function(String) callback) async {
     final picker = ImagePicker();
 
@@ -178,10 +188,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                 child: WidgetMask(
                                   blendMode: BlendMode.srcATop,
                                   childSaveLayer: true,
-                                  mask: Image.asset(
-                                    selectedImagePath,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  mask: displaySelectedImage(selectedImagePath),
                                   child: Image.asset(
                                     'images/image_frame.png',
                                   ),

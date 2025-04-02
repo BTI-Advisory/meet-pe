@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
@@ -57,6 +59,16 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     } catch (e) {
       // Handle error
       print('Error update exp image: $e');
+    }
+  }
+
+  Widget displayImage(String imagePath) {
+    if (imagePath.startsWith('http')) {
+      // Online image from URL
+      return Image.network(imagePath, fit: BoxFit.cover);
+    } else {
+      // Local image from file path
+      return Image.file(File(imagePath), fit: BoxFit.cover);
     }
   }
 
@@ -146,7 +158,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                                     width: ResponsiveSize.calculateWidth(
                                         427, context),
                                     height: 592,
-                                    child: updatePhotoPrincipal ? Image.asset(data.imagePrincipale ?? selectedImagePath, fit: BoxFit.cover) : Image.network(widget.experienceData.photoprincipal.photoUrl, fit: BoxFit.cover)
+                                    child: updatePhotoPrincipal ? displayImage(data.imagePrincipale ?? selectedImagePath) : displayImage(widget.experienceData.photoprincipal.photoUrl)
                                 ),
                               ),
 
@@ -683,8 +695,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
                           child: updatePhoto1
-                              ? Image.asset(data.image1 ?? selectedImagePath, fit: BoxFit.cover)
-                              : Image.network(widget.experienceData.photos[0]!.photoUrl, fit: BoxFit.cover),
+                              ? displayImage(data.image1 ?? selectedImagePath)
+                              : displayImage(widget.experienceData.photos[0]!.photoUrl),
                         ),
                       if (updatePhoto2
                           ? data.image2 != null
@@ -693,8 +705,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
                           child: updatePhoto2
-                              ? Image.asset(data.image2 ?? selectedImagePath, fit: BoxFit.cover)
-                              : Image.network(widget.experienceData.photos[1]!.photoUrl, fit: BoxFit.cover),
+                              ? displayImage(data.image2 ?? selectedImagePath)
+                              : displayImage(widget.experienceData.photos[1]!.photoUrl),
                         ),
                       if (updatePhoto3
                           ? data.image3 != null
@@ -703,8 +715,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
                           child: updatePhoto3
-                              ? Image.asset(data.image3 ?? selectedImagePath, fit: BoxFit.cover)
-                              : Image.network(widget.experienceData.photos[2]!.photoUrl, fit: BoxFit.cover),
+                              ? displayImage(data.image3 ?? selectedImagePath)
+                              : displayImage(widget.experienceData.photos[2]!.photoUrl),
                         ),
                       if (updatePhoto4
                           ? data.image4 != null
@@ -713,8 +725,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
                           child: updatePhoto4
-                              ? Image.asset(data.image4 ?? selectedImagePath, fit: BoxFit.cover)
-                              : Image.network(widget.experienceData.photos[3]!.photoUrl, fit: BoxFit.cover),
+                              ? displayImage(data.image4 ?? selectedImagePath)
+                              : displayImage(widget.experienceData.photos[3]!.photoUrl),
                         ),
                       if (updatePhoto5
                           ? data.image5 != null
@@ -723,8 +735,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         StaggeredGridTile.fit(
                           crossAxisCellCount: 4,
                           child: updatePhoto5
-                              ? Image.asset(data.image5 ?? selectedImagePath, fit: BoxFit.cover)
-                              : Image.network(widget.experienceData.photos[4]!.photoUrl, fit: BoxFit.cover),
+                              ? displayImage(data.image5 ?? selectedImagePath)
+                              : displayImage(widget.experienceData.photos[4]!.photoUrl),
                         ),
                     ],
                   ),
