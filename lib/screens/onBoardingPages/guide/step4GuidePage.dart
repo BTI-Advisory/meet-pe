@@ -152,6 +152,15 @@ class _Step4GuidePageState extends State<Step4GuidePage>
     });
   }
 
+  Widget displaySelectedImage(String imagePath) {
+    if (imagePath.startsWith('/')) {
+      // Local file path (from device)
+      return Image.file(File(imagePath), fit: BoxFit.cover);
+    } else {
+      // Asset image
+      return Image.asset(imagePath, fit: BoxFit.cover);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,10 +226,7 @@ class _Step4GuidePageState extends State<Step4GuidePage>
                                 child: WidgetMask(
                                   blendMode: BlendMode.srcATop,
                                   childSaveLayer: true,
-                                  mask: Image.asset(
-                                    selectedImagePath,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  mask: displaySelectedImage(selectedImagePath),
                                   child: Image.asset(
                                     'images/image_frame.png',
                                   ),

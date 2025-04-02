@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -60,8 +62,8 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                                     ResponsiveSize.calculateWidth(427, context),
                                     height: ResponsiveSize.calculateHeight(
                                         592, context),
-                                    child: Image.asset(
-                                      widget.photo,
+                                    child: Image.file(
+                                      File(widget.photo),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -205,31 +207,31 @@ class _CreateExpStep7State extends State<CreateExpStep7> {
                           StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
                             //mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[0], fit: BoxFit.cover),
+                            child: Image.file(File(widget.imageArray[0]), fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 2)
                           StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
                             //mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[1], fit: BoxFit.cover),
+                            child: Image.file(File(widget.imageArray[1]), fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 3)
                           StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
                             //mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[2], fit: BoxFit.cover),
+                            child: Image.file(File(widget.imageArray[2]), fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 4)
                           StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
                             //mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[3], fit: BoxFit.cover),
+                            child: Image.file(File(widget.imageArray[3]), fit: BoxFit.cover),
                           ),
                         if (widget.imageArray.isNotEmpty && widget.imageArray.length >= 5)
                           StaggeredGridTile.fit(
                             crossAxisCellCount: 4,
                             //mainAxisCellCount: 2,
-                            child: Image.asset(widget.imageArray[4], fit: BoxFit.cover),
+                            child: Image.file(File(widget.imageArray[4]), fit: BoxFit.cover),
                           ),
                       ],
                     )
