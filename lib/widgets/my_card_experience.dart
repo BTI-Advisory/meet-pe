@@ -40,6 +40,7 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                 ],
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   WidgetMask(
                     blendMode: BlendMode.srcATop,
@@ -52,107 +53,112 @@ class _MyCardExperienceState extends State<MyCardExperience> {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 176,
-                        child: Text(
-                          widget.guideExperiencesResponse.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(fontSize: 14, color: AppResources.colorDark),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                      Visibility(
-                        visible: widget.guideExperiencesResponse.status == 'en ligne',
-                        child: Text(
-                          '${AppLocalizations.of(widget.parentContext)!.posted_on_text} ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                        ),
-                      ),
-                      if(widget.guideExperiencesResponse.status == 'en cours de vérification')
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.watch_later_outlined, size: 17, color: AppResources.colorVitamine),
-                          const SizedBox(width: 5),
-                          Text(
-                            widget.guideExperiencesResponse.status,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 176,
+                          child: Text(
+                            widget.guideExperiencesResponse.title,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: AppResources.colorVitamine),
-                          )
-                        ],
-                      ),
-                      if(widget.guideExperiencesResponse.status == 'à compléter')
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.hourglass_empty, size: 17, color: AppResources.colorVitamine),
-                            const SizedBox(width: 5),
-                            Text(
-                              widget.guideExperiencesResponse.status,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorVitamine),
-                            )
-                          ],
+                                .headlineSmall
+                                ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
-                      if(widget.guideExperiencesResponse.status == 'autre_document')
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.file_copy, size: 17, color: AppResources.colorVitamine),
-                            const SizedBox(width: 5),
-                            Text(
-                              'Autres documents nécessaires',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorVitamine),
-                            )
-                          ],
+                        Visibility(
+                          visible: widget.guideExperiencesResponse.status == 'en ligne',
+                          child: Text(
+                            '${AppLocalizations.of(widget.parentContext)!.posted_on_text} ${yearsFrenchFormat(widget.guideExperiencesResponse.createdAt)}',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                          ),
                         ),
-                      if(widget.guideExperiencesResponse.status == 'en ligne')
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.circle, size: 17, color: Color(0xFF54EE9D)),
-                            const SizedBox(width: 5),
-                            Text(
-                              widget.guideExperiencesResponse.status,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: Color(0xFF54EE9D)),
-                            )
-                          ],
-                        ),
-                      if(widget.guideExperiencesResponse.status == 'hors ligne')
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.circle, size: 17, color: AppResources.colorVitamine),
-                            const SizedBox(width: 5),
-                            Text(
-                              widget.guideExperiencesResponse.status,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppResources.colorVitamine),
-                            )
+                            if (widget.guideExperiencesResponse.status == 'en cours de vérification')
+                              Row(
+                                children: [
+                                  Icon(Icons.watch_later_outlined, size: 17, color: AppResources.colorVitamine),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.guideExperiencesResponse.status,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorVitamine),
+                                  ),
+                                ],
+                              ),
+
+                            if (widget.guideExperiencesResponse.status == 'à compléter')
+                              Row(
+                                children: [
+                                  Icon(Icons.hourglass_empty, size: 17, color: AppResources.colorVitamine),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.guideExperiencesResponse.status,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorVitamine),
+                                  ),
+                                ],
+                              ),
+
+                            if (widget.guideExperiencesResponse.status == 'autre_document')
+                              Row(
+                                children: [
+                                  const Icon(Icons.file_copy, size: 17, color: AppResources.colorVitamine),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Autres documents nécessaires',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorVitamine),
+                                  ),
+                                ],
+                              ),
+
+                            if (widget.guideExperiencesResponse.status == 'en ligne')
+                              Row(
+                                children: [
+                                  Icon(Icons.circle, size: 17, color: Color(0xFF54EE9D)),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.guideExperiencesResponse.status,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: Color(0xFF54EE9D)),
+                                  ),
+                                ],
+                              ),
+
+                            if (widget.guideExperiencesResponse.status == 'hors ligne')
+                              Row(
+                                children: [
+                                  Icon(Icons.circle, size: 17, color: AppResources.colorVitamine),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.guideExperiencesResponse.status,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: AppResources.colorVitamine),
+                                  ),
+                                ],
+                              ),
                           ],
                         )
-                    ],
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 43),
-                  const Icon(Icons.chevron_right, size: 24, color: AppResources.colorDark,)
+                  Icon(Icons.chevron_right, size: 24, color: AppResources.colorDark,)
                 ],
               ),
             ),

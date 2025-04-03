@@ -63,11 +63,11 @@ class _RequestCardState extends State<RequestCard> {
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                      color: (widget.guideReservationResponse.status == 'En attente') ? AppResources.colorVitamine : AppResources.colorWhite,
-                      width: 1,
-                    ),
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(
+                    color: (widget.guideReservationResponse.status == 'En attente') ? AppResources.colorVitamine : AppResources.colorWhite,
+                    width: 1,
+                  ),
                 ),
                 shadows: const [
                   BoxShadow(
@@ -78,72 +78,70 @@ class _RequestCardState extends State<RequestCard> {
                   )
                 ],
               ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      const SizedBox(width: 10),
-                      Column(
-                        children: [
-                          ClipOval(
-                            child: Image.network(widget.guideReservationResponse.voyageur.profilePath, width: 38, height: 38, fit: BoxFit.cover),
-                          ),
-                          const SizedBox(height: 2),
-                          SizedBox(
-                            width: 60,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                widget.guideReservationResponse.voyageur.name,
-                                overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipOval(
+                              child: Image.network(widget.guideReservationResponse.voyageur.profilePath, width: 38, height: 38, fit: BoxFit.cover),
+                            ),
+                            Text(
+                              widget.guideReservationResponse.voyageur.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                requestFrenchFormat(widget.guideReservationResponse.dateTime),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontWeight: FontWeight.w500, color: AppResources.colorDark),
+                                    .headlineSmall
+                                    ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(width: 17),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            requestFrenchFormat(widget.guideReservationResponse.dateTime),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                              const SizedBox(height: 2),
+                              Text(
+                                widget.guideReservationResponse.experience.title,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                widget.guideReservationResponse.isGroup == 1 ? "Groupe privée" : "${widget.guideReservationResponse.nombreDesVoyageurs} personnes",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(fontSize: 14, color: AppResources.colorDark),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            width: 140,
-                            child: Text(
-                              widget.guideReservationResponse.experience.title,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorGray60),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                          Text(
-                            widget.guideReservationResponse.isGroup == 1 ? "Groupe privée" : "${widget.guideReservationResponse.nombreDesVoyageurs} personnes",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(fontSize: 14, color: AppResources.colorDark),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 23),
-                      Visibility(
-                        visible: (widget.guideReservationResponse.status != 'Acceptée'),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                PanaraConfirmDialog.showAnimatedGrow(
-                                  widget.parentContext,
+                        ),
+                        const SizedBox(width: 8),
+                        Visibility(
+                          visible: (widget.guideReservationResponse.status != 'Acceptée'),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  PanaraConfirmDialog.showAnimatedGrow(
+                                    widget.parentContext,
                                     title: AppLocalizations.of(widget.parentContext)!.are_you_sure_text,
                                     message: AppLocalizations.of(widget.parentContext)!.are_you_sure_desc_acc_text,
                                     confirmButtonText: AppLocalizations.of(widget.parentContext)!.confirmation_text,
@@ -158,85 +156,85 @@ class _RequestCardState extends State<RequestCard> {
                                       });
                                     },
                                     panaraDialogType: PanaraDialogType.success,
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  isLoading
-                                      ? CircularProgressIndicator() // Show loading indicator
-                                      : Icon(Icons.check, size: 24,),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    AppLocalizations.of(widget.parentContext)!.accept_text,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  )
-                                ],
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    isLoading
+                                        ? CircularProgressIndicator() // Show loading indicator
+                                        : Icon(Icons.check, size: 24,),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      AppLocalizations.of(widget.parentContext)!.accept_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 15),
-                            GestureDetector(
-                              onTap: () {
-                                PanaraConfirmDialog.showAnimatedGrow(
-                                  widget.parentContext,
-                                  title: AppLocalizations.of(widget.parentContext)!.are_you_sure_text,
-                                  message: AppLocalizations.of(widget.parentContext)!.are_you_sure_desc_ref_text,
-                                  confirmButtonText: AppLocalizations.of(widget.parentContext)!.confirmation_text,
-                                  cancelButtonText: AppLocalizations.of(widget.parentContext)!.cancel_text,
-                                  onTapCancel: () {
-                                    Navigator.pop(widget.parentContext); // Close dialog without changing state
-                                  },
-                                  onTapConfirm: () {
-                                    Navigator.pop(widget.parentContext); // Close dialog first
-                                    setState(() async {
-                                      await _updateStatus('Refusée'); // Update status asynchronously
-                                    });
-                                  },
-                                  panaraDialogType: PanaraDialogType.error,
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  isLoading
-                                      ? CircularProgressIndicator() // Show loading indicator
-                                      : Icon(Icons.close, size: 24,),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    AppLocalizations.of(widget.parentContext)!.refuse_text,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(color: AppResources.colorDark),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                              const SizedBox(width: 15),
+                              GestureDetector(
+                                onTap: () {
+                                  PanaraConfirmDialog.showAnimatedGrow(
+                                    widget.parentContext,
+                                    title: AppLocalizations.of(widget.parentContext)!.are_you_sure_text,
+                                    message: AppLocalizations.of(widget.parentContext)!.are_you_sure_desc_ref_text,
+                                    confirmButtonText: AppLocalizations.of(widget.parentContext)!.confirmation_text,
+                                    cancelButtonText: AppLocalizations.of(widget.parentContext)!.cancel_text,
+                                    onTapCancel: () {
+                                      Navigator.pop(widget.parentContext); // Close dialog without changing state
+                                    },
+                                    onTapConfirm: () {
+                                      Navigator.pop(widget.parentContext); // Close dialog first
+                                      setState(() async {
+                                        await _updateStatus('Refusée'); // Update status asynchronously
+                                      });
+                                    },
+                                    panaraDialogType: PanaraDialogType.error,
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    isLoading
+                                        ? CircularProgressIndicator() // Show loading indicator
+                                        : Icon(Icons.close, size: 24,),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      AppLocalizations.of(widget.parentContext)!.refuse_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Visibility(
-                        visible: (widget.guideReservationResponse.status == 'Acceptée'),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 35),
-                            const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
-                            const SizedBox(width: 8),
-                            Text(
-                              AppLocalizations.of(widget.parentContext)!.accepted_text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: Color(0xFF54EE9D)),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 11),
-                ],
+                        Visibility(
+                          visible: (widget.guideReservationResponse.status == 'Acceptée'),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 35),
+                              const Icon(Icons.check, size: 24, color: Color(0xFF54EE9D),),
+                              const SizedBox(width: 8),
+                              Text(
+                                AppLocalizations.of(widget.parentContext)!.accepted_text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(color: Color(0xFF54EE9D)),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Visibility(

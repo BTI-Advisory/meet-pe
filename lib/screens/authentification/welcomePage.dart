@@ -62,132 +62,134 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
         child: Stack(
           children: [
-            Image.asset('images/welcome_map.png', width: double.infinity, height: ResponsiveSize.calculateHeight(229, context), fit: BoxFit.fill,),
+            // Background Image
+            Image.asset(
+              'images/welcome_map.png',
+              width: double.infinity,
+              height: ResponsiveSize.calculateHeight(229, context),
+              fit: BoxFit.cover,
+            ),
             Positioned.fill(
               top: ResponsiveSize.calculateHeight(109, context),
-              child: Container(
-                //margin: EdgeInsets.only(left: ResponsiveSize.calculateWidth(28, context), right: ResponsiveSize.calculateWidth(28, context),),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            AppLocalizations.of(context)!.welcome_title_text,
-                            style: TextStyle(
-                              color: AppResources.colorBeigeLight,
-                              fontSize: ResponsiveSize.calculateTextSize(38, context),
-                              fontFamily: 'Rammetto One',
-                              fontWeight: FontWeight.w400,
-                              height: ResponsiveSize.calculateHeight(1.4, context),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                    horizontal: ResponsiveSize.calculateWidth(28, context)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context)),
+                    // Welcome Title
+                    Text(
+                      AppLocalizations.of(context)!.welcome_title_text,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: AppResources.colorBeigeLight,
+                        fontSize: ResponsiveSize.calculateTextSize(38, context),
+                        fontFamily: 'Rammetto One',
+                        fontWeight: FontWeight.w400,
+                        height: 1.4,
+                      ),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(20, context)),
+                    // Welcome Description
+                    Text(
+                      AppLocalizations.of(context)!.welcome_descr_text,
+                      textAlign: TextAlign.start,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: AppResources.colorBeige,
+                        fontSize: ResponsiveSize.calculateTextSize(18, context),
+                      ),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context)),
+                    // Guide Welcome Text
+                    Text(
+                      AppLocalizations.of(context)!.guide_welcome_text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: AppResources.colorWhite,
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(26, context)),
+                    // Guide Button
+                    SizedBox(
+                      width: double.infinity,
+                      //height: ResponsiveSize.calculateHeight(44, context),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: AppResources.colorWhite),
+                              borderRadius: BorderRadius.circular(40),
                             ),
                           ),
                         ),
+                        onPressed: () {
+                          SecureStorageService.saveRole('2');
+                          AppService.api.setRole('guide').then((response) {
+                            navigateTo(context, (_) => const WelcomeGuidePage());
+                          }).catchError((error) {
+                            print('Error: $error');
+                          });
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.guide_welcome_button,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: AppResources.colorWhite),
+                        ),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(28, context)),
-                        child: SizedBox(
-                          width: ResponsiveSize.calculateWidth(double.infinity, context),
-                          child: Text(
-                            AppLocalizations.of(context)!.welcome_descr_text,
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorBeige, fontSize: 18),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(30, context)),
+                    // Travelers Welcome Text
+                    Text(
+                      AppLocalizations.of(context)!.travelers_welcome_text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: AppResources.colorWhite,
+                        height: 1.5,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(26, context)),
+                    // Travelers Button
+                    SizedBox(
+                      width: double.infinity,
+                      //height: ResponsiveSize.calculateHeight(44, context),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(AppResources.colorWhite),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          SecureStorageService.saveRole('1');
+                          AppService.api.setRole('voyageur').then((response) {
+                            navigateTo(context, (_) => InfoTravelersPage());
+                          }).catchError((error) {
+                            print('Error: $error');
+                          });
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.travelers_welcome_button,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: AppResources.colorVitamine,
                           ),
                         ),
                       ),
-                      SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
-                      //const Spacer(),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              AppLocalizations.of(context)!.guide_welcome_text,
-                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, height: 1.5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(26, context),),
-                          SizedBox(
-                            width: ResponsiveSize.calculateWidth(319, context),
-                            height: ResponsiveSize.calculateHeight(44, context),
-                            child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.transparent),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: AppResources.colorWhite),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                ),
-                              ),
-                              onPressed: (){
-                                SecureStorageService.saveRole('2');
-                                AppService.api.setRole('guide').then((response) {
-                                  // If the API call is successful, navigate to a new screen
-                                  navigateTo(context, (_) => const WelcomeGuidePage());
-                                }).catchError((error) {
-                                  // Handle errors if the API call fails
-                                  print('Error: $error');
-                                });
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.guide_welcome_button,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorWhite),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(30, context),),
-                          SizedBox(
-                            width: ResponsiveSize.calculateWidth(327, context),
-                            child: Text(
-                              AppLocalizations.of(context)!.travelers_welcome_text,
-                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppResources.colorWhite, height: 1.5),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          SizedBox(height: ResponsiveSize.calculateHeight(26, context),),
-                          SizedBox(
-                            width: ResponsiveSize.calculateWidth(319, context),
-                            height: ResponsiveSize.calculateHeight(44, context),
-                            child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    AppResources.colorWhite),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(ResponsiveSize.calculateCornerRadius(40, context)),
-                                  ),
-                                ),
-                              ),
-                              onPressed: (){
-                                SecureStorageService.saveRole('1');
-                                AppService.api.setRole('voyageur').then((response) {
-                                  // If the API call is successful, navigate to a new screen
-                                  navigateTo(context, (_) => InfoTravelersPage());
-                                }).catchError((error) {
-                                  // Handle errors if the API call fails
-                                  print('Error: $error');
-                                });
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.travelers_welcome_button,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorVitamine),
-                              ),
-                            ),
-                          ),
-                          //SizedBox(height: ResponsiveSize.calculateHeight(38, context),),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: ResponsiveSize.calculateHeight(38, context)),
+                  ],
                 ),
               ),
             ),

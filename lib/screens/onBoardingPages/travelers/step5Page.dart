@@ -108,107 +108,125 @@ class _Step5PageState extends State<Step5Page> {
                   colors: [AppResources.colorGray5, AppResources.colorWhite],
                 ),
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: ResponsiveSize.calculateHeight(120, context)),
-                    SizedBox(
-                      width: 108,
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 8,
-                        backgroundColor: AppResources.colorImputStroke,
-                        color: AppResources.colorVitamine,
-                        borderRadius: BorderRadius.circular(3.5),
-                      ),
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(33, context)),
-                    Text(
-                      AppLocalizations.of(context)!.traveler_step_5_title_text,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: AppResources.colorGray100),
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
-                    Text(
-                      AppLocalizations.of(context)!.traveler_step_1_desc_text,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: ResponsiveSize.calculateHeight(48, context)),
-                    Container(
-                      width: ResponsiveSize.calculateWidth(319, context),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                        runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                        children: myList.map((item) {
-                          return ItemWidget(
-                            id: item.id,
-                            text: item.title,
-                            isSelected: widget.myMap['voyageur_experiences'] != null
-                                ? widget.myMap['voyageur_experiences']!.contains(item.id)
-                                : false,
-                            onTap: () => _onItemTap(item.id),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: ResponsiveSize.calculateHeight(44, context)),
-                          child: Container(
-                            width: ResponsiveSize.calculateWidth(183, context),
-                            height: ResponsiveSize.calculateHeight(44, context),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: ResponsiveSize.calculateWidth(24, context), vertical: ResponsiveSize.calculateHeight(10, context))),
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.disabled)) {
-                                      return AppResources
-                                          .colorGray15; // Change to your desired grey color
-                                    }
-                                    return AppResources
-                                        .colorVitamine; // Your enabled color
-                                  },
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
+              child: SafeArea(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                          minWidth: constraints.maxWidth,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: ResponsiveSize.calculateHeight(60, context)),
+                              SizedBox(
+                                width: 108,
+                                child: LinearProgressIndicator(
+                                  value: progress,
+                                  minHeight: 8,
+                                  backgroundColor: AppResources.colorImputStroke,
+                                  color: AppResources.colorVitamine,
+                                  borderRadius: BorderRadius.circular(3.5),
                                 ),
                               ),
-                              onPressed: widget.myMap['voyageur_experiences'] != null &&
-                                      widget.myMap['voyageur_experiences']!.isNotEmpty
-                                  ? () {
+                              SizedBox(height: ResponsiveSize.calculateHeight(24, context)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(28, context)),
+                                child: Text(
+                                  AppLocalizations.of(context)!.traveler_step_5_title_text,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(color: AppResources.colorGray100),
+                                ),
+                              ),
+                              SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(28, context)),
+                                child: Text(
+                                  AppLocalizations.of(context)!.traveler_step_1_desc_text,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                              SizedBox(height: ResponsiveSize.calculateHeight(32, context)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveSize.calculateWidth(28, context)),
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  spacing: ResponsiveSize.calculateWidth(8, context),
+                                  runSpacing: ResponsiveSize.calculateHeight(12, context),
+                                  children: myList.map((item) {
+                                    return ItemWidget(
+                                      id: item.id,
+                                      text: item.title,
+                                      isSelected: widget.myMap['voyageur_experiences'] != null
+                                          ? widget.myMap['voyageur_experiences']!.contains(item.id)
+                                          : false,
+                                      onTap: () => _onItemTap(item.id),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: ResponsiveSize.calculateHeight(44, context),
+                                ),
+                                child: SizedBox(
+                                  width: ResponsiveSize.calculateWidth(183, context),
+                                  height: ResponsiveSize.calculateHeight(44, context),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all<EdgeInsets>(
+                                          EdgeInsets.symmetric(
+                                              horizontal: ResponsiveSize.calculateWidth(24, context),
+                                              vertical: ResponsiveSize.calculateHeight(10, context))),
+                                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                            (Set<MaterialState> states) {
+                                          if (states.contains(MaterialState.disabled)) {
+                                            return AppResources.colorGray15;
+                                          }
+                                          return AppResources.colorVitamine;
+                                        },
+                                      ),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: widget.myMap['voyageur_experiences'] != null &&
+                                        widget.myMap['voyageur_experiences']!.isNotEmpty
+                                        ? () {
                                       navigateTo(
                                         context,
-                                        (_) => Step6Page(
+                                            (_) => Step6Page(
                                           myMap: widget.myMap,
                                           totalSteps: 7,
                                           currentStep: 6,
                                         ),
                                       );
                                     }
-                                  : null,
-                              // Disable the button if no item is selected
-                              child: Image.asset('images/arrowLongRight.png'),
-                            ),
+                                        : null,
+                                    child: Image.asset('images/arrowLongRight.png'),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             );
