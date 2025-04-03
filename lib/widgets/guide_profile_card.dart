@@ -182,6 +182,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                             Positioned(
                               left: 28,
                               bottom: 60,
+                              right: 28,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -196,7 +197,7 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                         color: AppResources.colorBeigeLight),
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
                                         key: widget.percentKey,
@@ -205,34 +206,38 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                             .textTheme
                                             .headlineSmall
                                             ?.copyWith(
-                                            fontSize: 32,
+                                            fontSize: ResponsiveSize.calculateTextSize(32, context),
                                             color:
                                             AppResources.colorBeigeLight),
                                       ),
                                       SizedBox(
                                           width: ResponsiveSize.calculateWidth(
                                               11, context)),
-                                      Container(
-                                        height: 28,
-                                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                                        decoration: ShapeDecoration(
-                                          color: AppResources.colorVitamine,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                ResponsiveSize
-                                                    .calculateCornerRadius(
-                                                    20, context)),
+                                      Expanded(
+                                        child: Container(
+                                          height: 28,
+                                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                                          decoration: ShapeDecoration(
+                                            color: AppResources.colorVitamine,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  ResponsiveSize
+                                                      .calculateCornerRadius(
+                                                      20, context)),
+                                            ),
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            widget.experienceData.experience.categories[0].choix,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                fontSize: 12,
-                                                color: AppResources.colorWhite),
+                                          child: Center(
+                                            child: Text(
+                                              widget.experienceData.experience.categories[0].choix,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                  fontSize: 12,
+                                                  color: AppResources.colorWhite),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -240,8 +245,8 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                           width: ResponsiveSize.calculateWidth(
                                               11, context)),
                                       Container(
-                                        width: ResponsiveSize.calculateWidth(
-                                            85, context),
+                                        //width: ResponsiveSize.calculateWidth(85, context),
+                                        padding: const EdgeInsets.symmetric(horizontal: 14),
                                         height: 28,
                                         decoration: ShapeDecoration(
                                           color: AppResources.colorWhite,
@@ -268,15 +273,14 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                     ],
                                   ),
                                   const SizedBox(height: 12),
-                                  Row(
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
                                     children: [
                                       IntrinsicWidth(
                                         child: Container(
                                           height: 28,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                              ResponsiveSize.calculateWidth(
-                                                  12, context)),
+                                          padding: EdgeInsets.symmetric(horizontal: ResponsiveSize.calculateWidth(12, context)),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             borderRadius: const BorderRadius.all(
@@ -285,34 +289,26 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                                 color:
                                                 AppResources.colorBeigeLight),
                                           ),
-                                          child: Center(
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset('images/icon_verified.svg'),
-                                                SizedBox(
-                                                    width: ResponsiveSize
-                                                        .calculateWidth(
-                                                        4, context)),
-                                                Text(
-                                                  AppLocalizations.of(context)!.verified_text,
-                                                  textAlign: TextAlign.center,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.copyWith(
-                                                    color: AppResources
-                                                        .colorBeigeLight,
-                                                    fontSize: 12,
-                                                  ),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset('images/icon_verified.svg'),
+                                              SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                              Text(
+                                                AppLocalizations.of(context)!.verified_text,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                  color: AppResources
+                                                      .colorBeigeLight,
+                                                  fontSize: 12,
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                          width: ResponsiveSize.calculateWidth(
-                                              8, context)),
                                       IntrinsicWidth(
                                         child: Container(
                                             height: 28,
@@ -322,33 +318,30 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                               borderRadius: const BorderRadius.all(Radius.circular(20)),
                                               border: Border.all(color: AppResources.colorBeigeLight),
                                             ),
-                                            child: Center(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  SvgPicture.asset('images/emoji_language.svg'),
-                                                  SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                                  ...widget.experienceData.experience.languages.map((url) {
-                                                    return Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                      child: Text(
-                                                        url.svg,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium
-                                                            ?.copyWith(fontSize: 20),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                ],
-                                              ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('images/emoji_language.svg'),
+                                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                                ...widget.experienceData.experience.languages.map((url) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                    child: Text(
+                                                      url.svg,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(fontSize: 20),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ],
                                             ),
                                           ),
                                       ),
-                                      SizedBox(
-                                          width: ResponsiveSize.calculateWidth(
-                                              8, context)),
                                       IntrinsicWidth(
                                         child: Container(
                                           height: 28,
@@ -358,35 +351,27 @@ class _GuideProfileCardState extends State<GuideProfileCard> {
                                             borderRadius: const BorderRadius.all(Radius.circular(20)),
                                             border: Border.all(color: AppResources.colorBeigeLight),
                                           ),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.pin_drop,
-                                                  color: AppResources.colorWhite,
-                                                  size: 20.0,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.pin_drop,
+                                                color: AppResources.colorWhite,
+                                                size: 20.0,
+                                              ),
+                                              SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
+                                              Expanded(
+                                                child: Text(
+                                                  widget.experienceData.experience.ville!.capitalized,
+                                                  textAlign: TextAlign.center,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.copyWith(color: AppResources.colorBeigeLight, fontSize: 12,),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
-                                                SizedBox(width: ResponsiveSize.calculateWidth(4, context)),
-                                                SizedBox(
-                                                  width: ResponsiveSize.calculateWidth(70, context),
-                                                  child: Text(
-                                                    widget.experienceData.experience.ville!.capitalized,
-                                                    textAlign: TextAlign.center,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                      color: AppResources
-                                                          .colorBeigeLight,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),

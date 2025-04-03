@@ -49,8 +49,7 @@ class _FavorisCardState extends State<FavorisCard> {
                 ),
               ),
               const SizedBox(width: 16),
-              SizedBox(
-                width: 176,
+              Expanded(
                 child: Text(
                   widget.favorisResponse.experience.title,
                   style: Theme.of(context)

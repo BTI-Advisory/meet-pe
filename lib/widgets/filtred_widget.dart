@@ -149,542 +149,552 @@ class _FiltredWidgetState extends State<FiltredWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: AsyncForm(
-          //onValidated: bloc.sendSchedule,
-          onSuccess: () async {
-            //_onFilterAdded();
-          },
-          builder: (context, validate) {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.close),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.close),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context)!.filter_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(fontSize: 32, color: AppResources.colorDark),
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          height: 1,
-                          width: MediaQuery.of(context).size.width,
-                          color: AppResources.colorGray15,
-                        ),
-                        const SizedBox(height: 40),
-                        Text(
-                          AppLocalizations.of(context)!.number_traveler_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(color: AppResources.colorDark),
-                        ),
-                        const SizedBox(height: 24,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
+                          children: <Widget>[
+                            Text(
+                              AppLocalizations.of(context)!.filter_text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall
+                                  ?.copyWith(fontSize: 32, color: AppResources.colorDark),
+                            ),
+                            const SizedBox(height: 16),
+                            Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width,
+                              color: AppResources.colorGray15,
+                            ),
+                            const SizedBox(height: 40),
+                            Text(
+                              AppLocalizations.of(context)!.number_traveler_text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(color: AppResources.colorDark),
+                            ),
+                            const SizedBox(height: 24,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!.adult_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(color: AppResources.colorDark),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.adult_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.age_adult_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  AppLocalizations.of(context)!.age_adult_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium,
-                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _decrementCounter,
+                                        icon: Icon(Icons.remove,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Text(
+                                      '$_counter',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _incrementCounter,
+                                        icon: Icon(Icons.add,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
+                            const SizedBox(height: 16,),
                             Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: _decrementCounter,
-                                    icon: Icon(Icons.remove,
-                                        color: AppResources.colorGray75),
-                                  ),
-                                ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Text(
-                                  '$_counter',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontSize: 16),
-                                ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: _incrementCounter,
-                                    icon: Icon(Icons.add,
-                                        color: AppResources.colorGray75),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 16,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!.kids_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(color: AppResources.colorDark),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.kids_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.age_kids_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  AppLocalizations.of(context)!.age_kids_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium,
-                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _decrementCounterChild,
+                                        icon: Icon(Icons.remove,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Text(
+                                      '$_counterChild',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _incrementCounterChild,
+                                        icon: Icon(Icons.add,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
+                            const SizedBox(height: 16,),
                             Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: _decrementCounterChild,
-                                    icon: Icon(Icons.remove,
-                                        color: AppResources.colorGray75),
-                                  ),
-                                ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Text(
-                                  '$_counterChild',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontSize: 16),
-                                ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: _incrementCounterChild,
-                                    icon: Icon(Icons.add,
-                                        color: AppResources.colorGray75),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 16,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!.baby_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(color: AppResources.colorDark),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.baby_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: AppResources.colorDark),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.age_baby_text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  AppLocalizations.of(context)!.age_baby_text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium,
-                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _decrementCounterBaby,
+                                        icon: Icon(Icons.remove,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Text(
+                                      '$_counterBaby',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                        width: ResponsiveSize.calculateWidth(
+                                            8, context)),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppResources.colorGray45,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: _incrementCounterBaby,
+                                        icon: Icon(Icons.add,
+                                            color: AppResources.colorGray75),
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
+                            const SizedBox(height: 40),
+                            Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width,
+                              color: AppResources.colorGray15,
+                            ),
+                            const SizedBox(height: 40),
+                            Text(
+                              AppLocalizations.of(context)!.price_text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(color: AppResources.colorDark),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!.average_price_text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium,
+                            ),
+                            const SizedBox(height: 24),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
+                                Expanded(
+                                  child: TextField(
+                                    controller: _minController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: AppLocalizations.of(context)!.minimum_text,
+                                      suffixText: '€',
                                     ),
                                   ),
-                                  child: IconButton(
-                                    onPressed: _decrementCounterBaby,
-                                    icon: Icon(Icons.remove,
-                                        color: AppResources.colorGray75),
-                                  ),
                                 ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Text(
-                                  '$_counterBaby',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontSize: 16),
-                                ),
-                                SizedBox(
-                                    width: ResponsiveSize.calculateWidth(
-                                        8, context)),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppResources.colorGray45,
-                                      width: 1.0,
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: TextField(
+                                    controller: _maxController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: AppLocalizations.of(context)!.maximum_text,
+                                      suffixText: '€',
                                     ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: _incrementCounterBaby,
-                                    icon: Icon(Icons.add,
-                                        color: AppResources.colorGray75),
                                   ),
                                 ),
                               ],
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 40),
-                        Container(
-                          height: 1,
-                          width: MediaQuery.of(context).size.width,
-                          color: AppResources.colorGray15,
-                        ),
-                        const SizedBox(height: 40),
-                        Text(
-                          AppLocalizations.of(context)!.price_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(color: AppResources.colorDark),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.average_price_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium,
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: _minController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: AppLocalizations.of(context)!.minimum_text,
-                                  suffixText: '€',
-                                ),
-                              ),
                             ),
-                            SizedBox(width: 20),
-                            Expanded(
-                              child: TextField(
-                                controller: _maxController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: AppLocalizations.of(context)!.maximum_text,
-                                  suffixText: '€',
-                                ),
-                              ),
+                            const SizedBox(height: 26),
+                            RangeSlider(
+                              values: RangeValues(_currentMin, _currentMax),
+                              min: _minPrice,
+                              max: _maxPrice,
+                              onChanged: (RangeValues values) {
+                                setState(() {
+                                  _currentMin = values.start;
+                                  _currentMax = values.end;
+                                  _minController.text = _currentMin.toStringAsFixed(0);
+                                  _maxController.text = _currentMax.toStringAsFixed(0);
+                                });
+                              },
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 26),
-                        RangeSlider(
-                          values: RangeValues(_currentMin, _currentMax),
-                          min: _minPrice,
-                          max: _maxPrice,
-                          onChanged: (RangeValues values) {
-                            setState(() {
-                              _currentMin = values.start;
-                              _currentMax = values.end;
-                              _minController.text = _currentMin.toStringAsFixed(0);
-                              _maxController.text = _currentMax.toStringAsFixed(0);
-                            });
-                          },
-                        ),
-                        Visibility(
-                          visible: openFilter,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 20),
-                              Container(
-                                height: 1,
-                                width: MediaQuery.of(context).size.width,
-                                color: AppResources.colorGray15,
-                              ),
-                              const SizedBox(height: 20),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            Visibility(
+                              visible: openFilter,
+                              child: Column(
                                 children: [
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 1,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: AppResources.colorGray15,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.what_category_text,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                      ),
+                                      Text(
+                                        AppLocalizations.of(context)!.what_category_desc_text,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    width: ResponsiveSize.calculateWidth(319, context),
+                                    child: Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                                      runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                                      children: myCategory.map((item) {
+                                        return ItemWidget(
+                                          id: item.id,
+                                          text: item.title,
+                                          isSelected: myMap['filtre_categorie'] != null
+                                              ? myMap['filtre_categorie']!.contains(item.id)
+                                              : false,
+                                          onTap: () => _onItemTap(item.id),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 1,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: AppResources.colorGray15,
+                                  ),
+                                  const SizedBox(height: 20),
                                   Text(
-                                    AppLocalizations.of(context)!.what_category_text,
+                                    AppLocalizations.of(context)!.what_language_text,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineMedium,
                                   ),
-                                  Text(
-                                    AppLocalizations.of(context)!.what_category_desc_text,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
-                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    width: ResponsiveSize.calculateWidth(319, context),
+                                    child: Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
+                                      runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
+                                      children: myLanguage.map((item) {
+                                        return ItemWidget(
+                                          id: item.id,
+                                          text: item.title,
+                                          isSelected: myMap['filtre_langue'] != null
+                                              ? myMap['filtre_langue']!.contains(item.id)
+                                              : false,
+                                          onTap: () {
+                                            setState(() {
+                                              if (myMap['filtre_langue'] == null) {
+                                                myMap['filtre_langue'] =
+                                                    Set<int>(); // Initialize if null
+                                              }
+
+                                              if (myMap['filtre_langue']!
+                                                  .contains(item.id)) {
+                                                myMap['filtre_langue']!.remove(item.id);
+                                              } else {
+                                                myMap['filtre_langue']!.add(item.id);
+                                              }
+                                            });
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  )
                                 ],
                               ),
-                              const SizedBox(height: 20),
-                              Container(
-                                width: ResponsiveSize.calculateWidth(319, context),
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                  runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                  children: myCategory.map((item) {
-                                    return ItemWidget(
-                                      id: item.id,
-                                      text: item.title,
-                                      isSelected: myMap['filtre_categorie'] != null
-                                          ? myMap['filtre_categorie']!.contains(item.id)
-                                          : false,
-                                      onTap: () => _onItemTap(item.id),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                height: 1,
-                                width: MediaQuery.of(context).size.width,
-                                color: AppResources.colorGray15,
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                AppLocalizations.of(context)!.what_language_text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium,
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                width: ResponsiveSize.calculateWidth(319, context),
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  spacing: ResponsiveSize.calculateWidth(8, context), // Horizontal spacing between items
-                                  runSpacing: ResponsiveSize.calculateHeight(12, context), // Vertical spacing between lines
-                                  children: myLanguage.map((item) {
-                                    return ItemWidget(
-                                      id: item.id,
-                                      text: item.title,
-                                      isSelected: myMap['filtre_langue'] != null
-                                          ? myMap['filtre_langue']!.contains(item.id)
-                                          : false,
-                                      onTap: () {
-                                        setState(() {
-                                          if (myMap['filtre_langue'] == null) {
-                                            myMap['filtre_langue'] =
-                                                Set<int>(); // Initialize if null
-                                          }
-
-                                          if (myMap['filtre_langue']!
-                                              .contains(item.id)) {
-                                            myMap['filtre_langue']!.remove(item.id);
-                                          } else {
-                                            myMap['filtre_langue']!.add(item.id);
-                                          }
-                                        });
-                                      },
-                                    );
-                                  }).toList(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                      !openFilter
-                          ? Row(
-                        children: [
-                          Container(
-                            width: ResponsiveSize.calculateWidth(145, context),
-                            height: 44,
-                            child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 1,
-                                      color: AppResources.colorVitamine,
-                                    ),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  openFilter = !openFilter;
-                                });
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.more_filter_text,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: AppResources.colorVitamine),
-                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: ResponsiveSize.calculateWidth(29, context),
-                          ),
-                          Container(
-                            width: ResponsiveSize.calculateWidth(145, context),
-                            height: 44,
-                            child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all(AppResources.colorVitamine),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 1,
-                                      color: Colors.transparent,
+                            const SizedBox(height: 20),
+                            !openFilter
+                                ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(Colors.transparent),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                            width: 1,
+                                            color: AppResources.colorVitamine,
+                                          ),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.circular(40),
+                                    onPressed: () {
+                                      setState(() {
+                                        openFilter = !openFilter;
+                                      });
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.more_filter_text,
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        color: AppResources.colorVitamine,
+                                        fontSize: ResponsiveSize.calculateTextSize(14, context),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              onPressed: () {
-                                //validate();
-                                setState(() {
-                                  myMap['filtre_nb_adultes'] = {_counter};
-                                  myMap['filtre_nb_enfants'] = {_counterChild};
-                                  myMap['filtre_nb_bebes'] = {_counterBaby};
-                                  myMap['filtre_prix_min'] = {_currentMin};
-                                  myMap['filtre_prix_max'] = {_currentMax};
+                                SizedBox(
+                                  width: ResponsiveSize.calculateWidth(29, context),
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(AppResources.colorVitamine),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                            width: 1,
+                                            color: Colors.transparent,
+                                          ),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      //validate();
+                                      setState(() {
+                                        myMap['filtre_nb_adultes'] = {_counter};
+                                        myMap['filtre_nb_enfants'] = {_counterChild};
+                                        myMap['filtre_nb_bebes'] = {_counterBaby};
+                                        myMap['filtre_prix_min'] = {_currentMin};
+                                        myMap['filtre_prix_max'] = {_currentMax};
+                                        //Navigator.pop(context, true);
+                                        _onFilterAdded(formatMyMap(myMap));
+                                      });
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.enregister_text,
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        color: AppResources.colorWhite,
+                                        fontSize: ResponsiveSize.calculateTextSize(14, context),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Container(
+                              width: ResponsiveSize.calculateWidth(319, context),
+                              height: 44,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                  MaterialStateProperty.all(AppResources.colorVitamine),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        width: 1,
+                                        color: Colors.transparent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    myMap['filtre_nb_adultes'] = {_counter};
+                                    myMap['filtre_nb_enfants'] = {_counterChild};
+                                    myMap['filtre_nb_bebes'] = {_counterBaby};
+                                    myMap['filtre_prix_min'] = {_currentMin};
+                                    myMap['filtre_prix_max'] = {_currentMax};
+                                    print("ZJFJZFJZEJFZEHF 2212121212 $myMap");
+
+                                  });
                                   //Navigator.pop(context, true);
                                   _onFilterAdded(formatMyMap(myMap));
-                                });
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.enregister_text,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: AppResources.colorWhite),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                          : Container(
-                        width: ResponsiveSize.calculateWidth(319, context),
-                        height: 44,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(AppResources.colorVitamine),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 1,
-                                  color: Colors.transparent,
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context)!.enregister_text,
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AppResources.colorWhite),
                                 ),
-                                borderRadius: BorderRadius.circular(40),
                               ),
                             ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              myMap['filtre_nb_adultes'] = {_counter};
-                              myMap['filtre_nb_enfants'] = {_counterChild};
-                              myMap['filtre_nb_bebes'] = {_counterBaby};
-                              myMap['filtre_prix_min'] = {_currentMin};
-                              myMap['filtre_prix_max'] = {_currentMax};
-                              print("ZJFJZFJZEJFZEHF 2212121212 $myMap");
-
-                            });
-                            //Navigator.pop(context, true);
-                            _onFilterAdded(formatMyMap(myMap));
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.enregister_text,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: AppResources.colorWhite),
-                          ),
+                            const SizedBox(height: 33),
+                          ],
                         ),
                       ),
-                        const SizedBox(height: 33),
-                      ],
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             );
-          }),
+          }
+        ),
+      ),
     );
   }
 
