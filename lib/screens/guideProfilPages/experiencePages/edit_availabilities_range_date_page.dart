@@ -227,8 +227,11 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                           final startDate = range["start"];
                           final endDate = range["end"];
 
+                          // Generate a unique key based on the start and end dates
+                          final uniqueKey = '${startDate?.toIso8601String()}_${endDate?.toIso8601String()}';
+
                           return Dismissible(
-                            key: ValueKey(rangeIndex),
+                            key: ValueKey(uniqueKey), // Use a unique key instead of index
                             direction: DismissDirection.endToStart,
                             background: Container(
                               color: Colors.red,
