@@ -38,6 +38,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   bool updatePhoto4 = false;
   bool updatePhoto5= false;
   ModifyExperienceDataModel data = ModifyExperienceDataModel();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -746,6 +747,12 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
             ),
           ),
         ),
+        if (isLoading)
+          Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppResources.colorVitamine),
+            ),
+          ),
         Positioned(
           left: 0,
           right: 0,
@@ -819,10 +826,25 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         ),
                       ),
                       onPressed: () async {
-                        await AppService.api.updateDataExperience(int.parse(widget.experienceData.id), data);
-                        Navigator.maybePop(context);
+                        setState(() {
+                          isLoading = true;
+                        });
+                        try {
+                          await AppService.api.updateDataExperience(int.parse(widget.experienceData.id), data);
+                          Navigator.maybePop(context);
+                        } catch (e) {
+                          print("Error updating experience: $e");
+                        } finally {
+                          setState(() {
+                            isLoading = false;
+                          });
+                        }
                       },
-                      child: Text(
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(AppResources.colorWhite),
+                      )
+                          : Text(
                         AppLocalizations.of(context)!.enregister_text,
                         style: Theme.of(context)
                             .textTheme
