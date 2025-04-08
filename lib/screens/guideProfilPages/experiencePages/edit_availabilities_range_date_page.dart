@@ -108,239 +108,218 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
           ),
           child: Column(
             children: <Widget>[
-              // Main content with scroll capability
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(height: 48),
-                      SizedBox(
-                        width: ResponsiveSize.calculateWidth(24, context),
-                        height: ResponsiveSize.calculateHeight(24, context),
-                        child: FloatingActionButton(
-                          backgroundColor: AppResources.colorWhite,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            String.fromCharCode(CupertinoIcons.back.codePoint),
-                            style: TextStyle(
-                              inherit: false,
+              // Expanded area for scrollable content
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(height: 48),
+                        SizedBox(
+                          width: ResponsiveSize.calculateWidth(24, context),
+                          height: ResponsiveSize.calculateHeight(24, context),
+                          child: FloatingActionButton(
+                            backgroundColor: AppResources.colorWhite,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(
+                              CupertinoIcons.back,
                               color: AppResources.colorVitamine,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: CupertinoIcons
-                                  .exclamationmark_circle.fontFamily,
-                              package: CupertinoIcons
-                                  .exclamationmark_circle.fontPackage,
+                              size: 24.0,
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 80),
-                      Text(
-                        AppLocalizations.of(context)!.step_5_title_text,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        AppLocalizations.of(context)!.step_5_desc_text,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-                        decoration: ShapeDecoration(
-                          color: AppResources.colorBeigeLight,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        const SizedBox(height: 80),
+                        Text(
+                          AppLocalizations.of(context)!.step_5_title_text,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: AppLocalizations.of(context)!.duration_text,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, color: AppResources.colorGray60),
-                                  ),
-                                  TextSpan(
-                                    text: widget.duration == "2 jours" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700, color: AppResources.colorGray60),
-                                  ),
-                                ],
+                        const SizedBox(height: 16),
+                        Text(
+                          AppLocalizations.of(context)!.step_5_desc_text,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+                          decoration: ShapeDecoration(
+                            color: AppResources.colorBeigeLight,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: AppLocalizations.of(context)!.duration_text,
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: AppResources.colorGray60,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: widget.duration == "2 jours" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text,
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: AppResources.colorGray60,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                        TimeSlotWidget(
+                          initialTimeSlots: timeSlots,
+                          onTimeSlotsChanged: (updatedTimeSlots) {
+                            setState(() {
+                              timeSlots = updatedTimeSlots;
+                            });
+                          },
+                          active: false,
+                        ),
+                        SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
+                        InkWell(
+                          onTap: () async {
+                            final result = await showModalBottomSheet<List<DateTime?>>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return CalendarRangeSelection(
+                                  duration: widget.duration == "2 jours" ? 2 : 7,
+                                );
+                              },
+                            );
+                            if (result != null && result.length == 2) {
+                              final startDate = result[0];
+                              final endDate = result[1];
+
+                              if (startDate != null && endDate != null) {
+                                setState(() {
+                                  selectedRanges.add({
+                                    "start": startDate,
+                                    "end": endDate,
+                                  });
+                                });
+                              }
+                            }
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.add_dates_text,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppResources.colorVitamine,
+                            ),
+                          ),
+                        ),
+                        ...selectedRanges.asMap().entries.map((entry) {
+                          final rangeIndex = entry.key;
+                          final range = entry.value;
+
+                          final startDate = range["start"];
+                          final endDate = range["end"];
+
+                          return Dismissible(
+                            key: ValueKey(rangeIndex),
+                            direction: DismissDirection.endToStart,
+                            background: Container(
+                              color: Colors.red,
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: const Icon(Icons.delete, color: Colors.white),
+                            ),
+                            onDismissed: (direction) {
+                              setState(() {
+                                selectedRanges.removeAt(rangeIndex);
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(AppLocalizations.of(context)!.date_removed_text)),
+                              );
+                            },
+                            child: GestureDetector(
+                              onTap: () async {
+                                final result = await showModalBottomSheet<List<DateTime?>>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return CalendarRangeSelection(
+                                      duration: widget.duration == "2 jours" ? 2 : 7,
+                                      initialStartDate: startDate,
+                                      initialEndDate: endDate,
+                                    );
+                                  },
+                                );
+
+                                if (result != null && result.length == 2) {
+                                  final updatedStartDate = result[0];
+                                  final updatedEndDate = result[1];
+
+                                  if (updatedStartDate != null && updatedEndDate != null) {
+                                    setState(() {
+                                      range["start"] = updatedStartDate;
+                                      range["end"] = updatedEndDate;
+                                    });
+                                  }
+                                }
+                              },
+                              child: _listRangeAvailabilities(
+                                yearsFrenchFormatDateVar(startDate!),
+                                yearsFrenchFormatDateVar(endDate!),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      TimeSlotWidget(
-                        initialTimeSlots: timeSlots,
-                        onTimeSlotsChanged: (updatedTimeSlots) {
-                          setState(() {
-                            timeSlots = updatedTimeSlots;
-                          });
-                        },
-                        active: false,
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(16, context)),
-                      Text(
-                        '${AppLocalizations.of(context)!.info_duration_1_text} ${timeSlots.isNotEmpty && timeSlots.first["start"] != null ? timeSlots.first["start"]!.format(context) : "00:00"} '
-                            '${AppLocalizations.of(context)!.info_duration_2_text} ${widget.duration == "2 jours" ? "48 h" : AppLocalizations.of(context)!.schedule_3_text} ${AppLocalizations.of(context)!.info_duration_3_text} ${timeSlots.isNotEmpty && timeSlots.first["end"] != null ? timeSlots.first["end"]!.format(context) : "23:59"}.',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorGray60),
-                      ),
-                      SizedBox(
-                          height: ResponsiveSize.calculateHeight(18, context)),
-                      InkWell(
-                        onTap: () async {
-                          final result = await showModalBottomSheet<List<DateTime?>>(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                              if (widget.duration == "2 jours") {
-                                return CalendarRangeSelection(duration: 2,);
-                              } else {
-                                return CalendarRangeSelection(duration: 7,);
-                              }
-                            },
                           );
-                          if (result != null && result.length == 2) {
-                            final startDate = result[0];
-                            final endDate = result[1];
-
-                            if (startDate != null && endDate != null) {
-                              setState(() {
-                                selectedRanges.add({
-                                  "start": startDate,
-                                  "end": endDate,
-                                });
-                              });
-                            }
-                          }
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.add_dates_text,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppResources.colorVitamine),
-                        ),
-                      ),
-                    ],
+                        }).toList(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              ...selectedRanges.asMap().entries.map((entry) {
-                final rangeIndex = entry.key;
-                final range = entry.value;
-
-                final startDate = range["start"];
-                final endDate = range["end"];
-
-                return Dismissible(
-                  key: ValueKey(rangeIndex),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  onDismissed: (direction) {
-                    setState(() {
-                      selectedRanges.removeAt(rangeIndex);
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(AppLocalizations.of(context)!.date_removed_text)),
-                    );
-                  },
-                  child: GestureDetector(
-                    onTap: () async {
-                      final result = await showModalBottomSheet<List<DateTime?>>(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return CalendarRangeSelection(
-                            duration: widget.duration == "2 jours" ? 2 : 7,
-                            initialStartDate: startDate,
-                            initialEndDate: endDate,
-                          );
-                        },
-                      );
-
-                      if (result != null && result.length == 2) {
-                        final updatedStartDate = result[0];
-                        final updatedEndDate = result[1];
-
-                        if (updatedStartDate != null && updatedEndDate != null) {
-                          setState(() {
-                            range["start"] = updatedStartDate;
-                            range["end"] = updatedEndDate;
-                          });
-                        }
-                      }
-                    },
-                    child: _listRangeAvailabilities(
-                      yearsFrenchFormatDateVar(startDate!),
-                      yearsFrenchFormatDateVar(endDate!),
-                    ),
-                  ),
-                );
-              }).toList(),
-              // Bottom button
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    // Add some bottom margin for padding
-                    child: SizedBox(
-                      width: ResponsiveSize.calculateWidth(319, context),
-                      height: ResponsiveSize.calculateHeight(44, context),
-                      child: TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.symmetric(
-                                  horizontal:
-                                  ResponsiveSize.calculateWidth(24, context),
-                                  vertical: ResponsiveSize.calculateHeight(
-                                      12, context))),
-                          backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: AppResources.colorDark),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                          ),
-                        ),
-                        onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedRanges.isNotEmpty
-                            ? () {
-                          List<HorairesDataModel> horaires = _generateHoraires();
-
-                          // Create ModifyExperienceDataModel with horaires data
-                          final modifyExperienceDataModel = ModifyExperienceDataModel(
-                            horaires: horaires,
-                          );
-
-                          // Pass the ModifyExperienceDataModel back to the previous screen
-                          Navigator.pop(context, modifyExperienceDataModel);
-                        }
-                            : null,
-                        child: Text(
-                          AppLocalizations.of(context)!.enregister_text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: AppResources.colorDark),
+              // Fixed bottom button
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: ResponsiveSize.calculateWidth(319, context),
+                  height: ResponsiveSize.calculateHeight(44, context),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.symmetric(
+                              horizontal:
+                              ResponsiveSize.calculateWidth(24, context),
+                              vertical: ResponsiveSize.calculateHeight(
+                                  12, context))),
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                      shape:
+                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1, color: AppResources.colorDark),
+                          borderRadius: BorderRadius.circular(40),
                         ),
                       ),
+                    ),
+                    onPressed: timeSlots.any((slot) => slot["start"] != null && slot["end"] != null) && selectedRanges.isNotEmpty
+                        ? () {
+                      List<HorairesDataModel> horaires = _generateHoraires();
+                      final modifyExperienceDataModel = ModifyExperienceDataModel(
+                        horaires: horaires,
+                      );
+                      Navigator.pop(context, modifyExperienceDataModel);
+                    }
+                        : null,
+                    child: Text(
+                      AppLocalizations.of(context)!.enregister_text,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                     ),
                   ),
                 ),
