@@ -273,7 +273,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                 },
                               ),
                             ),
-                            SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                            SizedBox(height: ResponsiveSize.calculateHeight(30, context)),
                             Container(
                               height: ResponsiveSize.calculateHeight(28, context),
                               child: TextFormField(
@@ -319,7 +319,17 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                 },
                               ),
                             ),
-                            SizedBox(height: ResponsiveSize.calculateHeight(40, context)),
+                            SizedBox(height: ResponsiveSize.calculateHeight(30, context)),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                AppLocalizations.of(context)!.birth_date_text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(color: AppResources.colorDark),
+                              ),
+                            ),
                             BirthPicker(
                               decoration: const BoxDecoration(
                                 border: Border(
