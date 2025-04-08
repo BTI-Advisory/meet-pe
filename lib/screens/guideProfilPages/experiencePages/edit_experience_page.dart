@@ -630,7 +630,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
                         child: editButton(onTap: () async {
                           final result = await Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => EditDescriptionPage()),
+                            MaterialPageRoute(builder: (context) => EditDescriptionPage(initialDescription: widget.experienceData.description,)),
                           );
                           if (result != null) {
                             setState(() {

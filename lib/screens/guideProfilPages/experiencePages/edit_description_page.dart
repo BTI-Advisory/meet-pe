@@ -6,7 +6,9 @@ import '../../../resources/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditDescriptionPage extends StatefulWidget {
-  const EditDescriptionPage({super.key});
+  const EditDescriptionPage({super.key, required this.initialDescription});
+
+  final String initialDescription;
 
   @override
   State<EditDescriptionPage> createState() => _EditDescriptionPageState();
@@ -19,7 +21,8 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
   @override
   void initState() {
     super.initState();
-    _textEditingControllerDescription = TextEditingController();
+    // Initialize the TextEditingController with the initial description
+    _textEditingControllerDescription = TextEditingController(text: widget.initialDescription);
     _textEditingControllerDescription.addListener(_onTextChanged);
   }
 
@@ -83,10 +86,8 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                               color: AppResources.colorVitamine,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w900,
-                              fontFamily: CupertinoIcons
-                                  .exclamationmark_circle.fontFamily,
-                              package: CupertinoIcons
-                                  .exclamationmark_circle.fontPackage,
+                              fontFamily: CupertinoIcons.exclamationmark_circle.fontFamily,
+                              package: CupertinoIcons.exclamationmark_circle.fontPackage,
                             ),
                           ),
                         ),
@@ -111,25 +112,19 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                         ],
                         keyboardType: TextInputType.multiline,
                         textCapitalization: TextCapitalization.sentences,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppResources.colorDark),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppResources.colorDark),
                         decoration: InputDecoration(
                           filled: false,
                           hintText: AppLocalizations.of(context)!.description_text,
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           contentPadding: EdgeInsets.only(
                               top: ResponsiveSize.calculateHeight(20, context),
-                              bottom:
-                                  ResponsiveSize.calculateHeight(10, context)),
+                              bottom: ResponsiveSize.calculateHeight(10, context)),
                           enabledBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
+                            borderSide: BorderSide(color: AppResources.colorGray15),
                           ),
                           focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppResources.colorGray15),
+                            borderSide: BorderSide(color: AppResources.colorGray15),
                           ),
                           errorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
@@ -148,7 +143,6 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                         },
                       ),
                       const SizedBox(height: 80),
-                      // Additional space to account for button
                     ],
                   ),
                 ),
@@ -158,7 +152,6 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
-                  // Add some bottom margin for padding
                   child: SizedBox(
                     width: ResponsiveSize.calculateWidth(319, context),
                     height: ResponsiveSize.calculateHeight(44, context),
@@ -166,31 +159,22 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             EdgeInsets.symmetric(
-                                horizontal:
-                                    ResponsiveSize.calculateWidth(24, context),
-                                vertical: ResponsiveSize.calculateHeight(
-                                    12, context))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                horizontal: ResponsiveSize.calculateWidth(24, context),
+                                vertical: ResponsiveSize.calculateHeight(12, context))),
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 1, color: AppResources.colorDark),
+                            side: BorderSide(width: 1, color: AppResources.colorDark),
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.enregister_text,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: AppResources.colorDark),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppResources.colorDark),
                       ),
                       onPressed: () {
-                        Navigator.pop(
-                            context, _textEditingControllerDescription.text);
+                        Navigator.pop(context, _textEditingControllerDescription.text);
                       },
                     ),
                   ),
