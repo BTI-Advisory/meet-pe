@@ -169,6 +169,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                       TextFormField(
                         controller: _textEditingControllerVille,
                         keyboardType: TextInputType.name,
+                        textCapitalization: TextCapitalization.sentences,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -265,6 +266,7 @@ class _CreateExpStep12State extends State<CreateExpStep12> {
                       TextFormField(
                         controller: _textEditingControllerCountry,
                         keyboardType: TextInputType.name,
+                        textCapitalization: TextCapitalization.sentences,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium

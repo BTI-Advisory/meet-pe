@@ -114,140 +114,152 @@ class _ExperiencesGuidePageState extends State<ExperiencesGuidePage> {
     return MaterialApp(
       theme: buildAppTheme(),
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: ResponsiveSize.calculateWidth(28, context)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 73),
-                    Text(
-                      AppLocalizations.of(context)!.my_experiences_text,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      AppLocalizations.of(context)!.no_experiences_text,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppResources.colorGray30),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-              ),
-              buildToggleButtons(),
-              const SizedBox(height: 40),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: ResponsiveSize.calculateWidth(13, context)),
-                child: isRequest
-                    ? Column(
-                        children: reservationList.isEmpty
-                            ? [
-                                SizedBox(
-                                  height: ResponsiveSize.calculateHeight(
-                                      150, context),
-                                ),
-                                Center(
-                                  child: Text(
-                                    AppLocalizations.of(context)!.no_reservations_text,
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium
-                                        ?.copyWith(
-                                            color: AppResources.colorGray100),
-                                  ),
-                                ),
-                              ]
-                            : reservationList.entries.map((entry) {
-                              GuideReservationGroup group = entry.value; // Extract the group
-
-                              return ExpansionTile(
-                                title: Text(
-                                  requestFrenchFormat(entry.key), // Date as the title
-                                  style: Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                subtitle: Text(
-                                  group.isPrivateGroup
-                                      ? 'Groupe privée'
-                                      : '${group.acceptedReservationsCount}/${group.reservations.isNotEmpty ? group.reservations.first.experience.nombreDesVoyageur : 0}',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                children: group.reservations.map((reservation) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            _buildPopupDialog(context, reservation),
-                                      ).then((value) {
-                                        fetchGuideReservationData();
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: RequestCard(
-                                        guideReservationResponse: reservation,
-                                        onUpdateStatus: _updateReservation,
-                                        parentContext: context,
-                                        isGroup: group.isPrivateGroup,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            }).toList(),
-                )
-                    : Column(
-                        children: experiencesList.isEmpty
-                            ? [
-                                SizedBox(
-                                  height: ResponsiveSize.calculateHeight(
-                                      150, context),
-                                ),
-                                Center(
-                                  child: Text(
-                                    AppLocalizations.of(context)!.noo_experiences_text,
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium
-                                        ?.copyWith(
-                                            color: AppResources.colorGray100),
-                                  ),
-                                ),
-                              ]
-                            : List.generate(
-                                experiencesList.length,
-                                (index) => GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(
-                                      MaterialPageRoute(
-                                          builder: (_) => EditExperiencePage(
-                                              experienceData:
-                                                  experiencesList[index])),
-                                    )
-                                        .then((_) async {
-                                      experiencesList = await AppService.api
-                                          .getGuideExperiencesList();
-                                      setState(() {});
-                                    });
-                                  },
-                                  child: MyCardExperience(
-                                    guideExperiencesResponse: experiencesList[index],
-                                    parentContext: context,
-                                  ),
-                                ),
-                              ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            if (isRequest) {
+              await fetchGuideReservationData();
+            } else {
+              await fetchGuideExperiencesData();
+            }
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ResponsiveSize.calculateWidth(28, context)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 73),
+                      Text(
+                        AppLocalizations.of(context)!.my_experiences_text,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
-              ),
-            ],
+                      const SizedBox(height: 16),
+                      Text(
+                        AppLocalizations.of(context)!.no_experiences_text,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: AppResources.colorGray30),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                ),
+                buildToggleButtons(),
+                const SizedBox(height: 40),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ResponsiveSize.calculateWidth(13, context)),
+                  child: isRequest
+                      ? Column(
+                    children: reservationList.isEmpty
+                        ? [
+                      SizedBox(
+                        height: ResponsiveSize.calculateHeight(
+                            150, context),
+                      ),
+                      Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.no_reservations_text,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                              color: AppResources.colorGray100),
+                        ),
+                      ),
+                    ]
+                        : reservationList.entries.map((entry) {
+                      GuideReservationGroup group = entry.value; // Extract the group
+
+                      return ExpansionTile(
+                        title: Text(
+                          requestFrenchFormat(entry.key), // Date as the title
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        subtitle: Text(
+                          group.isPrivateGroup
+                              ? 'Groupe privée'
+                              : '${group.acceptedReservationsCount}/${group.reservations.isNotEmpty ? group.reservations.first.experience.nombreDesVoyageur : 0}',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        children: group.reservations.map((reservation) {
+                          return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildPopupDialog(context, reservation),
+                              ).then((value) {
+                                fetchGuideReservationData();
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: RequestCard(
+                                guideReservationResponse: reservation,
+                                onUpdateStatus: _updateReservation,
+                                parentContext: context,
+                                isGroup: group.isPrivateGroup,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }).toList(),
+                  )
+                      : Column(
+                    children: experiencesList.isEmpty
+                        ? [
+                      SizedBox(
+                        height: ResponsiveSize.calculateHeight(
+                            150, context),
+                      ),
+                      Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.noo_experiences_text,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                              color: AppResources.colorGray100),
+                        ),
+                      ),
+                    ]
+                        : List.generate(
+                      experiencesList.length,
+                          (index) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(
+                            MaterialPageRoute(
+                              builder: (_) => EditExperiencePage(
+                                  experienceData: experiencesList[index]),
+                            ),
+                          ).then((_) async {
+                            // Introduce a short delay before refreshing
+                            await Future.delayed(const Duration(milliseconds: 1000));
+
+                            // Refresh the experience list after a successful deletion
+                            await fetchGuideExperiencesData();
+                            setState(() {});
+                          });
+                        },
+                        child: MyCardExperience(
+                          guideExperiencesResponse: experiencesList[index],
+                          parentContext: context,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: Visibility(
