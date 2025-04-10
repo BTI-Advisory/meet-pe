@@ -178,6 +178,7 @@ class _CreateExpStep5MultiDaysState extends State<CreateExpStep5MultiDays> with 
                                 });
                               },
                               active: false,
+                              validateTimes: false,
                             ),
                             SizedBox(
                                 height: ResponsiveSize.calculateHeight(16, context)),
