@@ -12,6 +12,7 @@ class NetworkSearchField extends StatefulWidget {
   final FocusNode focusNode;
   final Function(String? city, String? country) onCitySelected;
   final GlobalKey searchCityKey;
+  final void Function(String)? onSubmitted;
 
   const NetworkSearchField({
     Key? key,
@@ -19,6 +20,7 @@ class NetworkSearchField extends StatefulWidget {
     required this.focusNode,
     required this.onCitySelected,
     required this.searchCityKey,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -125,6 +127,7 @@ class _NetworkSearchFieldState extends State<NetworkSearchField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SearchField(
+          onSubmit: widget.onSubmitted,
           /*searchStyle: Theme.of(context)
               .textTheme
               .headlineSmall
