@@ -5,12 +5,14 @@ class TimeSlotWidget extends StatefulWidget {
   final List<Map<String, TimeOfDay?>> initialTimeSlots;
   final Function(List<Map<String, TimeOfDay?>>) onTimeSlotsChanged;
   final bool active;
+  final bool validateTimes;
 
   const TimeSlotWidget({
     Key? key,
     required this.initialTimeSlots,
     required this.onTimeSlotsChanged,
-    required this.active
+    required this.active,
+    this.validateTimes = true
   }) : super(key: key);
 
   @override
@@ -51,7 +53,7 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
         if (isStartTime) {
           timeSlots[index]["start"] = adjustedTime;
 
-          if (timeSlots[index]["end"] != null &&
+          if (widget.validateTimes && timeSlots[index]["end"] != null &&
               !_isEndTimeAfterStartTime(timeSlots[index]["start"]!, timeSlots[index]["end"]!)) {
             timeSlots[index]["end"] = null;
             ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +63,7 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
             );
           }
         } else {
-          if (timeSlots[index]["start"] != null &&
+          if (widget.validateTimes && timeSlots[index]["start"] != null &&
               !_isEndTimeAfterStartTime(timeSlots[index]["start"]!, adjustedTime)) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

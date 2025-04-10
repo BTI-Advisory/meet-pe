@@ -186,6 +186,7 @@ class _EditAvailabilitiesRangeDatePageState extends State<EditAvailabilitiesRang
                             });
                           },
                           active: false,
+                          validateTimes: false,
                         ),
                         SizedBox(height: ResponsiveSize.calculateHeight(16, context)),
                         InkWell(
