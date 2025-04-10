@@ -426,12 +426,6 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                   .headlineMedium
                                   ?.copyWith(color: AppResources.colorDark),
                             ),
-                            Text(
-                              AppLocalizations.of(context)!.average_price_text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium,
-                            ),
                             const SizedBox(height: 24),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
