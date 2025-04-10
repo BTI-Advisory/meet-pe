@@ -27,6 +27,21 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
     super.initState();
     _textEditingControllerFeedBack = TextEditingController();
     _textEditingControllerFeedBack.addListener(_onTextChanged);
+
+    // Initialize categories and selected category
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final localizations = AppLocalizations.of(context)!;
+      setState(() {
+        _categories = [
+          localizations.category_1_text,
+          localizations.category_2_text,
+          localizations.category_3_text,
+          localizations.category_4_text,
+          localizations.category_5_text,
+        ];
+        _selectedCategory = localizations.motif_request_text;
+      });
+    });
   }
 
   @override
@@ -50,8 +65,6 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
 
   @override
   Widget build(BuildContext context) {
-    _categories = [AppLocalizations.of(context)!.category_1_text, AppLocalizations.of(context)!.category_2_text, AppLocalizations.of(context)!.category_3_text, AppLocalizations.of(context)!.category_4_text, AppLocalizations.of(context)!.category_5_text];
-    _selectedCategory = AppLocalizations.of(context)!.motif_request_text;
     return Scaffold(
       appBar: EpAppBar(
         title: AppLocalizations.of(context)!.faq_assistance_text,

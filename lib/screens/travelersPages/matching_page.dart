@@ -46,10 +46,18 @@ class _MatchingPageState extends State<MatchingPage> {
 
     // Restore previous city filter from Provider
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
-    if(filterProvider.selectedCity == null || filterProvider.selectedCountry == null) {
-      _textEditingController = TextEditingController(text: "");
+    final city = filterProvider.selectedCity;
+    final country = filterProvider.selectedCountry;
+    final lat = filterProvider.latitude;
+    final lng = filterProvider.longitude;
+    final radius = filterProvider.radius;
+
+    if ((city != null && city.isNotEmpty) && (country != null && country.isNotEmpty)) {
+      _textEditingController = TextEditingController(text: "$city, $country");
+    } else if (lat != null && lng != null && radius != null) {
+      _textEditingController = TextEditingController(text: "Autour de moi");
     } else {
-      _textEditingController = TextEditingController(text: "${filterProvider.selectedCity}, ${filterProvider.selectedCountry}");
+      _textEditingController = TextEditingController(text: "");
     }
 
     _focusNode = FocusNode();
@@ -81,6 +89,12 @@ class _MatchingPageState extends State<MatchingPage> {
     setState(() {
       _showButton = _focusNode.hasFocus && _textEditingController.text.isEmpty;
     });
+
+    if (_textEditingController.text.isEmpty) {
+      final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+      filterProvider.updateCity('', '');
+      filterProvider.updateLocationFilters(null, null, null);
+    }
   }
 
   void _onCitySelected(String? city, String? country) {
@@ -231,6 +245,9 @@ class _MatchingPageState extends State<MatchingPage> {
                             focusNode: _focusNode,
                             onCitySelected: _onCitySelected,
                             searchCityKey: widget.searchCityKey,
+                            onSubmitted: (value) {
+                              _fetchMatchingExperiences(); // 👈 only triggered on keyboard submit
+                            },
                           ),
                         ),
                       ),
@@ -255,7 +272,9 @@ class _MatchingPageState extends State<MatchingPage> {
                                   },
                                 );
                                 if (result != null) {
-                                  Provider.of<FilterProvider>(context, listen: false).updateLocationFilters(
+                                  final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+                                  filterProvider.updateCity("", ""); // Clear city and country
+                                  filterProvider.updateLocationFilters(
                                     result['latitude'],
                                     result['longitude'],
                                     result['radius'],
