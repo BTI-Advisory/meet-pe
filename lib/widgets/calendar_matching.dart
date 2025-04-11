@@ -229,7 +229,15 @@ class _CalendarMatchingState extends State<CalendarMatching>
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+                                  filterProvider.updateDateRange(null, null);
+
+                                  final result = {
+                                    'rangeStart': '',
+                                    'rangeEnd': '',
+                                  };
+
+                                  Navigator.pop(context, result);
                                 },
                                 child: Text(
                                   AppLocalizations.of(context)!.delete_up_text,
