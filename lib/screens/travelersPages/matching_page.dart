@@ -32,8 +32,7 @@ class _MatchingPageState extends State<MatchingPage> {
   late TextEditingController _textEditingController;
   bool _showButton = false;
   bool tappedScreen = false;
-  String _citySelected = '';
-  String _countrySelected = '';
+  int _currentIndex = 0;
 
   List<ExperienceModel> filteredProfiles = [];
 
@@ -188,16 +187,28 @@ class _MatchingPageState extends State<MatchingPage> {
                   child: AbsorbPointer(
                     absorbing: tappedScreen,
                     child: Swiper(
+                      index: _currentIndex,
+                      onIndexChanged: (int index) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
                       itemBuilder: (BuildContext context,int index){
+                        final experience = snapshot.data![index];
+
+                        // Use actual GlobalKey only on current card
+                        final favorKey = index == _currentIndex ? widget.favorKey : GlobalKey();
+                        final percentKey = index == _currentIndex ? widget.percentKey : GlobalKey();
+
                         return GuideProfileCard(
-                          experienceData: snapshot.data![index],
+                          experienceData: experience,
+                          favorKey: favorKey,
+                          percentKey: percentKey,
                           onCardTapped: (tapped) {
                             setState(() {
                               tappedScreen = tapped;
                             });
                           },
-                          favorKey: widget.favorKey,
-                          percentKey: widget.percentKey,
                         );
                       },
                       itemCount: snapshot.data!.length,
