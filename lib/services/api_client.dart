@@ -1549,7 +1549,7 @@ class ApiClient {
         // Catch wrong user quality error
         if (e is EpHttpResponseException && e.statusCode == 400) {
           throw const DisplayableException(
-              'Votre profil ne vous permet pas d’utiliser l’application MeetPe');
+              'Tu peux pas accepter cette r\u00e9servation, 4 places sur 5 sont d\u00e9j\u00e0 reserv\u00e9es pour ce cr\u00e9neau');
         }
         rethrow;
       }
