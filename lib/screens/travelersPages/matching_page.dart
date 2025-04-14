@@ -336,31 +336,26 @@ class _MatchingPageState extends State<MatchingPage> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
+                                    final currentFilters = Provider.of<FilterProvider>(context, listen: false).currentFiltersMap();
+
                                     final result = await showModalBottomSheet<Map<String, String>>(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (BuildContext context) {
-                                        return const FiltredWidget();
+                                        return FiltredWidget(initialFilters: currentFilters);
                                       },
                                     );
 
                                     if (result != null) {
-                                      final filtreNbAdultes = result['filtre_nb_adultes'] ?? "0";
-                                      final filtreNbEnfants = result['filtre_nb_enfants'] ?? "0";
-                                      final filtreNbBebes = result['filtre_nb_bebes'] ?? "0";
-                                      final filtrePrixMin = result['filtre_prix_min'] ?? "0";
-                                      final filtrePrixMax = result['filtre_prix_max'] ?? "0";
-                                      final filtreCategorie = result['filtre_categorie'] ?? "";
-                                      final filtreLangue = result['filtre_langue'] ?? "";
-
+                                      // Same code to update FilterProvider and fetch data
                                       Provider.of<FilterProvider>(context, listen: false).updateFilters(
-                                        nbAdultes: filtreNbAdultes,
-                                        nbEnfants: filtreNbEnfants,
-                                        nbBebes: filtreNbBebes,
-                                        prixMin: filtrePrixMin,
-                                        prixMax: filtrePrixMax,
-                                        categorie: filtreCategorie,
-                                        langue: filtreLangue,
+                                        nbAdultes: result['filtre_nb_adultes'] ?? "0",
+                                        nbEnfants: result['filtre_nb_enfants'] ?? "0",
+                                        nbBebes: result['filtre_nb_bebes'] ?? "0",
+                                        prixMin: result['filtre_prix_min'] ?? "0",
+                                        prixMax: result['filtre_prix_max'] ?? "0",
+                                        categorie: result['filtre_categorie'] ?? "",
+                                        langue: result['filtre_langue'] ?? "",
                                       );
                                       _fetchMatchingExperiences();
                                     }

@@ -10,7 +10,9 @@ import '../services/app_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FiltredWidget extends StatefulWidget {
-  const FiltredWidget({super.key});
+  final Map<String, String>? initialFilters;
+
+  const FiltredWidget({super.key, this.initialFilters});
 
   @override
   State<FiltredWidget> createState() => _FiltredWidgetState();
@@ -59,8 +61,36 @@ class _FiltredWidgetState extends State<FiltredWidget>
     _choicesLanguageFuture = AppService.api.fetchChoices('languages_fr');
     _loadChoices();
     _loadChoicesLanguage();
-    _minController.text = _currentMin.toStringAsFixed(0);
-    _maxController.text = _currentMax.toStringAsFixed(0);
+    if (widget.initialFilters != null) {
+      final map = widget.initialFilters!;
+
+      _counter = int.tryParse(map['filtre_nb_adultes'] ?? '3') ?? 3;
+      _counterChild = int.tryParse(map['filtre_nb_enfants'] ?? '0') ?? 0;
+      _counterBaby = int.tryParse(map['filtre_nb_bebes'] ?? '0') ?? 0;
+      _currentMin = double.tryParse(map['filtre_prix_min'] ?? '15') ?? 15;
+      _currentMax = double.tryParse(map['filtre_prix_max'] ?? '1500') ?? 1500;
+
+      _minController.text = _currentMin.toStringAsFixed(0);
+      _maxController.text = _currentMax.toStringAsFixed(0);
+
+      // Categorie
+      if (map['filtre_categorie'] != null && map['filtre_categorie']!.isNotEmpty) {
+        myMap['filtre_categorie'] = map['filtre_categorie']!
+            .split(',')
+            .map((e) => int.tryParse(e.trim()))
+            .whereType<int>()
+            .toSet();
+      }
+
+      // Langue
+      if (map['filtre_langue'] != null && map['filtre_langue']!.isNotEmpty) {
+        myMap['filtre_langue'] = map['filtre_langue']!
+            .split(',')
+            .map((e) => int.tryParse(e.trim()))
+            .whereType<int>()
+            .toSet();
+      }
+    }
 
     _minController.addListener(() {
       double? min = double.tryParse(_minController.text);
@@ -664,7 +694,6 @@ class _FiltredWidgetState extends State<FiltredWidget>
                                     myMap['filtre_nb_bebes'] = {_counterBaby};
                                     myMap['filtre_prix_min'] = {_currentMin};
                                     myMap['filtre_prix_max'] = {_currentMax};
-                                    print("ZJFJZFJZEJFZEHF 2212121212 $myMap");
 
                                   });
                                   //Navigator.pop(context, true);
