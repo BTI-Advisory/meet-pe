@@ -99,4 +99,16 @@ class FilterProvider with ChangeNotifier {
     radius = rad;
     notifyListeners();
   }
+
+  Map<String, String> currentFiltersMap() {
+    return {
+      'filtre_nb_adultes': nbAdultes ?? "3",
+      'filtre_nb_enfants': nbEnfants ?? "0",
+      'filtre_nb_bebes': nbBebes ?? "0",
+      'filtre_prix_min': prixMin ?? "15",
+      'filtre_prix_max': prixMax ?? "1500",
+      'filtre_categorie': categorie ?? "",
+      'filtre_langue': langue ?? "",
+    };
+  }
 }
