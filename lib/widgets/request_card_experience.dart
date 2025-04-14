@@ -43,6 +43,16 @@ class _RequestCardState extends State<RequestCard> {
 
       widget.onUpdateStatus();
     } catch (e) {
+      PanaraInfoDialog.show(
+        widget.parentContext,
+        title: "Oops",
+        message: e.toString(),
+        buttonText: "Okay",
+        onTapDismiss: () {
+          Navigator.pop(widget.parentContext);
+        },
+        panaraDialogType: PanaraDialogType.error,
+      );
       print('Error updating reservation status: $e');
     } finally {
       setState(() {
