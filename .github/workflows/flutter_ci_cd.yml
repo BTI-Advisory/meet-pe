@@ -1,0 +1,43 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [main, pre-prod, prod]
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy (Android)
+    runs-on: macos-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 💻 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.3" # change if you're using a different version
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🧪 Run analyzer and tests
+        run: |
+          flutter analyze
+          flutter test
+
+      - name: 🏗️ Build appbundle
+        if: github.ref == 'refs/heads/prod'
+        run: flutter build appbundle --release
+
+      - name: 🔐 Decode Play Store JSON key
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
+
+      - name: 🚀 Deploy to Google Play (Fastlane)
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          cd android
+          bundle install
+          bundle exec fastlane deploy
