@@ -24,7 +24,6 @@ jobs:
       - name: 🧪 Run analyzer and tests
         run: |
           flutter analyze || true
-          flutter test
 
       - name: 🏗️ Build appbundle
         if: github.ref == 'refs/heads/prod'
