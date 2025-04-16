@@ -21,22 +21,29 @@ jobs:
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🧪 Run analyzer and tests
-        run: |
-          flutter analyze || true
+      - name: 🧪 Run analyzer (ignore warnings)
+        run: flutter analyze || true
 
-      - name: 🏗️ Build appbundle
+      - name: 🔍 Print Stripe key from .env (for debugging)
         if: github.ref == 'refs/heads/prod'
-        run: flutter build appbundle --release -v
+        run: |
+          echo "🔑 STRIPE_PUBLISHABLE_KEY: $(grep STRIPE_PUBLISHABLE_KEY assets/.env || echo 'Not found')"
+
+      - name: 🏗️ Build appbundle (with verbose logs)
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          echo "🛠️ Building appbundle with verbose logs..."
+          flutter build appbundle --release -v
 
       - name: 🔐 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
         run: |
           echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
-      - name: 🚀 Deploy to Google Play (Fastlane)
-        if: github.ref == 'refs/heads/prod'
-        run: |
-          cd android
-          bundle install
-          bundle exec fastlane deploy
+      # 🚫 Temporarily disabled Fastlane to debug build issues
+      # - name: 🚀 Deploy to Google Play (Fastlane)
+      #   if: github.ref == 'refs/heads/prod'
+      #   run: |
+      #     cd android
+      #     bundle install
+      #     bundle exec fastlane android internal
