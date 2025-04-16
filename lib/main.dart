@@ -63,7 +63,15 @@ void main() async {
   // Init Stripe
   // Détermine automatiquement l'environnement
   String envFile = kReleaseMode ? "assets/.env" : "assets/.env.test";
-  await dotenv.load(fileName: envFile);
+  //await dotenv.load(fileName: envFile);
+  try {
+    await dotenv.load(fileName: envFile);
+    print('✅ dotenv loaded');
+  } catch (e) {
+    print('❌ dotenv load failed: $e');
+  }
+  print('🔑 STRIPE_PUBLISHABLE_KEY = ${dotenv.env['STRIPE_PUBLISHABLE_KEY']}');
+
 
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
 
