@@ -27,7 +27,7 @@ jobs:
 
       - name: 🏗️ Build appbundle
         if: github.ref == 'refs/heads/prod'
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release -v
 
       - name: 🔐 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
