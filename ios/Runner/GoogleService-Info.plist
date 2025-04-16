@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>591671924763-222t6rphgilvq1j131ipeh1ci0tfa85b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.591671924763-222t6rphgilvq1j131ipeh1ci0tfa85b</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>591671924763-gnr8sl04h1mji33j78jqeli5j30e46ou.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBoI9xfGTpCCJAf41CgzqCzWzsMojNHk0E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>591671924763</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.meetpe</string>
+	<key>PROJECT_ID</key>
+	<string>meet-people-21ddc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>meet-people-21ddc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:591671924763:ios:2f4de5c5153f6d1fba80be</string>
+</dict>
+</plist>

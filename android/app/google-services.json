@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "591671924763",
+    "project_id": "meet-people-21ddc",
+    "storage_bucket": "meet-people-21ddc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591671924763:android:27cd993a446d8747ba80be",
+        "android_client_info": {
+          "package_name": "com.meetpe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591671924763-hpjms2s91qcigmq1he7ug1bv94vat4mt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meetpe",
+            "certificate_hash": "63a6a3ed99ec945e1bae90683df0b87f5eb43458"
+          }
+        },
+        {
+          "client_id": "591671924763-aqsk88u8dvj67o6c11cr8bi2akq15f8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeV38AZZNjCg5EM1ikC2Q25Geif5azuJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591671924763-aqsk88u8dvj67o6c11cr8bi2akq15f8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591671924763-222t6rphgilvq1j131ipeh1ci0tfa85b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.meetpe"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
