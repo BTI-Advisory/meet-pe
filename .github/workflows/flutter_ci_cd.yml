@@ -16,20 +16,17 @@ jobs:
       - name: 💻 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.3"
+          flutter-version: "3.24.3"  # Use your current Flutter version
 
-      - name: 🚫 Clear pubspec.lock and pub cache (force fresh state)
+      - name: 🧹 Clean project
         run: |
-          rm -f pubspec.lock
-          flutter pub cache repair
+          flutter clean
+          rm -rf .dart_tool build
 
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🔍 Print pubspec.lock content
-        run: cat pubspec.lock
-
-      - name: 🧪 Run analyzer and tests
+      - name: 🔍 Run analyzer and tests
         run: |
           flutter analyze || true
 
