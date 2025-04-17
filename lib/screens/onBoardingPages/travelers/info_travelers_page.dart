@@ -1,6 +1,5 @@
 import 'dart:io';
 
-//import 'package:birth_picker/birth_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';

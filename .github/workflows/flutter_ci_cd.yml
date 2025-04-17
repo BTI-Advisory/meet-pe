@@ -16,15 +16,18 @@ jobs:
       - name: 💻 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.3" # change if you're using a different version
+          flutter-version: "3.24.3"
+
+      - name: 🧹 Clear pub cache (just in case)
+        run: flutter pub cache clean || true
 
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🧪 Run analyzer (ignore warnings)
-        run: flutter analyze || true
+      - name: 🧪 Show pubspec.lock (verify no birth_picker)
+        run: cat pubspec.lock
 
-      - name: 🔍 Print Stripe key from .env (for debugging)
+      - name: 🔍 Print Stripe key from .env (debug)
         if: github.ref == 'refs/heads/prod'
         run: |
           echo "🔑 STRIPE_PUBLISHABLE_KEY: $(grep STRIPE_PUBLISHABLE_KEY assets/.env || echo 'Not found')"
@@ -32,7 +35,7 @@ jobs:
       - name: 🏗️ Build appbundle (with verbose logs)
         if: github.ref == 'refs/heads/prod'
         run: |
-          echo "🛠️ Building appbundle with verbose logs..."
+          echo "🛠️ Building appbundle..."
           flutter build appbundle --release -v
 
       - name: 🔐 Decode Play Store JSON key
@@ -40,10 +43,4 @@ jobs:
         run: |
           echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
-      # 🚫 Temporarily disabled Fastlane to debug build issues
-      # - name: 🚀 Deploy to Google Play (Fastlane)
-      #   if: github.ref == 'refs/heads/prod'
-      #   run: |
-      #     cd android
-      #     bundle install
-      #     bundle exec fastlane android internal
+      # ✅ Uncomment after build is
