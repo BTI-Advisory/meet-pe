@@ -38,26 +38,38 @@ class _LaunchScreenState extends State<LaunchScreen>
   }
 
   void redirectionState() async {
-    print('readAccessToken ${await SecureStorageService.readAccessToken()}');
-    print('readRole ${await SecureStorageService.readRole()}');
-    print('readCompleted ${await SecureStorageService.readCompleted()}');
-    if (await SecureStorageService.readAccessToken() != null) {
-      if (await SecureStorageService.readRole() == '1') {
-        if (await SecureStorageService.readCompleted() == 'true') {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0,)));
+    try {
+      final accessToken = await SecureStorageService.readAccessToken();
+      final role = await SecureStorageService.readRole();
+      final completed = await SecureStorageService.readCompleted();
+
+      print('readAccessToken $accessToken');
+      print('readRole $role');
+      print('readCompleted $completed');
+
+      if (accessToken != null) {
+        if (role == '1') {
+          if (completed == 'true') {
+            controller.forward().whenComplete(() => navigateTo(context, (_) => MainTravelersPage(initialPage: 0)));
+          } else {
+            controller.forward().whenComplete(() => navigateTo(context, (_) => InfoTravelersPage()));
+          }
+        } else if (role == '2') {
+          if (completed == 'true') {
+            controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 2)));
+          } else {
+            controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
+          }
         } else {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => InfoTravelersPage()));
-        }
-      } else if (await SecureStorageService.readRole() == '2')  {
-        if (await SecureStorageService.readCompleted() == 'true') {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => MainGuidePage(initialPage: 2)));
-        } else {
-          controller.forward().whenComplete(() => navigateTo(context, (_) => const WelcomeGuidePage()));
+          controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
         }
       } else {
         controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
       }
-    } else {
+    } catch (e, stacktrace) {
+      print('Erreur lors de la lecture du stockage sécurisé : $e');
+      print(stacktrace);
+      // Par précaution, rediriger vers l'intro si le déchiffrement échoue
       controller.forward().whenComplete(() => navigateTo(context, (_) => const IntroMovePage()));
     }
   }
