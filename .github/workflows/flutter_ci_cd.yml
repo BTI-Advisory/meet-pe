@@ -16,28 +16,43 @@ jobs:
       - name: 💻 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.3"  # Use your current Flutter version
-
-      - name: 🧹 Clean project
-        run: |
-          flutter clean
-          rm -rf .dart_tool build
+          flutter-version: '3.24.3'
 
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🔍 Run analyzer and tests
+      - name: 🧹 Clean pubspec.lock and pub cache (force fresh state)
         run: |
-          flutter analyze || true
+          rm -f pubspec.lock
+          flutter clean
+          flutter pub get
+
+      - name: 🧪 Run analyzer and tests
+        run: flutter analyze || true
+
+      - name: 🔐 Decode keystore file
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          echo "$KEYSTORE_FILE" | base64 --decode > android/upload-keystore.jks
+
+      - name: ✍️ Create key.properties
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+
+      - name: 🔑 Decode Play Store JSON key
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          echo "$GOOGLE_PLAY_JSON_KEY" | base64 --decode > android/play-store-key.json
 
       - name: 🏗️ Build appbundle (with verbose logs)
         if: github.ref == 'refs/heads/prod'
         run: flutter build appbundle --release -v
-
-      - name: 🔐 Decode Play Store JSON key
-        if: github.ref == 'refs/heads/prod'
-        run: |
-          echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
       - name: 🚀 Deploy to Google Play (Fastlane)
         if: github.ref == 'refs/heads/prod'
