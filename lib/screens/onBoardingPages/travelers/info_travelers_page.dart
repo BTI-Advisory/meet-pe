@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:birth_picker/birth_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meet_pe/resources/_resources.dart';
@@ -329,7 +330,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                     ?.copyWith(color: AppResources.colorDark),
                               ),
                             ),
-                            /*BirthPicker(
+                            BirthPicker(
                               decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
@@ -369,7 +370,7 @@ class _InfoTravelersPageState extends State<InfoTravelersPage>
                                   print('Invalid Date');
                                 }
                               },
-                            ),*/
+                            ),
                             if (errorMessage != null)
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0), // Space from BirthPicker
