@@ -23,7 +23,7 @@ Meet People Mobile is a Flutter application built to demonstrate the use of mode
 
 ### Requirement
 
-1. Flutter SDK Stable (3.24.3) [Install](https://flutter.dev/docs/get-started/install)
+1. Flutter SDK Stable (3.29.3) [Install](https://flutter.dev/docs/get-started/install)
 2. Android Studio [Install](https://developer.android.com/studio)
 3. Visual Studio Code (Optional) [Install](https://code.visualstudio.com/)
 4. Extension **Dart** dan **Flutter**:
