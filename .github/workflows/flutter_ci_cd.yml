@@ -18,29 +18,33 @@ jobs:
         with:
           flutter-version: "3.24.3"
 
-      - name: 🧹 Clear pub cache (just in case)
-        run: flutter pub cache clean || true
+      - name: 🚫 Clear pubspec.lock and pub cache (force fresh state)
+        run: |
+          rm -f pubspec.lock
+          flutter pub cache repair
 
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🧪 Show pubspec.lock (verify no birth_picker)
+      - name: 🔍 Print pubspec.lock content
         run: cat pubspec.lock
 
-      - name: 🔍 Print Stripe key from .env (debug)
-        if: github.ref == 'refs/heads/prod'
+      - name: 🧪 Run analyzer and tests
         run: |
-          echo "🔑 STRIPE_PUBLISHABLE_KEY: $(grep STRIPE_PUBLISHABLE_KEY assets/.env || echo 'Not found')"
+          flutter analyze || true
 
       - name: 🏗️ Build appbundle (with verbose logs)
         if: github.ref == 'refs/heads/prod'
-        run: |
-          echo "🛠️ Building appbundle..."
-          flutter build appbundle --release -v
+        run: flutter build appbundle --release -v
 
       - name: 🔐 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
         run: |
           echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
-      # ✅ Uncomment after build is
+      - name: 🚀 Deploy to Google Play (Fastlane)
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          cd android
+          bundle install
+          bundle exec fastlane android internal
