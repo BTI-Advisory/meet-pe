@@ -30,11 +30,17 @@ jobs:
       - name: 🧪 Run analyzer and tests
         run: flutter analyze || true
 
-      # 🔐 Déchiffrement du keystore (prod uniquement)
+        # 🔐 Decode keystore file
       - name: 🔐 Decode keystore file
         if: github.ref == 'refs/heads/prod'
         run: |
           echo "$KEYSTORE_FILE" | base64 --decode > android/upload-keystore.jks
+
+      # 🧪 Vérifie que le keystore est valide
+      - name: 🧪 Debug keystore
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          keytool -list -v -keystore android/upload-keystore.jks -storepass $KEYSTORE_PASSWORD
 
       # 🧾 Génération de key.properties
       - name: ✍️ Create key.properties
