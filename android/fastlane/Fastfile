@@ -17,9 +17,9 @@ platform :android do
     gradle(task: "clean bundleRelease")
 
     upload_to_play_store(
-      track: "internal", # You can change this to "production" if needed
+      track: "internal", # Change to "production" for prod releases
       aab: "../build/app/outputs/bundle/release/app-release.aab",
-      json_key: "play-store-key.json",
+      json_key: "./play-store-key.json", # important: match GitHub Actions path
       package_name: "com.meetpe"
     )
   end

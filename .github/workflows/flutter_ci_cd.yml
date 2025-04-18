@@ -9,6 +9,11 @@ jobs:
     name: Build and Deploy (Android)
     runs-on: macos-latest
 
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -21,7 +26,7 @@ jobs:
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🧹 Clean pubspec.lock and pub cache (force fresh state)
+      - name: 🧹 Clean and fresh pub cache
         run: |
           rm -f pubspec.lock
           flutter clean
@@ -30,12 +35,20 @@ jobs:
       - name: 🧪 Run analyzer and tests
         run: flutter analyze || true
 
-      # 🔐 Déchiffrement du keystore pour la prod
+      # 🔐 Décode le keystore depuis le secret
       - name: 🔐 Decode keystore file
         if: github.ref == 'refs/heads/prod'
         run: |
-          echo "$KEYSTORE_FILE" | base64 --decode > android/upload-keystore.jks
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > android/upload-keystore.jks
 
+      # 🧪 Debug : liste les infos du keystore (si valide)
+      - name: 🧪 Debug keystore
+        if: github.ref == 'refs/heads/prod'
+        run: |
+          echo "🔍 Vérification du keystore..."
+          keytool -list -v -keystore android/upload-keystore.jks -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS"
+
+      # 🧾 Crée le fichier key.properties
       - name: ✍️ Create key.properties
         if: github.ref == 'refs/heads/prod'
         run: |
@@ -46,16 +59,18 @@ jobs:
           storeFile=../upload-keystore.jks
           EOF
 
-      # 🧾 Création de play-store-key.json depuis un secret GitHub (base64)
+      # 🔑 Déchiffre la clé Google Play
       - name: 🔑 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
         run: |
-          echo "$GOOGLE_PLAY_JSON_KEY" | base64 --decode > android/play-store-key.json
+          echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
-      - name: 🏗️ Build appbundle (with verbose logs)
+      # 🏗️ Build release bundle
+      - name: 🏗️ Build appbundle (release)
         if: github.ref == 'refs/heads/prod'
         run: flutter build appbundle --release -v
 
+      # 🚀 Déploiement sur Google Play avec Fastlane
       - name: 🚀 Deploy to Google Play (Fastlane)
         if: github.ref == 'refs/heads/prod'
         run: |
@@ -63,7 +78,9 @@ jobs:
           bundle install
           bundle exec fastlane android internal
 
-      # 🧹 Nettoyage de la clé Google après usage (bonne pratique)
-      - name: 🧹 Remove play-store-key.json
+      # 🧹 Nettoyage des fichiers sensibles
+      - name: 🧹 Remove sensitive files
         if: github.ref == 'refs/heads/prod'
-        run: rm android/play-store-key.json
+        run: |
+          rm -f android/play-store-key.json
+          rm -f android/upload-keystore.jks
