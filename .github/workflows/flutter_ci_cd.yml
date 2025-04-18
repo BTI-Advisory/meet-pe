@@ -30,6 +30,7 @@ jobs:
       - name: 🧪 Run analyzer and tests
         run: flutter analyze || true
 
+      # 🔐 Déchiffrement du keystore pour la prod
       - name: 🔐 Decode keystore file
         if: github.ref == 'refs/heads/prod'
         run: |
@@ -45,6 +46,7 @@ jobs:
           storeFile=../upload-keystore.jks
           EOF
 
+      # 🧾 Création de play-store-key.json depuis un secret GitHub (base64)
       - name: 🔑 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
         run: |
@@ -60,3 +62,8 @@ jobs:
           cd android
           bundle install
           bundle exec fastlane android internal
+
+      # 🧹 Nettoyage de la clé Google après usage (bonne pratique)
+      - name: 🧹 Remove play-store-key.json
+        if: github.ref == 'refs/heads/prod'
+        run: rm android/play-store-key.json
