@@ -9,6 +9,11 @@ jobs:
     name: Build and Deploy (Android)
     runs-on: macos-latest
 
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -30,19 +35,20 @@ jobs:
       - name: 🧪 Run analyzer and tests
         run: flutter analyze || true
 
-        # 🔐 Decode keystore file
+      # 🔐 Décode le keystore depuis le secret
       - name: 🔐 Decode keystore file
         if: github.ref == 'refs/heads/prod'
         run: |
-          echo "$KEYSTORE_FILE" | base64 --decode > android/upload-keystore.jks
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > android/upload-keystore.jks
 
-      # 🧪 Vérifie que le keystore est valide
+      # 🧪 Debug : liste les infos du keystore (si valide)
       - name: 🧪 Debug keystore
         if: github.ref == 'refs/heads/prod'
         run: |
-          keytool -list -v -keystore android/upload-keystore.jks -storepass $KEYSTORE_PASSWORD
+          echo "🔍 Vérification du keystore..."
+          keytool -list -v -keystore android/upload-keystore.jks -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS"
 
-      # 🧾 Génération de key.properties
+      # 🧾 Crée le fichier key.properties
       - name: ✍️ Create key.properties
         if: github.ref == 'refs/heads/prod'
         run: |
@@ -53,18 +59,18 @@ jobs:
           storeFile=../upload-keystore.jks
           EOF
 
-      # 🔑 Déchiffrement de la clé Google Play (prod uniquement)
+      # 🔑 Déchiffre la clé Google Play
       - name: 🔑 Decode Play Store JSON key
         if: github.ref == 'refs/heads/prod'
         run: |
-          echo "$GOOGLE_PLAY_JSON_KEY" | base64 --decode > android/play-store-key.json
+          echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 --decode > android/play-store-key.json
 
-      # 🏗️ Build de l’App Bundle
+      # 🏗️ Build release bundle
       - name: 🏗️ Build appbundle (release)
         if: github.ref == 'refs/heads/prod'
         run: flutter build appbundle --release -v
 
-      # 🚀 Déploiement sur Google Play via Fastlane
+      # 🚀 Déploiement sur Google Play avec Fastlane
       - name: 🚀 Deploy to Google Play (Fastlane)
         if: github.ref == 'refs/heads/prod'
         run: |
